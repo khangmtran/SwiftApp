@@ -1,0 +1,164 @@
+[
+  {
+    "id": 1,
+    "question": "What is the supreme law of the land?",
+    "answer": "the Constitution",
+    "type": "LGS"
+  },
+  {
+    "id": 2,
+    "question": "What does the Constitution do?",
+    "answer": "sets up the government",
+    "type": "CA"
+  },
+  {
+    "id": 3,
+    "question": "The idea of self-government is in the first three words of the Constitution. What are these words?",
+    "answer": "We the People",
+    "type": "CA"
+  },
+  {
+    "id": 4,
+    "question": "What is an amendment?",
+    "answer": "a change (to the Constitution)",
+    "type": "CA"
+  },
+  {
+    "id": 5,
+    "question": "What do we call the first ten amendments to the Constitution?",
+    "answer": "the Bill of Rights",
+    "type": "CA"
+  },
+  {
+    "id": 6,
+    "question": "What is one right or freedom from the First Amendment?",
+    "answer": "speech",
+    "type": "CA"
+  },
+  {
+    "id": 7,
+    "question": "How many amendments does the Constitution have?",
+    "answer": "twenty-seven (27)",
+    "type": "CA"
+  },
+  {
+    "id": 8,
+    "question": "What did the Declaration of Independence do?",
+    "answer": "announced our independence (from Great Britain)",
+    "type": "DA"
+  },
+  {
+    "id": 9,
+    "question": "What are two rights in the Declaration of Independence?",
+    "answer": "life and liberty",
+    "type": "DA"
+  },
+  {
+    "id": 10,
+    "question": "What is freedom of religion?",
+    "answer": "You can practice any religion, or not practice a religion.",
+    "type": "CA"
+  },
+  {
+    "id": 11,
+    "question": "What is the economic system in the United States?",
+    "answer": "capitalist economy, market economy",
+    "type": "US"
+  },
+  {
+    "id": 12,
+    "question": "What is the “rule of law”?",
+    "answer": "Everyone must follow the law",
+    "type": "LGS"
+  },
+  {
+    "id": 13,
+    "question": "Name one branch or part of the government.",
+    "answer": "Congress, legislative, President, executive, the courts, judicial",
+    "type": "LGS"
+  },
+  {
+    "id": 14,
+    "question": "What stops one branch of government from becoming too powerful?",
+    "answer": "checks and balances, separation of powers",
+    "type": "LGS"
+  },
+  {
+    "id": 15,
+    "question": "Who is in charge of the executive branch?",
+    "answer": "the President",
+    "type": "PVP"
+  },
+  {
+    "id": 16,
+    "question": "Who makes federal laws?",
+    "answer": "Congress, Senate and House (of Representatives), (U.S. or national) legislature",
+    "type": "LGS"
+  },
+  {
+    "id": 17,
+    "question": "What are the two parts of the U.S. Congress?",
+    "answer": "the Senate and House (of Representatives)",
+    "type": "US"
+  },
+  {
+    "id": 18,
+    "question": "How many U.S. Senators are there?",
+    "answer": "one hundred (100)",
+    "type": "US"
+  },
+  {
+    "id": 19,
+    "question": "We elect a U.S. Senator for how many years?",
+    "answer": "six (6)",
+    "type": "US"
+  },
+  {
+    "id": 20,
+    "question": "Who is one of your state’s U.S. Senators now?",
+    "answer": "Answers will vary. [District of Columbia residents and residents of U.S. territories should answer that D.C. (or the territory where the applicant lives) has no U.S. Senators.]",
+    "type": "US"
+  },
+  {
+    "id": 21,
+    "question": "The House of Representatives has how many voting members?",
+    "answer": "four hundred thirty-five (435)",
+    "type": "US"
+  },
+  {
+    "id": 22,
+    "question": "We elect a U.S. Representative for how many years?",
+    "answer": "two (2)",
+    "type": "US"
+  },
+  {
+    "id": 23,
+    "question": "Name your U.S. Representative.",
+    "answer": "Answers will vary. [Residents of territories with nonvoting Delegates or Resident Commissioners may provide the name of that Delegate or Commissioner. Also acceptable is any statement that the territory has no (voting) Representatives in Congress.]",
+    "type": "US"
+  },
+  {
+    "id": 24,
+    "question": "Who does a U.S. Senator represent?",
+    "answer": "all people of the state",
+    "type": "US"
+  },
+  {
+    "id": 25,
+    "question": "Why do some states have more Representatives than other states?",
+    "answer": "(because of) the state’s population, (because) they have more people, (because) some states have more people",
+    "type": "US"
+  },
+  {
+    "id": 26,
+    "question": "We elect a President for how many years?",
+    "answer": "four (4)",
+    "type": "PVP"
+  },
+  {
+    "id": 27,
+    "question": "In what month do we vote for President?",
+    "answer": "November",
+    "type": "PVP"
+  }
+]
