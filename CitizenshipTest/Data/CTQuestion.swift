@@ -14,4 +14,5 @@ struct CTQuestion: Codable, Identifiable{
     let answer: String
     let answerVie: String
     let type: String
+    let learn: String
 }

@@ -42,52 +42,48 @@ struct CTLearnQuestions: View {
         }//end show guide
         else{
             //Big Vstack
-            ZStack{
+            VStack{
+                //1. VStack contains keyword
                 VStack{
-                    //1. VStack contains keyword
-                    VStack(alignment: .leading){
-                        Text("Từ khóa cho phần 1:")
-                        Text("Constituion - Hiến Pháp")
-                        Text("Amendment - Tu Chánh Án")
-                        Text("Lưu ý: Những câu có dấu * ở cuối câu là những câu hỏi thường gặp trong bài thi")
-                    }//.1
-                    .padding()
-                    .frame(width: 270)
-                    .border(.gray, width: 3)
-                    .padding(.trailing, 110)
-                    .padding()
-                    
-                    
-                    //2. Vstack contains question
-                    if !filteredQuestion.isEmpty{
-                        GeometryReader{ geometry in
-                            VStack{
-                                //question section
-                                QuestionView(question: filteredQuestion[qIndex].question,
-                                              vieQuestion: filteredQuestion[qIndex].questionVie,
-                                              height: geometry.size.height * 0.35)
-                                
-                                //hstack contains prev and next arrows
-                                NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
-                                
-                                //vstack of answer
-                                AnswerView(ans: filteredQuestion[qIndex].answer,
-                                           vieAns: filteredQuestion[qIndex].answerVie,
-                                           height: geometry.size.height * 0.35)
-                                
-                            }//.2
-                            //.border(.gray, width: 3)
-                            .frame(maxHeight: .infinity)
-                        }
+                    Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
+                }//.1
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.blue, lineWidth: 2)
+                )
+                .padding()
+                
+                
+                //2. Vstack contains question
+                if !filteredQuestion.isEmpty{
+                    GeometryReader{ geometry in
+                        VStack{
+                            //question section
+                            QuestionView(question: filteredQuestion[qIndex].question,
+                                         vieQuestion: filteredQuestion[qIndex].questionVie,
+                                         qId: filteredQuestion[qIndex].id,
+                                         height: geometry.size.height * 0.35)
+                            
+                            //hstack contains prev and next arrows
+                            NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
+                            
+                            //vstack of answer
+                            AnswerView(ans: filteredQuestion[qIndex].answer,
+                                       vieAns: filteredQuestion[qIndex].answerVie,
+                                       learn: filteredQuestion[qIndex].learn,
+                                       height: geometry.size.height * 0.35)
+                            
+                        }//.2
                     }
-                    
-                }//Big Vstack
-            }
+                }
+            }//Big Vstack
+            
             .onAppear(){
                 questions = CTDataLoader().loadQuestions()
             }
-            .navigationBarTitleDisplayMode(.inline)
             
+            .navigationBarTitleDisplayMode(.inline)
             //toolbar
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -108,7 +104,7 @@ struct CTLearnQuestions: View {
                     }
                 }
             }//toolbar
-
+            
         }
     }
 }
@@ -167,12 +163,12 @@ struct NavButton: View {
 struct QuestionView: View {
     var question: String
     var vieQuestion: String
+    var qId: Int
     let height: CGFloat
     
     var body: some View {
         VStack(spacing: 10){
-            Text("Câu Hỏi:")
-            Text(question)
+            Text("\(qId). \(question)")
                 .font(.system(size: 25, weight: .bold))
                 .multilineTextAlignment(.center)
             Text(vieQuestion)
@@ -186,13 +182,14 @@ struct QuestionView: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.blue, lineWidth: 2)
         )
-        .padding()
+        .padding(.horizontal)
     }
 }
 
 struct AnswerView: View {
     var ans: String
     var vieAns: String
+    var learn: String
     let height: CGFloat
     
     var body: some View {
@@ -204,14 +201,15 @@ struct AnswerView: View {
             Text(vieAns)
                 .font(.system(size: 20, weight: .light))
                 .multilineTextAlignment(.center)
+            Text("Từ trọng tâm: \(learn) là những từ bạn cần nhớ để nhận diện câu hỏi này")
         }//vstack of answer
-        .frame(height: height)
+        //.frame(height: height)
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 2)
+        .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.blue, lineWidth: 2)
         )
-        .padding()
+        .padding(.horizontal)
     }
 }

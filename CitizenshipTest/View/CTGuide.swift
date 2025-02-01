@@ -15,7 +15,7 @@ struct CTGuide: View {
         VStack{
             VStack(spacing: 20){
                 Text("Để giúp bạn học nhanh và dễ dàng hơn, các câu hỏi trong mỗi phần học đã được sắp xếp theo các từ khóa. Những từ khóa này sẽ xuất hiện trong tất cả câu hỏi ở \(selectedPart.partChosen).")
-                Text(partMessages[selectedPart.partChosen] ?? "")
+                Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
                     .multilineTextAlignment(.center)
                 Text("Lưu ý: Những câu hỏi có dấu * ở cuối câu là những câu hỏi thường gặp trong bài thi.")
                 Spacer()
@@ -43,19 +43,6 @@ struct CTGuide: View {
             }
         }
     }
-    static let p1msg = "Constitution - Hiến Pháp\nConstitutional - Thuộc về hiến pháp\nAmendment - Tu chính án"
-    let partMessages = [
-        "Phần 1": p1msg,
-        "Phần 2": "Ở phần 2, bạn nên lưu ý",
-        "Phần 3": "Ở phần 3, bạn nên lưu ý",
-        "Phần 4": "Ở phần 4, bạn nên lưu ý",
-        "Phần 5": "Ở phần 5, bạn nên lưu ý",
-        "Phần 6": "Ở phần 6, bạn nên lưu ý",
-        "Phần 7": "Ở phần 7, bạn nên lưu ý",
-        "Phần 8": "Ở phần 8, bạn nên lưu ý"
-    ]
-    
-    
 }
 
 #Preview {
