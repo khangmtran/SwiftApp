@@ -1,164 +1,803 @@
 [
-  {
-    "id": 1,
-    "question": "What is the supreme law of the land?",
-    "answer": "the Constitution",
-    "type": "LGS"
-  },
-  {
-    "id": 2,
-    "question": "What does the Constitution do?",
-    "answer": "sets up the government",
-    "type": "CA"
-  },
-  {
-    "id": 3,
-    "question": "The idea of self-government is in the first three words of the Constitution. What are these words?",
-    "answer": "We the People",
-    "type": "CA"
-  },
-  {
-    "id": 4,
-    "question": "What is an amendment?",
-    "answer": "a change (to the Constitution)",
-    "type": "CA"
-  },
-  {
-    "id": 5,
-    "question": "What do we call the first ten amendments to the Constitution?",
-    "answer": "the Bill of Rights",
-    "type": "CA"
-  },
-  {
-    "id": 6,
-    "question": "What is one right or freedom from the First Amendment?",
-    "answer": "speech",
-    "type": "CA"
-  },
-  {
-    "id": 7,
-    "question": "How many amendments does the Constitution have?",
-    "answer": "twenty-seven (27)",
-    "type": "CA"
-  },
-  {
-    "id": 8,
-    "question": "What did the Declaration of Independence do?",
-    "answer": "announced our independence (from Great Britain)",
-    "type": "DA"
-  },
-  {
-    "id": 9,
-    "question": "What are two rights in the Declaration of Independence?",
-    "answer": "life and liberty",
-    "type": "DA"
-  },
-  {
-    "id": 10,
-    "question": "What is freedom of religion?",
-    "answer": "You can practice any religion, or not practice a religion.",
-    "type": "CA"
-  },
-  {
-    "id": 11,
-    "question": "What is the economic system in the United States?",
-    "answer": "capitalist economy, market economy",
-    "type": "US"
-  },
-  {
-    "id": 12,
-    "question": "What is the “rule of law”?",
-    "answer": "Everyone must follow the law",
-    "type": "LGS"
-  },
-  {
-    "id": 13,
-    "question": "Name one branch or part of the government.",
-    "answer": "Congress, legislative, President, executive, the courts, judicial",
-    "type": "LGS"
-  },
-  {
-    "id": 14,
-    "question": "What stops one branch of government from becoming too powerful?",
-    "answer": "checks and balances, separation of powers",
-    "type": "LGS"
-  },
-  {
-    "id": 15,
-    "question": "Who is in charge of the executive branch?",
-    "answer": "the President",
-    "type": "PVP"
-  },
-  {
-    "id": 16,
-    "question": "Who makes federal laws?",
-    "answer": "Congress, Senate and House (of Representatives), (U.S. or national) legislature",
-    "type": "LGS"
-  },
-  {
-    "id": 17,
-    "question": "What are the two parts of the U.S. Congress?",
-    "answer": "the Senate and House (of Representatives)",
-    "type": "US"
-  },
-  {
-    "id": 18,
-    "question": "How many U.S. Senators are there?",
-    "answer": "one hundred (100)",
-    "type": "US"
-  },
-  {
-    "id": 19,
-    "question": "We elect a U.S. Senator for how many years?",
-    "answer": "six (6)",
-    "type": "US"
-  },
-  {
-    "id": 20,
-    "question": "Who is one of your state’s U.S. Senators now?",
-    "answer": "Answers will vary. [District of Columbia residents and residents of U.S. territories should answer that D.C. (or the territory where the applicant lives) has no U.S. Senators.]",
-    "type": "US"
-  },
-  {
-    "id": 21,
-    "question": "The House of Representatives has how many voting members?",
-    "answer": "four hundred thirty-five (435)",
-    "type": "US"
-  },
-  {
-    "id": 22,
-    "question": "We elect a U.S. Representative for how many years?",
-    "answer": "two (2)",
-    "type": "US"
-  },
-  {
-    "id": 23,
-    "question": "Name your U.S. Representative.",
-    "answer": "Answers will vary. [Residents of territories with nonvoting Delegates or Resident Commissioners may provide the name of that Delegate or Commissioner. Also acceptable is any statement that the territory has no (voting) Representatives in Congress.]",
-    "type": "US"
-  },
-  {
-    "id": 24,
-    "question": "Who does a U.S. Senator represent?",
-    "answer": "all people of the state",
-    "type": "US"
-  },
-  {
-    "id": 25,
-    "question": "Why do some states have more Representatives than other states?",
-    "answer": "(because of) the state’s population, (because) they have more people, (because) some states have more people",
-    "type": "US"
-  },
-  {
-    "id": 26,
-    "question": "We elect a President for how many years?",
-    "answer": "four (4)",
-    "type": "PVP"
-  },
-  {
-    "id": 27,
-    "question": "In what month do we vote for President?",
-    "answer": "November",
-    "type": "PVP"
-  }
+    {
+        "id": 1,
+        "question": "What is the supreme law of the land?",
+        "questionVie": "",
+        "answer": "the Constitution",
+        "answerVie": "",
+        "type": "LGS"
+    },
+    {
+        "id": 2,
+        "question": "What does the Constitution do?",
+        "questionVie": "Mục đích của hiến pháp là gì?",
+        "answer": "sets up the government",
+        "answerVie": "thiết lập chính phủ",
+        "type": "CA"
+    },
+    {
+        "id": 3,
+        "question": "The idea of self-government is in the first three words of the Constitution. What are these words?",
+        "questionVie": "Ý tưởng tự trị nằm trong 3 chữ đầu tiên của hiến pháp là gì?",
+        "answer": "We the People",
+        "answerVie": "Chúng ta - những người dân",
+        "type": "CA"
+    },
+    {
+        "id": 4,
+        "question": "What is an amendment?",
+        "questionVie": "Tu chính án là gì?",
+        "answer": "a change (to the Constitution)",
+        "answerVie": "một sự thay đổi (đối với Hiến pháp)",
+        "type": "CA"
+    },
+    {
+        "id": 5,
+        "question": "What do we call the first ten amendments to the Constitution?",
+        "questionVie": "10 tu chính án đầu tiên trong hiến pháp được gọi là gì?",
+        "answer": "the Bill of Rights",
+        "answerVie": "Luật dân quyền",
+        "type": "CA"
+    },
+    {
+        "id": 6,
+        "question": "What is one right or freedom from the First Amendment?",
+        "questionVie": "Một quyền hoặc tự do từ Tu chính án đầu tiên là gì?",
+        "answer": "speech",
+        "answerVie": "tự do ngôn luận",
+        "type": "CA"
+    },
+    {
+        "id": 7,
+        "question": "How many amendments does the Constitution have?",
+        "questionVie": "Hiến pháp có bao nhiêu tu chính án?",
+        "answer": "twenty-seven (27)",
+        "answerVie": "hai mươi bảy (27)",
+        "type": "CA"
+    },
+    {
+        "id": 8,
+        "question": "What did the Declaration of Independence do?",
+        "questionVie": "Tuyên ngôn độc lập làm gì?",
+        "answer": "announced our independence (from Great Britain)",
+        "answerVie": "thông báo sự độc lập của chúng ta (từ Anh Quốc)",
+        "type": "DA"
+    },
+    {
+        "id": 9,
+        "question": "What are two rights in the Declaration of Independence?",
+        "questionVie": "Hai quyền trong Tuyên ngôn độc lập là gì?",
+        "answer": "life and liberty",
+        "answerVie": "cuộc sống và tự do",
+        "type": "DA"
+    },
+    {
+        "id": 10,
+        "question": "What is freedom of religion?",
+        "questionVie": "Tự do tôn giáo là gì?",
+        "answer": "You can practice any religion, or not practice a religion.",
+        "answerVie": "Bạn có thể thực hành bất kỳ tôn giáo nào, hoặc không thực hành tôn giáo.",
+        "type": "CA"
+    },
+    {
+        "id": 11,
+        "question": "What is the economic system in the United States?",
+        "questionVie": "Hệ thống kinh tế ở Hoa Kỳ là gì?",
+        "answer": "capitalist economy, market economy",
+        "answerVie": "kinh tế tư bản, kinh tế thị trường",
+        "type": "US"
+    },
+    {
+        "id": 12,
+        "question": "What is the “rule of law”?",
+        "questionVie": "“Quy tắc của pháp luật” là gì?",
+        "answer": "Everyone must follow the law",
+        "answerVie": "Mọi người phải tuân theo pháp luật",
+        "type": "LGS"
+    },
+    {
+        "id": 13,
+        "question": "Name one branch or part of the government.",
+        "questionVie": "Nêu tên một nhánh hoặc bộ phận của chính phủ.",
+        "answer": "Congress, legislative, President, executive, the courts, judicial",
+        "answerVie": "Quốc hội, lập pháp, Tổng thống, hành pháp, tòa án, tư pháp",
+        "type": "LGS"
+    },
+    {
+        "id": 14,
+        "question": "What stops one branch of government from becoming too powerful?",
+        "questionVie": "Điều gì ngăn chặn một nhánh của chính phủ trở nên quá mạnh?",
+        "answer": "checks and balances, separation of powers",
+        "answerVie": "kiểm tra và cân bằng, phân chia quyền lực",
+        "type": "LGS"
+    },
+    {
+        "id": 15,
+        "question": "Who is in charge of the executive branch?",
+        "questionVie": "Ai phụ trách nhánh hành pháp?",
+        "answer": "the President",
+        "answerVie": "Tổng thống",
+        "type": "PVP"
+    },
+    {
+        "id": 16,
+        "question": "Who makes federal laws?",
+        "questionVie": "Ai làm luật liên bang?",
+        "answer": "Congress, Senate and House (of Representatives), (U.S. or national) legislature",
+        "answerVie": "Quốc hội, Thượng viện và Hạ viện (của các Đại biểu), (lập pháp của Hoa Kỳ hoặc quốc gia)",
+        "type": "LGS"
+    },
+    {
+        "id": 17,
+        "question": "What are the two parts of the U.S. Congress?",
+        "questionVie": "Hai phần của Quốc hội Hoa Kỳ là gì?",
+        "answer": "the Senate and House (of Representatives)",
+        "answerVie": "Thượng viện và Hạ viện (các Đại biểu)",
+        "type": "US"
+    },
+    {
+        "id": 18,
+        "question": "How many U.S. Senators are there?",
+        "questionVie": "Có bao nhiêu Thượng nghị sĩ Hoa Kỳ?",
+        "answer": "one hundred (100)",
+        "answerVie": "một trăm (100)",
+        "type": "US"
+    },
+    {
+        "id": 19,
+        "question": "We elect a U.S. Senator for how many years?",
+        "questionVie": "Chúng ta bầu chọn một Thượng nghị sĩ Hoa Kỳ trong bao nhiêu năm?",
+        "answer": "six (6)",
+        "answerVie": "sáu (6)",
+        "type": "US"
+    },
+    {
+        "id": 20,
+        "question": "Who is one of your state’s U.S. Senators now?",
+        "questionVie": "Ai là một trong các Thượng nghị sĩ của bang bạn hiện nay?",
+        "answer": "Answers will vary. [District of Columbia residents and residents of U.S. territories should answer that D.C. (or the territory where the applicant lives) has no U.S. Senators.]",
+        "answerVie": "Câu trả lời sẽ thay đổi. [Cư dân của Quận Columbia và cư dân của các lãnh thổ Hoa Kỳ nên trả lời rằng D.C. (hoặc lãnh thổ nơi người ứng tuyển sinh sống) không có Thượng nghị sĩ Hoa Kỳ.]",
+        "type": "US"
+    },
+    {
+        "id": 21,
+        "question": "The House of Representatives has how many voting members?",
+        "questionVie": "",
+        "answer": "four hundred thirty-five (435)",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 22,
+        "question": "We elect a U.S. Representative for how many years?",
+        "questionVie": "",
+        "answer": "two (2)",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 23,
+        "question": "Name your U.S. Representative.",
+        "questionVie": "",
+        "answer": "Answers will vary. [Residents of territories with nonvoting Delegates or Resident Commissioners may provide the name of that Delegate or Commissioner. Also acceptable is any statement that the territory has no (voting) Representatives in Congress.]",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 24,
+        "question": "Who does a U.S. Senator represent?",
+        "questionVie": "",
+        "answer": "all people of the state",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 25,
+        "question": "Why do some states have more Representatives than other states?",
+        "questionVie": "",
+        "answer": "(because of) the state’s population, (because) they have more people, (because) some states have more people",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 26,
+        "question": "We elect a President for how many years?",
+        "questionVie": "",
+        "answer": "four (4)",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 27,
+        "question": "In what month do we vote for President?",
+        "questionVie": "",
+        "answer": "November",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 28,
+        "question": "What is the name of the President of the United States now?",
+        "questionVie": "",
+        "answer": "Visit uscis.gov/citizenship/testupdates for the name of the President of the United States.",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 29,
+        "question": "What is the name of the Vice President of the United States now?",
+        "questionVie": "",
+        "answer": "Visit uscis.gov/citizenship/testupdates for the name of the Vice President of the United States.",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 30,
+        "question": "If the President can no longer serve, who becomes President?",
+        "questionVie": "",
+        "answer": "the Vice President",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 31,
+        "question": "If both the President and the Vice President can no longer serve, who becomes President?",
+        "questionVie": "",
+        "answer": "the Speaker of the House",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 32,
+        "question": "Who is the Commander in Chief of the military?",
+        "questionVie": "",
+        "answer": "the President",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 33,
+        "question": "Who signs bills to become laws?",
+        "questionVie": "",
+        "answer": "the President",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 34,
+        "question": "Who vetoes bills?",
+        "questionVie": "",
+        "answer": "the President",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 35,
+        "question": "What does the President’s Cabinet do?",
+        "questionVie": "",
+        "answer": "advises the President",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 36,
+        "question": "What are two Cabinet-level positions?",
+        "questionVie": "",
+        "answer": "Secretary of Agriculture",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 37,
+        "question": "What does the judicial branch do?",
+        "questionVie": "",
+        "answer": "reviews laws",
+        "answerVie": "",
+        "type": "LGS"
+    },
+    {
+        "id": 38,
+        "question": "What is the highest court in the United States?",
+        "questionVie": "",
+        "answer": "the Supreme Court",
+        "answerVie": "",
+        "type": "LGS"
+    },
+    {
+        "id": 39,
+        "question": "How many justices are on the Supreme Court?",
+        "questionVie": "",
+        "answer": "Visit uscis.gov/citizenship/testupdates for the number of justices on the Supreme Court.",
+        "answerVie": "",
+        "type": "LGS"
+    },
+    {
+        "id": 40,
+        "question": "Who is the Chief Justice of the United States now?",
+        "questionVie": "",
+        "answer": "Visit uscis.gov/citizenship/testupdates for the name of the Chief Justice of the United States.",
+        "answerVie": "",
+        "type": "LGS"
+    },
+    {
+        "id": 41,
+        "question": "Under our Constitution, some powers belong to the federal government. What is one power of the federal government?",
+        "questionVie": "Một trong những quyền của chính phủ liên bang là gì?",
+        "answer": "to print money",
+        "answerVie": "in tiền",
+        "type": "CA"
+    },
+    {
+        "id": 42,
+        "question": "Under our Constitution, some powers belong to the states. What is one power of the states?",
+        "questionVie": "Một trong những quyền thuộc về tiểu bang là gì?",
+        "answer": "give a driver's license",
+        "answerVie": "cấp bằng lái xe",
+        "type": "CA"
+    },
+    {
+        "id": 43,
+        "question": "Who is the Governor of your state now?",
+        "questionVie": "",
+        "answer": "Answers will vary.",
+        "answerVie": "",
+        "type": "CA"
+    },
+    {
+        "id": 44,
+        "question": "What is the capital of your state?",
+        "questionVie": "",
+        "answer": "Answers will vary.",
+        "answerVie": "",
+        "type": "CA"
+    },
+    {
+        "id": 45,
+        "question": "What are the two major political parties in the United States?",
+        "questionVie": "",
+        "answer": "Democratic and Republican",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 46,
+        "question": "What is the political party of the President now?",
+        "questionVie": "",
+        "answer": "Visit uscis.gov/citizenship/testupdates for the political party of the President.",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 47,
+        "question": "What is the name of the Speaker of the House of Representatives now?",
+        "questionVie": "",
+        "answer": "Visit uscis.gov/citizenship/testupdates for the name of the Speaker of the House of Representatives.",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 48,
+        "question": "There are four amendments to the Constitution about who can vote. Describe one of them.",
+        "questionVie": "",
+        "answer": "Citizens eighteen (18) and older (can vote).",
+        "answerVie": "",
+        "type": "CA"
+    },
+    {
+        "id": 49,
+        "question": "What is one responsibility that is only for United States citizens?",
+        "questionVie": "",
+        "answer": "serve on a jury",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 50,
+        "question": "Name one right only for United States citizens.",
+        "questionVie": "",
+        "answer": "vote in a federal election",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 51,
+        "question": "What are two rights of everyone living in the United States?",
+        "questionVie": "",
+        "answer": "freedom of expression",
+        "answerVie": "",
+        "type": "LGS"
+    },
+    {
+        "id": 52,
+        "question": "What do we show loyalty to when we say the Pledge of Allegiance?",
+        "questionVie": "",
+        "answer": "the United States",
+        "answerVie": "",
+        "type": "LGS"
+    },
+    {
+        "id": 53,
+        "question": "What is one promise you make when you become a United States citizen?",
+        "questionVie": "",
+        "answer": "give up loyalty to other countries",
+        "answerVie": "",
+        "type": "PVP"
+    },
+    {
+        "id": 54,
+        "question": "How old do citizens have to be to vote for President?",
+        "questionVie": "",
+        "answer": "eighteen (18) and older",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 55,
+        "question": "What are two ways that Americans can participate in their democracy?",
+        "questionVie": "",
+        "answer": "vote",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 56,
+        "question": "When is the last day you can send in federal income tax forms?",
+        "questionVie": "",
+        "answer": "April 15",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 57,
+        "question": "When must all men register for the Selective Service?",
+        "questionVie": "",
+        "answer": "at age eighteen (18)",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 58,
+        "question": "What is one reason colonists came to America?",
+        "questionVie": "",
+        "answer": "freedom",
+        "answerVie": "",
+        "type": "CA"
+    },
+    {
+        "id": 59,
+        "question": "Who lived in America before the Europeans arrived?",
+        "questionVie": "",
+        "answer": "American Indians",
+        "answerVie": "",
+        "type": "CA"
+    },
+    {
+        "id": 60,
+        "question": "What group of people was taken to America and sold as slaves?",
+        "questionVie": "",
+        "answer": "Africans",
+        "answerVie": "",
+        "type": "US"
+    },
+    {
+        "id": 61,
+        "question": "Why did the colonists fight the British?",
+        "questionVie": "Tại sao các thuộc địa lại chiến đấu với người Anh?",
+        "answer": "because of high taxes (taxation without representation)",
+        "answerVie": "vì thuế cao (thuế không đại diện)",
+        "type": "CA"
+    },
+    {
+        "id": 62,
+        "question": "Who wrote the Declaration of Independence?",
+        "questionVie": "Ai đã viết Tuyên ngôn Độc lập?",
+        "answer": "(Thomas) Jefferson",
+        "answerVie": "(Thomas) Jefferson",
+        "type": "US"
+    },
+    {
+        "id": 63,
+        "question": "When was the Declaration of Independence adopted?",
+        "questionVie": "Khi nào Tuyên ngôn Độc lập được thông qua?",
+        "answer": "July 4, 1776",
+        "answerVie": "Ngày 4 tháng 7, 1776",
+        "type": "US"
+    },
+    {
+        "id": 64,
+        "question": "There were 13 original states. Name three.",
+        "questionVie": "Có 13 tiểu bang đầu tiên. Nêu tên ba tiểu bang.",
+        "answer": "New Hampshire",
+        "answerVie": "New Hampshire",
+        "type": "US"
+    },
+    {
+        "id": 65,
+        "question": "What happened at the Constitutional Convention?",
+        "questionVie": "Chuyện gì đã xảy ra tại Đại hội Hiến pháp?",
+        "answer": "The Constitution was written.",
+        "answerVie": "Hiến pháp đã được viết.",
+        "type": "US"
+    },
+    {
+        "id": 66,
+        "question": "When was the Constitution written?",
+        "questionVie": "Khi nào Hiến pháp được viết?",
+        "answer": "1787",
+        "answerVie": "Năm 1787",
+        "type": "US"
+    },
+    {
+        "id": 67,
+        "question": "The Federalist Papers supported the passage of the U.S. Constitution. Name one of the writers.",
+        "questionVie": "Tác phẩm Liên bang ủng hộ việc thông qua Hiến pháp Hoa Kỳ. Nêu tên một trong những người viết.",
+        "answer": "(James) Madison",
+        "answerVie": "(James) Madison",
+        "type": "US"
+    },
+    {
+        "id": 68,
+        "question": "What is one thing Benjamin Franklin is famous for?",
+        "questionVie": "Benjamin Franklin nổi tiếng về điều gì?",
+        "answer": "U.S. diplomat",
+        "answerVie": "Nhà ngoại giao Hoa Kỳ",
+        "type": "US"
+    },
+    {
+        "id": 69,
+        "question": "Who is the “Father of Our Country”?",
+        "questionVie": "Ai là \"Cha đẻ của đất nước\"?",
+        "answer": "(George) Washington",
+        "answerVie": "(George) Washington",
+        "type": "US"
+    },
+    {
+        "id": 70,
+        "question": "Who was the first President?",
+        "questionVie": "Ai là Tổng thống đầu tiên?",
+        "answer": "(George) Washington",
+        "answerVie": "(George) Washington",
+        "type": "US"
+    },
+    {
+        "id": 71,
+        "question": "What territory did the United States buy from France in 1803?",
+        "questionVie": "Lãnh thổ nào Hoa Kỳ đã mua từ Pháp vào năm 1803?",
+        "answer": "the Louisiana Territory",
+        "answerVie": "Lãnh thổ Louisiana",
+        "type": "US"
+    },
+    {
+        "id": 72,
+        "question": "Name one war fought by the United States in the 1800s.",
+        "questionVie": "Nêu tên một cuộc chiến mà Hoa Kỳ tham gia trong thế kỷ 19.",
+        "answer": "War of 1812",
+        "answerVie": "Chiến tranh 1812",
+        "type": "US"
+    },
+    {
+        "id": 73,
+        "question": "Name the U.S. war between the North and the South.",
+        "questionVie": "Nêu tên cuộc chiến Hoa Kỳ giữa miền Bắc và miền Nam.",
+        "answer": "the Civil War",
+        "answerVie": "Chiến tranh Nội chiến",
+        "type": "US"
+    },
+    {
+        "id": 74,
+        "question": "Name one problem that led to the Civil War.",
+        "questionVie": "Nêu một vấn đề dẫn đến cuộc Nội chiến.",
+        "answer": "slavery",
+        "answerVie": "nô lệ",
+        "type": "US"
+    },
+    {
+        "id": 75,
+        "question": "What was one important thing that Abraham Lincoln did?",
+        "questionVie": "Một điều quan trọng mà Abraham Lincoln đã làm là gì?",
+        "answer": "freed the slaves (Emancipation Proclamation)",
+        "answerVie": "giải phóng nô lệ (Tuyên ngôn Giải phóng Nô lệ)",
+        "type": "US"
+    },
+    {
+        "id": 76,
+        "question": "What did the Emancipation Proclamation do?",
+        "questionVie": "Tuyên ngôn Giải phóng Nô lệ làm gì?",
+        "answer": "freed the slaves",
+        "answerVie": "giải phóng nô lệ",
+        "type": "US"
+    },
+    {
+        "id": 77,
+        "question": "What did Susan B. Anthony do?",
+        "questionVie": "Susan B. Anthony đã làm gì?",
+        "answer": "fought for women’s rights",
+        "answerVie": "đấu tranh cho quyền lợi của phụ nữ",
+        "type": "US"
+    },
+    {
+        "id": 78,
+        "question": "Name one war fought by the United States in the 1900s.",
+        "questionVie": "Nêu tên một cuộc chiến mà Hoa Kỳ tham gia trong thế kỷ 20.",
+        "answer": "World War I",
+        "answerVie": "Chiến tranh Thế giới thứ nhất",
+        "type": "US"
+    },
+    {
+        "id": 79,
+        "question": "Who was President during World War I?",
+        "questionVie": "Ai là Tổng thống trong Thế chiến thứ nhất?",
+        "answer": "(Woodrow) Wilson",
+        "answerVie": "(Woodrow) Wilson",
+        "type": "US"
+    },
+    {
+        "id": 80,
+        "question": "Who was President during the Great Depression and World War II?",
+        "questionVie": "Ai là Tổng thống trong thời kỳ Đại suy thoái và Thế chiến thứ hai?",
+        "answer": "(Franklin) Roosevelt",
+        "answerVie": "(Franklin) Roosevelt",
+        "type": "US"
+    },
+    {
+        "id": 81,
+        "question": "Who did the United States fight in World War II?",
+        "questionVie": "Hoa Kỳ đã chiến đấu với ai trong Thế chiến thứ hai?",
+        "answer": "Japan, Germany, and Italy",
+        "answerVie": "Nhật Bản, Đức và Ý",
+        "type": "US"
+    },
+    {
+        "id": 82,
+        "question": "Before he was President, Eisenhower was a general. What war was he in?",
+        "questionVie": "Trước khi làm Tổng thống, Eisenhower là một tướng quân. Ông đã tham gia cuộc chiến nào?",
+        "answer": "World War II",
+        "answerVie": "Thế chiến thứ hai",
+        "type": "US"
+    },
+    {
+        "id": 83,
+        "question": "During the Cold War, what was the main concern of the United States?",
+        "questionVie": "Trong Chiến tranh Lạnh, mối quan tâm chính của Hoa Kỳ là gì?",
+        "answer": "Communism",
+        "answerVie": "Chủ nghĩa Cộng sản",
+        "type": "US"
+    },
+    {
+        "id": 84,
+        "question": "What movement tried to end racial discrimination?",
+        "questionVie": "Phong trào nào đã cố gắng chấm dứt phân biệt chủng tộc?",
+        "answer": "civil rights (movement)",
+        "answerVie": "phong trào quyền dân sự",
+        "type": "US"
+    },
+    {
+        "id": 85,
+        "question": "What did Martin Luther King, Jr. do?",
+        "questionVie": "Martin Luther King, Jr. đã làm gì?",
+        "answer": "fought for civil rights",
+        "answerVie": "đấu tranh cho quyền dân sự",
+        "type": "US"
+    },
+    {
+        "id": 86,
+        "question": "What major event happened on September 11, 2001, in the United States?",
+        "questionVie": "Sự kiện lớn nào đã xảy ra vào ngày 11 tháng 9 năm 2001 ở Hoa Kỳ?",
+        "answer": "Terrorists attacked the United States.",
+        "answerVie": "Kẻ khủng bố đã tấn công Hoa Kỳ.",
+        "type": "US"
+    }
+    ,
+    {
+        "id": 87,
+        "question": "Name one American Indian tribe in the United States",
+        "questionVie": "Kể tên một bộ tộc người Mỹ bản địa ở Hoa Kỳ",
+        "answer": "Cherokee",
+        "answerVie": "Cherokee",
+        "type": "US"
+    },
+    {
+        "id": 88,
+        "question": "Name one of the two longest rivers in the United States.",
+        "questionVie": "Kể tên một trong hai con sông dài nhất ở Hoa Kỳ.",
+        "answer": "Missouri (River)",
+        "answerVie": "Sông Missouri",
+        "type": "US"
+    },
+    {
+        "id": 89,
+        "question": "What ocean is on the West Coast of the United States?",
+        "questionVie": "Đại dương nào nằm ở bờ Tây của Hoa Kỳ?",
+        "answer": "Pacific (Ocean)",
+        "answerVie": "Thái Bình Dương",
+        "type": "US"
+    },
+    {
+        "id": 90,
+        "question": "What ocean is on the East Coast of the United States?",
+        "questionVie": "Đại dương nào nằm ở bờ Đông của Hoa Kỳ?",
+        "answer": "Atlantic (Ocean)",
+        "answerVie": "Đại Tây Dương",
+        "type": "US"
+    },
+    {
+        "id": 91,
+        "question": "Name one U.S. territory.",
+        "questionVie": "Kể tên một lãnh thổ của Hoa Kỳ.",
+        "answer": "Puerto Rico",
+        "answerVie": "Puerto Rico",
+        "type": "US"
+    },
+    {
+        "id": 92,
+        "question": "Name one state that borders Canada.",
+        "questionVie": "Kể tên một tiểu bang giáp biên giới với Canada.",
+        "answer": "Maine",
+        "answerVie": "Maine",
+        "type": "US"
+    },
+    {
+        "id": 93,
+        "question": "Name one state that borders Mexico.",
+        "questionVie": "Kể tên một tiểu bang giáp biên giới với Mexico.",
+        "answer": "California",
+        "answerVie": "California",
+        "type": "US"
+    },
+    {
+        "id": 94,
+        "question": "What is the capital of the United States?",
+        "questionVie": "Thủ đô của Hoa Kỳ là gì?",
+        "answer": "Washington, D.C.",
+        "answerVie": "Washington, D.C.",
+        "type": "US"
+    },
+    {
+        "id": 95,
+        "question": "Where is the Statue of Liberty?",
+        "questionVie": "Tượng Nữ thần Tự do ở đâu?",
+        "answer": "New York (Harbor)",
+        "answerVie": "Cảng New York",
+        "type": "US"
+    },
+    {
+        "id": 96,
+        "question": "Why does the flag have 13 stripes?",
+        "questionVie": "Tại sao lá cờ có 13 sọc?",
+        "answer": "because there were 13 original colonies",
+        "answerVie": "vì có 13 thuộc địa ban đầu",
+        "type": "US"
+    },
+    {
+        "id": 97,
+        "question": "Why does the flag have 50 stars?",
+        "questionVie": "Tại sao lá cờ có 50 ngôi sao?",
+        "answer": "because there is one star for each state",
+        "answerVie": "vì có một ngôi sao cho mỗi tiểu bang",
+        "type": "US"
+    },
+    {
+        "id": 98,
+        "question": "What is the name of the national anthem?",
+        "questionVie": "Tên của quốc ca là gì?",
+        "answer": "The Star-Spangled Banner",
+        "answerVie": "The Star-Spangled Banner",
+        "type": "US"
+    },
+    {
+        "id": 99,
+        "question": "When do we celebrate Independence Day?",
+        "questionVie": "Khi nào chúng ta kỷ niệm Ngày Độc Lập?",
+        "answer": "July 4",
+        "answerVie": "Ngày 4 tháng 7",
+        "type": "US"
+    },
+    {
+        "id": 100,
+        "question": "Name two national U.S. holidays.",
+        "questionVie": "Kể tên hai ngày lễ quốc gia của Hoa Kỳ.",
+        "answer": "New Year’s Day",
+        "answerVie": "Ngày Tết Dương Lịch",
+        "type": "US"
+    }
 ]

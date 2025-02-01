@@ -10,6 +10,8 @@ import Foundation
 struct CTQuestion: Codable, Identifiable{
     let id: Int
     let question: String
+    let questionVie: String
     let answer: String
+    let answerVie: String
     let type: String
 }

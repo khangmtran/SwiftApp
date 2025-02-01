@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CTInitialScreen: View{
+    @EnvironmentObject var selectedPart: SelectedPart
     @State private var showNewScreen = false
     var body: some View{
         VStack {
@@ -27,7 +28,8 @@ struct CTInitialScreen: View{
             CTBotButton(title: "Bắt Đầu", action: {showNewScreen = true},
                         width: 125, height: 50)
             .fullScreenCover(isPresented: $showNewScreen){
-                CTGetStarted()
+                CTHomeMenu()
+                    .environmentObject(selectedPart)
             }
             
         }
@@ -38,5 +40,6 @@ struct CTInitialScreen: View{
 struct CTInitialScreen_provider: PreviewProvider{
     static var previews: some View{
         CTInitialScreen()
+            .environmentObject(SelectedPart())
     }
 }
