@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct CTLearnQuestions: View {
+    @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var selectedPart : SelectedPart
     @State private var questions: [CTQuestion] = []
     @State private var qIndex = -1
-    private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8"]
+    private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8", "Phần 9"]
     
     let partToType = [
         "Phần 1": "CA",
@@ -21,7 +23,8 @@ struct CTLearnQuestions: View {
         "Phần 5": "DA",
         "Phần 6": "WCCR",
         "Phần 7": "BN",
-        "Phần 8": "HS"
+        "Phần 8": "HS",
+        "Phần 9": "CL"
     ]
     
     var filteredQuestion: [CTQuestion]{
@@ -46,37 +49,41 @@ struct CTLearnQuestions: View {
                 //1. VStack contains keyword
                 VStack{
                     Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
+                        .multilineTextAlignment(.center)
                 }//.1
                 .padding()
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(.blue, lineWidth: 2)
+                        .stroke(.blue, lineWidth: 1)
                 )
                 .padding()
                 
                 
                 //2. Vstack contains question
                 if !filteredQuestion.isEmpty{
-                    GeometryReader{ geometry in
+            
                         VStack{
                             //question section
                             QuestionView(question: filteredQuestion[qIndex].question,
                                          vieQuestion: filteredQuestion[qIndex].questionVie,
                                          qId: filteredQuestion[qIndex].id,
-                                         height: geometry.size.height * 0.35)
-                            
-                            //hstack contains prev and next arrows
-                            NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
+                                         learn: filteredQuestion[qIndex].learn,
+                                         synthesizer: synthesizer)
                             
                             //vstack of answer
                             AnswerView(ans: filteredQuestion[qIndex].answer,
                                        vieAns: filteredQuestion[qIndex].answerVie,
                                        learn: filteredQuestion[qIndex].learn,
-                                       height: geometry.size.height * 0.35)
+                                       synthesizer: synthesizer)
                             
+                            Spacer()
+                            
+                            //hstack contains prev and next arrows
+                            NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
                         }//.2
-                    }
+               
                 }
+                Spacer()
             }//Big Vstack
             
             .onAppear(){
@@ -122,7 +129,7 @@ struct NavButton: View {
     let qCount: Int
     
     var body: some View {
-        HStack{
+        HStack(spacing: 100){
             Button(action: prevQuestion){
                 Image(systemName: "lessthan")
                     .resizable()
@@ -130,7 +137,7 @@ struct NavButton: View {
             }
             .disabled(qIndex == -1)
             
-            Spacer()
+            //Spacer()
             
             Button(action: nextQuestion){
                 Image(systemName: "greaterthan")
@@ -164,23 +171,48 @@ struct QuestionView: View {
     var question: String
     var vieQuestion: String
     var qId: Int
-    let height: CGFloat
+    var learn: String
+    var synthesizer: AVSpeechSynthesizer
+
     
     var body: some View {
-        VStack(spacing: 10){
-            Text("\(qId). \(question)")
-                .font(.system(size: 25, weight: .bold))
-                .multilineTextAlignment(.center)
-            Text(vieQuestion)
-                .font(.system(size: 20, weight: .light))
-                .multilineTextAlignment(.center)
+        VStack(spacing: 5){
+            
+            VStack{
+                Text("\(qId). \(question)")
+                    .font(.system(size: 20, weight: .bold))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(vieQuestion)
+                    .font(.system(size: 20, weight: .thin))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                (Text("Từ trọng tâm:")
+                    .underline() +
+                 Text(" \(learn) - là những từ bạn cần nhớ để nhận diện câu hỏi này"))
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.vertical)
+            }
+            
+            HStack{
+                Spacer()
+                Button(action: {
+                    synthesizer.stopSpeaking(at: .immediate)
+                    let utterance = AVSpeechUtterance(string: question)
+                    utterance.voice = AVSpeechSynthesisVoice()
+                    utterance.rate = 0.3
+                    synthesizer.speak(utterance)
+                }){
+                    Image(systemName: "speaker.wave.3")
+                }
+            }
+            
         }//end question
-        .frame(height: height)
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 2)
+        .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(.blue, lineWidth: 2)
+                .stroke(.blue, lineWidth: 1)
         )
         .padding(.horizontal)
     }
@@ -190,25 +222,43 @@ struct AnswerView: View {
     var ans: String
     var vieAns: String
     var learn: String
-    let height: CGFloat
+    var synthesizer: AVSpeechSynthesizer
     
     var body: some View {
-        VStack(spacing: 10){
-            Text("Trả Lời:")
-            Text(ans)
-                .font(.system(size: 25, weight: .bold))
-                .multilineTextAlignment(.center)
-            Text(vieAns)
-                .font(.system(size: 20, weight: .light))
-                .multilineTextAlignment(.center)
-            Text("Từ trọng tâm: \(learn) là những từ bạn cần nhớ để nhận diện câu hỏi này")
+        VStack(){
+            
+            VStack{
+                Text("Trả Lời:")
+                Text(ans)
+                    .font(.system(size: 20, weight: .bold))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 1)
+                Text(vieAns)
+                    .font(.system(size: 20, weight: .thin))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom)
+            }
+            
+            HStack{
+                Spacer()
+                Button(action: {
+                    synthesizer.stopSpeaking(at: .immediate)
+                    let utterance = AVSpeechUtterance(string: ans)
+                    utterance.voice = AVSpeechSynthesisVoice()
+                    utterance.rate = 0.3
+                    synthesizer.speak(utterance)
+                }){
+                    Image(systemName: "speaker.wave.3")
+                }
+            }
         }//vstack of answer
-        //.frame(height: height)
         .frame(maxWidth: .infinity)
         .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(.blue, lineWidth: 2)
+                .stroke(.blue, lineWidth: 1)
         )
         .padding(.horizontal)
     }

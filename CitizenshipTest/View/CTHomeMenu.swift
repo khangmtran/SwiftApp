@@ -27,7 +27,8 @@ struct CTHomeMenu : View{
                         CTCustomMenuItem(title: "Học Dễ Nhớ", subtitle: "Học 100 câu hỏi theo từng phần",
                                          assetImage: "book_stack")
                     }
-                }.listRowSpacing(30)
+                }
+                .listRowSpacing(30)
             }
         }
     }

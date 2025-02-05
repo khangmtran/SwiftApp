@@ -27,7 +27,8 @@ struct CTAllQuestions: View {
                             synthesizer.speak(utterance)
                         }){
                             Image(systemName: "speaker.wave.3")
-                        }                    }
+                        }
+                    }
                     
                     Text(question.questionVie)
                         .font(.subheadline)
