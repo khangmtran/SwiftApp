@@ -34,12 +34,14 @@ struct CTBotButton: View{
                 Button(action: action) {
                     buttonContent
                 }
+                .padding()
                 .frame(width: width, height: height)
                 .foregroundColor(foregroundColor)
                 .background(backgroundColor)
                 .cornerRadius(cornerRadius)
             } else {
                 buttonContent
+                    .padding()
                     .frame(width: width, height: height)
                     .foregroundColor(foregroundColor)
                     .background(backgroundColor)
@@ -53,7 +55,8 @@ struct CTBotButton: View{
                     Image(systemName: icon)
                 }
                 if let title = title {
-                    Text(title).font(.system(size: 25, weight: .bold))
+                    Text(title)
+                        
                 }
             }
         }

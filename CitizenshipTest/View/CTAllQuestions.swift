@@ -11,13 +11,16 @@ import AVFoundation
 struct CTAllQuestions: View {
     @State private var questions:[CTQuestion] = []
     @State private var synthesizer = AVSpeechSynthesizer()
+    @EnvironmentObject var deviceManager: DeviceManager
     var body: some View {
         List(questions){question in
-            Section(header: Text("Câu hỏi \(question.id)")){
+            Section(header: Text("Câu hỏi \(question.id)")
+                .font(deviceManager.isTablet ? .title3 : .footnote)){
                 VStack(alignment: .leading){
                     HStack{
                         Text(question.question)
-                            .font(.headline)
+                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                            .fontWeight(.bold)
                         Spacer()
                         Button(action: {
                             synthesizer.stopSpeaking(at: .immediate)
@@ -27,17 +30,21 @@ struct CTAllQuestions: View {
                             synthesizer.speak(utterance)
                         }){
                             Image(systemName: "speaker.wave.3")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: deviceManager.isTablet ? 40 : 20)
                         }
                     }
                     
                     Text(question.questionVie)
-                        .font(.subheadline)
+                        .font(deviceManager.isTablet ? .title : .body)
                     
                 }
                 VStack(alignment: .leading){
                     HStack{
                         Text("Trả lời: \(question.answer)")
-                            .font(.headline)
+                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                            .fontWeight(.bold)
                         Spacer()
                         Button(action: {
                             synthesizer.stopSpeaking(at: .immediate)
@@ -47,10 +54,13 @@ struct CTAllQuestions: View {
                             synthesizer.speak(utterance)
                         }){
                             Image(systemName: "speaker.wave.3")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: deviceManager.isTablet ? 40 : 20)
                         }
                     }
                     Text(question.answerVie)
-                        .font(.subheadline)
+                        .font(deviceManager.isTablet ? .title : .body)
                     
                 }
             }
@@ -64,4 +74,5 @@ struct CTAllQuestions: View {
 
 #Preview {
     CTAllQuestions()
+        .environmentObject(DeviceManager())
 }

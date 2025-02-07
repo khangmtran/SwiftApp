@@ -9,6 +9,7 @@ import SwiftUI
 import AVFoundation
 
 struct CTLearnQuestions: View {
+    @EnvironmentObject var dvice : DeviceManager
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var selectedPart : SelectedPart
     @State private var questions: [CTQuestion] = []
@@ -34,21 +35,26 @@ struct CTLearnQuestions: View {
     var body: some View{
         //Show Guide
         if qIndex == -1{
-            VStack(spacing: 20){//outer Vs
+            VStack{//outer Vs
                 CTGuide(qIndex: $qIndex)
-                //hstack contains prev and next arrows
-                NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
             }//end outerV
             .onAppear(){
                 questions = CTDataLoader().loadQuestions()
             }
+            .safeAreaInset(edge: .bottom) {
+                NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
+                    .padding()
+                    .background(Color.white)
+            }
         }//end show guide
         else{
-            //Big Vstack
-            VStack{
+            
+            ScrollView{
+                
                 //1. VStack contains keyword
                 VStack{
                     Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
+                        .font(dvice.isTablet ? .title : .body)
                         .multilineTextAlignment(.center)
                 }//.1
                 .padding()
@@ -61,33 +67,32 @@ struct CTLearnQuestions: View {
                 
                 //2. Vstack contains question
                 if !filteredQuestion.isEmpty{
-            
-                        VStack{
-                            //question section
-                            QuestionView(question: filteredQuestion[qIndex].question,
-                                         vieQuestion: filteredQuestion[qIndex].questionVie,
-                                         qId: filteredQuestion[qIndex].id,
-                                         learn: filteredQuestion[qIndex].learn,
-                                         synthesizer: synthesizer)
-                            
-                            //vstack of answer
-                            AnswerView(ans: filteredQuestion[qIndex].answer,
-                                       vieAns: filteredQuestion[qIndex].answerVie,
-                                       learn: filteredQuestion[qIndex].learn,
-                                       synthesizer: synthesizer)
-                            
-                            Spacer()
-                            
-                            //hstack contains prev and next arrows
-                            NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
-                        }//.2
-               
+                    
+                    VStack{
+                        //question section
+                        QuestionView(question: filteredQuestion[qIndex].question,
+                                     vieQuestion: filteredQuestion[qIndex].questionVie,
+                                     qId: filteredQuestion[qIndex].id,
+                                     learn: filteredQuestion[qIndex].learn,
+                                     synthesizer: synthesizer)
+                        
+                        //vstack of answer
+                        AnswerView(ans: filteredQuestion[qIndex].answer,
+                                   vieAns: filteredQuestion[qIndex].answerVie,
+                                   learn: filteredQuestion[qIndex].learn,
+                                   synthesizer: synthesizer)
+                        
+                    }//.2
                 }
-                Spacer()
-            }//Big Vstack
+            }
             
             .onAppear(){
                 questions = CTDataLoader().loadQuestions()
+            }
+            .safeAreaInset(edge: .bottom) {
+                NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
+                    .padding()
+                    .background(Color.white)
             }
             
             .navigationBarTitleDisplayMode(.inline)
@@ -104,10 +109,14 @@ struct CTLearnQuestions: View {
                     } label: {
                         HStack {
                             Text(selectedPart.partChosen)
+                                .font(dvice.isTablet ? .largeTitle : .title3)
                             Image(systemName: "chevron.down")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: dvice.isTablet ? 20 : 10)
                         }
-                        .frame(width: 100, height: 35)
-                        .border(.gray, width: 3)
+                        .padding(10)
+                        .border(.gray, width: dvice.isTablet ? 2 : 1)
                     }
                 }
             }//toolbar
@@ -117,37 +126,43 @@ struct CTLearnQuestions: View {
 }
 
 #Preview {
-    NavigationView{
+    NavigationStack{
         CTLearnQuestions()
             .environmentObject(SelectedPart())
+            .environmentObject(DeviceManager())
     }
 }
 
 struct NavButton: View {
-    
+    @EnvironmentObject var dvice: DeviceManager
     @Binding var qIndex: Int
     let qCount: Int
     
     var body: some View {
-        HStack(spacing: 100){
+        HStack(){
             Button(action: prevQuestion){
-                Image(systemName: "lessthan")
-                    .resizable()
-                    .scaledToFit()
+                Text("Tro Ve")
+                    .font(dvice.isTablet ? .largeTitle : .title3)
             }
+            .padding()
+            .foregroundStyle(.white)
+            .background(.blue)
+            .cornerRadius(10)
             .disabled(qIndex == -1)
             
-            //Spacer()
+            Spacer()
             
             Button(action: nextQuestion){
-                Image(systemName: "greaterthan")
-                    .resizable()
-                    .scaledToFit()
+                Text("Tiep Theo")
+                    .font(dvice.isTablet ? .largeTitle : .title3)
             }
+            .padding()
+            .foregroundStyle(.white)
+            .background(.blue)
+            .cornerRadius(10)
             .disabled(qIndex == qCount)
         }//hstack contains prv and nxt arrows
-        .frame(height: 30)
-        .padding()
+        
     }
     
     private func nextQuestion(){
@@ -173,24 +188,25 @@ struct QuestionView: View {
     var qId: Int
     var learn: String
     var synthesizer: AVSpeechSynthesizer
-
+    @EnvironmentObject var dvice: DeviceManager
     
     var body: some View {
-        VStack(spacing: 5){
-            
+        VStack{
             VStack{
                 Text("\(qId). \(question)")
-                    .font(.system(size: 20, weight: .bold))
+                    .font(dvice.isTablet ? .largeTitle : .title3)
+                    .fontWeight(.bold)
                     .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
+                
                 Text(vieQuestion)
-                    .font(.system(size: 20, weight: .thin))
+                    .font(dvice.isTablet ? .title : .body)
+                    .fontWeight(.thin)
                     .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
+                
                 (Text("Từ trọng tâm:")
                     .underline() +
                  Text(" \(learn) - là những từ bạn cần nhớ để nhận diện câu hỏi này"))
-                .fixedSize(horizontal: false, vertical: true)
+                .font(dvice.isTablet ? .title : .body)
                 .padding(.vertical)
             }
             
@@ -204,11 +220,13 @@ struct QuestionView: View {
                     synthesizer.speak(utterance)
                 }){
                     Image(systemName: "speaker.wave.3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: dvice.isTablet ? 30 : 20)
                 }
             }
             
         }//end question
-        .frame(maxWidth: .infinity)
         .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 10)
@@ -223,21 +241,23 @@ struct AnswerView: View {
     var vieAns: String
     var learn: String
     var synthesizer: AVSpeechSynthesizer
+    @EnvironmentObject var dvice: DeviceManager
     
     var body: some View {
         VStack(){
             
             VStack{
                 Text("Trả Lời:")
+                    .font(dvice.isTablet ? .title : .body)
                 Text(ans)
-                    .font(.system(size: 20, weight: .bold))
+                    .font(dvice.isTablet ? .largeTitle : .title3)
+                    .fontWeight(.bold)
                     .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 1)
                 Text(vieAns)
-                    .font(.system(size: 20, weight: .thin))
+                    .font(dvice.isTablet ? .title : .body)
+                    .fontWeight(.thin)
                     .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
                     .padding(.bottom)
             }
             
@@ -251,10 +271,12 @@ struct AnswerView: View {
                     synthesizer.speak(utterance)
                 }){
                     Image(systemName: "speaker.wave.3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: dvice.isTablet ? 30 : 20)
                 }
             }
         }//vstack of answer
-        .frame(maxWidth: .infinity)
         .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 10)
