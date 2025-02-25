@@ -10,7 +10,6 @@ import Foundation
 class CTDataLoader{
     func loadQuestions() -> [CTQuestion]{
             guard let url = Bundle.main.url(forResource: "CTQuestionsJSON", withExtension: "json") else{
-                print("Could not find CTQuestionsJSON.json file")
                 return []
             }
             do{
@@ -19,7 +18,6 @@ class CTDataLoader{
                 let questions = try decoder.decode([CTQuestion].self, from:data)
                 return questions
             }catch{
-                print("Error decoding JSON: \(error)")
                 return []
             }
         }

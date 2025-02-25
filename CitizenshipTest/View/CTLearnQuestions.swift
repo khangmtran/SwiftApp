@@ -9,7 +9,8 @@ import SwiftUI
 import AVFoundation
 
 struct CTLearnQuestions: View {
-    @EnvironmentObject var dvice : DeviceManager
+    @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var deviceManager : DeviceManager
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var selectedPart : SelectedPart
     @State private var questions: [CTQuestion] = []
@@ -54,7 +55,7 @@ struct CTLearnQuestions: View {
                 //1. VStack contains keyword
                 VStack{
                     Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
-                        .font(dvice.isTablet ? .title : .body)
+                        .font(deviceManager.isTablet ? .title : .body)
                         .multilineTextAlignment(.center)
                 }//.1
                 .padding()
@@ -77,7 +78,8 @@ struct CTLearnQuestions: View {
                                      synthesizer: synthesizer)
                         
                         //vstack of answer
-                        AnswerView(ans: filteredQuestion[qIndex].answer,
+                        AnswerView(qId: filteredQuestion[qIndex].id,
+                                   ans: filteredQuestion[qIndex].answer,
                                    vieAns: filteredQuestion[qIndex].answerVie,
                                    learn: filteredQuestion[qIndex].learn,
                                    synthesizer: synthesizer)
@@ -109,14 +111,12 @@ struct CTLearnQuestions: View {
                     } label: {
                         HStack {
                             Text(selectedPart.partChosen)
-                                .font(dvice.isTablet ? .largeTitle : .title3)
+                                .font(deviceManager.isTablet ? .largeTitle : .title3)
                             Image(systemName: "chevron.down")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: dvice.isTablet ? 20 : 10)
+                                .frame(height: deviceManager.isTablet ? 20 : 10)
                         }
-                        .padding(10)
-                        .border(.gray, width: dvice.isTablet ? 2 : 1)
                     }
                 }
             }//toolbar
@@ -130,11 +130,12 @@ struct CTLearnQuestions: View {
         CTLearnQuestions()
             .environmentObject(SelectedPart())
             .environmentObject(DeviceManager())
+            .environmentObject(UserSetting())
     }
 }
 
 struct NavButton: View {
-    @EnvironmentObject var dvice: DeviceManager
+    @EnvironmentObject var deviceManager: DeviceManager
     @Binding var qIndex: Int
     let qCount: Int
     
@@ -142,7 +143,7 @@ struct NavButton: View {
         HStack(){
             Button(action: prevQuestion){
                 Text("Tro Ve")
-                    .font(dvice.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
             .padding()
             .foregroundStyle(.white)
@@ -154,7 +155,7 @@ struct NavButton: View {
             
             Button(action: nextQuestion){
                 Text("Tiep Theo")
-                    .font(dvice.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
             .padding()
             .foregroundStyle(.white)
@@ -188,25 +189,25 @@ struct QuestionView: View {
     var qId: Int
     var learn: String
     var synthesizer: AVSpeechSynthesizer
-    @EnvironmentObject var dvice: DeviceManager
+    @EnvironmentObject var deviceManager: DeviceManager
     
     var body: some View {
         VStack{
             VStack{
                 Text("\(qId). \(question)")
-                    .font(dvice.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .largeTitle : .title3)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                 
                 Text(vieQuestion)
-                    .font(dvice.isTablet ? .title : .body)
+                    .font(deviceManager.isTablet ? .title : .body)
                     .fontWeight(.thin)
                     .multilineTextAlignment(.center)
                 
                 (Text("Từ trọng tâm:")
                     .underline() +
                  Text(" \(learn) - là những từ bạn cần nhớ để nhận diện câu hỏi này"))
-                .font(dvice.isTablet ? .title : .body)
+                .font(deviceManager.isTablet ? .title : .body)
                 .padding(.vertical)
             }
             
@@ -222,7 +223,7 @@ struct QuestionView: View {
                     Image(systemName: "speaker.wave.3")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: dvice.isTablet ? 30 : 20)
+                        .frame(height: deviceManager.isTablet ? 30 : 20)
                 }
             }
             
@@ -237,28 +238,69 @@ struct QuestionView: View {
 }
 
 struct AnswerView: View {
+    var qId: Int
     var ans: String
     var vieAns: String
     var learn: String
     var synthesizer: AVSpeechSynthesizer
-    @EnvironmentObject var dvice: DeviceManager
+    @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var userSetting: UserSetting
+    @State var showingZipPrompt = false
     
     var body: some View {
-        VStack(){
+        VStack{
+            //q20
+            if qId == 20{
+                VStack{
+                    Text("Trả lời: Chon 1 trong nhung Senator duoi day:")
+                        .font(deviceManager.isTablet ? .title : .body)
+                        .multilineTextAlignment(.center)
+                    let senators = userSetting.legislators.filter {$0.type == "senator"}
+                    ForEach(senators) { sen in
+                        Text("\(sen.firstName) \(sen.lastName)")
+                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                            .fontWeight(.bold)
+                    }
+                    Button("Nhap ZIP Code de tim \(qId == 23 ? "Representative" : "Senators") cua ban") {
+                        showingZipPrompt = true
+                    }
+                }
+            }
             
-            VStack{
-                Text("Trả Lời:")
-                    .font(dvice.isTablet ? .title : .body)
-                Text(ans)
-                    .font(dvice.isTablet ? .largeTitle : .title3)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding(.top, 1)
-                Text(vieAns)
-                    .font(dvice.isTablet ? .title : .body)
-                    .fontWeight(.thin)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom)
+            //q23
+            else if qId == 23{
+                VStack{
+                    Text("Trả lời:")
+                        .font(deviceManager.isTablet ? .title : .body)
+                        .multilineTextAlignment(.center)
+                    let representatives = userSetting.legislators.filter {$0.type == "representative"}
+                    ForEach(representatives) { rep in
+                        Text("\(rep.firstName) \(rep.lastName)")
+                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                            .fontWeight(.bold)
+                    }
+                    Button("Nhap ZIP Code de tim \(qId == 23 ? "Representative" : "Senators") cua ban") {
+                        showingZipPrompt = true
+                    }
+                }
+            }
+            
+            //other questions except q20 and 23
+            else{
+                VStack{
+                    Text("Trả Lời:")
+                        .font(deviceManager.isTablet ? .title : .body)
+                    Text(ans)
+                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 1)
+                    Text(vieAns)
+                        .font(deviceManager.isTablet ? .title : .body)
+                        .fontWeight(.thin)
+                        .multilineTextAlignment(.center)
+                        .padding(.bottom)
+                }
             }
             
             HStack{
@@ -273,15 +315,20 @@ struct AnswerView: View {
                     Image(systemName: "speaker.wave.3")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: dvice.isTablet ? 30 : 20)
+                        .frame(height: deviceManager.isTablet ? 30 : 20)
                 }
             }
-        }//vstack of answer
+        }
         .padding()
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.blue, lineWidth: 1)
         )
         .padding(.horizontal)
+        .sheet(isPresented: $showingZipPrompt) {
+            CTZipInput()
+                .environmentObject(userSetting)
+                .environmentObject(deviceManager)
+        }
     }
 }

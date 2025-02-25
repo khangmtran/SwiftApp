@@ -9,6 +9,8 @@ import SwiftUI
 struct CTHomeMenu : View{
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var userSetting: UserSetting
+    
     var body: some View{
         NavigationStack{
             VStack{
@@ -48,6 +50,7 @@ struct CTHomeMenu_Provider: PreviewProvider{
         CTHomeMenu()
             .environmentObject(SelectedPart())
             .environmentObject(DeviceManager())
+            .environmentObject(UserSetting())
     }
 }
 

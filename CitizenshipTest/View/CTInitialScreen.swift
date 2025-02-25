@@ -10,7 +10,9 @@ import SwiftUI
 struct CTInitialScreen: View{
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var userSetting: UserSetting
     @State private var showNewScreen = false
+    
     var body: some View{
         VStack{
                 Image("CTwelcome")
@@ -35,6 +37,8 @@ struct CTInitialScreen: View{
                 .fullScreenCover(isPresented: $showNewScreen){
                     CTHomeMenu()
                         .environmentObject(selectedPart)
+                        .environmentObject(deviceManager)
+                        .environmentObject(userSetting)
                 }
                 
             }
@@ -47,5 +51,6 @@ struct CTInitialScreen_provider: PreviewProvider{
         CTInitialScreen()
             .environmentObject(SelectedPart())
             .environmentObject(DeviceManager())
+            .environmentObject(UserSetting())
     }
 }

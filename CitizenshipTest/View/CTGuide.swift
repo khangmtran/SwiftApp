@@ -72,8 +72,6 @@ struct CTGuide: View {
                             .scaledToFit()
                             .frame(height: dvice.isTablet ? 20 : 10)
                     }
-                    .padding(10)
-                    .border(.gray, width: dvice.isTablet ? 2 : 1)
                 }
             }
         }
