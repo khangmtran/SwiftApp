@@ -15,6 +15,7 @@ struct CTLearnQuestions: View {
     @EnvironmentObject var selectedPart : SelectedPart
     @State private var questions: [CTQuestion] = []
     @State private var qIndex = -1
+    @State private var questionCount = 0
     private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8", "Phần 9"]
     
     let partToType = [
@@ -43,7 +44,7 @@ struct CTLearnQuestions: View {
                 questions = CTDataLoader().loadQuestions()
             }
             .safeAreaInset(edge: .bottom) {
-                NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
+                NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestions: filteredQuestion.count - 1)
                     .padding()
                     .background(Color.white)
             }
@@ -92,13 +93,19 @@ struct CTLearnQuestions: View {
                 questions = CTDataLoader().loadQuestions()
             }
             .safeAreaInset(edge: .bottom) {
-                NavButton(qIndex: $qIndex, qCount: filteredQuestion.count - 1)
+                NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestions: filteredQuestion.count - 1)
                     .padding()
                     .background(Color.white)
             }
             
             .navigationBarTitleDisplayMode(.inline)
             //toolbar
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Text("\(questionCount) / \(filteredQuestion.count)")
+                        .font(deviceManager.isTablet ? .title : .body)
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Menu {
@@ -137,7 +144,8 @@ struct CTLearnQuestions: View {
 struct NavButton: View {
     @EnvironmentObject var deviceManager: DeviceManager
     @Binding var qIndex: Int
-    let qCount: Int
+    @Binding var qCount: Int
+    let totalQuestions: Int
     
     var body: some View {
         HStack(){
@@ -161,15 +169,16 @@ struct NavButton: View {
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)
-            .disabled(qIndex == qCount)
+            .disabled(qIndex == totalQuestions)
         }//hstack contains prv and nxt arrows
         
     }
     
     private func nextQuestion(){
         withAnimation{
-            if qIndex < qCount {
+            if qIndex < totalQuestions {
                 qIndex += 1
+                qCount += 1
             }
         }
     }
@@ -178,6 +187,7 @@ struct NavButton: View {
         withAnimation{
             if qIndex > -1{
                 qIndex -= 1
+                qCount -= 1
             }
         }
     }

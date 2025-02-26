@@ -25,7 +25,7 @@ struct CTZipInput: View {
                     .keyboardType(.numberPad)
                     .padding()
                 
-                Button("Save") {
+                Button(action: {
                     Task {
                         isTyping = true
                         do {
@@ -42,6 +42,9 @@ struct CTZipInput: View {
                         }
                         isTyping = false
                     }
+                }){
+                    Text("Save")
+                        .font(deviceManager.isTablet ? .largeTitle : .title3)
                 }
                 .disabled(tempZipCode.count != 5 || isTyping)
                 
@@ -58,9 +61,16 @@ struct CTZipInput: View {
                 }
             }
             .navigationTitle("Enter ZIP Code")
-            .navigationBarItems(trailing: Button("Cancel") {
-                dismiss()
-            })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        dismiss()
+                    }){
+                        Text("Cancel")
+                        .font(deviceManager.isTablet ? .title : .body)
+                    }
+                }
+            }
         }
         .onAppear {
             tempZipCode = userSetting.zipCode

@@ -134,11 +134,17 @@ struct CTAllQuestions: View {
                 questions = CTDataLoader().loadQuestions()
             }
             .safeAreaInset(edge: .bottom) {
-                NavButtonAllQ(page: $page, scrollProxy: scrollProxy)
+                NavButtonAllQ(page: $page)
                     .padding()
                     .background(Color.white)
             }
             .navigationTitle("100 Câu Hỏi")
+            .onChange(of: page) { oldValue, newValue in
+                withAnimation{
+                    let firstQuestionId = (page * 10) + 1
+                    scrollProxy.scrollTo(firstQuestionId, anchor: .top)
+                }
+            }
         }
     }
     
@@ -152,7 +158,6 @@ struct CTAllQuestions: View {
 struct NavButtonAllQ: View {
     @EnvironmentObject var deviceManager: DeviceManager
     @Binding var page: Int
-    let scrollProxy: ScrollViewProxy
     private let totalPages: Int = 9
     
     var body: some View {
@@ -184,26 +189,14 @@ struct NavButtonAllQ: View {
     }
     
     private func nextQuestion(){
-        withAnimation{
-            if page < totalPages {
-                page += 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    let newFirstQuestionId = (page * 10) + 1
-                    scrollProxy.scrollTo(newFirstQuestionId, anchor: .top)
-                }
-            }
+        if page < totalPages {
+            page += 1
         }
     }
     
     private func prevQuestion(){
-        withAnimation{
-            if page > 0{
-                page -= 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    let newFirstQuestionId = (page * 10) + 1
-                    scrollProxy.scrollTo(newFirstQuestionId, anchor: .top)
-                }
-            }
+        if page > 0{
+            page -= 1
         }
     }
 }
