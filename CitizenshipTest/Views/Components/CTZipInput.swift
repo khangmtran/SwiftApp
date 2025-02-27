@@ -32,6 +32,7 @@ struct CTZipInput: View {
                             let legislators = try await geocodioService.fetchLegislators(zipCode: tempZipCode)
                             errorMsg = false
                             await MainActor.run{
+                                userSetting.state = legislators.first?.state ?? ""
                                 userSetting.zipCode = tempZipCode
                                 userSetting.legislators = legislators
                                 dismiss()

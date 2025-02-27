@@ -21,11 +21,11 @@ struct CTHomeMenu : View{
                     .padding(.vertical)
                 
                 List{
-                    NavigationLink(destination: CTGetStarted()){
+                    NavigationLink(destination: CTAllQuestions()){
                         CTCustomMenuItem(title: "Thi Thử", subtitle: "Bài thi trắc nghiệm 10 câu hỏi ngẫu nhiên", assetImage: "pen_paper")
                     }
                     
-                    NavigationLink(destination: CTGetStarted()){
+                    NavigationLink(destination: CTAllQuestions()){
                         CTCustomMenuItem(title: "Thẻ Học", subtitle: "Học cùng thẻ bài để rèn luyện trí nhớ", assetImage: "flash_card")
                     }
                     

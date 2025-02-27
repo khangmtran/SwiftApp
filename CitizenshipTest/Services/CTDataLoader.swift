@@ -21,4 +21,19 @@ class CTDataLoader{
                 return []
             }
         }
+    
+    func loadGovAndCapital() -> [CTGovAndCapital]{
+        guard let url = Bundle.main.url(forResource: "CTGovAndCapitalJSON", withExtension: "json") else{
+            return []
+        }
+        do{
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let govNCap = try decoder.decode([CTGovAndCapital].self, from:data)
+            return govNCap
+        }catch{
+            return []
+        }
+    }
+    
 }

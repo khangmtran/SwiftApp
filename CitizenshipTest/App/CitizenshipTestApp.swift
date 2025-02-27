@@ -8,6 +8,12 @@
 import SwiftUI
 
 class UserSetting: ObservableObject {
+    @Published var state: String{
+        didSet{
+            UserDefaults.standard.set(state, forKey: "userState")
+        }
+    }
+    
     @Published var zipCode: String {
         didSet {
             UserDefaults.standard.set(zipCode, forKey: "userZip")
@@ -24,7 +30,7 @@ class UserSetting: ObservableObject {
     
     init() {
         self.zipCode = UserDefaults.standard.string(forKey: "userZip") ?? ""
-
+        self.state = UserDefaults.standard.string(forKey: "userState") ?? ""
         if let savedLegislatorsData = UserDefaults.standard.data(forKey: "userLegislators"),
            let decodedLegislators = try? JSONDecoder().decode([Legislator].self, from: savedLegislatorsData) {
             self.legislators = decodedLegislators

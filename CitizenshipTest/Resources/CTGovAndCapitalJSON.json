@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "gov": "Kay Ivey",
+    "state": "AL",
+    "capital": "Montgomery"
+  },
+  {
+    "id": 2,
+    "gov": "Mike Dunleavy",
+    "state": "AK",
+    "capital": "Juneau"
+  },
+  {
+    "id": 3,
+    "gov": "Katie Hobbs",
+    "state": "AZ",
+    "capital": "Phoenix"
+  },
+  {
+    "id": 4,
+    "gov": "Sarah Huckabee Sanders",
+    "state": "AR",
+    "capital": "Little Rock"
+  },
+  {
+    "id": 5,
+    "gov": "Gavin Newsom",
+    "state": "CA",
+    "capital": "Sacramento"
+  },
+  {
+    "id": 6,
+    "gov": "Jared Polis",
+    "state": "CO",
+    "capital": "Denver"
+  },
+  {
+    "id": 7,
+    "gov": "Ned Lamont",
+    "state": "CT",
+    "capital": "Hartford"
+  },
+  {
+    "id": 8,
+    "gov": "John Carney",
+    "state": "DE",
+    "capital": "Dover"
+  },
+  {
+    "id": 9,
+    "gov": "Ron DeSantis",
+    "state": "FL",
+    "capital": "Tallahassee"
+  },
+  {
+    "id": 10,
+    "gov": "Brian Kemp",
+    "state": "GA",
+    "capital": "Atlanta"
+  },
+  {
+    "id": 11,
+    "gov": "Josh Green",
+    "state": "HI",
+    "capital": "Honolulu"
+  },
+  {
+    "id": 12,
+    "gov": "Brad Little",
+    "state": "ID",
+    "capital": "Boise"
+  },
+  {
+    "id": 13,
+    "gov": "JB Pritzker",
+    "state": "IL",
+    "capital": "Springfield"
+  },
+  {
+    "id": 14,
+    "gov": "Eric Holcomb",
+    "state": "IN",
+    "capital": "Indianapolis"
+  },
+  {
+    "id": 15,
+    "gov": "Kim Reynolds",
+    "state": "IA",
+    "capital": "Des Moines"
+  },
+  {
+    "id": 16,
+    "gov": "Laura Kelly",
+    "state": "KS",
+    "capital": "Topeka"
+  },
+  {
+    "id": 17,
+    "gov": "Andy Beshear",
+    "state": "KY",
+    "capital": "Frankfort"
+  },
+  {
+    "id": 18,
+    "gov": "Jeff Landry",
+    "state": "LA",
+    "capital": "Baton Rouge"
+  },
+  {
+    "id": 19,
+    "gov": "Janet Mills",
+    "state": "ME",
+    "capital": "Augusta"
+  },
+  {
+    "id": 20,
+    "gov": "Wes Moore",
+    "state": "MD",
+    "capital": "Annapolis"
+  },
+  {
+    "id": 21,
+    "gov": "Maura Healey",
+    "state": "MA",
+    "capital": "Boston"
+  },
+  {
+    "id": 22,
+    "gov": "Gretchen Whitmer",
+    "state": "MI",
+    "capital": "Lansing"
+  },
+  {
+    "id": 23,
+    "gov": "Tim Walz",
+    "state": "MN",
+    "capital": "Saint Paul"
+  },
+  {
+    "id": 24,
+    "gov": "Tate Reeves",
+    "state": "MS",
+    "capital": "Jackson"
+  },
+  {
+    "id": 25,
+    "gov": "Mike Parson",
+    "state": "MO",
+    "capital": "Jefferson City"
+  },
+  {
+    "id": 26,
+    "gov": "Greg Gianforte",
+    "state": "MT",
+    "capital": "Helena"
+  },
+  {
+    "id": 27,
+    "gov": "Jim Pillen",
+    "state": "NE",
+    "capital": "Lincoln"
+  },
+  {
+    "id": 28,
+    "gov": "Joe Lombardo",
+    "state": "NV",
+    "capital": "Carson City"
+  },
+  {
+    "id": 29,
+    "gov": "Chris Sununu",
+    "state": "NH",
+    "capital": "Concord"
+  },
+  {
+    "id": 30,
+    "gov": "Phil Murphy",
+    "state": "NJ",
+    "capital": "Trenton"
+  },
+  {
+    "id": 31,
+    "gov": "Michelle Lujan Grisham",
+    "state": "NM",
+    "capital": "Santa Fe"
+  },
+  {
+    "id": 32,
+    "gov": "Kathy Hochul",
+    "state": "NY",
+    "capital": "Albany"
+  },
+  {
+    "id": 33,
+    "gov": "Roy Cooper",
+    "state": "NC",
+    "capital": "Raleigh"
+  },
+  {
+    "id": 34,
+    "gov": "Doug Burgum",
+    "state": "ND",
+    "capital": "Bismarck"
+  },
+  {
+    "id": 35,
+    "gov": "Mike DeWine",
+    "state": "OH",
+    "capital": "Columbus"
+  },
+  {
+    "id": 36,
+    "gov": "Kevin Stitt",
+    "state": "OK",
+    "capital": "Oklahoma City"
+  },
+  {
+    "id": 37,
+    "gov": "Tina Kotek",
+    "state": "OR",
+    "capital": "Salem"
+  },
+  {
+    "id": 38,
+    "gov": "Josh Shapiro",
+    "state": "PA",
+    "capital": "Harrisburg"
+  },
+  {
+    "id": 39,
+    "gov": "Dan McKee",
+    "state": "RI",
+    "capital": "Providence"
+  },
+  {
+    "id": 40,
+    "gov": "Henry McMaster",
+    "state": "SC",
+    "capital": "Columbia"
+  },
+  {
+    "id": 41,
+    "gov": "Kristi Noem",
+    "state": "SD",
+    "capital": "Pierre"
+  },
+  {
+    "id": 42,
+    "gov": "Bill Lee",
+    "state": "TN",
+    "capital": "Nashville"
+  },
+  {
+    "id": 43,
+    "gov": "Greg Abbott",
+    "state": "TX",
+    "capital": "Austin"
+  },
+  {
+    "id": 44,
+    "gov": "Spencer Cox",
+    "state": "UT",
+    "capital": "Salt Lake City"
+  },
+  {
+    "id": 45,
+    "gov": "Phil Scott",
+    "state": "VT",
+    "capital": "Montpelier"
+  },
+  {
+    "id": 46,
+    "gov": "Glenn Youngkin",
+    "state": "VA",
+    "capital": "Richmond"
+  },
+  {
+    "id": 47,
+    "gov": "Jay Inslee",
+    "state": "WA",
+    "capital": "Olympia"
+  },
+  {
+    "id": 48,
+    "gov": "Jim Justice",
+    "state": "WV",
+    "capital": "Charleston"
+  },
+  {
+    "id": 49,
+    "gov": "Tony Evers",
+    "state": "WI",
+    "capital": "Madison"
+  },
+  {
+    "id": 50,
+    "gov": "Mark Gordon",
+    "state": "WY",
+    "capital": "Cheyenne"
+  }
+]

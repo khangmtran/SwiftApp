@@ -12,6 +12,7 @@ struct Legislator: Codable, Identifiable {
     let type: String
     let firstName: String
     let lastName: String
+    let state: String
     
     var id: String{
         "\(firstName)\(lastName)"
@@ -31,18 +32,28 @@ class CTGeocodioService {
         let decoder = JSONDecoder()
         let response = try decoder.decode(GeocodioResponse.self, from: data)
         
+        let state = extractStateFromAddress(address: response.address)
+        
         return response.fields.congressional_districts.first?.current_legislators.map{ legislator in
             Legislator(
                 type: legislator.type,
                 firstName: legislator.bio.first_name,
-                lastName: legislator.bio.last_name
+                lastName: legislator.bio.last_name,
+                state: state
             )
         } ?? []
+    }
+    
+    private func extractStateFromAddress(address: String) -> String {
+        let cityStateZip = address.components(separatedBy: ", ")
+        let state = cityStateZip[1].components(separatedBy: " ")
+        return state[0]
     }
 }
 
 // Response models
 struct GeocodioResponse: Codable {
+    let address: String
     let fields: Fields
 }
 

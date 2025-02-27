@@ -10,6 +10,7 @@ import AVFoundation
 
 struct CTAllQuestions: View {
     @State private var questions: [CTQuestion] = []
+    @State private var govAndCap: [CTGovAndCapital] = []
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var isLoadingLegislators = false
     @State private var showingZipPrompt = false
@@ -29,8 +30,9 @@ struct CTAllQuestions: View {
     var body: some View {
         ScrollViewReader{ scrollProxy in
             List(paginatedQuestions){question in
+                EmptyView()
+                    .id("topId")
                 Section(header: Text("Câu hỏi \(question.id)")
-                    .id(question.id)
                     .font(deviceManager.isTablet ? .title3 : .footnote)){
                         //question stack
                         VStack(alignment: .leading){
@@ -59,7 +61,7 @@ struct CTAllQuestions: View {
                         
                         //answer stack
                         VStack(alignment: .leading){
-                            if question.id == 20 || question.id == 23{
+                            if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44{
                                 
                                 //q20
                                 if question.id == 20{
@@ -73,8 +75,11 @@ struct CTAllQuestions: View {
                                                 .font(deviceManager.isTablet ? .largeTitle : .title3)
                                                 .fontWeight(.bold)
                                         }
-                                        Button("Nhap ZIP Code de tim \(question.id == 23 ? "Representative" : "Senators") cua ban") {
+                                        Button(action: {
                                             showingZipPrompt = true
+                                        }){
+                                            Text("Nhap ZIP Code de tim Senators cua ban")
+                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
                                         }
                                     }
                                 }
@@ -91,8 +96,56 @@ struct CTAllQuestions: View {
                                                 .font(deviceManager.isTablet ? .largeTitle : .title3)
                                                 .fontWeight(.bold)
                                         }
-                                        Button("Nhap ZIP Code de tim \(question.id == 23 ? "Representative" : "Senators") cua ban") {
+                                        Button(action: {
                                             showingZipPrompt = true
+                                        }){
+                                            Text("Nhap ZIP Code de tim Representative cua ban")
+                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                        }
+                                    }
+                                }
+                                
+                                //q43
+                                else if question.id == 43{
+                                    VStack(alignment: .leading){
+                                        Text("Trả lời:")
+                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                            .fontWeight(.bold)
+                                        let state = userSetting.state
+                                        ForEach(govAndCap) { gnc in
+                                            if gnc.state == state{
+                                                Text("\(gnc.gov)")
+                                                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                                    .fontWeight(.bold)
+                                            }
+                                        }
+                                        Button(action: {
+                                            showingZipPrompt = true
+                                        }){
+                                            Text("Nhap ZIP Code de tim Governor cua ban")
+                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                        }
+                                    }
+                                }
+                                
+                                else if question.id == 44{
+                                    VStack(alignment: .leading){
+                                        Text("Trả lời:")
+                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                            .fontWeight(.bold)
+                                        let state = userSetting.state
+                                        ForEach(govAndCap) { gnc in
+                                            if gnc.state == state{
+                                                Text("\(gnc.capital)")
+                                                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                                    .fontWeight(.bold)
+                                            }
+                                        }
+                                        Button(action: {
+                                            showingZipPrompt = true
+                                        }){
+                                            Text("Nhap ZIP Code de tim Capital cua ban")
+                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
                                         }
                                     }
                                 }
@@ -132,6 +185,7 @@ struct CTAllQuestions: View {
             }
             .onAppear {
                 questions = CTDataLoader().loadQuestions()
+                govAndCap = CTDataLoader().loadGovAndCapital()
             }
             .safeAreaInset(edge: .bottom) {
                 NavButtonAllQ(page: $page)
@@ -141,8 +195,7 @@ struct CTAllQuestions: View {
             .navigationTitle("100 Câu Hỏi")
             .onChange(of: page) { oldValue, newValue in
                 withAnimation{
-                    let firstQuestionId = (page * 10) + 1
-                    scrollProxy.scrollTo(firstQuestionId, anchor: .top)
+                    scrollProxy.scrollTo("topId", anchor: .top)
                 }
             }
         }
@@ -170,7 +223,6 @@ struct NavButtonAllQ: View {
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)
-            .disabled(page == 0)
             
             Spacer()
             
@@ -182,7 +234,6 @@ struct NavButtonAllQ: View {
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)
-            .disabled(page == totalPages)
             
         }//hstack contains prv and nxt arrows
         
@@ -192,11 +243,17 @@ struct NavButtonAllQ: View {
         if page < totalPages {
             page += 1
         }
+        else if page == totalPages{
+            page = 0
+        }
     }
     
     private func prevQuestion(){
         if page > 0{
             page -= 1
+        }
+        else if page == 0{
+            page = totalPages
         }
     }
 }

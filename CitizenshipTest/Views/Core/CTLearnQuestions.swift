@@ -16,6 +16,7 @@ struct CTLearnQuestions: View {
     @State private var questions: [CTQuestion] = []
     @State private var qIndex = -1
     @State private var questionCount = 0
+    @State private var govAndCap: [CTGovAndCapital] = []
     private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8", "Phần 9"]
     
     let partToType = [
@@ -44,7 +45,7 @@ struct CTLearnQuestions: View {
                 questions = CTDataLoader().loadQuestions()
             }
             .safeAreaInset(edge: .bottom) {
-                NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestions: filteredQuestion.count - 1)
+                NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)
                     .padding()
                     .background(Color.white)
             }
@@ -83,7 +84,8 @@ struct CTLearnQuestions: View {
                                    ans: filteredQuestion[qIndex].answer,
                                    vieAns: filteredQuestion[qIndex].answerVie,
                                    learn: filteredQuestion[qIndex].learn,
-                                   synthesizer: synthesizer)
+                                   synthesizer: synthesizer,
+                                   govAndCap: govAndCap)
                         
                     }//.2
                 }
@@ -91,9 +93,10 @@ struct CTLearnQuestions: View {
             
             .onAppear(){
                 questions = CTDataLoader().loadQuestions()
+                govAndCap = CTDataLoader().loadGovAndCapital()
             }
             .safeAreaInset(edge: .bottom) {
-                NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestions: filteredQuestion.count - 1)
+                NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)
                     .padding()
                     .background(Color.white)
             }
@@ -113,6 +116,7 @@ struct CTLearnQuestions: View {
                             Button(part) {
                                 selectedPart.partChosen = part
                                 qIndex = -1
+                                questionCount = 0
                             }
                         }
                     } label: {
@@ -145,7 +149,7 @@ struct NavButton: View {
     @EnvironmentObject var deviceManager: DeviceManager
     @Binding var qIndex: Int
     @Binding var qCount: Int
-    let totalQuestions: Int
+    let totalQuestionsIndex: Int
     
     var body: some View {
         HStack(){
@@ -157,7 +161,7 @@ struct NavButton: View {
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)
-            .disabled(qIndex == -1)
+            
             
             Spacer()
             
@@ -169,16 +173,20 @@ struct NavButton: View {
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)
-            .disabled(qIndex == totalQuestions)
+            
         }//hstack contains prv and nxt arrows
         
     }
     
     private func nextQuestion(){
         withAnimation{
-            if qIndex < totalQuestions {
+            if qIndex < totalQuestionsIndex {
                 qIndex += 1
                 qCount += 1
+            }
+            else if qIndex == totalQuestionsIndex{
+                qIndex = -1
+                qCount = 0
             }
         }
     }
@@ -188,6 +196,10 @@ struct NavButton: View {
             if qIndex > -1{
                 qIndex -= 1
                 qCount -= 1
+            }
+            else if qIndex == -1{
+                qIndex = totalQuestionsIndex
+                qCount = totalQuestionsIndex + 1
             }
         }
     }
@@ -253,6 +265,7 @@ struct AnswerView: View {
     var vieAns: String
     var learn: String
     var synthesizer: AVSpeechSynthesizer
+    var govAndCap: [CTGovAndCapital]
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @State var showingZipPrompt = false
@@ -264,16 +277,20 @@ struct AnswerView: View {
                 VStack{
                     Text("Trả lời: Chon 1 trong nhung Senator duoi day:")
                         .font(deviceManager.isTablet ? .title : .body)
-                        .multilineTextAlignment(.center)
+                        .padding(.bottom, 1)
                     let senators = userSetting.legislators.filter {$0.type == "senator"}
                     ForEach(senators) { sen in
                         Text("\(sen.firstName) \(sen.lastName)")
                             .font(deviceManager.isTablet ? .largeTitle : .title3)
                             .fontWeight(.bold)
                     }
-                    Button("Nhap ZIP Code de tim \(qId == 23 ? "Representative" : "Senators") cua ban") {
+                    Button(action: {
                         showingZipPrompt = true
+                    }){
+                        Text("Nhap ZIP Code de tim Senator cua ban")
+                            .font(deviceManager.isTablet ? .largeTitle : .title3)
                     }
+                    .padding(.vertical)
                 }
             }
             
@@ -282,16 +299,68 @@ struct AnswerView: View {
                 VStack{
                     Text("Trả lời:")
                         .font(deviceManager.isTablet ? .title : .body)
-                        .multilineTextAlignment(.center)
+                        .padding(.bottom, 1)
                     let representatives = userSetting.legislators.filter {$0.type == "representative"}
                     ForEach(representatives) { rep in
                         Text("\(rep.firstName) \(rep.lastName)")
                             .font(deviceManager.isTablet ? .largeTitle : .title3)
                             .fontWeight(.bold)
                     }
-                    Button("Nhap ZIP Code de tim \(qId == 23 ? "Representative" : "Senators") cua ban") {
+                    Button(action: {
                         showingZipPrompt = true
+                    }){
+                        Text("Nhap ZIP Code de tim Representative cua ban")
+                            .font(deviceManager.isTablet ? .largeTitle : .title3)
                     }
+                    .padding(.vertical)
+                }
+            }
+            
+            //q43
+            else if qId == 43{
+                VStack{
+                    Text("Trả lời:")
+                        .font(deviceManager.isTablet ? .title : .body)
+                        .padding(.bottom, 1)
+                    let state = userSetting.state
+                    ForEach(govAndCap) { gnc in
+                        if gnc.state == state{
+                            Text("\(gnc.gov)")
+                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                .fontWeight(.bold)
+                        }
+                    }
+                    Button(action: {
+                        showingZipPrompt = true
+                    }){
+                        Text("Nhap ZIP Code de tim Governor cua ban")
+                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    }
+                    .padding(.vertical)
+                }
+            }
+            
+            //q44
+            else if qId == 44{
+                VStack{
+                    Text("Trả lời:")
+                        .font(deviceManager.isTablet ? .title : .body)
+                        .padding(.bottom, 1)
+                    let state = userSetting.state
+                    ForEach(govAndCap) { gnc in
+                        if gnc.state == state{
+                            Text("\(gnc.capital)")
+                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                .fontWeight(.bold)
+                        }
+                    }
+                    Button(action: {
+                        showingZipPrompt = true
+                    }){
+                        Text("Nhap ZIP Code de tim Capital cua ban")
+                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    }
+                    .padding(.vertical)
                 }
             }
             
