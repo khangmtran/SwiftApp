@@ -12,7 +12,6 @@ struct CTAllQuestions: View {
     @State private var questions: [CTQuestion] = []
     @State private var govAndCap: [CTGovAndCapital] = []
     @State private var synthesizer = AVSpeechSynthesizer()
-    @State private var isLoadingLegislators = false
     @State private var showingZipPrompt = false
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting

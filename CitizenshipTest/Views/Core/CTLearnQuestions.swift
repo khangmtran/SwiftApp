@@ -272,99 +272,18 @@ struct AnswerView: View {
     
     var body: some View {
         VStack{
-            //q20
-            if qId == 20{
-                VStack{
-                    Text("Trả lời: Chon 1 trong nhung Senator duoi day:")
-                        .font(deviceManager.isTablet ? .title : .body)
-                        .padding(.bottom, 1)
-                    let senators = userSetting.legislators.filter {$0.type == "senator"}
-                    ForEach(senators) { sen in
-                        Text("\(sen.firstName) \(sen.lastName)")
-                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                            .fontWeight(.bold)
-                    }
-                    Button(action: {
-                        showingZipPrompt = true
-                    }){
-                        Text("Nhap ZIP Code de tim Senator cua ban")
-                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                    }
-                    .padding(.vertical)
-                }
+            if qId == 20 || qId == 23 || qId == 43 || qId == 44{
+                Text("Trả Lời:")
+                    .font(deviceManager.isTablet ? .title : .body)
+                    .padding(.bottom, 1)
+                ServiceQuestions(
+                    questionId: qId,
+                    showingZipPrompt: $showingZipPrompt,
+                    govAndCap: govAndCap
+                )
             }
             
-            //q23
-            else if qId == 23{
-                VStack{
-                    Text("Trả lời:")
-                        .font(deviceManager.isTablet ? .title : .body)
-                        .padding(.bottom, 1)
-                    let representatives = userSetting.legislators.filter {$0.type == "representative"}
-                    ForEach(representatives) { rep in
-                        Text("\(rep.firstName) \(rep.lastName)")
-                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                            .fontWeight(.bold)
-                    }
-                    Button(action: {
-                        showingZipPrompt = true
-                    }){
-                        Text("Nhap ZIP Code de tim Representative cua ban")
-                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                    }
-                    .padding(.vertical)
-                }
-            }
-            
-            //q43
-            else if qId == 43{
-                VStack{
-                    Text("Trả lời:")
-                        .font(deviceManager.isTablet ? .title : .body)
-                        .padding(.bottom, 1)
-                    let state = userSetting.state
-                    ForEach(govAndCap) { gnc in
-                        if gnc.state == state{
-                            Text("\(gnc.gov)")
-                                .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                .fontWeight(.bold)
-                        }
-                    }
-                    Button(action: {
-                        showingZipPrompt = true
-                    }){
-                        Text("Nhap ZIP Code de tim Governor cua ban")
-                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                    }
-                    .padding(.vertical)
-                }
-            }
-            
-            //q44
-            else if qId == 44{
-                VStack{
-                    Text("Trả lời:")
-                        .font(deviceManager.isTablet ? .title : .body)
-                        .padding(.bottom, 1)
-                    let state = userSetting.state
-                    ForEach(govAndCap) { gnc in
-                        if gnc.state == state{
-                            Text("\(gnc.capital)")
-                                .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                .fontWeight(.bold)
-                        }
-                    }
-                    Button(action: {
-                        showingZipPrompt = true
-                    }){
-                        Text("Nhap ZIP Code de tim Capital cua ban")
-                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                    }
-                    .padding(.vertical)
-                }
-            }
-            
-            //other questions except q20 and 23
+            //other questions except serviceQuestions
             else{
                 VStack{
                     Text("Trả Lời:")

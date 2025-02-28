@@ -18,25 +18,34 @@ struct CTFlashCard: View{
     @State private var backZIndex = 0.0
     @EnvironmentObject var deviceManager: DeviceManager
     @State private var synthesizer = AVSpeechSynthesizer()
+    @State private var isChangingCard = false
+    @EnvironmentObject var userSetting: UserSetting
+    @State private var showingZipPrompt = false
+    @State private var govAndCap: [CTGovAndCapital] = []
     
     var body: some View{
         ZStack{
             if !questions.isEmpty{
                 CardFront(zIndex:$frontZIndex, degree: $frontDegree, isFlipped: $isFlipped,
                           questions: questions, qIndex: $qIndex, synthesizer: synthesizer)
+                
                 CardBack(zIndex: $backZIndex, degree: $backDegree, isFlipped: $isFlipped,
-                         questions: questions, qIndex: $qIndex, synthesizer: synthesizer)
+                         questions: questions, qIndex: $qIndex, synthesizer: synthesizer, showingZipPrompt: $showingZipPrompt,
+                         govAndCap: govAndCap)
+                .opacity(isChangingCard ? 0 : 1)
             }
             else{
                 ProgressView()
             }
         }
         .onTapGesture {
+            isChangingCard = false
             isFlipped.toggle()
             updateCardDegrees()
             updateZIndices()
         }
         .onChange(of: qIndex){ oldValue, newValue in
+            isChangingCard = true
             isFlipped = false
             updateCardDegrees()
             frontZIndex = 1.0
@@ -45,6 +54,7 @@ struct CTFlashCard: View{
         }
         .onAppear(){
             questions = CTDataLoader().loadQuestions()
+            govAndCap = CTDataLoader().loadGovAndCapital()
         }
         .safeAreaInset(edge: .bottom) {
             NavButtonsFC(qIndex: $qIndex, questions: questions)
@@ -140,15 +150,20 @@ struct CardFront: View{
                 .padding()
             
             VStack{
-                    Text("Question \(questions[qIndex].id):")
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
-                    Text("\(questions[qIndex].question)")
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text(questions[qIndex].questionVie)
-                        .font(deviceManager.isTablet ? .title : .body)
+                Text("Question \(questions[qIndex].id):")
+                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                Text("\(questions[qIndex].question)")
+                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.vertical, 1)
+                    .padding(.horizontal)
+                Text(questions[qIndex].questionVie)
+                    .font(deviceManager.isTablet ? .title : .body)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal)
                 
                 
                 HStack{
@@ -185,6 +200,9 @@ struct CardBack: View{
     @Binding var qIndex: Int
     let synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
+    @Binding var showingZipPrompt: Bool
+    let govAndCap: [CTGovAndCapital]
+    @EnvironmentObject var userSetting: UserSetting
     
     var body: some View{
         ZStack{
@@ -194,10 +212,28 @@ struct CardBack: View{
                 .padding()
             
             VStack{
-                Text("Answer:")
-                //!!!chinh font
-                Text("\(questions[qIndex].answer)")
-                //!!!chinh font
+                if questions[qIndex].id == 20 || questions[qIndex].id == 23 || questions[qIndex].id == 43 || questions[qIndex].id == 44{
+                    ServiceQuestions(
+                        questionId: questions[qIndex].id,
+                        showingZipPrompt: $showingZipPrompt,
+                        govAndCap: govAndCap
+                    )
+                }
+                else{
+                    Text("\(questions[qIndex].answer)")
+                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.vertical, 1)
+                        .padding(.horizontal)
+                    Text("\(questions[qIndex].answerVie)")
+                        .font(deviceManager.isTablet ? .title : .body)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal)
+                }
+                
                 HStack{
                     Spacer()
                     Button(action: {
@@ -221,10 +257,16 @@ struct CardBack: View{
         .rotation3DEffect(Angle(degrees: degree), axis: (x:0, y:1, z:0))
         .animation(isFlipped ? .linear.delay(0.4) : .linear, value: isFlipped)
         .zIndex(zIndex)
+        .sheet(isPresented: $showingZipPrompt) {
+            CTZipInput()
+                .environmentObject(userSetting)
+                .environmentObject(deviceManager)
+        }
     }
 }
 
 #Preview{
     CTFlashCard()
         .environmentObject(DeviceManager())
+        .environmentObject(UserSetting())
 }
