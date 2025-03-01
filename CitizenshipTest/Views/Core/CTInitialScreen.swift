@@ -12,6 +12,8 @@ struct CTInitialScreen: View{
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var starredQuestions: StarredQuestions
+    @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var govCapManager: GovCapManager
     @State private var showNewScreen = false
     
     var body: some View{
@@ -41,6 +43,8 @@ struct CTInitialScreen: View{
                         .environmentObject(deviceManager)
                         .environmentObject(userSetting)
                         .environmentObject(starredQuestions)
+                        .environmentObject(questionList)
+                        .environmentObject(govCapManager)
                 }
             
         }
@@ -55,6 +59,8 @@ struct CTInitialScreen_provider: PreviewProvider{
             .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
             .environmentObject(StarredQuestions())
+            .environmentObject(QuestionList())
+            .environmentObject(GovCapManager())
     }
 }
 

@@ -11,6 +11,8 @@ struct CTHomeMenu : View{
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var starredQuestions: StarredQuestions
+    @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var govCapManager: GovCapManager
     
     var body: some View{
         NavigationStack{
@@ -53,6 +55,8 @@ struct CTHomeMenu_Provider: PreviewProvider{
             .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
             .environmentObject(StarredQuestions())
+            .environmentObject(QuestionList())
+            .environmentObject(GovCapManager())
     }
 }
 

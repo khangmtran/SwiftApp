@@ -52,9 +52,81 @@ class StarredQuestions: ObservableObject{
     @Published var starredQuestions: [CTQuestion] = []
 }
 
+
+
 class QuestionList: ObservableObject{
-    @Published var questionList: [CTQuestion] = CTDataLoader().loadQuestions()
+    @Published var questions: [CTQuestion] {
+        didSet {
+            if let encoded = try? JSONEncoder().encode(questions) {
+                UserDefaults.standard.set(encoded, forKey: "cachedQuestions")
+            }
+        }
+    }
+    
+    init() {
+        //increase currentDataVersion every change to the questionsJSON file
+        let currentDataVersion = 1 // Last update: 03/01/25
+        let savedDataVersion = UserDefaults.standard.integer(forKey: "dataVersion")
+        
+        if savedDataVersion < currentDataVersion {
+            self.questions = CTDataLoader().loadQuestions()
+            
+            if let encoded = try? JSONEncoder().encode(questions) {
+                UserDefaults.standard.set(encoded, forKey: "cachedQuestions")
+            }
+            
+            UserDefaults.standard.set(currentDataVersion, forKey: "dataVersion")
+        }
+        
+        //load from past data
+        else {
+            if let savedQuestionsData = UserDefaults.standard.data(forKey: "cachedQuestions"),
+               let decodedQuestions = try? JSONDecoder().decode([CTQuestion].self, from: savedQuestionsData) {
+                self.questions = decodedQuestions
+            } else {
+                self.questions = CTDataLoader().loadQuestions()
+            }
+        }
+        
+    }
+    
 }
+
+class GovCapManager: ObservableObject {
+    @Published var govAndCap: [CTGovAndCapital] {
+        didSet {
+            if let encoded = try? JSONEncoder().encode(govAndCap) {
+                UserDefaults.standard.set(encoded, forKey: "cachedgovAndCap")
+            }
+        }
+    }
+    
+    init() {
+        //increase currentDataVersion every change to the govAndCapJSON file
+        let currentDataVersion = 1 // Last update: 03/01/25
+        let savedDataVersion = UserDefaults.standard.integer(forKey: "govCapDataVersion")
+        
+        if savedDataVersion < currentDataVersion {
+            self.govAndCap = CTDataLoader().loadGovAndCapital()
+            
+            if let encoded = try? JSONEncoder().encode(govAndCap) {
+                UserDefaults.standard.set(encoded, forKey: "cachedgovAndCap")
+            }
+            UserDefaults.standard.set(currentDataVersion, forKey: "govCapDataVersion")
+        }
+        //load from past data
+        else {
+            if let savedGovCapData = UserDefaults.standard.data(forKey: "cachedgovAndCap"),
+               let decodedGovCap = try? JSONDecoder().decode([CTGovAndCapital].self, from: savedGovCapData) {
+                self.govAndCap = decodedGovCap
+            } else {
+                self.govAndCap = CTDataLoader().loadGovAndCapital()
+            }
+        }
+    }
+    
+}
+
 @main
 struct CitizenshipTestApp: App{
     @StateObject private var selectedPart = SelectedPart()
@@ -62,6 +134,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var userSetting = UserSetting()
     @StateObject private var starredQuestions = StarredQuestions()
     @StateObject private var questionList = QuestionList()
+    @StateObject private var govCapManager = GovCapManager()
     var body: some Scene {
         WindowGroup {
             CTInitialScreen()
@@ -69,6 +142,8 @@ struct CitizenshipTestApp: App{
                 .environmentObject(deviceManager)
                 .environmentObject(userSetting)
                 .environmentObject(starredQuestions)
+                .environmentObject(questionList)
+                .environmentObject(govCapManager)
         }
     }
 }

@@ -20,11 +20,13 @@ struct CTFlashCard: View{
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var isChangingCard = false
     @State private var showingZipPrompt = false
-    @State private var govAndCap: [CTGovAndCapital] = []
     @State private var showQuestionType: Bool = false
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var deviceManager: DeviceManager
-        
+    @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var starredQuestions: StarredQuestions
+    
     var body: some View{
         VStack{
             HStack{
@@ -44,8 +46,8 @@ struct CTFlashCard: View{
                               questions: $questions, qIndex: $qIndex, synthesizer: synthesizer)
                     
                     CardBack(zIndex: $backZIndex, degree: $backDegree, isFlipped: $isFlipped,
-                             questions: $questions, qIndex: $qIndex, synthesizer: synthesizer, showingZipPrompt: $showingZipPrompt,
-                             govAndCap: govAndCap)
+                             questions: $questions, qIndex: $qIndex, synthesizer: synthesizer,
+                             showingZipPrompt: $showingZipPrompt)
                     .opacity(isChangingCard ? 0 : 1)
                 }
                 else{
@@ -55,6 +57,7 @@ struct CTFlashCard: View{
         }
         .sheet(isPresented: $showQuestionType) {
             QuestionTypeView(initialQuestionList: initialQuestionList, questions: $questions, qIndex: $qIndex)
+                .environmentObject(starredQuestions)
                 .presentationDetents([.fraction(0.3)])
                 .presentationDragIndicator(.visible)
         }
@@ -73,8 +76,7 @@ struct CTFlashCard: View{
             synthesizer.stopSpeaking(at: .immediate)
         }
         .onAppear(){
-            questions = CTDataLoader().loadQuestions()
-            govAndCap = CTDataLoader().loadGovAndCapital()
+            questions = questionList.questions
             initialQuestionList = questions
         }
         .safeAreaInset(edge: .bottom) {
@@ -161,6 +163,7 @@ struct CardFront: View{
     @Binding var qIndex: Int
     let synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var starredQuestions: StarredQuestions
     
     var body: some View{
         ZStack{
@@ -187,16 +190,7 @@ struct CardFront: View{
                 
                 HStack{
                     Spacer()
-                    
-                    //star
-                    Button(action:{
-                        if questions[qIndex].star ?? false{
-                            questions[qIndex]
-                        }
-                    }){
-                        
-                    }
-                    
+            
                     //voice
                     Button(action: {
                         synthesizer.stopSpeaking(at: .immediate)
@@ -232,8 +226,8 @@ struct CardBack: View{
     @Binding var qIndex: Int
     let synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var govCapManager: GovCapManager
     @Binding var showingZipPrompt: Bool
-    let govAndCap: [CTGovAndCapital]
     @EnvironmentObject var userSetting: UserSetting
     
     var body: some View{
@@ -248,7 +242,7 @@ struct CardBack: View{
                         ServiceQuestions(
                             questionId: questions[qIndex].id,
                             showingZipPrompt: $showingZipPrompt,
-                            govAndCap: govAndCap
+                            govAndCap: govCapManager.govAndCap
                         )
                     }
                     else{
@@ -301,6 +295,7 @@ struct CardBack: View{
 
 struct QuestionTypeView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var starredQuestions: StarredQuestions
     let initialQuestionList: [CTQuestion]
     @Binding var questions: [CTQuestion]
     @Binding var qIndex: Int
@@ -327,7 +322,7 @@ struct QuestionTypeView: View {
             
             Button(action: {
                 // Handle random order
-                questions = questions.shuffled()
+                questions = initialQuestionList.shuffled()
                 qIndex = 0
                 dismiss()
             }) {
@@ -340,7 +335,12 @@ struct QuestionTypeView: View {
             .padding(.horizontal)
             
             Button(action: {
-                // Handle starred questions
+//                // Handle starred questions
+//                let starredQuestionsList = starredQuestions.getStarredQuestionsList(allQuestions: initialQuestionList)
+//                if !starredQuestionsList.isEmpty {
+//                    questions = starredQuestionsList
+//                    qIndex = 0
+//                }
                 dismiss()
             }) {
                 HStack {
@@ -361,4 +361,7 @@ struct QuestionTypeView: View {
     CTFlashCard()
         .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
+        .environmentObject(QuestionList())
+        .environmentObject(GovCapManager())
+        .environmentObject(StarredQuestions())
 }

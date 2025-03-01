@@ -10,13 +10,14 @@ import AVFoundation
 
 struct CTLearnQuestions: View {
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var deviceManager : DeviceManager
-    @EnvironmentObject var selectedPart : SelectedPart
+    @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var selectedPart: SelectedPart
+    @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var starredQuestions: StarredQuestions
     @State private var synthesizer = AVSpeechSynthesizer()
-    @State private var questions: [CTQuestion] = []
     @State private var qIndex = -1
     @State private var questionCount = 0
-    @State private var govAndCap: [CTGovAndCapital] = []
     private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8", "Phần 9"]
     
     let partToType = [
@@ -32,7 +33,7 @@ struct CTLearnQuestions: View {
     ]
     
     var filteredQuestion: [CTQuestion]{
-        questions.filter{$0.type == partToType[selectedPart.partChosen]}
+        questionList.questions.filter{$0.type == partToType[selectedPart.partChosen]}
     }
     
     var body: some View{
@@ -41,9 +42,6 @@ struct CTLearnQuestions: View {
             VStack{//outer Vs
                 CTGuide(qIndex: $qIndex)
             }//end outerV
-            .onAppear(){
-                questions = CTDataLoader().loadQuestions()
-            }
             .safeAreaInset(edge: .bottom) {
                 NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)
                     .padding()
@@ -84,17 +82,12 @@ struct CTLearnQuestions: View {
                                    ans: filteredQuestion[qIndex].answer,
                                    vieAns: filteredQuestion[qIndex].answerVie,
                                    learn: filteredQuestion[qIndex].learn,
-                                   synthesizer: synthesizer,
-                                   govAndCap: govAndCap)
+                                   synthesizer: synthesizer)
                         
                     }//.2
                 }
             }
             
-            .onAppear(){
-                questions = CTDataLoader().loadQuestions()
-                govAndCap = CTDataLoader().loadGovAndCapital()
-            }
             .safeAreaInset(edge: .bottom) {
                 NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)
                     .padding()
@@ -142,6 +135,9 @@ struct CTLearnQuestions: View {
             .environmentObject(SelectedPart())
             .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
+            .environmentObject(QuestionList())
+            .environmentObject(GovCapManager())
+            .environmentObject(StarredQuestions())
     }
 }
 
@@ -212,6 +208,7 @@ struct QuestionView: View {
     var learn: String
     var synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var starredQuestions: StarredQuestions
     
     var body: some View {
         VStack{
@@ -235,6 +232,7 @@ struct QuestionView: View {
             
             HStack{
                 Spacer()
+                                
                 Button(action: {
                     synthesizer.stopSpeaking(at: .immediate)
                     let utterance = AVSpeechUtterance(string: question)
@@ -265,9 +263,9 @@ struct AnswerView: View {
     var vieAns: String
     var learn: String
     var synthesizer: AVSpeechSynthesizer
-    var govAndCap: [CTGovAndCapital]
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var govCapManager: GovCapManager
     @State var showingZipPrompt = false
     
     var body: some View {
@@ -279,7 +277,7 @@ struct AnswerView: View {
                 ServiceQuestions(
                     questionId: qId,
                     showingZipPrompt: $showingZipPrompt,
-                    govAndCap: govAndCap
+                    govAndCap: govCapManager.govAndCap
                 )
             }
             

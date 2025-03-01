@@ -9,21 +9,22 @@ import SwiftUI
 import AVFoundation
 
 struct CTAllQuestions: View {
-    @State private var questions: [CTQuestion] = []
-    @State private var govAndCap: [CTGovAndCapital] = []
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var showingZipPrompt = false
     @State private var page = 0
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var starredQuestions: StarredQuestions
+    @EnvironmentObject var govCapManager: GovCapManager
     
     private var paginatedQuestions: [CTQuestion]{
         let startIndex = page * 10
-        let endIndex = startIndex + 9
-        if startIndex >= questions.count{
+        let endIndex = min(startIndex + 9, questionList.questions.count - 1)
+        if startIndex >= questionList.questions.count{
             return []
         }
-        return Array(questions[startIndex...endIndex])
+        return Array(questionList.questions[startIndex...endIndex])
     }
     
     var body: some View {
@@ -39,6 +40,7 @@ struct CTAllQuestions: View {
                                     .font(deviceManager.isTablet ? .largeTitle : .title3)
                                     .fontWeight(.bold)
                                 Spacer()
+                                                                
                                 Button(action: {
                                     synthesizer.stopSpeaking(at: .immediate)
                                     let utterance = AVSpeechUtterance(string: question.question)
@@ -110,7 +112,7 @@ struct CTAllQuestions: View {
                                             .font(deviceManager.isTablet ? .largeTitle : .title3)
                                             .fontWeight(.bold)
                                         let state = userSetting.state
-                                        ForEach(govAndCap) { gnc in
+                                        ForEach(govCapManager.govAndCap) { gnc in
                                             if gnc.state == state{
                                                 Text("\(gnc.gov)")
                                                     .font(deviceManager.isTablet ? .largeTitle : .title3)
@@ -132,7 +134,7 @@ struct CTAllQuestions: View {
                                             .font(deviceManager.isTablet ? .largeTitle : .title3)
                                             .fontWeight(.bold)
                                         let state = userSetting.state
-                                        ForEach(govAndCap) { gnc in
+                                        ForEach(govCapManager.govAndCap) { gnc in
                                             if gnc.state == state{
                                                 Text("\(gnc.capital)")
                                                     .font(deviceManager.isTablet ? .largeTitle : .title3)
@@ -181,10 +183,6 @@ struct CTAllQuestions: View {
                     .environmentObject(userSetting)
                     .environmentObject(deviceManager)
             }
-            .onAppear {
-                questions = CTDataLoader().loadQuestions()
-                govAndCap = CTDataLoader().loadGovAndCapital()
-            }
             .safeAreaInset(edge: .bottom) {
                 NavButtonAllQ(page: $page)
                     .padding()
@@ -205,6 +203,9 @@ struct CTAllQuestions: View {
     CTAllQuestions()
         .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
+        .environmentObject(QuestionList())
+        .environmentObject(StarredQuestions())
+        .environmentObject(GovCapManager())
 }
 
 struct NavButtonAllQ: View {
