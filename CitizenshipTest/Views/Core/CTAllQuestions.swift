@@ -13,9 +13,9 @@ struct CTAllQuestions: View {
     @State private var govAndCap: [CTGovAndCapital] = []
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var showingZipPrompt = false
+    @State private var page = 0
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
-    @State private var page = 0
     
     private var paginatedQuestions: [CTQuestion]{
         let startIndex = page * 10
@@ -29,9 +29,8 @@ struct CTAllQuestions: View {
     var body: some View {
         ScrollViewReader{ scrollProxy in
             List(paginatedQuestions){question in
-                EmptyView()
-                    .id("topId")
                 Section(header: Text("Câu hỏi \(question.id)")
+                    .id(question.id)
                     .font(deviceManager.isTablet ? .title3 : .footnote)){
                         //question stack
                         VStack(alignment: .leading){
@@ -194,7 +193,8 @@ struct CTAllQuestions: View {
             .navigationTitle("100 Câu Hỏi")
             .onChange(of: page) { oldValue, newValue in
                 withAnimation{
-                    scrollProxy.scrollTo("topId", anchor: .top)
+                    let firstQId = paginatedQuestions.first?.id
+                    scrollProxy.scrollTo(firstQId, anchor: .center)
                 }
             }
         }

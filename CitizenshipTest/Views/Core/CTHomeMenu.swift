@@ -10,6 +10,7 @@ struct CTHomeMenu : View{
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var starredQuestions: StarredQuestions
     
     var body: some View{
         NavigationStack{
@@ -25,7 +26,7 @@ struct CTHomeMenu : View{
                         CTCustomMenuItem(title: "Thi Thử", subtitle: "Bài thi trắc nghiệm 10 câu hỏi ngẫu nhiên", assetImage: "pen_paper")
                     }
                     
-                    NavigationLink(destination: CTAllQuestions()){
+                    NavigationLink(destination: CTFlashCard()){
                         CTCustomMenuItem(title: "Thẻ Học", subtitle: "Học cùng thẻ bài để rèn luyện trí nhớ", assetImage: "flash_card")
                     }
                     
@@ -51,6 +52,7 @@ struct CTHomeMenu_Provider: PreviewProvider{
             .environmentObject(SelectedPart())
             .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
+            .environmentObject(StarredQuestions())
     }
 }
 

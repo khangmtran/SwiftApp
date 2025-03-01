@@ -48,17 +48,27 @@ class DeviceManager: ObservableObject{
     @Published var isTablet: Bool = UIDevice.current.userInterfaceIdiom == .pad
 }
 
+class StarredQuestions: ObservableObject{
+    @Published var starredQuestions: [CTQuestion] = []
+}
+
+class QuestionList: ObservableObject{
+    @Published var questionList: [CTQuestion] = CTDataLoader().loadQuestions()
+}
 @main
 struct CitizenshipTestApp: App{
     @StateObject private var selectedPart = SelectedPart()
     @StateObject private var deviceManager = DeviceManager()
     @StateObject private var userSetting = UserSetting()
+    @StateObject private var starredQuestions = StarredQuestions()
+    @StateObject private var questionList = QuestionList()
     var body: some Scene {
         WindowGroup {
             CTInitialScreen()
                 .environmentObject(selectedPart)
                 .environmentObject(deviceManager)
                 .environmentObject(userSetting)
+                .environmentObject(starredQuestions)
         }
     }
 }

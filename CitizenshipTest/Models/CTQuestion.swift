@@ -15,4 +15,5 @@ struct CTQuestion: Codable, Identifiable{
     let answerVie: String
     let type: String
     let learn: String
+    var star: Bool? = false
 }

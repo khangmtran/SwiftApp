@@ -11,6 +11,7 @@ struct CTInitialScreen: View{
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var starredQuestions: StarredQuestions
     @State private var showNewScreen = false
     
     var body: some View{
@@ -39,6 +40,7 @@ struct CTInitialScreen: View{
                         .environmentObject(selectedPart)
                         .environmentObject(deviceManager)
                         .environmentObject(userSetting)
+                        .environmentObject(starredQuestions)
                 }
             
         }
@@ -52,6 +54,7 @@ struct CTInitialScreen_provider: PreviewProvider{
             .environmentObject(SelectedPart())
             .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
+            .environmentObject(StarredQuestions())
     }
 }
 

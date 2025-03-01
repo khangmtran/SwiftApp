@@ -11,8 +11,8 @@ import AVFoundation
 struct CTLearnQuestions: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var deviceManager : DeviceManager
-    @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var selectedPart : SelectedPart
+    @State private var synthesizer = AVSpeechSynthesizer()
     @State private var questions: [CTQuestion] = []
     @State private var qIndex = -1
     @State private var questionCount = 0
