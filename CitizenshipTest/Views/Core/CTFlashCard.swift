@@ -10,7 +10,6 @@ import AVFoundation
 
 struct CTFlashCard: View{
     @State private var questions: [CTQuestion] = []
-    @State private var initialQuestionList: [CTQuestion] = []
     @State private var qIndex: Int = 0
     @State private var isFlipped = false
     @State private var frontDegree = 0.0
@@ -26,7 +25,7 @@ struct CTFlashCard: View{
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var starredQuestions: StarredQuestions
-    
+        
     var body: some View{
         VStack{
             HStack{
@@ -56,7 +55,7 @@ struct CTFlashCard: View{
             }
         }
         .sheet(isPresented: $showQuestionType) {
-            QuestionTypeView(initialQuestionList: initialQuestionList, questions: $questions, qIndex: $qIndex)
+            QuestionTypeView(questions: $questions, qIndex: $qIndex)
                 .environmentObject(starredQuestions)
                 .presentationDetents([.fraction(0.3)])
                 .presentationDragIndicator(.visible)
@@ -77,7 +76,6 @@ struct CTFlashCard: View{
         }
         .onAppear(){
             questions = questionList.questions
-            initialQuestionList = questions
         }
         .safeAreaInset(edge: .bottom) {
             NavButtonsFC(qIndex: $qIndex, questions: questions)
@@ -191,6 +189,13 @@ struct CardFront: View{
                 HStack{
                     Spacer()
             
+                    //star
+                    Button(action:{
+                        
+                    }){
+                        Image(systemName: "star")
+                    }
+                    
                     //voice
                     Button(action: {
                         synthesizer.stopSpeaking(at: .immediate)
@@ -296,7 +301,7 @@ struct CardBack: View{
 struct QuestionTypeView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var starredQuestions: StarredQuestions
-    let initialQuestionList: [CTQuestion]
+    @EnvironmentObject var questionList: QuestionList
     @Binding var questions: [CTQuestion]
     @Binding var qIndex: Int
     
@@ -308,7 +313,7 @@ struct QuestionTypeView: View {
             
             Button(action: {
                 // Handle sequential order
-                questions = initialQuestionList
+                questions = questionList.questions
                 qIndex = 0
                 dismiss()
             }) {
@@ -322,7 +327,7 @@ struct QuestionTypeView: View {
             
             Button(action: {
                 // Handle random order
-                questions = initialQuestionList.shuffled()
+                questions = questionList.questions.shuffled()
                 qIndex = 0
                 dismiss()
             }) {
