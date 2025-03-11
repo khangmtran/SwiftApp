@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import SwiftData
 
 struct CTAllQuestions: View {
     @State private var synthesizer = AVSpeechSynthesizer()
@@ -16,6 +17,8 @@ struct CTAllQuestions: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
+    @Environment(\.modelContext) private var context
+    @Query private var markedQuestions: [MarkedQuestion]
     
     private var paginatedQuestions: [CTQuestion]{
         let startIndex = page * 10
@@ -34,12 +37,14 @@ struct CTAllQuestions: View {
                     .font(deviceManager.isTablet ? .title3 : .footnote)){
                         //question stack
                         VStack(alignment: .leading){
+                            //Eng questions and voice
                             HStack{
                                 Text(question.question)
                                     .font(deviceManager.isTablet ? .largeTitle : .title3)
                                     .fontWeight(.bold)
                                 Spacer()
-                                                                
+                                
+                                //voice
                                 Button(action: {
                                     synthesizer.stopSpeaking(at: .immediate)
                                     let utterance = AVSpeechUtterance(string: question.question)
@@ -52,10 +57,33 @@ struct CTAllQuestions: View {
                                         .scaledToFit()
                                         .frame(height: deviceManager.isTablet ? 40 : 20)
                                 }
+                                
                             }
                             
-                            Text(question.questionVie)
-                                .font(deviceManager.isTablet ? .title : .body)
+                            //Vie questions and bookmark
+                            HStack{
+                                Text(question.questionVie)
+                                    .font(deviceManager.isTablet ? .title : .body)
+                                Spacer()
+                                
+                                //bookmark
+                                Button(action: {
+                                    if let existingMark = markedQuestions.first(where: {$0.id == question.id}){
+                                        context.delete(existingMark)
+                                    }
+                                    else{
+                                        let newMark = MarkedQuestion(id: question.id)
+                                        context.insert(newMark)
+                                    }
+                                }){
+                                    Image(systemName: markedQuestions.contains {$0.id == question.id} ? "bookmark.fill" : "bookmark")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .foregroundColor(.yellow)
+                                        .frame(height: deviceManager.isTablet ? 40 : 20)
+                                }
+                                
+                            }
                         }
                         
                         //answer stack

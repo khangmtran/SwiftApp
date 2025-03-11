@@ -21,6 +21,7 @@ struct CTFlashCard: View{
     @State private var isChangingCard = false
     @State private var showingZipPrompt = false
     @State private var showQuestionType: Bool = false
+    @State private var noMarkedQuestionsAlert: Bool = false
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
@@ -55,16 +56,26 @@ struct CTFlashCard: View{
             }
         }
         .sheet(isPresented: $showQuestionType) {
-            QuestionTypeView(questions: $questions, qIndex: $qIndex)
+            QuestionTypeView(questions: $questions, qIndex: $qIndex, noMarkedQuestionsAlert: $noMarkedQuestionsAlert)
                 .presentationDetents([.fraction(0.3)])
                 .presentationDragIndicator(.visible)
         }
+        //no marked questions
+        .alert("", isPresented: $noMarkedQuestionsAlert){
+            Button("OK", role: .cancel){}
+        } message: {
+            Text("Hien tai ban chua co cau hoi danh dau nao")
+        }
+        
+        //tapping on card
         .onTapGesture {
             isChangingCard = false
             isFlipped.toggle()
             updateCardDegrees()
             updateZIndices()
         }
+        
+        //card flipped
         .onChange(of: qIndex){ oldValue, newValue in
             isChangingCard = true
             isFlipped = false
@@ -335,6 +346,9 @@ struct QuestionTypeView: View {
     @EnvironmentObject var questionList: QuestionList
     @Binding var questions: [CTQuestion]
     @Binding var qIndex: Int
+    @Binding var noMarkedQuestionsAlert: Bool
+    @State private var shouldShowAlertOnDismiss = false
+    @Query private var markedQuestions: [MarkedQuestion]
     
     var body: some View {
         VStack(spacing: 20) {
@@ -342,8 +356,8 @@ struct QuestionTypeView: View {
             //.font(.headline)
                 .padding(.top)
             
+            // Handle sequential order
             Button(action: {
-                // Handle sequential order
                 questions = questionList.questions
                 qIndex = 0
                 dismiss()
@@ -356,8 +370,8 @@ struct QuestionTypeView: View {
             }
             .padding(.horizontal)
             
+            // Handle random order
             Button(action: {
-                // Handle random order
                 questions = questionList.questions.shuffled()
                 qIndex = 0
                 dismiss()
@@ -370,17 +384,23 @@ struct QuestionTypeView: View {
             }
             .padding(.horizontal)
             
+            // Handle marked questions
             Button(action: {
-                //                // Handle marked questions
-                //                let markedQuestionsList = markedQuestions.getMarkedQuestionsList(allQuestions: initialQuestionList)
-                //                if !markedQuestionsList.isEmpty {
-                //                    questions = markedQuestionsList
-                //                    qIndex = 0
-                //                }
+                let filteredQuestions = questionList.questions.filter { question in
+                    markedQuestions.contains{$0.id == question.id}
+                }
+                
+                if !filteredQuestions.isEmpty {
+                    questions = filteredQuestions
+                    qIndex = 0
+                } else {
+                    shouldShowAlertOnDismiss = true
+                }
                 dismiss()
-            }) {
+            })
+            {
                 HStack {
-                    Image(systemName: "mark.fill")
+                    Image(systemName: "bookmark")
                     Text("Marked Questions")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -390,6 +410,12 @@ struct QuestionTypeView: View {
             Spacer()
         }
         .padding()
+        .onDisappear {
+            if shouldShowAlertOnDismiss {
+                noMarkedQuestionsAlert = true
+                shouldShowAlertOnDismiss = false
+            }
+        }
     }
 }
 
