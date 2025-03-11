@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import SwiftData
 
 struct CTFlashCard: View{
     @State private var questions: [CTQuestion] = []
@@ -24,8 +25,7 @@ struct CTFlashCard: View{
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
-    @EnvironmentObject var starredQuestions: StarredQuestions
-        
+    
     var body: some View{
         VStack{
             HStack{
@@ -56,7 +56,6 @@ struct CTFlashCard: View{
         }
         .sheet(isPresented: $showQuestionType) {
             QuestionTypeView(questions: $questions, qIndex: $qIndex)
-                .environmentObject(starredQuestions)
                 .presentationDetents([.fraction(0.3)])
                 .presentationDragIndicator(.visible)
         }
@@ -161,7 +160,8 @@ struct CardFront: View{
     @Binding var qIndex: Int
     let synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
-    @EnvironmentObject var starredQuestions: StarredQuestions
+    @Environment(\.modelContext) private var context
+    @Query private var markedQuestions: [MarkedQuestion]
     
     var body: some View{
         ZStack{
@@ -188,13 +188,24 @@ struct CardFront: View{
                 
                 HStack{
                     Spacer()
-            
-                    //star
-                    Button(action:{
-                        
+                    
+                    //mark
+                    Button(action: {
+                        if let existingMark = markedQuestions.first(where: {$0.id == questions[qIndex].id}){
+                            context.delete(existingMark)
+                        }
+                        else{
+                            let newMark = MarkedQuestion(id: questions[qIndex].id)
+                            context.insert(newMark)
+                        }
                     }){
-                        Image(systemName: "star")
+                        Image(systemName: markedQuestions.contains {$0.id == questions[qIndex].id} ? "bookmark.fill" : "bookmark")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.yellow)
+                            .frame(height: deviceManager.isTablet ? 40 : 20)
                     }
+                    
                     
                     //voice
                     Button(action: {
@@ -234,6 +245,8 @@ struct CardBack: View{
     @EnvironmentObject var govCapManager: GovCapManager
     @Binding var showingZipPrompt: Bool
     @EnvironmentObject var userSetting: UserSetting
+    @Environment(\.modelContext) private var context
+    @Query private var markedQuestions: [MarkedQuestion]
     
     var body: some View{
         VStack{
@@ -267,6 +280,25 @@ struct CardBack: View{
                     
                     HStack{
                         Spacer()
+                        
+                        //mark
+                        Button(action: {
+                            if let existingMark = markedQuestions.first(where: {$0.id == questions[qIndex].id}){
+                                context.delete(existingMark)
+                            }
+                            else{
+                                let newMark = MarkedQuestion(id: questions[qIndex].id)
+                                context.insert(newMark)
+                            }
+                        }){
+                            Image(systemName: markedQuestions.contains {$0.id == questions[qIndex].id} ? "bookmark.fill" : "bookmark")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.yellow)
+                                .frame(height: deviceManager.isTablet ? 40 : 20)
+                        }
+                        
+                        //voice
                         Button(action: {
                             synthesizer.stopSpeaking(at: .immediate)
                             let utterance = AVSpeechUtterance(string: questions[qIndex].answer)
@@ -300,7 +332,6 @@ struct CardBack: View{
 
 struct QuestionTypeView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var starredQuestions: StarredQuestions
     @EnvironmentObject var questionList: QuestionList
     @Binding var questions: [CTQuestion]
     @Binding var qIndex: Int
@@ -308,7 +339,7 @@ struct QuestionTypeView: View {
     var body: some View {
         VStack(spacing: 20) {
             Text("Select Question Order")
-                //.font(.headline)
+            //.font(.headline)
                 .padding(.top)
             
             Button(action: {
@@ -340,17 +371,17 @@ struct QuestionTypeView: View {
             .padding(.horizontal)
             
             Button(action: {
-//                // Handle starred questions
-//                let starredQuestionsList = starredQuestions.getStarredQuestionsList(allQuestions: initialQuestionList)
-//                if !starredQuestionsList.isEmpty {
-//                    questions = starredQuestionsList
-//                    qIndex = 0
-//                }
+                //                // Handle marked questions
+                //                let markedQuestionsList = markedQuestions.getMarkedQuestionsList(allQuestions: initialQuestionList)
+                //                if !markedQuestionsList.isEmpty {
+                //                    questions = markedQuestionsList
+                //                    qIndex = 0
+                //                }
                 dismiss()
             }) {
                 HStack {
-                    Image(systemName: "star.fill")
-                    Text("Starred Questions")
+                    Image(systemName: "mark.fill")
+                    Text("Marked Questions")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -368,5 +399,4 @@ struct QuestionTypeView: View {
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())
         .environmentObject(GovCapManager())
-        .environmentObject(StarredQuestions())
 }

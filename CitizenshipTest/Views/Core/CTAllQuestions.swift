@@ -15,7 +15,6 @@ struct CTAllQuestions: View {
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
-    @EnvironmentObject var starredQuestions: StarredQuestions
     @EnvironmentObject var govCapManager: GovCapManager
     
     private var paginatedQuestions: [CTQuestion]{
@@ -204,7 +203,6 @@ struct CTAllQuestions: View {
         .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())
-        .environmentObject(StarredQuestions())
         .environmentObject(GovCapManager())
 }
 

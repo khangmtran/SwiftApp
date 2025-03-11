@@ -10,7 +10,6 @@ struct CTHomeMenu : View{
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var starredQuestions: StarredQuestions
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     
@@ -54,7 +53,6 @@ struct CTHomeMenu_Provider: PreviewProvider{
             .environmentObject(SelectedPart())
             .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
-            .environmentObject(StarredQuestions())
             .environmentObject(QuestionList())
             .environmentObject(GovCapManager())
     }

@@ -14,7 +14,6 @@ struct CTLearnQuestions: View {
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
-    @EnvironmentObject var starredQuestions: StarredQuestions
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var qIndex = -1
     @State private var questionCount = 0
@@ -137,7 +136,6 @@ struct CTLearnQuestions: View {
             .environmentObject(UserSetting())
             .environmentObject(QuestionList())
             .environmentObject(GovCapManager())
-            .environmentObject(StarredQuestions())
     }
 }
 
@@ -208,7 +206,6 @@ struct QuestionView: View {
     var learn: String
     var synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
-    @EnvironmentObject var starredQuestions: StarredQuestions
     
     var body: some View {
         VStack{
