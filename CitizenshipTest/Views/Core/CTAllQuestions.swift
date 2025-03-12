@@ -36,15 +36,22 @@ struct CTAllQuestions: View {
                     .id(question.id)
                     .font(deviceManager.isTablet ? .title3 : .footnote)){
                         //question stack
-                        VStack(alignment: .leading){
-                            //Eng questions and voice
-                            HStack{
+                        HStack{
+                            //VStack contains ENG and VIE questions
+                            VStack(alignment: .leading) {
                                 Text(question.question)
                                     .font(deviceManager.isTablet ? .largeTitle : .title3)
                                     .fontWeight(.bold)
-                                Spacer()
                                 
-                                //voice
+                                Text(question.questionVie)
+                                    .font(deviceManager.isTablet ? .title : .body)
+                            }
+                            
+                            Spacer()
+                            
+                            //VStack contains voice and bookmark buttons
+                            VStack() {
+                                // Voice button
                                 Button(action: {
                                     synthesizer.stopSpeaking(at: .immediate)
                                     let utterance = AVSpeechUtterance(string: question.question)
@@ -55,18 +62,11 @@ struct CTAllQuestions: View {
                                     Image(systemName: "speaker.wave.3")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: deviceManager.isTablet ? 40 : 20)
+                                        .frame(height: deviceManager.isTablet ? 50 : 25)
                                 }
+                                .padding(.bottom)
                                 
-                            }
-                            
-                            //Vie questions and bookmark
-                            HStack{
-                                Text(question.questionVie)
-                                    .font(deviceManager.isTablet ? .title : .body)
-                                Spacer()
-                                
-                                //bookmark
+                                // Bookmark button
                                 Button(action: {
                                     if let existingMark = markedQuestions.first(where: {$0.id == question.id}){
                                         context.delete(existingMark)
@@ -79,15 +79,14 @@ struct CTAllQuestions: View {
                                     Image(systemName: markedQuestions.contains {$0.id == question.id} ? "bookmark.fill" : "bookmark")
                                         .resizable()
                                         .scaledToFit()
-                                        .foregroundColor(.yellow)
-                                        .frame(height: deviceManager.isTablet ? 40 : 20)
+                                        .frame(height: deviceManager.isTablet ? 50 : 25)
                                 }
-                                
                             }
                         }
+                        .padding(.vertical)
                         
                         //answer stack
-                        VStack(alignment: .leading){
+                        HStack{
                             if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44{
                                 
                                 //q20
@@ -101,6 +100,7 @@ struct CTAllQuestions: View {
                                             Text("\(sen.firstName) \(sen.lastName)")
                                                 .font(deviceManager.isTablet ? .largeTitle : .title3)
                                                 .fontWeight(.bold)
+                                                .frame(maxWidth: .infinity, alignment: .center)
                                         }
                                         Button(action: {
                                             showingZipPrompt = true
@@ -180,11 +180,20 @@ struct CTAllQuestions: View {
                             
                             // all questions except q20 and 23
                             else{
-                                HStack{
+                                //Eng and Vie answer
+                                VStack(alignment: .leading){
                                     Text("Trả lời: \(question.answer)")
                                         .font(deviceManager.isTablet ? .largeTitle : .title3)
                                         .fontWeight(.bold)
-                                    Spacer()
+                                    
+                                    Text(question.answerVie)
+                                        .font(deviceManager.isTablet ? .title : .body)
+                                }
+                                
+                                Spacer()
+                                
+                                //voice button
+                                VStack(alignment: .leading){
                                     Button(action: {
                                         synthesizer.stopSpeaking(at: .immediate)
                                         let utterance = AVSpeechUtterance(string: question.answer)
@@ -195,13 +204,13 @@ struct CTAllQuestions: View {
                                         Image(systemName: "speaker.wave.3")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: deviceManager.isTablet ? 40 : 20)
+                                            .frame(height: deviceManager.isTablet ? 50 : 25)
                                     }
                                 }
-                                Text(question.answerVie)
-                                    .font(deviceManager.isTablet ? .title : .body)
+                                
                             }
                         }
+                        .padding(.vertical)
                     }
             }
             

@@ -213,10 +213,9 @@ struct CardFront: View{
                         Image(systemName: markedQuestions.contains {$0.id == questions[qIndex].id} ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .foregroundColor(.yellow)
-                            .frame(height: deviceManager.isTablet ? 40 : 20)
+                            .frame(height: deviceManager.isTablet ? 50 : 25)
                     }
-                    
+                    .padding(.trailing)
                     
                     //voice
                     Button(action: {
@@ -229,7 +228,7 @@ struct CardFront: View{
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 40 : 20)
+                            .frame(height: deviceManager.isTablet ? 50 : 25)
                     }
                 }
                 .padding()
@@ -305,10 +304,10 @@ struct CardBack: View{
                             Image(systemName: markedQuestions.contains {$0.id == questions[qIndex].id} ? "bookmark.fill" : "bookmark")
                                 .resizable()
                                 .scaledToFit()
-                                .foregroundColor(.yellow)
-                                .frame(height: deviceManager.isTablet ? 40 : 20)
+                                .frame(height: deviceManager.isTablet ? 50 : 25)
                         }
-                        
+                        .padding(.trailing)
+                                                
                         //voice
                         Button(action: {
                             synthesizer.stopSpeaking(at: .immediate)
@@ -320,7 +319,7 @@ struct CardBack: View{
                             Image(systemName: "speaker.wave.3")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 40 : 20)
+                                .frame(height: deviceManager.isTablet ? 50 : 25)
                         }
                     }
                     .padding()

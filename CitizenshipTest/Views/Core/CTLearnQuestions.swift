@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import SwiftData
 
 struct CTLearnQuestions: View {
     @EnvironmentObject var userSetting: UserSetting
@@ -206,6 +207,8 @@ struct QuestionView: View {
     var learn: String
     var synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
+    @Environment(\.modelContext) private var context
+    @Query private var markedQuestions: [MarkedQuestion]
     
     var body: some View {
         VStack{
@@ -229,7 +232,23 @@ struct QuestionView: View {
             
             HStack{
                 Spacer()
-                                
+                
+                Button(action: {
+                    if let existingMark = markedQuestions.first(where: {$0.id == qId}){
+                        context.delete(existingMark)
+                    }
+                    else{
+                        let newMark = MarkedQuestion(id: qId)
+                        context.insert(newMark)
+                    }
+                }){
+                    Image(systemName: markedQuestions.contains {$0.id == qId} ? "bookmark.fill" : "bookmark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: deviceManager.isTablet ? 50 : 25)
+                }
+                .padding(.trailing)
+                
                 Button(action: {
                     synthesizer.stopSpeaking(at: .immediate)
                     let utterance = AVSpeechUtterance(string: question)
