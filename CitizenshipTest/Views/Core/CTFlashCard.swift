@@ -43,10 +43,12 @@ struct CTFlashCard: View{
             ZStack{
                 if !questions.isEmpty{
                     CardFront(zIndex:$frontZIndex, degree: $frontDegree, isFlipped: $isFlipped,
-                              questions: $questions, qIndex: $qIndex, synthesizer: synthesizer)
+                              questions: $questions, qIndex: $qIndex, isChangingCard: $isChangingCard,
+                              synthesizer: synthesizer)
                     
                     CardBack(zIndex: $backZIndex, degree: $backDegree, isFlipped: $isFlipped,
-                             questions: $questions, qIndex: $qIndex, synthesizer: synthesizer,
+                             questions: $questions, qIndex: $qIndex, isChangingCard: $isChangingCard,
+                             synthesizer: synthesizer,
                              showingZipPrompt: $showingZipPrompt)
                     .opacity(isChangingCard ? 0 : 1)
                 }
@@ -54,6 +56,7 @@ struct CTFlashCard: View{
                     ProgressView()
                 }
             }
+            
         }
         .sheet(isPresented: $showQuestionType) {
             QuestionTypeView(questions: $questions, qIndex: $qIndex, noMarkedQuestionsAlert: $noMarkedQuestionsAlert)
@@ -67,21 +70,11 @@ struct CTFlashCard: View{
             Text("Hien tai ban chua co cau hoi danh dau nao")
         }
         
-        //tapping on card
-        .onTapGesture {
-            isChangingCard = false
-            isFlipped.toggle()
-            updateCardDegrees()
-            updateZIndices()
-        }
-        
         //card flipped
         .onChange(of: qIndex){ oldValue, newValue in
             isChangingCard = true
             isFlipped = false
-            updateCardDegrees()
-            frontZIndex = 1.0
-            backZIndex = 0.0
+            updateCards()
             synthesizer.stopSpeaking(at: .immediate)
         }
         .onAppear(){
@@ -93,23 +86,11 @@ struct CTFlashCard: View{
                 .background(Color.white)
         }
     }
-    private func updateCardDegrees() {
-        if isFlipped {
-            frontDegree = 90.0
-            backDegree = 0.0
-        } else {
-            frontDegree = 0.0
-            backDegree = -90.0
-        }
-    }
-    private func updateZIndices() {
-        if isFlipped {
-            frontZIndex = 0.0
-            backZIndex = 1.0
-        } else {
-            frontZIndex = 1.0
-            backZIndex = 0.0
-        }
+    private func updateCards() {
+        frontDegree = 0.0
+        backDegree = -90.0
+        frontZIndex = 1.0
+        backZIndex = 0.0
     }
 }
 
@@ -169,6 +150,7 @@ struct CardFront: View{
     @Binding var isFlipped: Bool
     @Binding var questions: [CTQuestion]
     @Binding var qIndex: Int
+    @Binding var isChangingCard: Bool
     let synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
     @Environment(\.modelContext) private var context
@@ -177,8 +159,8 @@ struct CardFront: View{
     var body: some View{
         ZStack{
             RoundedRectangle(cornerRadius: 20)
-                .stroke(.green.opacity(0.5), lineWidth: 10)
-                .fill(.green.opacity(0.1))
+                .stroke(.blue.opacity(0.5), lineWidth: 10)
+                .fill(.blue.opacity(0.1))
             
             VStack{
                 Text("Question \(questions[qIndex].id):")
@@ -232,15 +214,26 @@ struct CardFront: View{
                     }
                 }
                 .padding()
+                
+                Button(action: {
+                    isChangingCard = false
+                    isFlipped.toggle()
+                }) {
+                    Text("Lật Thẻ")
+                        .font(deviceManager.isTablet ? .title : .body)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
             }
             .padding()
             
         }
         .padding()
-        .rotation3DEffect(Angle(degrees: degree), axis: (x:0, y:1, z:0))
+        .rotation3DEffect(Angle(degrees: isFlipped ? 90.0 : 0.0), axis: (x:0, y:1, z:0))
+        .zIndex(isFlipped ? 0.0 : 1.0)
         .animation(isFlipped ? .linear : .linear.delay(0.4), value: isFlipped)
-        .zIndex(zIndex)
-        
     }
 }
 
@@ -250,6 +243,7 @@ struct CardBack: View{
     @Binding var isFlipped: Bool
     @Binding var questions: [CTQuestion]
     @Binding var qIndex: Int
+    @Binding var isChangingCard: Bool
     let synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
@@ -307,7 +301,7 @@ struct CardBack: View{
                                 .frame(height: deviceManager.isTablet ? 50 : 25)
                         }
                         .padding(.trailing)
-                                                
+                        
                         //voice
                         Button(action: {
                             synthesizer.stopSpeaking(at: .immediate)
@@ -323,14 +317,26 @@ struct CardBack: View{
                         }
                     }
                     .padding()
+                    
+                    Button(action: {
+                        isChangingCard = false
+                        isFlipped.toggle()
+                    }) {
+                        Text("Lật Thẻ")
+                            .font(deviceManager.isTablet ? .title : .body)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
                 }
                 .padding()
                 
             }
             .padding()
-            .rotation3DEffect(Angle(degrees: degree), axis: (x:0, y:1, z:0))
+            .rotation3DEffect(Angle(degrees: isFlipped ? 0.0 : -90.0), axis: (x:0, y:1, z:0))
+            .zIndex(isFlipped ? 1.0 : 0.0)
             .animation(isFlipped ? .linear.delay(0.4) : .linear, value: isFlipped)
-            .zIndex(zIndex)
         }
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()

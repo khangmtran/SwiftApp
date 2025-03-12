@@ -23,7 +23,7 @@ struct CTHomeMenu : View{
                     .padding(.vertical)
                 
                 List{
-                    NavigationLink(destination: CTAllQuestions()){
+                    NavigationLink(destination: CTPracticeTest()){
                         CTCustomMenuItem(title: "Thi Thử", subtitle: "Bài thi trắc nghiệm 10 câu hỏi ngẫu nhiên", assetImage: "pen_paper")
                     }
                     
