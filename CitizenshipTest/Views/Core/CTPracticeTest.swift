@@ -11,9 +11,11 @@ struct CTPracticeTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
     @State private var qIndex: Int = 0
+    @State private var score: Int = 0
     
     var body: some View {
-        let tenQuestions = Array(questionList.questions.shuffled().prefix(10))
+        //let tenQuestions = Array(questionList.questions.shuffled().prefix(10))
+        let tenQuestions = questionList.questions.filter {$0.id == 23}
         GeometryReader{ geo in
             VStack{
                 //Question View
@@ -21,7 +23,6 @@ struct CTPracticeTest: View {
                     .ignoresSafeArea()
                     .frame(height: geo.size.height / 2)
                 PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex)
-                
                 
             }
         }
@@ -34,7 +35,7 @@ struct PracticeQuestionView: View{
     
     var body: some View{
         ZStack{
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 0)
                 .fill(.blue.opacity(0.5))
             Text("\(tenQuestions[qIndex].question)")
                 .padding()
@@ -50,11 +51,11 @@ struct PracticeAnswerView: View{
     var tenQuestions: [CTQuestion]
     @Binding var qIndex: Int
     @State var showZipInput: Bool = false
+    @State var selectedAns: String = ""
+    @State var isAns: Bool = false
+    @State private var shuffledAnswers: [String] = []
     
     var body: some View{
-        
-        let correspondAns = wrongAnswer.wrongAns.first { $0.id == tenQuestions[qIndex].id }!
-        
         VStack{
             if tenQuestions[qIndex].id == 20 || tenQuestions[qIndex].id == 23 ||
                 tenQuestions[qIndex].id == 43 || tenQuestions[qIndex].id == 44 {
@@ -71,34 +72,33 @@ struct PracticeAnswerView: View{
                     }
                 }
                 else{
-                    let correctAnswer = getZipAnswer(tenQuestions[qIndex].id)
-                    let shuffledAns = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
-                    ForEach(shuffledAns, id: \.self) { ans in
+                    ForEach(shuffledAnswers, id: \.self) { ans in
                         Button(action: {
-                            print("?")
+                            selectedAns = ans
+                            isAns = true
                         }){
                             Text(ans)
                                 .padding()
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
-                                .background(.blue.opacity(0.1))
-                                .padding(.vertical)
+                                .background(backgroundColor(for: ans, correctAns: getZipAnswer(tenQuestions[qIndex].id), selectedAns: selectedAns))
+                                .padding()
                         }
                     }
                 }
             }
             else{
-                let shuffledAns = [tenQuestions[qIndex].answer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
-                ForEach(shuffledAns, id: \.self) { ans in
+                ForEach(shuffledAnswers, id: \.self) { ans in
                     Button(action: {
-                        print("?")
+                        selectedAns = ans
+                        isAns = true
                     }){
                         Text(ans)
                             .padding()
                             .foregroundStyle(.black)
-                            .frame(maxWidth: .infinity)
-                            .background(.blue.opacity(0.1))
-                            .padding(.vertical)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(backgroundColor(for: ans, correctAns: tenQuestions[qIndex].answer, selectedAns: selectedAns))
+                            .padding()
                     }
                 }
             }
@@ -108,7 +108,38 @@ struct PracticeAnswerView: View{
                 .environmentObject(userSetting)
                 .environmentObject(deviceManager)
         }
+        .onAppear {
+            updateShuffledAnswers()
+        }
+    }
+    
+    private func updateShuffledAnswers() {
+        let correspondAns = wrongAnswer.wrongAns.first { $0.id == tenQuestions[qIndex].id }!
         
+        if tenQuestions[qIndex].id == 20 || tenQuestions[qIndex].id == 23 ||
+           tenQuestions[qIndex].id == 43 || tenQuestions[qIndex].id == 44 {
+            if !userSetting.zipCode.isEmpty {
+                let correctAnswer = getZipAnswer(tenQuestions[qIndex].id)
+                shuffledAnswers = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
+            }
+        } else {
+            shuffledAnswers = [tenQuestions[qIndex].answer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
+        }
+    }
+    
+    private func backgroundColor(for ans: String, correctAns: String, selectedAns: String) -> Color {
+        if !isAns {
+            return .blue.opacity(0.1)
+        } else {
+            if ans == correctAns {
+                return .green.opacity(0.5)
+            } else if ans == selectedAns && ans != correctAns{
+                return .red.opacity(0.5)
+            }
+            else {
+                return .blue.opacity(0.1)
+            }
+        }
     }
     
     private func getZipAnswer(_ questionId: Int) -> String {
