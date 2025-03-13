@@ -14,17 +14,23 @@ struct CTPracticeTest: View {
     @State private var score: Int = 0
     
     var body: some View {
-        //let tenQuestions = Array(questionList.questions.shuffled().prefix(10))
-        let tenQuestions = questionList.questions.filter {$0.id == 23}
+        let tenQuestions = Array(questionList.questions.shuffled().prefix(10))
         GeometryReader{ geo in
             VStack{
-                //Question View
                 PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
                     .ignoresSafeArea()
-                    .frame(height: geo.size.height / 2)
+                    .frame(height: geo.size.height / 2.5)
                 PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex)
                 
             }
+        }
+    }
+}
+
+struct PracticeButton: View{
+    var body: some View{
+        HStack{
+            
         }
     }
 }
@@ -56,11 +62,12 @@ struct PracticeAnswerView: View{
     @State private var shuffledAnswers: [String] = []
     
     var body: some View{
+        
         VStack{
+            //handle zip questions
             if tenQuestions[qIndex].id == 20 || tenQuestions[qIndex].id == 23 ||
                 tenQuestions[qIndex].id == 43 || tenQuestions[qIndex].id == 44 {
                 if userSetting.zipCode.isEmpty {
-                    // If ZIP code is empty, show button to enter ZIP
                     Button(action: {
                         showZipInput = true
                     }){
@@ -87,6 +94,7 @@ struct PracticeAnswerView: View{
                     }
                 }
             }
+            //non zip questions
             else{
                 ForEach(shuffledAnswers, id: \.self) { ans in
                     Button(action: {
@@ -96,12 +104,26 @@ struct PracticeAnswerView: View{
                         Text(ans)
                             .padding()
                             .foregroundStyle(.black)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .frame(maxWidth: .infinity)
                             .background(backgroundColor(for: ans, correctAns: tenQuestions[qIndex].answer, selectedAns: selectedAns))
                             .padding()
                     }
+                    .disabled(isAns)
                 }
             }
+            
+            //show next button when answered
+            if isAns{
+                Button(action: {
+                    qIndex += 1
+                    isAns = false
+                }){
+                    Image(systemName: "greaterthan.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                }
+            }
+            
         }
         .sheet(isPresented: $showZipInput) {
             CTZipInput()
@@ -111,6 +133,13 @@ struct PracticeAnswerView: View{
         .onAppear {
             updateShuffledAnswers()
         }
+        .onChange(of: userSetting.zipCode) { oldValue, newValue in
+            updateShuffledAnswers()
+        }
+        .onChange(of: qIndex){
+            updateShuffledAnswers()
+        }
+        
     }
     
     private func updateShuffledAnswers() {

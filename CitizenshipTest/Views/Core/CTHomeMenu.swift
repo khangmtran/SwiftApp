@@ -8,6 +8,11 @@ import SwiftUI
 
 struct CTHomeMenu : View{
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var questions: QuestionList
+    @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var wrongAns: WrongAnswer
+    @EnvironmentObject var selectedPard: SelectedPart
     
     var body: some View{
         NavigationStack{
@@ -47,6 +52,11 @@ struct CTHomeMenu_Provider: PreviewProvider{
     static var previews: some View{
         CTHomeMenu()
             .environmentObject(DeviceManager())
+            .environmentObject(UserSetting())
+            .environmentObject(QuestionList())
+            .environmentObject(GovCapManager())
+            .environmentObject(WrongAnswer())
+            .environmentObject(SelectedPart())
     }
 }
 
