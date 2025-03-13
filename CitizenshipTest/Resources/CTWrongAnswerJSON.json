@@ -115,9 +115,9 @@
     },
     {
         "id": 20,
-        "firstIncorrect": "The President",
-        "secondIncorrect": "The Representatives",
-        "thirdIncorrect": "The Governor"
+        "firstIncorrect": "Benjamin Franklin",
+        "secondIncorrect": "(George) Washington",
+        "thirdIncorrect": "Abraham Lincoln"
     },
     {
         "id": 21,
@@ -133,9 +133,9 @@
     },
     {
         "id": 23,
-        "firstIncorrect": "The Senator",
-        "secondIncorrect": "The Governor",
-        "thirdIncorrect": "The President"
+        "firstIncorrect": "Susan B. Anthony",
+        "secondIncorrect": "Benjamin Franklin",
+        "thirdIncorrect": "Abraham Lincoln"
     },
     {
         "id": 24,
@@ -253,9 +253,9 @@
     },
     {
         "id": 43,
-        "firstIncorrect": "The President",
-        "secondIncorrect": "The Senator",
-        "thirdIncorrect": "The Representative"
+        "firstIncorrect": "Benjamin Franklin",
+        "secondIncorrect": "Mike Johnson",
+        "thirdIncorrect": "JD Vance"
     },
     {
         "id": 44,
