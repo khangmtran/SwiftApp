@@ -13,6 +13,7 @@ struct CTInitialScreen: View{
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
+    
     @State private var showNewScreen = false
     
     var body: some View{

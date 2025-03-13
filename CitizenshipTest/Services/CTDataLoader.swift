@@ -36,4 +36,18 @@ class CTDataLoader{
         }
     }
     
+    func loadWrongAnswers() -> [CTWrongAnswer]{
+        guard let url = Bundle.main.url(forResource: "CTWrongAnswerJSON", withExtension: "json") else{
+            return []
+        }
+        do{
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let wrongAns = try decoder.decode([CTWrongAnswer].self, from: data)
+            return wrongAns
+        }catch{
+            return []
+        }
+    }
+    
 }

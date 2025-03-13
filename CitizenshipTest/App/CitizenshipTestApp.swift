@@ -77,6 +77,14 @@ class GovCapManager: ObservableObject {
     
 }
 
+class WrongAnswer: ObservableObject{
+    @Published var wrongAns: [CTWrongAnswer]
+    
+    init(){
+        self.wrongAns = CTDataLoader().loadWrongAnswers()
+    }
+}
+
 @main
 struct CitizenshipTestApp: App{
     @StateObject private var selectedPart = SelectedPart()
@@ -84,6 +92,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var userSetting = UserSetting()
     @StateObject private var questionList = QuestionList()
     @StateObject private var govCapManager = GovCapManager()
+    @StateObject private var wrongAnswer = WrongAnswer()
     var body: some Scene {
         WindowGroup {
             CTInitialScreen()
@@ -92,6 +101,7 @@ struct CitizenshipTestApp: App{
                 .environmentObject(userSetting)
                 .environmentObject(questionList)
                 .environmentObject(govCapManager)
+                .environmentObject(wrongAnswer)
                 .modelContainer(for: MarkedQuestion.self)
         }
     }
