@@ -18,6 +18,7 @@ struct CTPracticeTest: View {
     @State private var tenQuestions: [CTQuestion] = []
     @State private var isLoading: Bool = true
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State private var showResult: Bool = false
 
         var btnBack : some View { Button(action: {
             self.presentationMode.wrappedValue.dismiss()
@@ -41,10 +42,14 @@ struct CTPracticeTest: View {
                     PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
                         .ignoresSafeArea()
                         .frame(height: geo.size.height / 2.5)
-                    PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex)
+                    PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score)
                 }
             }
+            if showResult{
+                CTResultView(score: score, questions: tenQuestions)
+            }
         }
+        
         .onAppear {
             tenQuestions = Array(questionList.questions.shuffled().prefix(10))
             isLoading = false
@@ -136,6 +141,8 @@ struct PracticeAnswerView: View{
     @EnvironmentObject var govCapManager: GovCapManager
     var tenQuestions: [CTQuestion]
     @Binding var qIndex: Int
+    @Binding var showResult: Bool
+    @Binding var score: Int
     @State var showZipInput: Bool = false
     @State var selectedAns: String = ""
     @State var isAns: Bool = false
@@ -180,6 +187,11 @@ struct PracticeAnswerView: View{
                     Button(action: {
                         selectedAns = ans
                         isAns = true
+                        if selectedAns == tenQuestions[qIndex].answer{score += 1}
+                        if qIndex == 0{
+                            isAns = false
+                            showResult = true
+                        }
                     }){
                         Text(ans)
                             .padding()
@@ -202,7 +214,6 @@ struct PracticeAnswerView: View{
                         .resizable()
                         .scaledToFit()
                 }
-                .disabled(qIndex == 9)
             }
             
         }
