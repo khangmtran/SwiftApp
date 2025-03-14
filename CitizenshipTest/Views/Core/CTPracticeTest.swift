@@ -18,38 +18,39 @@ struct CTPracticeTest: View {
     @State private var tenQuestions: [CTQuestion] = []
     @State private var isLoading: Bool = true
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var showResult: Bool = false
-
-        var btnBack : some View { Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
-            }) {
-                HStack {
-                    Image(systemName: "lessthan")
-                        .foregroundStyle(.white)
-                    Text("Back")
-                        .foregroundStyle(.white)
-                }
-            }
+    @State private var showResult: Bool = true
+    
+    var btnBack : some View { Button(action: {
+        self.presentationMode.wrappedValue.dismiss()
+    }) {
+        HStack {
+            Image(systemName: "lessthan")
+                .foregroundStyle(.white)
+            Text("Back")
+                .foregroundStyle(.white)
         }
-        
+    }
+    }
+    
     
     var body: some View {
-        GeometryReader { geo in
+        VStack{
             if isLoading {
                 ProgressView()
-            } else {
-                VStack {
-                    PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
-                        .ignoresSafeArea()
-                        .frame(height: geo.size.height / 2.5)
-                    PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score)
-                }
-            }
-            if showResult{
+            }else if showResult{
                 CTResultView(score: score, questions: tenQuestions)
             }
+            else {
+                GeometryReader { geo in
+                    VStack {
+                        PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
+                            .ignoresSafeArea()
+                            .frame(height: geo.size.height / 2.5)
+                        PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score)
+                    }
+                }
+            }
         }
-        
         .onAppear {
             tenQuestions = Array(questionList.questions.shuffled().prefix(10))
             isLoading = false
@@ -70,6 +71,113 @@ struct CTPracticeTest: View {
         }
     }
 }
+
+struct CTResultView: View {
+    let score: Int
+    let questions: [CTQuestion]
+    @State private var synthesizer = AVSpeechSynthesizer()
+    @Environment(\.modelContext) private var context
+    @Query private var markedQuestions: [MarkedQuestion]
+    @EnvironmentObject var deviceManager: DeviceManager
+    @Environment(\.presentationMode) var presentationMode
+    
+    // Add navigation state to control going back to home
+    @State private var navigateToHome = false
+    
+    var body: some View {
+        GeometryReader{geo in
+            VStack {
+                // Score circle
+                ZStack {
+                    Circle()
+                        .fill(.blue.opacity(0.7))
+                        .shadow(radius: 5)
+                        .frame(width: geo.size.width/3)
+                    
+                    VStack {
+                        Text("Score")
+                            .font(deviceManager.isTablet ? .title : .headline)
+                            .foregroundStyle(.white)
+                        
+                        Text("\(score) / \(questions.count)")
+                            .font(deviceManager.isTablet ? .largeTitle : .title)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                        
+                        if score >= 6 {
+                            Text("Passed!")
+                                .font(deviceManager.isTablet ? .title : .headline)
+                                .foregroundStyle(.white)
+                        } else {
+                            Text("Try again!")
+                                .font(deviceManager.isTablet ? .title : .headline)
+                                .foregroundStyle(.white)
+                        }
+                    }
+                }
+                .frame(height: geo.size.height/5)
+                
+                // Question list
+                ScrollView {
+                    ForEach(questions) { question in
+                        HStack{
+                            VStack(alignment: .leading) {
+                                Text("Q\(question.id): \(question.question)")
+                                    .font(deviceManager.isTablet ? .title3 : .body)
+                                    .fontWeight(.medium)
+                                
+                                Text("A: \(question.answer)")
+                                    .font(deviceManager.isTablet ? .body : .subheadline)
+                                    .fontWeight(.regular)
+                            }
+                            
+                            Spacer()
+                            
+                            VStack() {
+                                Button(action: {
+                                    synthesizer.stopSpeaking(at: .immediate)
+                                    let utterance = AVSpeechUtterance(string: question.question)
+                                    utterance.voice = AVSpeechSynthesisVoice()
+                                    utterance.rate = 0.3
+                                    synthesizer.speak(utterance)
+                                }) {
+                                    Image(systemName: "speaker.wave.3")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: deviceManager.isTablet ? 25 : 18)
+                                }
+                                
+                                Button(action: {
+                                    if let existingMark = markedQuestions.first(where: {$0.id == question.id}) {
+                                        context.delete(existingMark)
+                                    } else {
+                                        let newMark = MarkedQuestion(id: question.id)
+                                        context.insert(newMark)
+                                    }
+                                }) {
+                                    Image(systemName: markedQuestions.contains(where: {$0.id == question.id}) ? "bookmark.fill" : "bookmark")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: deviceManager.isTablet ? 25 : 18)
+                                }
+                            }
+                            
+                        }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.blue.opacity(0.1))
+                        )
+                        .padding(.horizontal)
+                    }
+                }
+                
+            }
+        }
+        
+    }
+}
+
 
 struct PracticeQuestionView: View{
     var tenQuestions: [CTQuestion]
