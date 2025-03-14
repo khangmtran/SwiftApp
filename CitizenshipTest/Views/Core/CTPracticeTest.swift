@@ -6,31 +6,62 @@
 //
 
 import SwiftUI
+import AVFoundation
+import SwiftData
 
 struct CTPracticeTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var deviceManager: DeviceManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
-    
-    var body: some View {
-        let tenQuestions = Array(questionList.questions.shuffled().prefix(10))
-        GeometryReader{ geo in
-            VStack{
-                PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
-                    .ignoresSafeArea()
-                    .frame(height: geo.size.height / 2.5)
-                PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex)
-                
+    @State private var tenQuestions: [CTQuestion] = []
+    @State private var isLoading: Bool = true
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+        var btnBack : some View { Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+            }) {
+                HStack {
+                    Image(systemName: "lessthan")
+                        .foregroundStyle(.white)
+                    Text("Back")
+                        .foregroundStyle(.white)
+                }
             }
         }
-    }
-}
-
-struct PracticeButton: View{
-    var body: some View{
-        HStack{
-            
+        
+    
+    var body: some View {
+        GeometryReader { geo in
+            if isLoading {
+                ProgressView()
+            } else {
+                VStack {
+                    PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
+                        .ignoresSafeArea()
+                        .frame(height: geo.size.height / 2.5)
+                    PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex)
+                }
+            }
+        }
+        .onAppear {
+            tenQuestions = Array(questionList.questions.shuffled().prefix(10))
+            isLoading = false
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: btnBack)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar{
+            ToolbarItem(placement: .principal){
+                if isLoading{
+                    ProgressView()
+                }
+                else{
+                    Text("\(qIndex) of \(tenQuestions.count)")
+                        .font(deviceManager.isTablet ? .title : .body)
+                }
+            }
         }
     }
 }
@@ -38,13 +69,62 @@ struct PracticeButton: View{
 struct PracticeQuestionView: View{
     var tenQuestions: [CTQuestion]
     @Binding var qIndex: Int
+    @State private var synthesizer = AVSpeechSynthesizer()
+    @EnvironmentObject var deviceManager: DeviceManager
+    @Environment(\.modelContext) private var context
+    @Query private var markedQuestions: [MarkedQuestion]
     
     var body: some View{
         ZStack{
             RoundedRectangle(cornerRadius: 0)
                 .fill(.blue.opacity(0.5))
-            Text("\(tenQuestions[qIndex].question)")
+            VStack{
+                ProgressView(value: Double(qIndex) / 10)
+                    .padding()
+                    .tint(.white)
+                //               Image("")
+                //                    .resizable()
+                //                    .scaledToFit()
+                //                    .frame(height: deviceManager.isTablet ? 50 : 25)
+                Text("\(tenQuestions[qIndex].question)")
+                    .padding()
+                HStack{
+                    Spacer()
+                    
+                    //mark button
+                    Button(action: {
+                        if let existingMark = markedQuestions.first(where: {$0.id == tenQuestions[qIndex].id}){
+                            context.delete(existingMark)
+                        } else {
+                            let newMark = MarkedQuestion(id: tenQuestions[qIndex].id)
+                            context.insert(newMark)
+                        }
+                    }){
+                        Image(systemName: markedQuestions.contains {$0.id == tenQuestions[qIndex].id} ? "bookmark.fill" : "bookmark")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                            .foregroundStyle(.white)
+                    }
+                    .padding(.trailing)
+                    
+                    // Voice button
+                    Button(action: {
+                        synthesizer.stopSpeaking(at: .immediate)
+                        let utterance = AVSpeechUtterance(string: tenQuestions[qIndex].question)
+                        utterance.voice = AVSpeechSynthesisVoice()
+                        utterance.rate = 0.3
+                        synthesizer.speak(utterance)
+                    }){
+                        Image(systemName: "speaker.wave.3")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                            .foregroundStyle(.white)
+                    }
+                }
                 .padding()
+            }
         }
     }
 }
@@ -122,6 +202,7 @@ struct PracticeAnswerView: View{
                         .resizable()
                         .scaledToFit()
                 }
+                .disabled(qIndex == 9)
             }
             
         }
@@ -146,7 +227,7 @@ struct PracticeAnswerView: View{
         let correspondAns = wrongAnswer.wrongAns.first { $0.id == tenQuestions[qIndex].id }!
         
         if tenQuestions[qIndex].id == 20 || tenQuestions[qIndex].id == 23 ||
-           tenQuestions[qIndex].id == 43 || tenQuestions[qIndex].id == 44 {
+            tenQuestions[qIndex].id == 43 || tenQuestions[qIndex].id == 44 {
             if !userSetting.zipCode.isEmpty {
                 let correctAnswer = getZipAnswer(tenQuestions[qIndex].id)
                 shuffledAnswers = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
@@ -197,6 +278,12 @@ struct PracticeAnswerView: View{
             return ""
         }
         return ""
+    }
+}
+
+struct ResultView: View {
+    var body: some View {
+        /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Hello, world!@*/Text("Hello, world!")/*@END_MENU_TOKEN@*/
     }
 }
 
