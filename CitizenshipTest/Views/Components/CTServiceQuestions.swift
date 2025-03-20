@@ -31,33 +31,19 @@ struct ServiceQuestions: View {
     private var senatorView: some View {
         VStack{
             let senators = userSetting.legislators.filter {$0.type == "senator"}
-            if senators.isEmpty{
-                Button(action: {
-                    showingZipPrompt = true
-                }){
-                    Text("Nhap ZIP Code de tim Senator cua ban")
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
-                }
-                .padding(.vertical)
+            ForEach(senators) { sen in
+                Text("\(sen.firstName) \(sen.lastName)")
+                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .fontWeight(.bold)
             }
-            else{
-                Text("Chon 1 trong nhung Senator duoi day:")
-                    .font(deviceManager.isTablet ? .title : .body)
-                    .padding(.bottom, 1)
-                
-                ForEach(senators) { sen in
-                    Text("\(sen.firstName) \(sen.lastName)")
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
-                        .fontWeight(.bold)
-                }
-                Button(action: {
-                    showingZipPrompt = true
-                }){
-                    Text("Nhap ZIP Code de tim Senator cua ban")
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
-                }
-                .padding(.vertical)
+            Button(action: {
+                showingZipPrompt = true
+            }){
+                Text("Nhập ZIP Code để tìm Senator của bạn")
+                    .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
+            .buttonStyle(BorderlessButtonStyle())
+            .padding(.vertical)
         }
     }
     
@@ -72,9 +58,10 @@ struct ServiceQuestions: View {
             Button(action: {
                 showingZipPrompt = true
             }){
-                Text("Nhap ZIP Code de tim Representative cua ban")
+                Text("Nhập ZIP Code để tìm Representative của bạn")
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
+            .buttonStyle(BorderlessButtonStyle())
             .padding(.vertical)
         }
     }
@@ -92,9 +79,10 @@ struct ServiceQuestions: View {
             Button(action: {
                 showingZipPrompt = true
             }){
-                Text("Nhap ZIP Code de tim Governor cua ban")
+                Text("Nhập ZIP Code để tìm Governor của bạn")
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
+            .buttonStyle(BorderlessButtonStyle())
             .padding(.vertical)
         }
     }
@@ -112,9 +100,10 @@ struct ServiceQuestions: View {
             Button(action: {
                 showingZipPrompt = true
             }){
-                Text("Nhap ZIP Code de tim Capital cua ban")
+                Text("Nhập ZIP Code để tìm Capital của bạn")
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
+            .buttonStyle(BorderlessButtonStyle())
             .padding(.vertical)
         }
     }

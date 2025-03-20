@@ -266,10 +266,10 @@ struct QuestionView: View {
             
         }//end question
         .padding()
+        .background(.blue.opacity(0.1))
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.blue, lineWidth: 1)
-                .fill(.blue.opacity(0.1))
         )
         .background(.white)
         .padding(.horizontal)
@@ -335,10 +335,10 @@ struct AnswerView: View {
             }
         }
         .padding()
+        .background(.blue.opacity(0.1))
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.blue, lineWidth: 1)
-                .fill(.blue.opacity(0.1))
         )
         .background(.white)
         .padding(.horizontal)

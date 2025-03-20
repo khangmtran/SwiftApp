@@ -19,23 +19,21 @@ struct CTTab: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             // Test Tab
-            NavigationStack {
-                CTPracticeTest()
-                    .environmentObject(questionList)
-                    .environmentObject(wrongAnswer)
-                    .environmentObject(deviceManager)
-                    .environmentObject(userSetting)
-                    .environmentObject(govCapManager)
-            }
-            .tabItem {
-                Image(systemName: "checkmark.circle")
-                Text("Kiểm tra")
-                    .font(deviceManager.isTablet ? .title : .body)
-            }
-            .tag(0)
+            CTPracticeTest()
+                .environmentObject(questionList)
+                .environmentObject(wrongAnswer)
+                .environmentObject(deviceManager)
+                .environmentObject(userSetting)
+                .environmentObject(govCapManager)
+                .tabItem {
+                    Image(systemName: "checkmark.circle")
+                    Text("Kiểm tra")
+                        .font(deviceManager.isTablet ? .title : .body)
+                }
+                .tag(0)
             
             // Learn Tab
-            NavigationStack {
+            NavigationStack{
                 CTStudyHome()
                     .environmentObject(deviceManager)
                     .environmentObject(userSetting)
@@ -44,6 +42,7 @@ struct CTTab: View {
                     .environmentObject(wrongAnswer)
                     .environmentObject(selectedPart)
             }
+            .id(selectedTab)
             .tabItem {
                 Image(systemName: "book.fill")
                 Text("Học")
@@ -51,19 +50,18 @@ struct CTTab: View {
             }
             .tag(1)
             
+            
             // Settings Tab
-            NavigationStack {
-                CTSetting()
-                    .environmentObject(deviceManager)
-                    .environmentObject(userSetting)
-                    .environmentObject(govCapManager)
-            }
-            .tabItem {
-                Image(systemName: "gearshape.fill")
-                Text("Cài đặt")
-                    .font(deviceManager.isTablet ? .title : .body)
-            }
-            .tag(2)
+            CTSetting()
+                .environmentObject(deviceManager)
+                .environmentObject(userSetting)
+                .environmentObject(govCapManager)
+                .tabItem {
+                    Image(systemName: "gearshape.fill")
+                    Text("Cài đặt")
+                        .font(deviceManager.isTablet ? .title : .body)
+                }
+                .tag(2)
         }
     }
 }
