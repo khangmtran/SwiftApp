@@ -36,7 +36,7 @@ struct CTTab: View {
             
             // Learn Tab
             NavigationStack {
-                CTStudyHome()  
+                CTStudyHome()
                     .environmentObject(deviceManager)
                     .environmentObject(userSetting)
                     .environmentObject(questionList)

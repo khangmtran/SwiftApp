@@ -88,94 +88,105 @@ struct CTAllQuestions: View {
                         //answer stack
                         HStack{
                             if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44{
-                                
+                                VStack(alignment: .leading){
+                                    Text("Trả lời:")
+                                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                        .fontWeight(.bold)
+                                        .padding(.bottom, 1)
+                                    
+                                    ServiceQuestions(
+                                        questionId: question.id,
+                                        showingZipPrompt: $showingZipPrompt,
+                                        govAndCap: govCapManager.govAndCap
+                                    )
+                                }
                                 //q20
-                                if question.id == 20{
-                                    VStack(alignment: .leading){
-                                        Text("Trả lời: Chon 1 trong nhung Senator duoi day:")
-                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                            .fontWeight(.bold)
-                                        let senators = userSetting.legislators.filter {$0.type == "senator"}
-                                        ForEach(senators) { sen in
-                                            Text("\(sen.firstName) \(sen.lastName)")
-                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                                .fontWeight(.bold)
-                                                .frame(maxWidth: .infinity, alignment: .center)
-                                        }
-                                        Button(action: {
-                                            showingZipPrompt = true
-                                        }){
-                                            Text("Nhap ZIP Code de tim Senators cua ban")
-                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                        }
-                                    }
-                                }
-                                
-                                //q23
-                                else if question.id == 23{
-                                    VStack(alignment: .leading){
-                                        Text("Trả lời:")
-                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                            .fontWeight(.bold)
-                                        let represenatatives = userSetting.legislators.filter {$0.type == "representative"}
-                                        ForEach(represenatatives) { rep in
-                                            Text("\(rep.firstName) \(rep.lastName)")
-                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                                .fontWeight(.bold)
-                                        }
-                                        Button(action: {
-                                            showingZipPrompt = true
-                                        }){
-                                            Text("Nhap ZIP Code de tim Representative cua ban")
-                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                        }
-                                    }
-                                }
-                                
-                                //q43
-                                else if question.id == 43{
-                                    VStack(alignment: .leading){
-                                        Text("Trả lời:")
-                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                            .fontWeight(.bold)
-                                        let state = userSetting.state
-                                        ForEach(govCapManager.govAndCap) { gnc in
-                                            if gnc.state == state{
-                                                Text("\(gnc.gov)")
-                                                    .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                                    .fontWeight(.bold)
-                                            }
-                                        }
-                                        Button(action: {
-                                            showingZipPrompt = true
-                                        }){
-                                            Text("Nhap ZIP Code de tim Governor cua ban")
-                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                        }
-                                    }
-                                }
-                                
-                                else if question.id == 44{
-                                    VStack(alignment: .leading){
-                                        Text("Trả lời:")
-                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                            .fontWeight(.bold)
-                                        let state = userSetting.state
-                                        ForEach(govCapManager.govAndCap) { gnc in
-                                            if gnc.state == state{
-                                                Text("\(gnc.capital)")
-                                                    .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                                    .fontWeight(.bold)
-                                            }
-                                        }
-                                        Button(action: {
-                                            showingZipPrompt = true
-                                        }){
-                                            Text("Nhap ZIP Code de tim Capital cua ban")
-                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
-                                        }
-                                    }
-                                }
+//                                if question.id == 20{
+//                                    VStack(alignment: .leading){
+//                                        Text("Trả lời: Chon 1 trong nhung Senator duoi day:")
+//                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                            .fontWeight(.bold)
+//                                        let senators = userSetting.legislators.filter {$0.type == "senator"}
+//                                        ForEach(senators) { sen in
+//                                            Text("\(sen.firstName) \(sen.lastName)")
+//                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                                .fontWeight(.bold)
+//                                                .frame(maxWidth: .infinity, alignment: .center)
+//                                        }
+//                                        Button(action: {
+//                                            showingZipPrompt = true
+//                                        }){
+//                                            Text("Nhap ZIP Code de tim Senators cua ban")
+//                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                        }
+//                                    }
+//                                }
+//                                
+//                                //q23
+//                                else if question.id == 23{
+//                                    VStack(alignment: .leading){
+//                                        Text("Trả lời:")
+//                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                            .fontWeight(.bold)
+//                                        let represenatatives = userSetting.legislators.filter {$0.type == "representative"}
+//                                        ForEach(represenatatives) { rep in
+//                                            Text("\(rep.firstName) \(rep.lastName)")
+//                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                                .fontWeight(.bold)
+//                                        }
+//                                        Button(action: {
+//                                            showingZipPrompt = true
+//                                        }){
+//                                            Text("Nhap ZIP Code de tim Representative cua ban")
+//                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                        }
+//                                    }
+//                                }
+//                                
+//                                //q43
+//                                else if question.id == 43{
+//                                    VStack(alignment: .leading){
+//                                        Text("Trả lời:")
+//                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                            .fontWeight(.bold)
+//                                        let state = userSetting.state
+//                                        ForEach(govCapManager.govAndCap) { gnc in
+//                                            if gnc.state == state{
+//                                                Text("\(gnc.gov)")
+//                                                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                                    .fontWeight(.bold)
+//                                            }
+//                                        }
+//                                        Button(action: {
+//                                            showingZipPrompt = true
+//                                        }){
+//                                            Text("Nhap ZIP Code de tim Governor cua ban")
+//                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                        }
+//                                    }
+//                                }
+//                                
+//                                else if question.id == 44{
+//                                    VStack(alignment: .leading){
+//                                        Text("Trả lời:")
+//                                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                            .fontWeight(.bold)
+//                                        let state = userSetting.state
+//                                        ForEach(govCapManager.govAndCap) { gnc in
+//                                            if gnc.state == state{
+//                                                Text("\(gnc.capital)")
+//                                                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                                    .fontWeight(.bold)
+//                                            }
+//                                        }
+//                                        Button(action: {
+//                                            showingZipPrompt = true
+//                                        }){
+//                                            Text("Nhap ZIP Code de tim Capital cua ban")
+//                                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+//                                        }
+//                                    }
+//                                }
                             }
                             
                             // all questions except q20 and 23
