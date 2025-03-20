@@ -5,26 +5,26 @@
         "questionVie": "Luật pháp tối cao của quốc gia là gì",
         "answer": "The Constitution",
         "answerVie": "Hiến Pháp",
-        "type": "LGS",
-        "learn": "'What' và 'supreme law' là luật pháp tối cao"
+        "type": "LD",
+        "learn": "1. Supreme law: Luật pháp tối cao\n2. The land: Quốc gia"
     },
     {
         "id": 2,
         "question": "What does the Constitution do?",
-        "questionVie": "Mục đích của hiến pháp là gì?",
+        "questionVie": "Hiến Pháp làm gì",
         "answer": "Sets up the government",
         "answerVie": "Thiết lập chính phủ",
         "type": "CA",
-        "learn": "'What' có nghĩa là 'là gì', 'Constitution do' là Hiến Pháp làm gì, hoặc mục đích của Hiến Pháp là gì. 'What' và 'Constitution do'"
+        "learn": "1. Constitution do: Hiến Pháp làm gì"
     },
     {
         "id": 3,
         "question": "The idea of self-government is in the first three words of the Constitution. What are these words?",
-        "questionVie": "Ý tưởng tự trị nằm trong 3 chữ đầu tiên của hiến pháp là gì?",
+        "questionVie": "Ý tưởng tự trị nằm trong ba chữ đầu tiên của hiến pháp là gì?",
         "answer": "We the People",
         "answerVie": "Chúng ta - những người dân",
         "type": "CA",
-        "learn": "'first three words' có nghĩa là 3 chữ đầu tiên và từ khóa 'Constitution'"
+        "learn": "1. Self-government: Tự trị\n2. First three words: Ba chữ đầu tiên"
     },
     {
         "id": 4,
@@ -33,7 +33,7 @@
         "answer": "A change (to the Constitution)",
         "answerVie": "Một sự thay đổi (trong Hiến pháp)",
         "type": "CA",
-        "learn": "'What' và từ khóa 'amendment' là Tu chính án"
+        "learn": "1. An amendment: Tu chính án"
     },
     {
         "id": 5,
@@ -42,7 +42,7 @@
         "answer": "The Bill of Rights",
         "answerVie": "Luật dân quyền",
         "type": "CA",
-        "learn": "'first ten amendments' là 10 tu chính án đầu tiên và từ khóa 'Constitution'"
+        "learn": "1. First ten amendments: Mười tu chính án đầu tiên"
     },
     {
         "id": 6,
@@ -51,7 +51,7 @@
         "answer": "speech",
         "answerVie": "tự do ngôn luận",
         "type": "CA",
-        "learn": "'What', 'one right' là một quyền, hoặc 'freedom' là quyền tự do, 'First Amendment' là Tu chính án đầu tiên"
+        "learn": "1. One right or freedom: Một quyền hoặc quyền tự do\n2. First Amendment: Tu chính án đầu tiên"
     },
     {
         "id": 7,
@@ -60,25 +60,25 @@
         "answer": "twenty-seven (27)",
         "answerVie": "hai mươi bảy (27)",
         "type": "CA",
-        "learn": "'How many' là có bao nhiêu, 'How many amendments' là có bao nhiêu tu chính án, và từ khóa 'Constitution'"
+        "learn": "1. How many amendments: Bao nhiêu tu chính án"
     },
     {
         "id": 8,
         "question": "What did the Declaration of Independence do?",
-        "questionVie": "Bản Tuyên ngôn độc lập làm gì?",
+        "questionVie": "Bản Tuyên Ngôn Độc Lập làm gì?",
         "answer": "Declared our independence (from Great Britain)",
         "answerVie": "Tuyên bố sự độc lập của chúng ta (từ Anh Quốc)",
-        "type": "DA",
-        "learn": "'What' và từ khóa 'Declaration of Independence do'"
+        "type": "LD",
+        "learn": "1. Declaration of Independence do: Bản Tuyên Ngôn Độc Lập làm gì"
     },
     {
         "id": 9,
         "question": "What are two rights in the Declaration of Independence?",
-        "questionVie": "Hai quyền trong Bản Tuyên ngôn độc lập là gì?",
+        "questionVie": "Hai quyền trong Bản Tuyên Ngôn Độc Lập là gì?",
         "answer": "Life and Liberty",
         "answerVie": "Quyền Đuợc Sống và Quyền Tự Do",
-        "type": "DA",
-        "learn": "'What', 'two rights' là hai quyền, và từ khóa 'Declaration of Independence'"
+        "type": "LD",
+        "learn": "1. Two rights in the Declaration of Independence: Hai quyền trong Bản Tuyên Ngôn Độc Lập"
     },
     {
         "id": 10,
@@ -87,16 +87,16 @@
         "answer": "You can practice any religion, or not practice a religion.",
         "answerVie": "Bạn có thể thực hành bất kỳ tôn giáo nào, hoặc không thực hành tôn giáo.",
         "type": "CL",
-        "learn": "'What', 'freedom' là tự do, và 'religion' là tôn giáo"
+        "learn": "1. Freedom of religion: Tự do tôn giáo"
     },
     {
         "id": 11,
-        "question": "What is the economic system in the United States? *",
+        "question": "What is the economic system in the United States?*",
         "questionVie": "Hệ thống kinh tế ở Hoa Kỳ là gì?",
         "answer": "Market economy",
         "answerVie": "Kinh tế thị trường",
         "type": "US",
-        "learn": "'What', 'economic system' là hệ thống kinh tế, và từ khóa 'United States'"
+        "learn": "1. Economic system: Hệ thống kinh tế"
     },
     {
         "id": 12,
@@ -104,17 +104,17 @@
         "questionVie": "\"Quy tắc của luật pháp\" là gì?",
         "answer": "Everyone must follow the law",
         "answerVie": "Mọi người phải tuân theo luật pháp",
-        "type": "LGS",
-        "learn": "'What', 'rule' là quy tắc, và từ khóa 'law'"
+        "type": "LD",
+        "learn": "1. Rule of law: Quy tắc của luật pháp"
     },
     {
         "id": 13,
-        "question": "Name one branch or part of the government. *",
+        "question": "Name one branch or part of the government.*",
         "questionVie": "Nêu tên một nhánh hoặc bộ phận của chính phủ.",
         "answer": "Congress",
         "answerVie": "Quốc hội",
-        "type": "LGS",
-        "learn": "'Name one' là nêu tên một, 'part' là bộ phận, và từ khóa 'government'"
+        "type": "GSA",
+        "learn": "1. Name one branch or part: Nêu tên một nhánh hoặc bộ phận"
     },
     {
         "id": 14,
@@ -122,17 +122,17 @@
         "questionVie": "Điều gì ngăn cản một bộ phận nào đó của chính phủ trở nên quá mạnh?",
         "answer": "Checks and balances",
         "answerVie": "Kiểm soát và cân bằng lẫn nhau",
-        "type": "LGS",
-        "learn": "'What stops' là điều gì ngăn cản, từ khóa government, và 'powerful' là quyền lực"
+        "type": "GSA",
+        "learn": "1. What stops: Điều gì ngăn cản\n2. Too powerful: Quá mạnh"
     },
     {
         "id": 15,
         "question": "Who is in charge of the executive branch?",
         "questionVie": "Ai phụ trách nhánh hành pháp?",
         "answer": "The President",
-        "answerVie": "Tổng Thống",
+        "answerVie": "Tổng thống",
         "type": "CL",
-        "learn": "'Who' là ai và 'executive branch' là cơ quan điều hành hoặc cơ quan hành pháp"
+        "learn": "1. In charge: Phụ trách\n2. Executive branch: Nhánh hành pháp"
     },
     {
         "id": 16,
@@ -140,188 +140,188 @@
         "questionVie": "Ai ban hành luật liên bang?",
         "answer": "Congress",
         "answerVie": "Quốc hội",
-        "type": "LGS",
-        "learn": "'Who' là ai, 'federal' là liên bang, và từ khóa 'laws'"
+        "type": "LD",
+        "learn": "1. Who makes: Ai ban hành\n2. Federal laws: Luật liên bang"
     },
     {
         "id": 17,
-        "question": "What are the two parts of the U.S. Congress? *",
+        "question": "What are the two parts of the U.S. Congress?*",
         "questionVie": "Hai bộ phận của Quốc hội Hoa Kỳ là gì?",
         "answer": "The Senate and House (of Representatives)",
         "answerVie": "Thượng nghị viện và Hạ nghị viện",
         "type": "WCCR",
-        "learn": "'What', 'two parts' là hai bộ phận, từ khóa 'U.S. Congress'"
+        "learn": "1. Two parts of the U.S. Congress: Hai bộ phận của Quốc hội Hoa Kỳ"
     },
     {
         "id": 18,
         "question": "How many U.S. Senators are there?",
-        "questionVie": "Có bao nhiêu Thượng nghị sĩ liên bang?",
+        "questionVie": "Có bao nhiêu Thượng nghị sĩ?",
         "answer": "One hundred (100)",
         "answerVie": "Một trăm (100)",
         "type": "WCCR",
-        "learn": "'How many' là bao nhiêu và từ khóa 'U.S. Senators'"
+        "learn": "1. How many U.S. Senators: Bao nhiêu Thượng nghị sĩ"
     },
     {
         "id": 19,
         "question": "We elect a U.S. Senator for how many years?",
-        "questionVie": "Chúng ta bầu chọn một Thượng nghị liên bang cho nhiệm kỳ là bao nhiêu năm?",
+        "questionVie": "Chúng ta bầu chọn một Thượng nghị sĩ với nhiệm kỳ là bao nhiêu năm?",
         "answer": "Six (6)",
         "answerVie": "Sáu (6)",
         "type": "WCCR",
-        "learn": "từ khóa 'U.S. Senator' và 'how many years' là bao nhiêu năm"
+        "learn": "1. Elect a U.S. Senator: Bầu chọn một Thượng nghị sĩ"
     },
     {
         "id": 20,
         "question": "Who is one of your state's U.S. Senators now?",
-        "questionVie": "Ai là một trong những Thượng nghị sĩ liên bang của tiểu bang nơi bạn ở?",
+        "questionVie": "Ai là một trong những Thượng nghị sĩ ở tiểu bang của bạn?",
         "answer": "",
         "answerVie": "",
         "type": "WCCR",
-        "learn": "'Who' là ai, 'your state's' là của tiểu bang của bạn, và từ khóa 'U.S. Senators'"
+        "learn": "1. Your state's U.S. Senators: Thượng nghĩ sĩ ở tiểu bang của bạn"
     },
     {
         "id": 21,
         "question": "The House of Representatives has how many voting members?",
         "questionVie": "Hạ nghị viện gồm bao nhiêu thành viên",
         "answer": "Four hundred thirty-five (435)",
-        "answerVie": "Bốn trăm ba mươi lăm",
+        "answerVie": "Bốn trăm ba mươi lăm (435)",
         "type": "WCCR",
-        "learn": "từ khóa 'House of Representatives', 'how many' là có bao nhiêu, và 'members' là thành viên"
+        "learn": "1. Voting members: Thành viên"
     },
     {
         "id": 22,
         "question": "We elect a U.S. Representative for how many years?",
-        "questionVie": "Chúng ta bầu ra những vị dân biểu của Hoa Kỳ với nhiệm kỳ là bao nhiêu năm?",
+        "questionVie": "Chúng ta bầu chọn một Hạ nghị viện với nhiệm kỳ là bao nhiêu năm?",
         "answer": "Two (2)",
         "answerVie": "Hai (2)",
         "type": "WCCR",
-        "learn": "từ khóa 'U.S. Representative và 'how many years' là bao nhiêu năm"
+        "learn": "1. Elect a U.S. Representative: Bầu chọn một"
     },
     {
         "id": 23,
         "question": "Name your U.S. Representative.",
-        "questionVie": "Nêu tên vị Dân Biểu đại diện nơi bạn ở",
+        "questionVie": "Nêu tên Hạ nghị sĩ đại diện nơi bạn ở",
         "answer": "",
         "answerVie": "",
         "type": "WCCR",
-        "learn": "'Name' là kể tên và từ khóa 'U.S. Representative'"
+        "learn": "1. Your U.S. Representative: Hạ nghị sĩ của bạn"
     },
     {
         "id": 24,
         "question": "Who does a U.S. Senator represent?",
-        "questionVie": "Thượng nghị sĩ liên bang đại diện cho những ai",
+        "questionVie": "Thượng nghị sĩ đại diện cho những ai",
         "answer": "All people of the state",
         "answerVie": "Tất cả những người dân của tiểu bang đó",
         "type": "WCCR",
-        "learn": "'Who' là ai, từ khóa 'U.S. Senator', và 'represent' là đại diện"
+        "learn": "1. U.S. Senator Represent: Thượng nghị sĩ đại diện"
     },
     {
         "id": 25,
         "question": "Why do some states have more Representatives than other states?",
-        "questionVie": "Tại sao một số tiểu bang có nhiều vị Dân Biểu hơn những tiểu bang khác",
+        "questionVie": "Tại sao một số tiểu bang có nhiều Hạ nghị sĩ hơn những tiểu bang khác",
         "answer": "(Because) they have more people",
         "answerVie": "(Bởi vì) họ có nhiều người dân hơn",
         "type": "WCCR",
-        "learn": "'Why' là tại sao, 'some states' là một vài tiểu bang, 'more' là nhiều hơn, từ khóa 'Representatives', và 'other states' là những tiểu bang khác"
+        "learn": "1. Some states: Một số tiểu bang\n2. More Representatives than: Nhiều Hạ nghị sĩ hơn\n3. Other States: Những tiểu bang khác"
     },
     {
         "id": 26,
         "question": "We elect a President for how many years?",
-        "questionVie": "Chúng ta bầu cử Tổng Thống với nhiệm kỳ là mấy năm",
+        "questionVie": "Chúng ta bầu cử Tổng thống với nhiệm kỳ là mấy năm",
         "answer": "Four (4)",
         "answerVie": "Bốn (4)",
         "type": "PVP",
-        "learn": "'We' là chúng ta, từ khóa 'President', 'how many' là bao nhiêu, và 'years' là năm"
+        "learn": "1. Elect a President: Bầu cử Tổng thống"
     },
     {
         "id": 27,
-        "question": "In what month do we vote for President? *",
-        "questionVie": "Chúng ta bầu cử Tổng Thống vào tháng nào",
+        "question": "In what month do we vote for President?*",
+        "questionVie": "Chúng ta bầu cử Tổng thống vào tháng nào",
         "answer": "November",
         "answerVie": "Tháng mười một",
         "type": "PVP",
-        "learn": "'what month' là tháng nào, 'vote' là bẩu cử, và từ khóa 'President'"
+        "learn": "1. What month do we vote for President: Bầu cử Tổng thống vào tháng nào"
     },
     {
         "id": 28,
-        "question": "What is the name of the President of the United States now? *",
-        "questionVie": "Tên của Tổng Thống Mỹ hiện nay là gì",
+        "question": "What is the name of the President of the United States now?*",
+        "questionVie": "Tên của Tổng thống Mỹ hiện nay là gì",
         "answer": "Donald Trump",
         "answerVie": "",
         "type": "PVP",
-        "learn": "'name' là tên, từ khóa 'President' là Tổng Thống, và 'United States' là nước Mỹ"
+        "learn": "1. Name of the President: Tên của Tổng Thống"
     },
     {
         "id": 29,
         "question": "What is the name of the Vice President of the United States now?",
-        "questionVie": "Tên của Phó Tổng Thống hiện tại là ai",
+        "questionVie": "Tên của Phó Tổng thống hiện tại là ai",
         "answer": "JD Vance",
         "answerVie": "",
         "type": "PVP",
-        "learn": "'name' là tên, từ khóa 'Vice President' là Phó Tổng Thống"
+        "learn": "1. Name of the Vice President: Tên của Phó Tổng Thống"
     },
     {
         "id": 30,
         "question": "If the President can no longer serve, who becomes President?",
-        "questionVie": "Nếu Tổng Thống đương nhiệm không thể tiếp tục chức vị Tổng Thống, ai sẽ kế nhiệm chức Tổng Thống",
+        "questionVie": "Nếu Tổng thống đương nhiệm không thể tiếp tục chức vị Tổng thống, ai sẽ kế nhiệm chức Tổng thống",
         "answer": "The Vice President",
-        "answerVie": "Phó Tổng Thống",
+        "answerVie": "Phó Tổng thống",
         "type": "PVP",
-        "learn": "'If' là nếu, từ khóa 'President', và 'who becomes' là ai sẽ trở thành/kế nhiệm"
+        "learn": "1. President can no longer serve: Tổng thống không thể tiếp tục chức vị"
     },
     {
         "id": 31,
         "question": "If both the President and the Vice President can no longer serve, who becomes President?",
-        "questionVie": "Nếu cả hai Tổng Thống và Phó Tổng Thống đều không thể tiếp tục chức vị, thì ai sẽ kế nhiệm chức Tổng Thống",
+        "questionVie": "Nếu cả hai Tổng thống và Phó Tổng thống đều không thể tiếp tục chức vị, thì ai sẽ kế nhiệm chức Tổng thống",
         "answer": "The Speaker of the House",
         "answerVie": "Chủ Tịch Hạ Nghị Viện",
         "type": "PVP",
-        "learn": "'If' là nếu, từ khóa 'President' và 'Vice President', và 'who becomes' là ai trở thành/kế nhiệm"
+        "learn": "1. President and the Vice President can no longer serve: Tổng thống và Phó Tổng thống không thể tiếp tục chức vị"
     },
     {
         "id": 32,
         "question": "Who is the Commander in Chief of the military?",
         "questionVie": "Ai là tổng tư lệnh quân đội?",
         "answer": "The President",
-        "answerVie": "Tổng Thống",
+        "answerVie": "Tổng thống",
         "type": "CL",
-        "learn": "'Who' là ai, 'Commander' là chỉ huy, và 'military' là quân đội"
+        "learn": "1. Commander in Chief: Tổng tư lệnh"
     },
     {
         "id": 33,
         "question": "Who signs bills to become laws?",
         "questionVie": "Ai ký bản dự luật để ban hành thành luật pháp",
         "answer": "The President",
-        "answerVie": "Tổng Thống",
-        "type": "LGS",
-        "learn": "'Who' là ai, 'signs' là ký, 'bills' là bản dự luật, và từ khóa 'laws'"
+        "answerVie": "Tổng thống",
+        "type": "LD",
+        "learn": "1. Signs bills: Ký bản dự luật"
     },
     {
         "id": 34,
         "question": "Who vetoes bills?",
-        "questionVie": "Ai có quyền phủ quyết(phản đối) các dự luật",
+        "questionVie": "Ai có quyền phủ quyết các dự luật",
         "answer": "The President",
-        "answerVie": "Tổng Thống",
+        "answerVie": "Tổng thống",
         "type": "CL",
-        "learn": "'Who' là ai, 'vetoes' là phủ quyết, và 'bills' là dự luật"
+        "learn": "1. Vetoes bills: Phủ quyết"
     },
     {
         "id": 35,
         "question": "What does the President's Cabinet do?",
-        "questionVie": "Bộ phận nội chính phủ của Tổng Thống làm gì",
+        "questionVie": "Bộ phận nội chính phủ của Tổng thống làm gì",
         "answer": "Advises the President",
-        "answerVie": "Cố vấn cho Tổng Thống",
+        "answerVie": "Cố vấn cho Tổng thống",
         "type": "PVP",
-        "learn": "'What', 'President's Cabinet' là bộ phận nội chính phủ của Tổng Thống, và 'do' là làm gì"
+        "learn": "1. President's Cabinet: Bộ phận nội chính phủ của Tổng thống"
     },
     {
         "id": 36,
         "question": "What are two Cabinet-level positions?",
-        "questionVie": "Nêu hai chức vụ trong bộ phận nội chính phủ(cố vấn cho Tổng Thống)",
+        "questionVie": "Nêu hai chức vụ trong bộ phận nội chính phủ",
         "answer": "Secretary of Education and Secretary of Energy",
         "answerVie": "Bộ trưởng giáo dục và bộ trưởng năng lượng",
         "type": "CL",
-        "learn": "'What', 'two' là hai, và 'Cabinet' là bộ phận nội chính phủ"
+        "learn": "1. Two Cabinet-level positions: Hai chức vụ trong bộ phận nội chính phủ"
     },
     {
         "id": 37,
@@ -330,7 +330,7 @@
         "answer": "Reviews laws",
         "answerVie": "Duyệt lại những điều luật",
         "type": "CL",
-        "learn": "'What', 'judicial' là tư pháp, và 'do' là làm"
+        "learn": "1. Judicial branch: Bộ phận tư pháp"
     },
     {
         "id": 38,
@@ -339,16 +339,16 @@
         "answer": "The Supreme Court",
         "answerVie": "Tòa Án Tối Cao",
         "type": "US",
-        "learn": "'What', 'highest' là cao nhất, 'highest court' là tòa án cao nhất, và từ khóa 'United States'"
+        "learn": "1. Highest court: Tòa án cao nhất"
     },
     {
         "id": 39,
         "question": "How many justices are on the Supreme Court?",
         "questionVie": "Có bao nhiêu thẩm phán trong Tòa Án Tối Cao?",
-        "answer": "Nine(9)",
-        "answerVie": "Chín(9)",
+        "answer": "Nine (9)",
+        "answerVie": "Chín (9)",
         "type": "CL",
-        "learn": "'How many' là bao nhiêu, 'justices' là thẩm phán, và 'Supreme Court' là Tòa Án Tối Cao"
+        "learn": "1. How many justices: Bao nhiêu thẩm phán\n2. Supreme Court: Toà án tối cao"
     },
     {
         "id": 40,
@@ -357,7 +357,7 @@
         "answer": "John Roberts",
         "answerVie": "",
         "type": "US",
-        "learn": "'Who' là ai, 'Chief Justice' là Chánh Án Tối Cao, và từ khóa 'United States'"
+        "learn": "1. The Chief Justice: Chánh Án Tối Cao"
     },
     {
         "id": 41,
@@ -366,7 +366,7 @@
         "answer": "To print money",
         "answerVie": "In tiền",
         "type": "CA",
-        "learn": "Từ khóa 'Constitution','one power' là một quyền, và 'federal government' là chính phủ liên bang"
+        "learn": "1. One power of the federal government: Một quyền của chính phủ liên bang"
     },
     {
         "id": 42,
@@ -375,7 +375,7 @@
         "answer": "Give a driver's license",
         "answerVie": "Cấp bằng lái xe",
         "type": "CA",
-        "learn": "Từ khóa 'Constitution', 'one power' là một quyền, và 'the states' là những tiểu bang"
+        "learn": "1. One power of the states: Một quyền của tiểu bang"
     },
     {
         "id": 43,
@@ -383,17 +383,17 @@
         "questionVie": "Ai là thống đốc của tiểu bang nơi bạn sống hiện tại?",
         "answer": "",
         "answerVie": "",
-        "type": "LGS",
-        "learn": "'Who' là ai, 'Governor' là Thống Đốc, và 'your state' là tiểu bang của bạn"
+        "type": "GSA",
+        "learn": "1. Governor of your state: Thống đốc của tiểu bang của bạn"
     },
     {
         "id": 44,
-        "question": "What is the capital of your state? *",
+        "question": "What is the capital of your state?*",
         "questionVie": "Thủ phủ của tiểu bang bạn là gì?",
         "answer": "",
         "answerVie": "",
-        "type": "LGS",
-        "learn": "'What', 'capital' là thủ phủ, và 'your state' là tiểu bang của bạn"
+        "type": "GSA",
+        "learn": "1. Capital of your state: Thủ phủ của tiểu bang của bạn"
     },
     {
         "id": 45,
@@ -402,7 +402,7 @@
         "answer": "Democratic and Republican",
         "answerVie": "Đảng Dân Chủ và Đảng Cộng Hòa",
         "type": "US",
-        "learn": "'What', 'two' là hai, 'political parties' là các đảng chính trị, và từ khóa 'United States'"
+        "learn": "1. Two major political parties: Hai đảng chính"
     },
     {
         "id": 46,
@@ -411,7 +411,7 @@
         "answer": "Republican Party",
         "answerVie": "Đảng Cộng Hòa",
         "type": "PVP",
-        "learn": "'what', 'party' là đảng, 'political party' là đảng chính trị, và từ khóa 'President'"
+        "learn": "1. Political party of the President: Đảng của tổng thống"
     },
     {
         "id": 47,
@@ -420,26 +420,25 @@
         "answer": "Mike Johnson",
         "answerVie": "",
         "type": "WCCR",
-        "learn": "'What', 'name' là tên, và 'Speaker of the House of Representatives' là chủ tịch Hạ Nghị Viện",
-        "zip": true
+        "learn": "1. Speaker of the House of Representatives: Chủ tịch Hạ Nghị Viện"
     },
     {
         "id": 48,
         "question": "There are four amendments to the Constitution about who can vote. Describe one of them.",
         "questionVie": "Có bốn Tu chính án nói về việc ai có thể bỏ phiếu bầu cử. Nêu một trong bốn",
-        "answer": "Any citizen can vote(Women and men can vote)",
-        "answerVie": "Bất cứ công dân nào cũng có thể bầu cử(phụ nữ và nam giới đều có thể bầu cử)",
+        "answer": "Any citizen can vote (Women and men can vote)",
+        "answerVie": "Bất cứ công dân nào cũng có thể bầu cử (phụ nữ và nam giới đều có thể bầu cử)",
         "type": "CA",
-        "learn": "'four amendments' là bốn tu chính án, từ khóa 'constitution', 'who can vote' là ai có thể bầu cử, và 'Describe one' là nêu ra một thứ"
+        "learn": "1. Four amendments: Bốn tu chính án"
     },
     {
         "id": 49,
-        "question": "What is one responsibility that is only for United States citizens? *",
-        "questionVie": "Một trong những nghĩa vụ của công dân Mỹ là gì?",
+        "question": "What is one responsibility that is only for United States citizens?*",
+        "questionVie": "Một trong những trách nhiệm của công dân Mỹ là gì?",
         "answer": "Vote in a federal election",
         "answerVie": "Bầu cử trong cuộc bầu cử liên bang",
         "type": "US",
-        "learn": "'What', 'one responsibility' là một nghĩa vụ, và 'United States citizens' là công dân Mỹ"
+        "learn": "1. One responsibility: Một trách nhiệm"
     },
     {
         "id": 50,
@@ -448,7 +447,7 @@
         "answer": "Vote in a federal election",
         "answerVie": "Bầu cử trong cuộc bầu cử liên bang",
         "type": "US",
-        "learn": "'Name one' là kể tên một, 'right' là quyền, và 'United States citizens' là công dân Mỹ"
+        "learn": "1. One right only: Một quyền chỉ dành cho"
     },
     {
         "id": 51,
@@ -457,7 +456,7 @@
         "answer": "Freedom of speech and Freedom of religion",
         "answerVie": "Tự do ngôn luận và tự do tôn giáo",
         "type": "US",
-        "learn": "'What', 'two rights' là hai quyền, 'everyone' là mỗi người, và từ khóa 'United States'"
+        "learn": "1. Two rights of everyone: Hai quyền của mọi người\n2. Living in the United States: Sống ở Hoa Kỳ"
     },
     {
         "id": 52,
@@ -466,7 +465,7 @@
         "answer": "The United States",
         "answerVie": "Nước Mỹ",
         "type": "CL",
-        "learn": "'What', 'loyalty' là lòng trung thành, và 'Pledge of Allegiance' là lời tuyên thệ"
+        "learn": "1. Show loyalty: Thể hiện lòng trung thành\n2. Pledge of Allegiance: Tuyên Thệ"
     },
     {
         "id": 53,
@@ -475,16 +474,16 @@
         "answer": "Obey the laws of the United States",
         "answerVie": "Tuân theo luật pháp của Hoa Kỳ",
         "type": "US",
-        "learn": "'What', 'one promise' là một lời hứa, và 'United States citizen' là công dân Mỹ"
+        "learn": "1. One promise: Một lời hứa"
     },
     {
         "id": 54,
-        "question": "How old do citizens have to be to vote for President? *",
-        "questionVie": "Công dân Mỹ phải bao nhiêu tuổi mới có thể bầu cử Tổng Thống",
+        "question": "How old do citizens have to be to vote for President?*",
+        "questionVie": "Công dân Mỹ phải bao nhiêu tuổi mới có thể bầu cử Tổng thống",
         "answer": "Eighteen (18) and older",
         "answerVie": "Từ mười tám (18) tuổi trở lên",
         "type": "PVP",
-        "learn": "'how old' là bao nhiêu tuổi, 'citizens' là những công dân, 'vote' là bẩu cử, và từ khóa 'President'"
+        "learn": "1. How old: Bao nhiêu tuổi"
     },
     {
         "id": 55,
@@ -492,26 +491,26 @@
         "questionVie": "Hai cách công dân Mỹ có thể tham gia nền dân chủ?",
         "answer": "Vote and Write to a newspaper",
         "answerVie": "Bầu cử và Viết báo",
-        "type": "DA",
-        "learn": "'What', 'two ways' là hai cách, 'Americans' là người Mỹ, 'democracy' là nền Dân Chủ"
+        "type": "GSA",
+        "learn": "1. Participate in democracy: Tham gia nền dân chủ"
     },
     {
         "id": 56,
-        "question": "When is the last day you can send in federal income tax forms? *",
+        "question": "When is the last day you can send in federal income tax forms?*",
         "questionVie": "Ngày cuối cùng của mỗi năm để bạn nộp đơn khai thuế cho liên bang là ngày nào?",
         "answer": "April 15",
         "answerVie": "Ngày 15 tháng 4",
-        "type": "HS",
-        "learn": "'When' là khi nào, 'last day' là ngày cuối cùng, và 'income tax' là thuế thu nhập"
+        "type": "SND",
+        "learn": "1. The last day: Ngày cuối cùng\n2. Income tax: Thuế thu nhập"
     },
     {
         "id": 57,
         "question": "When must all men register for the Selective Service?",
-        "questionVie": "Khi nào tất cả nam giới đều phải đăng ký vào Sở Quân Vụ?(danh sách đi lính)",
+        "questionVie": "Khi nào tất cả nam giới đều phải đăng ký vào Sở Quân Vụ?",
         "answer": "At age eighteen (18)",
         "answerVie": "Ở tuổi mười tám (18)",
         "type": "CL",
-        "learn": "'When' là khi nào, 'men' là nam giới, 'register' là đăng ký, và 'Selective Service' là Sở Quân Vụ"
+        "learn": "1. All men: Tất cả nam giới\n2. Register: Đăng ký\n3. Selective Service: Sở Quân Vụ"
     },
     {
         "id": 58,
@@ -519,8 +518,8 @@
         "questionVie": "Một lý do khiến những người di dân thời thuộc địa đến Mỹ là gì?",
         "answer": "Freedom",
         "answerVie": "Sự tự do",
-        "type": "DA",
-        "learn": "'What', 'one reason' là một lý do, 'colonists' là người di dân thời thuộc địa, và từ khóa 'America'"
+        "type": "GSA",
+        "learn": "1. One reason: Một lý do\n2. Colonists came to America: Người di dân thời thuộc địa đến Mỹ"
     },
     {
         "id": 59,
@@ -528,17 +527,17 @@
         "questionVie": "Ai đã sống ở Mỹ trước khi người Châu Âu tới?",
         "answer": "American Indians",
         "answerVie": "Người Mỹ da đỏ",
-        "type": "DA",
-        "learn": "'Who' là ai, 'lived' là đã sống, từ khóa 'America', 'before' là trước khi, và 'Europeans' là những người Châu Âu"
+        "type": "GSA",
+        "learn": "1. Who lived in America: Ai đã sống ở Mỹ\n2. The Europeans arrived: Người Châu Âu tới"
     },
     {
         "id": 60,
         "question": "What group of people was taken to America and sold as slaves?",
-        "questionVie": "Nhóm người nào đã bị đưa tới Mỹ để làm nô lệ?",
+        "questionVie": "Nhóm người nào đã bị đưa tới Mỹ và bị bán làm nô lệ?",
         "answer": "Africans",
         "answerVie": "Những người Châu Phi",
-        "type": "DA",
-        "learn": "'What group' là nhóm nào, 'taken' là bị đưa tới, từ khóa 'America', và 'slaves' là nô lệ"
+        "type": "GSA",
+        "learn": "1. Group of people: Nhóm người\n2. Was taken: Bị đưa tới\n3. Sold as slaves: Bị bán làm nô lệ"
     },
     {
         "id": 61,
@@ -547,16 +546,16 @@
         "answer": "Because of high taxes",
         "answerVie": "Vì thuế cao",
         "type": "CL",
-        "learn": "'Why' là tại sao, 'colonists' là những người dân thời thuộc địa, 'fight' là chống lại, và 'British' là người Anh"
+        "learn": "1. Colonists fight the British: Người dân thời thuộc địa chống lại người Anh"
     },
     {
         "id": 62,
         "question": "Who wrote the Declaration of Independence?",
-        "questionVie": "Ai đã soạn thảo bản Tuyên ngôn Độc lập?",
+        "questionVie": "Ai đã soạn thảo Bản Tuyên ngôn Độc lập?",
         "answer": "(Thomas) Jefferson",
         "answerVie": "",
-        "type": "DA",
-        "learn": "'Who' là ai, 'wrote' là đã viết(soạn thảo), và từ khóa 'Declaration of Independence'"
+        "type": "LD",
+        "learn": "1. Wrote the Declaration of Independence: Soạn thảo Bản Tuyên Ngôn Độc Lập"
     },
     {
         "id": 63,
@@ -564,17 +563,17 @@
         "questionVie": "Bản Tuyên ngôn Độc lập được duyệt khi nào?",
         "answer": "July 4, 1776",
         "answerVie": "Ngày 4 tháng 7 năm 1776",
-        "type": "DA",
-        "learn": "'When' là khi nào, từ khóa 'Declaration of Independence', và 'adopted' là được duyệt(được thông qua)"
+        "type": "LD",
+        "learn": "1. Declaration of Independence Adopted: Bản Tuyên Ngôn Độc Lập được duyệt"
     },
     {
         "id": 64,
         "question": "There were 13 original states. Name three.",
-        "questionVie": "Đã từng có 13 tiểu bang đầu tiên(gốc). Nêu tên ba tiểu bang.",
+        "questionVie": "Đã từng có 13 tiểu bang đầu tiên. Nêu tên ba tiểu bang.",
         "answer": "New York, New Jersey, and New Hampshire",
         "answerVie": "",
-        "type": "LGS",
-        "learn": "'13', từ khóa 'states', và 'Name three' là nêu ra ba(3)"
+        "type": "GSA",
+        "learn": "1. 13 original states: 13 tiểu bang đầu tiên"
     },
     {
         "id": 65,
@@ -583,7 +582,7 @@
         "answer": "The Constitution was written.",
         "answerVie": "Hiến Pháp đã được viết ra.",
         "type": "CA",
-        "learn": "'What happend' là chuyện gì đã xảy ra, 'Constituional Convention' là đại hội lập hiến"
+        "learn": "1. What happened: Chuyện gì đã xảy ra\n2. Constitutional Convention: Đại hội Lập Hiến"
     },
     {
         "id": 66,
@@ -592,7 +591,7 @@
         "answer": "1787",
         "answerVie": "Năm 1787",
         "type": "CA",
-        "learn": "'When' là khi nào, 'Constitution written' là Hiến Pháp được viết ra"
+        "learn": "1. Constitution written: Hiến Pháp được viết ra"
     },
     {
         "id": 67,
@@ -601,7 +600,7 @@
         "answer": "(John) Jay",
         "answerVie": "",
         "type": "CA",
-        "learn": "Từ khóa 'Constitution', 'Name one' là kể tên một, và 'writers' là những tác giả"
+        "learn": "1. Federalist Paper: Bài tiểu luận liên bang\n2. One of the writers: Một trong những tác giả"
     },
     {
         "id": 68,
@@ -609,8 +608,8 @@
         "questionVie": "Ông Benjamin Franklin nổi tiếng về điều gì?",
         "answer": "U.S. diplomat",
         "answerVie": "Nhà ngoại giao Hoa Kỳ",
-        "type": "BN",
-        "learn": "'What', 'one thing' là một điều, và ông 'Benjamin Franklin'"
+        "type": "SND",
+        "learn": "1. Famous for: Nổi tiếng về điều gì"
     },
     {
         "id": 69,
@@ -618,17 +617,17 @@
         "questionVie": "Ai là \"Cha đẻ của đất nước\"?",
         "answer": "(George) Washington",
         "answerVie": "",
-        "type": "BN",
-        "learn": "'Who' là ai, 'Father of Our Country' là cha của đất nước chúng ta"
+        "type": "SND",
+        "learn": "1. Father of Our Country: Cha của đất nước chúng ta"
     },
     {
         "id": 70,
-        "question": "Who was the first President? *",
+        "question": "Who was the first President?*",
         "questionVie": "Ai là vị Tổng thống đầu tiên?",
         "answer": "(George) Washington",
         "answerVie": "",
         "type": "PVP",
-        "learn": "'Who' là ai, 'first' là đầu tiên, và từ khóa 'President'"
+        "learn": "1. First President: Tổng thống đầu tiên"
     },
     {
         "id": 71,
@@ -637,7 +636,7 @@
         "answer": "Louisiana",
         "answerVie": "",
         "type": "US",
-        "learn": "'What territory' là lãnh thổ nào, từ khóa 'United States', 'buy' là mua, và 'France' là nước Pháp"
+        "learn": "1. What territory: Lãnh thổ nào\n2. Buy from France: Mua từ Pháp"
     },
     {
         "id": 72,
@@ -646,7 +645,7 @@
         "answer": "War of 1812",
         "answerVie": "Chiến tranh 1812",
         "type": "US",
-        "learn": ""
+        "learn": "1. 1800s: Thế kỷ 19"
     },
     {
         "id": 73,
@@ -655,25 +654,25 @@
         "answer": "The Civil War",
         "answerVie": "Cuộc Nội chiến",
         "type": "WCCR",
-        "learn": "'Name' nêu tên, từ khóa 'U.S. war', 'North' là miền bắc, và 'South' là miền nam"
+        "learn": "1. North and the South: Miền bắc và miền Nam"
     },
     {
         "id": 74,
         "question": "Name one problem that led to the Civil War.",
-        "questionVie": "Nêu một vấn đề(nguyên nhân) dẫn đến cuộc Nội Chiến.",
+        "questionVie": "Nêu một nguyên nhân dẫn đến cuộc Nội Chiến.",
         "answer": "Slavery",
         "answerVie": "Nô lệ",
         "type": "CL",
-        "learn": "'Name one' là nêu một, 'problem' là vấn đề hoặc nguyên nhân, và 'Civil War' là cuộc Nội Chiến"
+        "learn": "1. One problem: Một nguyên nhân\n2. Civil War: Cuộc Nội Chiến"
     },
     {
         "id": 75,
-        "question": "What was one important thing that Abraham Lincoln did? *",
+        "question": "What was one important thing that Abraham Lincoln did?*",
         "questionVie": "Một điều quan trọng mà Abraham Lincoln đã làm là gì?",
         "answer": "Freed the slaves",
         "answerVie": "Giải phóng nô lệ",
-        "type": "BN",
-        "learn": "'What', 'one' là một, 'thing' là một điều, và ông 'Abraham Lincoln'"
+        "type": "SND",
+        "learn": "1. One important thing: Một điều quan trọng\n2. Abraham Lincoln"
     },
     {
         "id": 76,
@@ -682,7 +681,7 @@
         "answer": "Freed the slaves",
         "answerVie": "Giải phóng nô lệ",
         "type": "CL",
-        "learn": "'What' và 'Emancipation Proclamation' là bản Tuyên Ngôn Giải Phóng"
+        "learn": "1. Emancipation Proclamation: Bản Tuyên Ngôn Giải Phóng"
     },
     {
         "id": 77,
@@ -690,17 +689,17 @@
         "questionVie": "Bà Susan B. Anthony đã làm gì?",
         "answer": "Fought for women's rights",
         "answerVie": "Đấu tranh vì quyền lợi của phụ nữ",
-        "type": "BN",
-        "learn": "'What', bà 'Susan B. Anthony', và từ 'do' là làm"
+        "type": "SND",
+        "learn": "1. Susan B. Anthony"
     },
     {
         "id": 78,
-        "question": "Name one war fought by the United States in the 1900s. *",
+        "question": "Name one war fought by the United States in the 1900s.*",
         "questionVie": "Nêu tên một cuộc chiến mà Hoa Kỳ tham gia vào thập niên 1900.",
         "answer": "Vietnam War",
         "answerVie": "Chiến tranh ở Việt Nam",
         "type": "US",
-        "learn": "'Name one' là kể tên một, 'war' là chiến tranh, từ khóa 'United States', và '1900s' là những năm 1900"
+        "learn": "1. 1900s: Thế kỷ 20"
     },
     {
         "id": 79,
@@ -709,7 +708,7 @@
         "answer": "(Woodrow) Wilson",
         "answerVie": "",
         "type": "PVP",
-        "learn": "'Who' là ai, từ khóa 'President', và 'World War I' là chiến tranh thế giới thứ nhất"
+        "learn": "1. World War I: Thế chiến thứ nhất"
     },
     {
         "id": 80,
@@ -717,8 +716,8 @@
         "questionVie": "Ai là Tổng thống trong thời kỳ Đại Khủng Hoảng và Thế Chiến Thứ Hai?",
         "answer": "(Franklin) Roosevelt",
         "answerVie": "",
-        "type": "CL",
-        "learn": "'Who' là ai, 'President' là Tổng Thống, và 'World War II' là Thế Chiến Thứ Hai"
+        "type": "PVP",
+        "learn": "1. Great Depression: Đại khủng hoảng"
     },
     {
         "id": 81,
@@ -727,7 +726,7 @@
         "answer": "Japan, Germany, and Italy",
         "answerVie": "Nước Nhật Bản, Đức và Ý",
         "type": "US",
-        "learn": "'Who' là ai, từ khóa 'United States', 'fight' là chiến đấu, và 'World War II' là chiến tranh thế giới thứ hai"
+        "learn": "1. Fight in World War II: Chiến đấu trong Thế chiến thứ hai"
     },
     {
         "id": 82,
@@ -736,7 +735,7 @@
         "answer": "World War II",
         "answerVie": "Thế chiến thứ hai",
         "type": "PVP",
-        "learn": "'Before' là trước khi, từ khóa 'President', 'What war' là chiến tranh nào"
+        "learn": "1. Eisenhower\n2. General: Tướng quân"
     },
     {
         "id": 83,
@@ -745,7 +744,7 @@
         "answer": "Communism",
         "answerVie": "Chủ nghĩa Cộng sản",
         "type": "US",
-        "learn": "'Cold War' là Chiến Tranh Lạnh, 'what', 'concern' là mối lo ngại, và từ khóa 'United States'"
+        "learn": "1. Cold War: Chiến Tranh Lạnh\n2. Main Concern: Mối lo ngại chính"
     },
     {
         "id": 84,
@@ -754,16 +753,16 @@
         "answer": "Civil rights (movement)",
         "answerVie": "Phong trào dân quyền",
         "type": "CL",
-        "learn": "'What', 'movement' là phong trào, 'end' là chấm dứt, và 'racial discrimination' là sự phân biệt chủng tộc"
+        "learn": "1. What movement: Phong trào nào\n2. Racial discrimination: Sự phân biệt chủng tộc"
     },
     {
         "id": 85,
-        "question": "What did Martin Luther King, Jr. do? *",
+        "question": "What did Martin Luther King, Jr. do?*",
         "questionVie": "Ông Martin Luther King đã làm gì?",
         "answer": "Fought for civil rights",
         "answerVie": "Đấu tranh vì dân quyền",
-        "type": "BN",
-        "learn": "'What', tên của ông 'Martin Luther King', và từ 'do' là làm"
+        "type": "SND",
+        "learn": "1. Martin Luther King"
     },
     {
         "id": 86,
@@ -772,7 +771,7 @@
         "answer": "Terrorists attacked the United States.",
         "answerVie": "Kẻ khủng bố đã tấn công Hoa Kỳ.",
         "type": "US",
-        "learn": "'What', 'event' là sự kiện, 'September 11' là ngày 11 tháng 9, và từ khóa 'United States'"
+        "learn": "1. Major event: Sự kiện lớn\n2. September 11: Ngày 11 tháng 9"
     },
     {
         "id": 87,
@@ -781,7 +780,7 @@
         "answer": "Hopi",
         "answerVie": "",
         "type": "US",
-        "learn": "'Name one' là kể tên một, 'American Indian tribe' là bộ lạc người da đỏ, và từ khóa 'United States'"
+        "learn": "1. American Indian tribe: Bộ lạc người da đỏ"
     },
     {
         "id": 88,
@@ -790,7 +789,7 @@
         "answer": "Mississippi (River)",
         "answerVie": "Sông Mississippi",
         "type": "US",
-        "learn": "'Name one' là kể tên một, 'rivers' là con sông, và từ khóa 'United States'"
+        "learn": "1. Two longest rivers: Hai con sông dài nhất"
     },
     {
         "id": 89,
@@ -799,7 +798,7 @@
         "answer": "Pacific (Ocean)",
         "answerVie": "Thái Bình Dương",
         "type": "US",
-        "learn": "'What ocean' là đại dương nào, 'West Coast' là bờ biển phía Tây, và từ khóa 'United States'"
+        "learn": "1. West Coast: Bờ biển phía Tây"
     },
     {
         "id": 90,
@@ -808,7 +807,7 @@
         "answer": "Atlantic (Ocean)",
         "answerVie": "Đại Tây Dương",
         "type": "US",
-        "learn": "'What ocean' là đại dương nào, 'East Coast' là bờ biển phía Đông, và từ khóa 'United States'"
+        "learn": "1. East Coast: Bờ biển phía Đông\n2. United States"
     },
     {
         "id": 91,
@@ -817,7 +816,7 @@
         "answer": "Guam",
         "answerVie": "",
         "type": "WCCR",
-        "learn": "'Name one' là kể tên một và từ khóa 'U.S. territory'"
+        "learn": "1. U.S. territory: Lãnh thổ hải ngoại của Hoa Kỳ"
     },
     {
         "id": 92,
@@ -825,8 +824,8 @@
         "questionVie": "Kể tên một tiểu bang giáp biên giới với Canada.",
         "answer": "Washington",
         "answerVie": "Washington",
-        "type": "BN",
-        "learn": "'Name' là kể tên, 'one state' là một tiểu bang, từ khóa 'borders', và nước 'Canada'"
+        "type": "GSA",
+        "learn": "1. Canada"
     },
     {
         "id": 93,
@@ -834,26 +833,26 @@
         "questionVie": "Kể tên một tiểu bang giáp biên giới với Mexico.",
         "answer": "New Mexico",
         "answerVie": "New Mexico",
-        "type": "BN",
-        "learn": "'Name' là kể tên, 'one state' là một tiểu bang, từ khóa 'borders', và nước 'Mexico'"
+        "type": "GSA",
+        "learn": "1. Mexico"
     },
     {
         "id": 94,
-        "question": "What is the capital of the United States? *",
+        "question": "What is the capital of the United States?*",
         "questionVie": "Thủ đô của nước Mỹ tên gì?",
         "answer": "Washington, D.C.",
         "answerVie": "",
         "type": "US",
-        "learn": "'What', 'capital' là thủ đô, và từ khóa 'United States'"
+        "learn": "1. Capital of the United States: Thủ đô của nước Mỹ"
     },
     {
         "id": 95,
-        "question": "Where is the Statue of Liberty? *",
+        "question": "Where is the Statue of Liberty?*",
         "questionVie": "Tượng Nữ thần Tự do ở đâu?",
         "answer": "New York (Harbor)",
         "answerVie": "Cảng New York",
-        "type": "HS",
-        "learn": "'Where' là ở đâu và 'Statue of Liberty' là tượng nữ thần tự do"
+        "type": "SND",
+        "learn": "1. Statue of Liberty: Tượng nữ thần tự do"
     },
     {
         "id": 96,
@@ -861,17 +860,17 @@
         "questionVie": "Tại sao lá cờ có 13 đường sọc?",
         "answer": "Because there were 13 original colonies",
         "answerVie": "Vì có 13 thuộc địa nguyên thủy",
-        "type": "HS",
-        "learn": "'Why' là tại sao, 'flag' là lá cờ, và '13 stripes' là 13 đường sọc"
+        "type": "SND",
+        "learn": "1. 13 stripes: 13 đường sọc"
     },
     {
         "id": 97,
-        "question": "Why does the flag have 50 stars? *",
+        "question": "Why does the flag have 50 stars?*",
         "questionVie": "Tại sao lá cờ Mỹ có 50 ngôi sao?",
         "answer": "Because there are 50 states",
         "answerVie": "Vì có tổng cộng là 50 tiểu bang",
-        "type": "HS",
-        "learn": "'Why' là tại sao, 'flag' là lá cờ, và '50 stars' là 50 ngôi sao"
+        "type": "SND",
+        "learn": "1. 50 stars: 50 ngôi sao"
     },
     {
         "id": 98,
@@ -879,17 +878,17 @@
         "questionVie": "Tên của quốc ca Hoa Kỳ là gì?",
         "answer": "The Star-Spangled Banner",
         "answerVie": "",
-        "type": "HS",
-        "learn": "'What', 'name' là tên, và 'national anthem' là bài quốc ca"
+        "type": "SND",
+        "learn": "1. National anthem: Bài quốc ca"
     },
     {
         "id": 99,
-        "question": "When do we celebrate Independence Day? *",
+        "question": "When do we celebrate Independence Day?*",
         "questionVie": "Khi nào chúng ta kỷ niệm Ngày Lễ Độc Lập?",
         "answer": "July 4",
         "answerVie": "Ngày 4 tháng 7",
-        "type": "DA",
-        "learn": "'When' là khi nào, 'celebrate' là kỷ niệm(tổ chức), và 'Independence Day' là Ngày Lễ Độc Lập"
+        "type": "LD",
+        "learn": "1. Celebrate Independence Day: Kỷ niệm ngày Lễ Độc Lập"
     },
     {
         "id": 100,
@@ -897,7 +896,7 @@
         "questionVie": "Kể tên hai ngày lễ quốc gia của Hoa Kỳ.",
         "answer": "New Year's Day and Christmas",
         "answerVie": "Ngày Tết Tây và Lễ Giáng Sinh",
-        "type": "HS",
-        "learn": "'Name' là kể tên, 'two' là hai, và từ khóa 'holidays'"
+        "type": "SND",
+        "learn": "1. Holidays: Ngày lễ"
     }
 ]

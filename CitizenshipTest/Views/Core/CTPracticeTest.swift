@@ -18,7 +18,7 @@ struct CTPracticeTest: View {
     @State private var tenQuestions: [CTQuestion] = []
     @State private var isLoading: Bool = true
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var showResult: Bool = true
+    @State private var showResult: Bool = false
     
     var btnBack : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()

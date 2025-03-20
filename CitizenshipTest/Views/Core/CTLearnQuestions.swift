@@ -16,20 +16,19 @@ struct CTLearnQuestions: View {
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @State private var synthesizer = AVSpeechSynthesizer()
-    @State private var qIndex = -1
+    @State private var qIndex = 0
     @State private var questionCount = 0
-    private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8", "Phần 9"]
+    private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8"]
     
     let partToType = [
-        "Phần 1": "CA",
-        "Phần 2": "PVP",
+        "Phần 1": "LD",
+        "Phần 2": "CA",
         "Phần 3": "US",
-        "Phần 4": "LGS",
-        "Phần 5": "DA",
-        "Phần 6": "WCCR",
-        "Phần 7": "BN",
-        "Phần 8": "HS",
-        "Phần 9": "CL"
+        "Phần 4": "WCCR",
+        "Phần 5": "PVP",
+        "Phần 6": "GSA",
+        "Phần 7": "SND",
+        "Phần 8": "CL"
     ]
     
     var filteredQuestion: [CTQuestion]{
@@ -223,11 +222,15 @@ struct QuestionView: View {
                     .fontWeight(.thin)
                     .multilineTextAlignment(.center)
                 
-                (Text("Từ trọng tâm:")
-                    .underline() +
-                 Text(" \(learn) - là những từ bạn cần nhớ để nhận diện câu hỏi này"))
-                .font(deviceManager.isTablet ? .title : .body)
-                .padding(.vertical)
+                Text("Từ quan trọng:")
+                    .underline()
+                    .padding(.top)
+                    
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("\(learn)")
+                    .font(deviceManager.isTablet ? .title : .body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 1)
             }
             
             HStack{
