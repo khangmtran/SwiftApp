@@ -58,6 +58,7 @@ struct CTLearnQuestions: View {
                         .multilineTextAlignment(.center)
                 }//.1
                 .padding()
+                .frame(maxWidth: .infinity)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(.blue, lineWidth: 1)

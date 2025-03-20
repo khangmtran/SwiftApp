@@ -212,8 +212,9 @@ struct CTAllQuestions: View {
                         }
                         .padding(.vertical)
                     }
+                    .listRowBackground(Color.blue.opacity(0.1))
             }
-            
+            .scrollContentBackground(.hidden)
             .sheet(isPresented: $showingZipPrompt) {
                 CTZipInput()
                     .environmentObject(userSetting)

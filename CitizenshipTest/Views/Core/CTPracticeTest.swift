@@ -18,20 +18,7 @@ struct CTPracticeTest: View {
     @State private var tenQuestions: [CTQuestion] = []
     @State private var isLoading: Bool = true
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var showResult: Bool = false
-    
-    var btnBack : some View { Button(action: {
-        self.presentationMode.wrappedValue.dismiss()
-    }) {
-        HStack {
-            Image(systemName: "lessthan")
-                .foregroundStyle(.white)
-            Text("Back")
-                .foregroundStyle(.white)
-        }
-    }
-    }
-    
+    @State private var showResult: Bool = true
     
     var body: some View {
         VStack{
@@ -55,8 +42,6 @@ struct CTPracticeTest: View {
             tenQuestions = Array(questionList.questions.shuffled().prefix(10))
             isLoading = false
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: btnBack)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar{
             ToolbarItem(placement: .principal){
@@ -90,8 +75,7 @@ struct CTResultView: View {
                 // Score circle
                 ZStack {
                     Circle()
-                        .fill(.blue.opacity(0.7))
-                        .shadow(radius: 5)
+                        .fill(.blue)
                         .frame(width: geo.size.width/3)
                     
                     VStack {
@@ -217,7 +201,6 @@ struct PracticeQuestionView: View{
                             .resizable()
                             .scaledToFit()
                             .frame(height: deviceManager.isTablet ? 50 : 25)
-                            .foregroundStyle(.white)
                     }
                     .padding(.trailing)
                     
@@ -233,7 +216,6 @@ struct PracticeQuestionView: View{
                             .resizable()
                             .scaledToFit()
                             .frame(height: deviceManager.isTablet ? 50 : 25)
-                            .foregroundStyle(.white)
                     }
                 }
                 .padding()
@@ -278,6 +260,8 @@ struct PracticeAnswerView: View{
                         Button(action: {
                             selectedAns = ans
                             isAns = true
+                            if selectedAns == tenQuestions[qIndex].answer{score += 1}
+                            
                         }){
                             Text(ans)
                                 .padding()
@@ -296,7 +280,7 @@ struct PracticeAnswerView: View{
                         selectedAns = ans
                         isAns = true
                         if selectedAns == tenQuestions[qIndex].answer{score += 1}
-                        if qIndex == 0{
+                        if qIndex == 9{
                             isAns = false
                             showResult = true
                         }
