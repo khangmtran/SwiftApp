@@ -24,16 +24,6 @@ struct CTStudyHome : View{
                     .padding(.vertical)
                 
                 List{
-                    NavigationLink(destination: CTPracticeTest()){
-                        CTCustomMenuItem(title: "Thi Thử", subtitle: "Bài thi trắc nghiệm 10 câu hỏi ngẫu nhiên", assetImage: "pen_paper")
-                    }
-                    .listRowBackground(Color.blue.opacity(0.1))
-                    
-                    NavigationLink(destination: CTFlashCard()){
-                        CTCustomMenuItem(title: "Thẻ Học", subtitle: "Học cùng thẻ bài để rèn luyện trí nhớ", assetImage: "flash_card")
-                    }
-                    .listRowBackground(Color.blue.opacity(0.1))
-
                     NavigationLink(destination: CTAllQuestions()){
                         CTCustomMenuItem(title: "100 Câu Hỏi", subtitle: "Xem tất cả câu hỏi và câu trả lời", assetImage: "book")
                     }
@@ -42,6 +32,11 @@ struct CTStudyHome : View{
                     NavigationLink(destination: CTLearnQuestions()){
                         CTCustomMenuItem(title: "Học Dễ Nhớ", subtitle: "Học 100 câu hỏi theo từng phần",
                                          assetImage: "book_stack")
+                    }
+                    .listRowBackground(Color.blue.opacity(0.1))
+                    
+                    NavigationLink(destination: CTAllMarkedQuestion()){
+                        CTCustomMenuItem(title: "Câu Hỏi Đánh Dấu", subtitle: "Xem tất cả câu hỏi được đánh dấu", assetImage: "pen_paper")
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
 
@@ -94,10 +89,8 @@ struct CTCustomMenuItem: View{
                 }
             }
             .frame(width: deviceManager.isTablet ? 150 : 75)
-            .padding()
             
-            
-            VStack{
+            VStack(){
                 Text(title)
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
                     .fontWeight(.bold)

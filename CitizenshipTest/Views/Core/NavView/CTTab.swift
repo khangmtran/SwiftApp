@@ -1,8 +1,8 @@
 //
-//  CTTabView.swift
+//  CTTab.swift
 //  CitizenshipTest
 //
-//  Created by Khang Tran on 3/19/25.
+//  Modified on 3/20/25.
 //
 
 import SwiftUI
@@ -19,21 +19,24 @@ struct CTTab: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             // Test Tab
-            CTPracticeTest()
-                .environmentObject(questionList)
-                .environmentObject(wrongAnswer)
-                .environmentObject(deviceManager)
-                .environmentObject(userSetting)
-                .environmentObject(govCapManager)
-                .tabItem {
-                    Image(systemName: "checkmark.circle")
-                    Text("Kiểm tra")
-                        .font(deviceManager.isTablet ? .title : .body)
-                }
-                .tag(0)
+            NavigationStack {
+                CTTestHome()
+                    .environmentObject(questionList)
+                    .environmentObject(wrongAnswer)
+                    .environmentObject(deviceManager)
+                    .environmentObject(userSetting)
+                    .environmentObject(govCapManager)
+            }
+            .id(selectedTab)
+            .tabItem {
+                Image(systemName: "checkmark.circle")
+                Text("Kiểm tra")
+                    .font(deviceManager.isTablet ? .title : .body)
+            }
+            .tag(0)
             
             // Learn Tab
-            NavigationStack{
+            NavigationStack {
                 CTStudyHome()
                     .environmentObject(deviceManager)
                     .environmentObject(userSetting)
@@ -50,7 +53,6 @@ struct CTTab: View {
             }
             .tag(1)
             
-            
             // Settings Tab
             CTSetting()
                 .environmentObject(deviceManager)
@@ -65,7 +67,6 @@ struct CTTab: View {
         }
     }
 }
-
 
 #Preview {
     CTTab()
