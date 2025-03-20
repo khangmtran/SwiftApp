@@ -95,7 +95,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var wrongAnswer = WrongAnswer()
     var body: some Scene {
         WindowGroup {
-            CTInitialScreen()
+            CTTab()
                 .environmentObject(selectedPart)
                 .environmentObject(deviceManager)
                 .environmentObject(userSetting)

@@ -38,7 +38,7 @@ struct CTInitialScreen: View{
             CTBotButton(title: "Bắt Đầu", action: {showNewScreen = true})
                 .padding()
                 .fullScreenCover(isPresented: $showNewScreen){
-                    CTHomeMenu()
+                    CTStudyHome()
                         .environmentObject(selectedPart)
                         .environmentObject(deviceManager)
                         .environmentObject(userSetting)

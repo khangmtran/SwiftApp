@@ -36,7 +36,7 @@ struct CTTab: View {
             
             // Learn Tab
             NavigationStack {
-                CTHomeMenu()
+                CTStudyHome()  
                     .environmentObject(deviceManager)
                     .environmentObject(userSetting)
                     .environmentObject(questionList)
@@ -65,28 +65,12 @@ struct CTTab: View {
             }
             .tag(2)
         }
-        .onAppear {
-            // Use a larger font for tab items if on iPad
-            let appearance = UITabBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            
-            if deviceManager.isTablet {
-                // Larger font for iPad
-                let fontSize: CGFloat = 18
-                let fontAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize, weight: .semibold)]
-                appearance.stackedLayoutAppearance.normal.titleTextAttributes = fontAttributes
-                appearance.stackedLayoutAppearance.selected.titleTextAttributes = fontAttributes
-            }
-            
-            UITabBar.appearance().standardAppearance = appearance
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
     }
 }
 
 
 #Preview {
-    CTTabView()
+    CTTab()
         .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())

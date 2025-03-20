@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct CTStudy : View{
+struct CTStudyHome : View{
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questions: QuestionList
@@ -55,7 +55,7 @@ struct CTStudy : View{
 
 struct CTHomeMenu_Provider: PreviewProvider{
     static var previews: some View{
-        CTStudy()
+        CTStudyHome()
             .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
             .environmentObject(QuestionList())
