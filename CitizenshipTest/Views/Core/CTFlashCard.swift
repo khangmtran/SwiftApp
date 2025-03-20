@@ -22,6 +22,7 @@ struct CTFlashCard: View{
     @State private var showingZipPrompt = false
     @State private var showQuestionType: Bool = false
     @State private var noMarkedQuestionsAlert: Bool = false
+    @State private var qType = "Thứ Tự"
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
@@ -35,7 +36,7 @@ struct CTFlashCard: View{
                 Button(action:{
                     showQuestionType = true
                 }){
-                    Text("Question Type")
+                    Text("\(qType)")
                 }
             }
             .padding(.horizontal)
@@ -59,7 +60,7 @@ struct CTFlashCard: View{
             
         }
         .sheet(isPresented: $showQuestionType) {
-            QuestionTypeView(questions: $questions, qIndex: $qIndex, noMarkedQuestionsAlert: $noMarkedQuestionsAlert)
+            QuestionTypeView(questions: $questions, qIndex: $qIndex, noMarkedQuestionsAlert: $noMarkedQuestionsAlert, qType: $qType)
                 .presentationDetents([.fraction(0.3)])
                 .presentationDragIndicator(.visible)
         }
@@ -67,7 +68,7 @@ struct CTFlashCard: View{
         .alert("", isPresented: $noMarkedQuestionsAlert){
             Button("OK", role: .cancel){}
         } message: {
-            Text("Hien tai ban chua co cau hoi danh dau nao")
+            Text("Hiện tại bạn chưa có câu hỏi đánh dấu")
         }
         
         //card flipped
@@ -159,7 +160,7 @@ struct CardFront: View{
     var body: some View{
         ZStack{
             RoundedRectangle(cornerRadius: 20)
-                .stroke(.blue.opacity(0.5), lineWidth: 10)
+                .stroke(.blue.opacity(0.5), lineWidth: 5)
                 .fill(.blue.opacity(0.1))
             
             VStack{
@@ -256,7 +257,7 @@ struct CardBack: View{
         VStack{
             ZStack{
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(.blue.opacity(0.5), lineWidth: 10)
+                    .stroke(.blue.opacity(0.5), lineWidth: 5)
                     .fill(.blue.opacity(0.1))
                 
                 VStack{
@@ -352,12 +353,13 @@ struct QuestionTypeView: View {
     @Binding var questions: [CTQuestion]
     @Binding var qIndex: Int
     @Binding var noMarkedQuestionsAlert: Bool
+    @Binding var qType: String
     @State private var shouldShowAlertOnDismiss = false
     @Query private var markedQuestions: [MarkedQuestion]
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Select Question Order")
+            Text("Chọn Trình Tự Câu Hỏi")
             //.font(.headline)
                 .padding(.top)
             
@@ -365,11 +367,12 @@ struct QuestionTypeView: View {
             Button(action: {
                 questions = questionList.questions
                 qIndex = 0
+                qType = "Thứ Tự"
                 dismiss()
             }) {
                 HStack {
                     Image(systemName: "list.number")
-                    Text("Sequential Order")
+                    Text("Thứ Tự")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -379,11 +382,12 @@ struct QuestionTypeView: View {
             Button(action: {
                 questions = questionList.questions.shuffled()
                 qIndex = 0
+                qType = "Ngẫu Nhiên"
                 dismiss()
             }) {
                 HStack {
                     Image(systemName: "shuffle")
-                    Text("Random Order")
+                    Text("Ngẫu Nhiên")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -398,6 +402,7 @@ struct QuestionTypeView: View {
                 if !filteredQuestions.isEmpty {
                     questions = filteredQuestions
                     qIndex = 0
+                    qType = "Đánh Dấu"
                 } else {
                     shouldShowAlertOnDismiss = true
                 }
@@ -406,7 +411,7 @@ struct QuestionTypeView: View {
             {
                 HStack {
                     Image(systemName: "bookmark")
-                    Text("Marked Questions")
+                    Text("Đánh Dấu")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }

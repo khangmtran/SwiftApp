@@ -44,13 +44,11 @@ struct CTLearnQuestions: View {
             .safeAreaInset(edge: .bottom) {
                 NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)
                     .padding()
-                    .background(Color.white)
             }
         }//end show guide
         else{
             
             ScrollView{
-                
                 //1. VStack contains keyword
                 VStack{
                     Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
@@ -62,7 +60,9 @@ struct CTLearnQuestions: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(.blue, lineWidth: 1)
+                        .fill(.blue.opacity(0.1))
                 )
+                .background(.white)
                 .padding()
                 
                 
@@ -87,11 +87,9 @@ struct CTLearnQuestions: View {
                     }//.2
                 }
             }
-            
             .safeAreaInset(edge: .bottom) {
                 NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)
                     .padding()
-                    .background(Color.white)
             }
             
             .navigationBarTitleDisplayMode(.inline)
@@ -170,7 +168,6 @@ struct NavButton: View {
             .cornerRadius(10)
             
         }//hstack contains prv and nxt arrows
-        
     }
     
     private func nextQuestion(){
@@ -272,7 +269,9 @@ struct QuestionView: View {
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.blue, lineWidth: 1)
+                .fill(.blue.opacity(0.1))
         )
+        .background(.white)
         .padding(.horizontal)
     }
 }
@@ -339,8 +338,11 @@ struct AnswerView: View {
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.blue, lineWidth: 1)
+                .fill(.blue.opacity(0.1))
         )
+        .background(.white)
         .padding(.horizontal)
+        
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
