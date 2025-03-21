@@ -17,57 +17,55 @@ struct CTPracticeTest: View {
     @State private var score: Int = 0
     @State private var tenQuestions: [CTQuestion] = []
     @State private var isLoading: Bool = true
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var showResult: Bool = false
+    @State private var incorrQ: [String] = []
+    @State private var userAns: [Bool] = []
     
     var body: some View {
         VStack{
             if isLoading {
                 ProgressView()
-            }else if showResult{
-                CTResultView(score: score, questions: tenQuestions)
+            }else if showResult {
+                CTResultView(
+                    questions: $tenQuestions,
+                    showResult: $showResult,
+                    qIndex: $qIndex,
+                    score: $score,
+                    userAns: $userAns,
+                    incorrQ: $incorrQ
+                )
             }
             else {
                 GeometryReader { geo in
                     VStack {
                         PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
-                            .ignoresSafeArea()
-                            .frame(height: geo.size.height / 2.5)
-                        PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score)
+                            .frame(height: geo.size.height / 3)
+                        PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns)
                     }
                 }
             }
         }
         .onAppear {
-            tenQuestions = Array(questionList.questions.shuffled().prefix(10))
-            isLoading = false
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar{
-            ToolbarItem(placement: .principal){
-                if isLoading{
-                    ProgressView()
-                }
-                else{
-                    Text("\(qIndex) of \(tenQuestions.count)")
-                        .font(deviceManager.isTablet ? .title : .body)
-                }
+            if tenQuestions.isEmpty {
+                tenQuestions = Array(questionList.questions.shuffled().prefix(10))
             }
+            isLoading = false
         }
     }
 }
 
 struct CTResultView: View {
-    let score: Int
-    let questions: [CTQuestion]
+    @Binding var questions: [CTQuestion]
+    @Binding var showResult: Bool
+    @Binding var qIndex: Int
+    @Binding var score: Int
+    @Binding var userAns: [Bool]
+    @Binding var incorrQ: [String]
     @State private var synthesizer = AVSpeechSynthesizer()
+    @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var questionList: QuestionList
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
-    @EnvironmentObject var deviceManager: DeviceManager
-    @Environment(\.presentationMode) var presentationMode
-    
-    // Add navigation state to control going back to home
-    @State private var navigateToHome = false
     
     var body: some View {
         GeometryReader{geo in
@@ -76,43 +74,62 @@ struct CTResultView: View {
                 ZStack {
                     Circle()
                         .fill(.blue)
-                        .frame(width: geo.size.width/3)
-                    
-                    VStack {
-                        Text("Score")
-                            .font(deviceManager.isTablet ? .title : .headline)
-                            .foregroundStyle(.white)
-                        
+      
                         Text("\(score) / \(questions.count)")
                             .font(deviceManager.isTablet ? .largeTitle : .title)
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
-                        
-                        if score >= 6 {
-                            Text("Passed!")
-                                .font(deviceManager.isTablet ? .title : .headline)
-                                .foregroundStyle(.white)
-                        } else {
-                            Text("Try again!")
-                                .font(deviceManager.isTablet ? .title : .headline)
-                                .foregroundStyle(.white)
-                        }
-                    }
+
                 }
-                .frame(height: geo.size.height/5)
+                .frame(height: geo.size.height/7)
+                
+                if score >= 6 {
+                    Text("Chúc mừng bạn đã vượt qua được bài kiểm tra")
+                        .font(deviceManager.isTablet ? .title : .headline)
+                        .padding()
+                } else {
+                    Text("Bạn cần làm đúng ít nhất 6 câu để vượt qua bài kiểm tra. Hãy cố gắng thêm nhé!")
+                        .multilineTextAlignment(.center)
+                        .font(deviceManager.isTablet ? .title : .headline)
+                        .padding()
+                }
+                Button(action: {
+                    // Reset the test state
+                    questions = Array(questionList.questions.shuffled().prefix(10))
+                    qIndex = 0
+                    score = 0
+                    userAns = []
+                    incorrQ = []
+                    showResult = false
+                }) {
+                    HStack {
+                        Image(systemName: "arrow.counterclockwise")
+                        Text("Thử Lại")
+                            .font(deviceManager.isTablet ? .title3 : .body)
+                    }
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(10)
+                }
                 
                 // Question list
                 ScrollView {
-                    ForEach(questions) { question in
+                    ForEach(Array(questions.enumerated()), id: \.element.id) { index, question in
                         HStack{
                             VStack(alignment: .leading) {
                                 Text("Q\(question.id): \(question.question)")
                                     .font(deviceManager.isTablet ? .title3 : .body)
                                     .fontWeight(.medium)
                                 
-                                Text("A: \(question.answer)")
+                                Text("Đáp án: \(question.answer)")
                                     .font(deviceManager.isTablet ? .body : .subheadline)
                                     .fontWeight(.regular)
+                                if index < userAns.count && !userAns[index]{
+                                    Text("Bạn trả lời: \(incorrQ[index])")
+                                        .font(deviceManager.isTablet ? .body : .subheadline)
+                                        .fontWeight(.regular)
+                                }
                             }
                             
                             Spacer()
@@ -150,7 +167,7 @@ struct CTResultView: View {
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.blue.opacity(0.1))
+                                .fill(index < userAns.count && userAns[index] == true ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
                         )
                         .padding(.horizontal)
                     }
@@ -175,14 +192,13 @@ struct PracticeQuestionView: View{
         ZStack{
             RoundedRectangle(cornerRadius: 0)
                 .fill(.blue.opacity(0.5))
+                .ignoresSafeArea()
             VStack{
+                Text("\(qIndex) of \(tenQuestions.count)")
+                    .font(deviceManager.isTablet ? .title : .body)
                 ProgressView(value: Double(qIndex) / 10)
                     .padding()
                     .tint(.white)
-                //               Image("")
-                //                    .resizable()
-                //                    .scaledToFit()
-                //                    .frame(height: deviceManager.isTablet ? 50 : 25)
                 Text("\(tenQuestions[qIndex].question)")
                     .padding()
                 HStack{
@@ -233,10 +249,13 @@ struct PracticeAnswerView: View{
     @Binding var qIndex: Int
     @Binding var showResult: Bool
     @Binding var score: Int
+    @Binding var incorrQ: [String]
+    @Binding var userAns: [Bool]
     @State var showZipInput: Bool = false
     @State var selectedAns: String = ""
     @State var isAns: Bool = false
     @State private var shuffledAnswers: [String] = []
+    @State private var answersInitialized = false
     
     var body: some View{
         
@@ -260,18 +279,29 @@ struct PracticeAnswerView: View{
                         Button(action: {
                             selectedAns = ans
                             isAns = true
-                            if selectedAns == tenQuestions[qIndex].answer{score += 1}
-                            if qIndex == 9{
+                            if selectedAns == tenQuestions[qIndex].answer{
+                                score += 1
+                                userAns.append(true)
+                                incorrQ.append("")
+                            }
+                            else{
+                                userAns.append(false)
+                                incorrQ.append(selectedAns)
+                            }
+                            if qIndex == 0{
                                 isAns = false
                                 showResult = true
                             }
                         }){
                             Text(ans)
+                                .fixedSize(horizontal: false, vertical: true)
                                 .padding()
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
                                 .background(backgroundColor(for: ans, correctAns: getZipAnswer(tenQuestions[qIndex].id), selectedAns: selectedAns))
-                                .padding()
+                                .cornerRadius(10)
+                                .padding(.horizontal)
+                                .padding(.vertical, 10)
                         }
                     }
                 }
@@ -282,22 +312,35 @@ struct PracticeAnswerView: View{
                     Button(action: {
                         selectedAns = ans
                         isAns = true
-                        if selectedAns == tenQuestions[qIndex].answer{score += 1}
-                        if qIndex == 9{
+                        if selectedAns == tenQuestions[qIndex].answer{
+                            score += 1
+                            userAns.append(true)
+                            incorrQ.append("")
+                        }
+                        else{
+                            userAns.append(false)
+                            incorrQ.append(selectedAns)
+                        }
+                        if qIndex == 0{
                             isAns = false
                             showResult = true
                         }
                     }){
                         Text(ans)
+                            .fixedSize(horizontal: false, vertical: true)
                             .padding()
                             .foregroundStyle(.black)
                             .frame(maxWidth: .infinity)
                             .background(backgroundColor(for: ans, correctAns: tenQuestions[qIndex].answer, selectedAns: selectedAns))
-                            .padding()
+                            .cornerRadius(10)
+                            .padding(.horizontal)
+                            .padding(.vertical, 10)
                     }
                     .disabled(isAns)
                 }
             }
+            
+            Spacer()
             
             //show next button when answered
             if isAns{
@@ -308,6 +351,8 @@ struct PracticeAnswerView: View{
                     Image(systemName: "greaterthan.circle.fill")
                         .resizable()
                         .scaledToFit()
+                        .frame(height: 50)
+                        .padding(.bottom)
                 }
             }
             
@@ -318,7 +363,10 @@ struct PracticeAnswerView: View{
                 .environmentObject(deviceManager)
         }
         .onAppear {
-            updateShuffledAnswers()
+            if !answersInitialized {
+                updateShuffledAnswers()
+                answersInitialized = true
+            }
         }
         .onChange(of: userSetting.zipCode) { oldValue, newValue in
             updateShuffledAnswers()
