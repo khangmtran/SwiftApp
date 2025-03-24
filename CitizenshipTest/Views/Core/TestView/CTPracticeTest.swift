@@ -195,9 +195,9 @@ struct PracticeQuestionView: View{
                 .fill(.blue.opacity(0.5))
                 .ignoresSafeArea()
             VStack{
-                Text("\(qIndex) of \(tenQuestions.count)")
+                Text("\(qIndex + 1) of \(tenQuestions.count)")
                     .font(deviceManager.isTablet ? .title : .body)
-                ProgressView(value: Double(qIndex) / 10)
+                ProgressView(value: Double(qIndex + 1) / 10)
                     .padding()
                     .tint(.white)
                 Text("\(tenQuestions[qIndex].question)")

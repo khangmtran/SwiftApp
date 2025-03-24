@@ -44,11 +44,34 @@ struct CTTestHome: View {
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
                     
+                    Section(header: Text("Development Tools")) {
+                        Button(action: {
+                            resetUserSettings()
+                        }) {
+                            HStack {
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
+                                Text("Xóa Cài Đặt (Reset ZIP Code)")
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    }
+                    
                 }
                 .scrollContentBackground(.hidden)
                 .listRowSpacing(20)
             }
         }
+    }
+    private func resetUserSettings() {
+        userSetting.zipCode = ""
+        userSetting.state = ""
+        userSetting.legislators = []
+        
+        // Clear UserDefaults values
+        UserDefaults.standard.removeObject(forKey: "userZip")
+        UserDefaults.standard.removeObject(forKey: "userState")
+        UserDefaults.standard.removeObject(forKey: "userLegislators")
     }
 }
 

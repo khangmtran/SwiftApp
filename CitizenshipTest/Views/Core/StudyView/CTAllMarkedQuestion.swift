@@ -12,6 +12,7 @@ import SwiftData
 struct CTAllMarkedQuestion: View {
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var showingZipPrompt = false
+    @State private var showingConfirmationDialog = false
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
@@ -63,7 +64,36 @@ struct CTAllMarkedQuestion: View {
                     Spacer()
                 }
             } else {
-                List(filteredQuestions) { question in
+                List {
+                    Section {
+                        Button(action: {
+                            showingConfirmationDialog = true
+                        }) {
+                            HStack {
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
+                                Text("Xóa Tất Cả Câu Hỏi Đánh Dấu")
+                                    .font(deviceManager.isTablet ? .title3 : .body)
+                                    .foregroundColor(.red)
+                            }
+                        }
+                        .confirmationDialog(
+                            "Xóa tất cả câu hỏi đánh dấu?",
+                            isPresented: $showingConfirmationDialog,
+                            titleVisibility: .visible
+                        ) {
+                            Button("Xóa Tất Cả", role: .destructive) {
+                                removeAllMarkedQuestions()
+                            }
+                            Button("Hủy", role: .cancel) {}
+                        } message: {
+                            Text("Bạn có chắc chắn muốn xóa tất cả câu hỏi đánh dấu không?")
+                        }
+                    }
+                    .listRowBackground(Color.white)
+                    
+                    // Questions
+                    ForEach(filteredQuestions) { question in
                     Section(header: Text("Câu hỏi \(question.id)")
                         .font(deviceManager.isTablet ? .title3 : .footnote)) {
                             // Question stack
@@ -210,6 +240,7 @@ struct CTAllMarkedQuestion: View {
                             .padding(.vertical)
                         }
                         .listRowBackground(Color.blue.opacity(0.1))
+                    }
                 }
                 .scrollContentBackground(.hidden)
             }
@@ -222,7 +253,12 @@ struct CTAllMarkedQuestion: View {
         .navigationTitle("Câu Hỏi Đánh Dấu")
     }
     
-
+    // Function to remove all marked questions
+    private func removeAllMarkedQuestions() {
+        for question in markedQuestions {
+            context.delete(question)
+        }
+    }
 }
 
 #Preview {

@@ -125,22 +125,21 @@ struct CTMarkedResultView: View {
                 ZStack {
                     Circle()
                         .fill(.blue)
-      
-                        Text("\(score) / \(questions.count)")
-                            .font(deviceManager.isTablet ? .largeTitle : .title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-
+                    
+                    Text("\(score) / \(questions.count)")
+                        .font(deviceManager.isTablet ? .largeTitle : .title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                    
                 }
                 .frame(height: geo.size.height/7)
                 
                 Button(action: {
-                questions = questions.shuffled()
-                qIndex = 0
-                score = 0
-                userAns = []
-                incorrQ = []
-                showResult = false
+                    qIndex = 0
+                    score = 0
+                    userAns = []
+                    incorrQ = []
+                    showResult = false
                 }) {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
@@ -155,55 +154,62 @@ struct CTMarkedResultView: View {
                 
                 // Question list
                 ScrollView {
-                    VStack(spacing: 15) {
-                        ForEach(Array(questions.enumerated()), id: \.element.id) { index, question in
-                            if index < userAns.count {
-                                HStack(alignment: .top) {
-                                    VStack(alignment: .leading, spacing: 5) {
-                                        Text("Q\(question.id): \(question.question)")
-                                            .font(deviceManager.isTablet ? .title3 : .body)
-                                            .fontWeight(.medium)
-                                            .multilineTextAlignment(.leading)
-                                        
-                                        Text("A: \(question.answer)")
-                                            .font(deviceManager.isTablet ? .body : .subheadline)
-                                            .fontWeight(.regular)
-                                        
-                                        if !userAns[index] {
-                                            Text("Bạn trả lời: \(incorrQ[index])")
-                                                .font(deviceManager.isTablet ? .body : .subheadline)
-                                                .fontWeight(.regular)
-                                                .foregroundStyle(.red)
-                                        }
-                                    }
-                                    .padding(.trailing, 8)
-                                    
-                                    Spacer()
-                                    
-                                    VStack(spacing: 10) {
-                                        Button(action: {
-                                            synthesizer.stopSpeaking(at: .immediate)
-                                            let utterance = AVSpeechUtterance(string: question.question)
-                                            utterance.voice = AVSpeechSynthesisVoice()
-                                            utterance.rate = 0.3
-                                            synthesizer.speak(utterance)
-                                        }) {
-                                            Image(systemName: "speaker.wave.3")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(height: deviceManager.isTablet ? 25 : 18)
-                                        }
-                                    }
-                                    .padding(.leading, 5)
+                    ForEach(Array(questions.enumerated()), id: \.element.id) { index, question in
+                        HStack{
+                            VStack(alignment: .leading) {
+                                Text("Q\(question.id): \(question.question)")
+                                    .font(deviceManager.isTablet ? .title3 : .body)
+                                    .fontWeight(.medium)
+                                
+                                Text("Đáp án: \(question.answer)")
+                                    .font(deviceManager.isTablet ? .body : .subheadline)
+                                    .fontWeight(.regular)
+                                if index < userAns.count && !userAns[index]{
+                                    Text("Bạn trả lời: \(incorrQ[index])")
+                                        .font(deviceManager.isTablet ? .body : .subheadline)
+                                        .fontWeight(.regular)
+                                        .foregroundStyle(.red)
                                 }
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(userAns[index] ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
-                                )
-                                .padding(.horizontal)
                             }
+                            
+                            Spacer()
+                            
+                            VStack() {
+                                Button(action: {
+                                    synthesizer.stopSpeaking(at: .immediate)
+                                    let utterance = AVSpeechUtterance(string: question.question)
+                                    utterance.voice = AVSpeechSynthesisVoice()
+                                    utterance.rate = 0.3
+                                    synthesizer.speak(utterance)
+                                }) {
+                                    Image(systemName: "speaker.wave.3")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: deviceManager.isTablet ? 25 : 18)
+                                }
+                                
+                                Button(action: {
+                                    if let existingMark = markedQuestions.first(where: {$0.id == question.id}) {
+                                        context.delete(existingMark)
+                                    } else {
+                                        let newMark = MarkedQuestion(id: question.id)
+                                        context.insert(newMark)
+                                    }
+                                }) {
+                                    Image(systemName: markedQuestions.contains(where: {$0.id == question.id}) ? "bookmark.fill" : "bookmark")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: deviceManager.isTablet ? 25 : 18)
+                                }
+                            }
+                            
                         }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(index < userAns.count && userAns[index] == true ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
+                        )
+                        .padding(.horizontal)
                     }
                 }
                 
@@ -274,12 +280,13 @@ struct MarkedAnswerView: View {
     @State var selectedAns: String = ""
     @State var isAns: Bool = false
     @State private var shuffledAnswers: [String] = []
+    @State private var answersInitialized = false
     
     var body: some View {
         VStack {
             // Handle zip questions
             if markedQuestions[qIndex].id == 20 || markedQuestions[qIndex].id == 23 ||
-               markedQuestions[qIndex].id == 43 || markedQuestions[qIndex].id == 44 {
+                markedQuestions[qIndex].id == 43 || markedQuestions[qIndex].id == 44 {
                 if userSetting.zipCode.isEmpty {
                     Button(action: {
                         showZipInput = true
@@ -349,7 +356,10 @@ struct MarkedAnswerView: View {
                 .environmentObject(deviceManager)
         }
         .onAppear {
-            updateShuffledAnswers()
+            if !answersInitialized {
+                updateShuffledAnswers()
+                answersInitialized = true
+            }
         }
         .onChange(of: userSetting.zipCode) { oldValue, newValue in
             updateShuffledAnswers()
@@ -372,12 +382,10 @@ struct MarkedAnswerView: View {
             incorrQ.append(selectedAns)
         }
         
-        if qIndex == markedQuestions.count - 1 {
-            // Last question, show results after a brief delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                showResult = true
-            }
+        if qIndex == markedQuestions.count - 1{
+            showResult = true
         }
+        
     }
     
     private func advanceToNextQuestion() {
@@ -390,24 +398,16 @@ struct MarkedAnswerView: View {
     }
     
     private func updateShuffledAnswers() {
-        guard qIndex < markedQuestions.count else { return }
+        let correspondAns = wrongAnswer.wrongAns.first { $0.id == markedQuestions[qIndex].id }!
         
-        let currentQuestion = markedQuestions[qIndex]
-        let correspondAns = wrongAnswer.wrongAns.first { $0.id == currentQuestion.id }!
-        
-        if currentQuestion.id == 20 || currentQuestion.id == 23 ||
-           currentQuestion.id == 43 || currentQuestion.id == 44 {
+        if markedQuestions[qIndex].id == 20 || markedQuestions[qIndex].id == 23 ||
+            markedQuestions[qIndex].id == 43 || markedQuestions[qIndex].id == 44 {
             if !userSetting.zipCode.isEmpty {
-                let correctAnswer = getZipAnswer(currentQuestion.id)
-                if !correctAnswer.isEmpty {
-                    shuffledAnswers = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
-                } else {
-                    // Fallback if no correct answer found
-                    shuffledAnswers = [correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect, "Not Available"].shuffled()
-                }
+                let correctAnswer = getZipAnswer(markedQuestions[qIndex].id)
+                shuffledAnswers = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
             }
         } else {
-            shuffledAnswers = [currentQuestion.answer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
+            shuffledAnswers = [markedQuestions[qIndex].answer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
         }
     }
     
