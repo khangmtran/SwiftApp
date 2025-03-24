@@ -29,7 +29,7 @@ struct CTTestHome: View {
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
                     
-                    NavigationLink(destination: CTPracticeTest()) {
+                    NavigationLink(destination: CTAllQuestionTest()) {
                         CTCustomMenuItem(title: "Thi Thử 100 Câu", subtitle: "Toàn bộ 100 câu hỏi theo định dạng trắc nghiệm", assetImage: "book")
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
@@ -39,10 +39,6 @@ struct CTTestHome: View {
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
                     
-                    NavigationLink(destination: CTPracticeTest()) {
-                        CTCustomMenuItem(title: "Chiến Lược Làm Bài", subtitle: "Mẹo và kỹ thuật làm bài hiệu quả", assetImage: "lightbulb")
-                    }
-                    .listRowBackground(Color.blue.opacity(0.1))
                 }
                 .scrollContentBackground(.hidden)
                 .listRowSpacing(20)

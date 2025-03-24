@@ -129,6 +129,7 @@ struct CTResultView: View {
                                     Text("Bạn trả lời: \(incorrQ[index])")
                                         .font(deviceManager.isTablet ? .body : .subheadline)
                                         .fontWeight(.regular)
+                                        .foregroundStyle(.red)
                                 }
                             }
                             
@@ -288,7 +289,7 @@ struct PracticeAnswerView: View{
                                 userAns.append(false)
                                 incorrQ.append(selectedAns)
                             }
-                            if qIndex == 0{
+                            if qIndex == 9{
                                 isAns = false
                                 showResult = true
                             }
@@ -321,7 +322,7 @@ struct PracticeAnswerView: View{
                             userAns.append(false)
                             incorrQ.append(selectedAns)
                         }
-                        if qIndex == 0{
+                        if qIndex == 9{
                             isAns = false
                             showResult = true
                         }
@@ -432,12 +433,6 @@ struct PracticeAnswerView: View{
             return ""
         }
         return ""
-    }
-}
-
-struct ResultView: View {
-    var body: some View {
-        /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Hello, world!@*/Text("Hello, world!")/*@END_MENU_TOKEN@*/
     }
 }
 
