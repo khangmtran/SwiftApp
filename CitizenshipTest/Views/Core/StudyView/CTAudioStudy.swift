@@ -32,7 +32,7 @@ struct CTAudioStudy: View {
         GeometryReader { geo in
             VStack {
                 // Controls section
-                Toggle("Nghe Cả Đáp Án", isOn: $playAnswers)
+                Toggle("Nghe Đáp Án", isOn: $playAnswers)
                     .font(deviceManager.isTablet ? .title3 : .body)
                     .toggleStyle(SwitchToggleStyle(tint: .blue))
                     .disabled(isPlaying)
@@ -97,16 +97,26 @@ struct CTAudioStudy: View {
                                 .foregroundColor(.green)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Text(questionList.questions[currentQuestionIndex].answer)
-                                .font(deviceManager.isTablet ? .title2 : .title3)
-                                .fontWeight(.medium)
-                                .multilineTextAlignment(.leading)
+                            if [20, 23, 43, 44].contains(questionList.questions[currentQuestionIndex].id) {
+                                ServiceQuestions(
+                                    questionId: questionList.questions[currentQuestionIndex].id,
+                                    showingZipPrompt: $showingZipPrompt,
+                                    govAndCap: govCapManager.govAndCap
+                                )
                                 .padding(.vertical, 5)
-                            
-                            Text(questionList.questions[currentQuestionIndex].answerVie)
-                                .font(deviceManager.isTablet ? .title3 : .body)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.leading)
+                            } else {
+                                // Regular answer display
+                                Text(questionList.questions[currentQuestionIndex].answer)
+                                    .font(deviceManager.isTablet ? .title2 : .title3)
+                                    .fontWeight(.medium)
+                                    .multilineTextAlignment(.leading)
+                                    .padding(.vertical, 5)
+                                
+                                Text(questionList.questions[currentQuestionIndex].answerVie)
+                                    .font(deviceManager.isTablet ? .title3 : .body)
+                                    .foregroundColor(.secondary)
+                                    .multilineTextAlignment(.leading)
+                            }
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 12).fill(Color.green.opacity(0.1)))
@@ -171,6 +181,11 @@ struct CTAudioStudy: View {
             }
             .padding()
         }
+        .sheet(isPresented: $showingZipPrompt) {
+            CTZipInput()
+                .environmentObject(userSetting)
+                .environmentObject(deviceManager)
+        }
         .onDisappear {
             stopAudio()
         }
@@ -207,6 +222,9 @@ struct CTAudioStudy: View {
                     }
                 } else {
                     // Move to next question automatically if answers are disabled
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        AudioServicesPlaySystemSound(1152)
+                    }
                     self.timer = Timer.scheduledTimer(withTimeInterval: self.pauseDuration, repeats: false) { _ in
                         self.finishAudioSequence()
                     }
@@ -266,6 +284,9 @@ struct CTAudioStudy: View {
         // Create and store a strong reference to the answer delegate
         delegate = SpeechDelegate(
             onFinished: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    AudioServicesPlaySystemSound(1152)
+                }
                 self.timer = Timer.scheduledTimer(withTimeInterval: self.pauseDuration, repeats: false) { _ in
                     self.finishAudioSequence()
                 }

@@ -39,6 +39,11 @@ struct CTTestHome: View {
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
                     
+                    NavigationLink(destination: CTMarkedQuestionTest()){
+                        CTCustomMenuItem(title: "Thẻ Bài", subtitle: "Kiểm tra bằng thẻ bài", assetImage: "flash_card")
+                    }
+                    .listRowBackground(Color.blue.opacity(0.1))
+                    
                 }
                 .scrollContentBackground(.hidden)
                 .listRowSpacing(20)

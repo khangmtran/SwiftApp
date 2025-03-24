@@ -16,6 +16,7 @@ struct CTAllMarkedQuestion: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -46,6 +47,19 @@ struct CTAllMarkedQuestion: View {
                         .frame(width: 100, height: 100)
                         .foregroundColor(.gray)
                         .padding()
+                    
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Text("Quay Lại")
+                            .font(deviceManager.isTablet ? .title3 : .body)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                    .padding(.top)
+                    
                     Spacer()
                 }
             } else {

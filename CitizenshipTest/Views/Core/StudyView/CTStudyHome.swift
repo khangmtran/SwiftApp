@@ -39,6 +39,11 @@ struct CTStudyHome : View{
                         CTCustomMenuItem(title: "Câu Hỏi Đánh Dấu", subtitle: "Xem tất cả câu hỏi được đánh dấu", assetImage: "pen_paper")
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
+                    
+                    NavigationLink(destination: CTAudioStudy()){
+                        CTCustomMenuItem(title: "Nghe Câu Hỏi", subtitle: "Nghe tất cả câu hỏi và câu trả lời", systemImg: "headphones")
+                    }
+                    .listRowBackground(Color.blue.opacity(0.1))
 
                 }
                 .scrollContentBackground(.hidden)
@@ -82,6 +87,7 @@ struct CTCustomMenuItem: View{
                     Image(systemName: systemImg)
                         .resizable()
                         .scaledToFit()
+                        .foregroundStyle(.blue)
                 } else if let assetImage = assetImage{
                     Image(assetImage)
                         .resizable()

@@ -43,7 +43,7 @@ struct ServiceQuestions: View {
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
             .buttonStyle(BorderlessButtonStyle())
-            .padding(.vertical)
+            .padding(.top, 5)
         }
     }
     
@@ -62,7 +62,7 @@ struct ServiceQuestions: View {
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
             .buttonStyle(BorderlessButtonStyle())
-            .padding(.vertical)
+            .padding(.top, 5)
         }
     }
     
@@ -83,7 +83,7 @@ struct ServiceQuestions: View {
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
             .buttonStyle(BorderlessButtonStyle())
-            .padding(.vertical)
+            .padding(.top, 5)
         }
     }
     
@@ -104,7 +104,7 @@ struct ServiceQuestions: View {
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
             }
             .buttonStyle(BorderlessButtonStyle())
-            .padding(.vertical)
+            .padding(.top, 5)
         }
     }
 }
