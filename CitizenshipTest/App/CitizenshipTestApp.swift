@@ -102,7 +102,7 @@ struct CitizenshipTestApp: App{
                 .environmentObject(questionList)
                 .environmentObject(govCapManager)
                 .environmentObject(wrongAnswer)
-                .modelContainer(for: MarkedQuestion.self)
+                .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
         }
     }
 }

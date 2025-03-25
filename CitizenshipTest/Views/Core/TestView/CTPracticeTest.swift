@@ -20,6 +20,11 @@ struct CTPracticeTest: View {
     @State private var showResult: Bool = false
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
+    @Environment(\.modelContext) private var context
+    
+    private var progressManager: TestProgressManager {
+        TestProgressManager(modelContext: context)
+    }
     
     var body: some View {
         VStack{
@@ -34,22 +39,65 @@ struct CTPracticeTest: View {
                     userAns: $userAns,
                     incorrQ: $incorrQ
                 )
+                .onAppear(){
+                    try? progressManager.clearProgress(for: .practice)
+                }
             }
             else {
                 GeometryReader { geo in
                     VStack {
                         PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
                             .frame(height: geo.size.height / 3)
-                        PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns)
+                        PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
                     }
                 }
             }
         }
         .onAppear {
-            if tenQuestions.isEmpty {
-                tenQuestions = Array(questionList.questions.shuffled().prefix(10))
-            }
+            checkForExistingProgress()
             isLoading = false
+        }
+    }
+    
+    private func checkForExistingProgress() {
+        do {
+            if let progress = try progressManager.getProgress(for: .practice) {
+                tenQuestions = progress.questionIds.compactMap { id in
+                    questionList.questions.first { $0.id == id }
+                }
+                qIndex = progress.currentIndex
+                score = progress.score
+                userAns = progress.userAnswers
+                incorrQ = progress.incorrectAnswers
+            } else {
+                startNewTest()
+            }
+        } catch {
+            startNewTest()
+        }
+    }
+    
+    private func startNewTest() {
+        tenQuestions = Array(questionList.questions.shuffled().prefix(10))
+        qIndex = 0
+        score = 0
+        userAns = []
+        incorrQ = []
+        saveProgress()
+    }
+    
+    private func saveProgress() {
+        do {
+            try progressManager.saveProgress(
+                testType: .practice,
+                currentIndex: qIndex,
+                score: score,
+                questionIds: tenQuestions.map { $0.id },
+                userAnswers: userAns,
+                incorrectAnswers: incorrQ
+            )
+        } catch {
+            print("Error saving progress: \(error)")
         }
     }
 }
@@ -67,6 +115,10 @@ struct CTResultView: View {
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
+    private var progressManager: TestProgressManager {
+        TestProgressManager(modelContext: context)
+    }
+    
     var body: some View {
         GeometryReader{geo in
             VStack {
@@ -74,12 +126,12 @@ struct CTResultView: View {
                 ZStack {
                     Circle()
                         .fill(.blue)
-      
-                        Text("\(score) / \(questions.count)")
-                            .font(deviceManager.isTablet ? .largeTitle : .title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-
+                    
+                    Text("\(score) / \(questions.count)")
+                        .font(deviceManager.isTablet ? .largeTitle : .title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                    
                 }
                 .frame(height: geo.size.height/7)
                 
@@ -101,6 +153,15 @@ struct CTResultView: View {
                     userAns = []
                     incorrQ = []
                     showResult = false
+                    
+                    //                    try? progressManager.saveProgress(
+                    //                                                testType: .practice,
+                    //                                                currentIndex: qIndex,
+                    //                                                score: score,
+                    //                                                questionIds: questions.map { $0.id },
+                    //                                                userAnswers: userAns,
+                    //                                                incorrectAnswers: incorrQ
+                    //                                            )
                 }) {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
@@ -258,6 +319,8 @@ struct PracticeAnswerView: View{
     @State private var shuffledAnswers: [String] = []
     @State private var answersInitialized = false
     
+    var saveProgress: () -> Void
+    
     var body: some View{
         
         VStack{
@@ -348,6 +411,7 @@ struct PracticeAnswerView: View{
                 Button(action: {
                     qIndex += 1
                     isAns = false
+                    saveProgress()
                 }){
                     Image(systemName: "greaterthan.circle.fill")
                         .resizable()
