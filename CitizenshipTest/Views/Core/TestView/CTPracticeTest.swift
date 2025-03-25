@@ -21,6 +21,7 @@ struct CTPracticeTest: View {
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
     @Environment(\.modelContext) private var context
+    @AppStorage("practiceTestCompleted") private var testCompleted = false
     
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
@@ -30,18 +31,20 @@ struct CTPracticeTest: View {
         VStack{
             if isLoading {
                 ProgressView()
-            }else if showResult {
+            }else if showResult || testCompleted{
                 CTResultView(
                     questions: $tenQuestions,
                     showResult: $showResult,
                     qIndex: $qIndex,
                     score: $score,
                     userAns: $userAns,
-                    incorrQ: $incorrQ
+                    incorrQ: $incorrQ,
+                    testCompleted: $testCompleted
                 )
                 .onAppear(){
-                    try? progressManager.clearProgress(for: .practice)
+                    testCompleted = true
                 }
+
             }
             else {
                 GeometryReader { geo in
@@ -69,11 +72,14 @@ struct CTPracticeTest: View {
                 score = progress.score
                 userAns = progress.userAnswers
                 incorrQ = progress.incorrectAnswers
+                isLoading = false
             } else {
                 startNewTest()
+                isLoading = false
             }
         } catch {
             startNewTest()
+            isLoading = false
         }
     }
     
@@ -109,6 +115,7 @@ struct CTResultView: View {
     @Binding var score: Int
     @Binding var userAns: [Bool]
     @Binding var incorrQ: [String]
+    @Binding var testCompleted: Bool
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
@@ -152,16 +159,17 @@ struct CTResultView: View {
                     score = 0
                     userAns = []
                     incorrQ = []
+                    testCompleted = false
                     showResult = false
                     
-                    //                    try? progressManager.saveProgress(
-                    //                                                testType: .practice,
-                    //                                                currentIndex: qIndex,
-                    //                                                score: score,
-                    //                                                questionIds: questions.map { $0.id },
-                    //                                                userAnswers: userAns,
-                    //                                                incorrectAnswers: incorrQ
-                    //                                            )
+                    try? progressManager.saveProgress(
+                        testType: .practice,
+                        currentIndex: qIndex,
+                        score: score,
+                        questionIds: questions.map { $0.id },
+                        userAnswers: userAns,
+                        incorrectAnswers: incorrQ
+                    )
                 }) {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
@@ -354,6 +362,7 @@ struct PracticeAnswerView: View{
                             }
                             if qIndex == 9{
                                 isAns = false
+                                saveProgress()
                                 showResult = true
                             }
                         }){
@@ -387,6 +396,7 @@ struct PracticeAnswerView: View{
                         }
                         if qIndex == 9{
                             isAns = false
+                            saveProgress()
                             showResult = true
                         }
                     }){
