@@ -11,7 +11,6 @@ import SwiftData
 
 struct CTFlashCard: View{
     @State private var questions: [CTQuestion] = []
-    @State private var qIndex: Int = 0
     @State private var isFlipped = false
     @State private var frontDegree = 0.0
     @State private var backDegree = 90.0
@@ -23,15 +22,31 @@ struct CTFlashCard: View{
     @State private var showQuestionType: Bool = false
     @State private var noMarkedQuestionsAlert: Bool = false
     @State private var qType = "Thứ Tự"
+    @State private var showJumpPrompt: Bool = false
+    @State private var qIndex = 0
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
+    @AppStorage("flashCardIndex") private var savedIndex: Int = 0
+    
     
     var body: some View{
         VStack{
             HStack{
                 Text("Card \(qIndex + 1) / \(questions.count)")
+                Spacer()
+                Button(action: {
+                    showJumpPrompt = true
+                }) {
+                    HStack {
+                        Image(systemName: "arrow.up.arrow.down")
+                            .imageScale(.medium)
+                        Text("Nhảy đến")
+                            .font(deviceManager.isTablet ? .title3 : .body)
+                    }
+                    .foregroundColor(.blue)
+                }
                 Spacer()
                 Button(action:{
                     showQuestionType = true
@@ -64,6 +79,11 @@ struct CTFlashCard: View{
                 .presentationDetents([.fraction(0.3)])
                 .presentationDragIndicator(.visible)
         }
+        .sheet(isPresented: $showJumpPrompt) {
+            JumpToCardView(qIndex: $qIndex, totalCards: questions.count, jumpToIndex: .constant(""))
+                .presentationDetents([.fraction(0.3)])
+                .presentationDragIndicator(.visible)
+        }
         //no marked questions
         .alert("", isPresented: $noMarkedQuestionsAlert){
             Button("OK", role: .cancel){}
@@ -80,12 +100,21 @@ struct CTFlashCard: View{
         }
         .onAppear(){
             questions = questionList.questions
+            if !questions.isEmpty{
+                if savedIndex >= 0 && savedIndex < questions.count {
+                    qIndex = savedIndex
+                } else {
+                    qIndex = 0
+                    savedIndex = 0
+                }
+            }
         }
         .safeAreaInset(edge: .bottom) {
             NavButtonsFC(qIndex: $qIndex, questions: questions)
                 .padding()
                 .background(Color.white)
         }
+        
     }
     private func updateCards() {
         frontDegree = 0.0
@@ -95,11 +124,62 @@ struct CTFlashCard: View{
     }
 }
 
+struct JumpToCardView: View {
+    @Binding var qIndex: Int
+    var totalCards: Int
+    @State private var selectedCardNumber: Int
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var deviceManager: DeviceManager
+    
+    init(qIndex: Binding<Int>, totalCards: Int, jumpToIndex: Binding<String>) {
+        self._qIndex = qIndex
+        self.totalCards = totalCards
+        self._selectedCardNumber = State(initialValue: qIndex.wrappedValue + 1)
+    }
+        
+    var body: some View {
+        VStack {
+            HStack {
+                Button("Hủy") {
+                    dismiss()
+                }
+                .font(deviceManager.isTablet ? .title3 : .body)
+                
+                Spacer()
+                
+                Text("Chọn thẻ")
+                    .font(deviceManager.isTablet ? .title2 : .headline)
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                Button("Đi đến") {
+                    qIndex = selectedCardNumber - 1
+                    dismiss()
+                }
+                .font(deviceManager.isTablet ? .title3 : .body)
+                .foregroundColor(.blue)
+            }
+            .padding(.top)
+            .padding(.horizontal)
+            
+            Picker("Thẻ số", selection: $selectedCardNumber) {
+                ForEach(1...totalCards, id: \.self) { num in
+                    Text("\(num)")
+                        .font(deviceManager.isTablet ? .title : .title3)
+                }
+            }
+            .pickerStyle(.wheel)
+        }
+    }
+}
+
 struct NavButtonsFC: View{
     @Binding var qIndex: Int
     let questions: [CTQuestion]
     @EnvironmentObject var deviceManager: DeviceManager
-    
+    @AppStorage("flashCardIndex") private var savedIndex: Int = 0
+
     var body: some View {
         HStack(){
             Button(action: prevQuestion){
@@ -129,18 +209,22 @@ struct NavButtonsFC: View{
     private func nextQuestion(){
         if qIndex < questions.count - 1 {
             qIndex += 1
+            savedIndex += 1
         }
         else if qIndex == questions.count - 1{
             qIndex = 0
+            savedIndex = 0
         }
     }
     
     private func prevQuestion(){
         if qIndex > 0{
             qIndex -= 1
+            savedIndex -= 1
         }
         else if qIndex == 0{
             qIndex = questions.count - 1
+            savedIndex = questions.count - 1
         }
     }
 }
@@ -356,9 +440,18 @@ struct QuestionTypeView: View {
     @Binding var qType: String
     @State private var shouldShowAlertOnDismiss = false
     @Query private var markedQuestions: [MarkedQuestion]
-    
+    @AppStorage("flashCardIndex") private var savedIndex: Int = 0
+
     var body: some View {
         VStack(spacing: 20) {
+            Button(action:{
+                dismiss()
+            }){
+                Image(systemName: "xmark")
+                    .foregroundStyle(.gray)
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            
             Text("Chọn Trình Tự Câu Hỏi")
             //.font(.headline)
                 .padding(.top)
@@ -367,6 +460,7 @@ struct QuestionTypeView: View {
             Button(action: {
                 questions = questionList.questions
                 qIndex = 0
+                savedIndex = 0
                 qType = "Thứ Tự"
                 dismiss()
             }) {
@@ -382,6 +476,7 @@ struct QuestionTypeView: View {
             Button(action: {
                 questions = questionList.questions.shuffled()
                 qIndex = 0
+                savedIndex = 0
                 qType = "Ngẫu Nhiên"
                 dismiss()
             }) {
@@ -402,6 +497,7 @@ struct QuestionTypeView: View {
                 if !filteredQuestions.isEmpty {
                     questions = filteredQuestions
                     qIndex = 0
+                    savedIndex = 0
                     qType = "Đánh Dấu"
                 } else {
                     shouldShowAlertOnDismiss = true

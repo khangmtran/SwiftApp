@@ -33,14 +33,14 @@ struct ServiceQuestions: View {
             let senators = userSetting.legislators.filter {$0.type == "senator"}
             ForEach(senators) { sen in
                 Text("\(sen.firstName) \(sen.lastName)")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                     .fontWeight(.bold)
             }
             Button(action: {
                 showingZipPrompt = true
             }){
                 Text("Nhập ZIP Code để tìm Senator của bạn")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .buttonStyle(BorderlessButtonStyle())
             .padding(.top, 5)
@@ -52,14 +52,14 @@ struct ServiceQuestions: View {
             let representatives = userSetting.legislators.filter {$0.type == "representative"}
             ForEach(representatives) { rep in
                 Text("\(rep.firstName) \(rep.lastName)")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                     .fontWeight(.bold)
             }
             Button(action: {
                 showingZipPrompt = true
             }){
                 Text("Nhập ZIP Code để tìm Representative của bạn")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .buttonStyle(BorderlessButtonStyle())
             .padding(.top, 5)
@@ -72,7 +72,7 @@ struct ServiceQuestions: View {
             ForEach(govAndCap) { gnc in
                 if gnc.state == state{
                     Text("\(gnc.gov)")
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                        .font(deviceManager.isTablet ? .title3 : .body)
                         .fontWeight(.bold)
                 }
             }
@@ -80,7 +80,7 @@ struct ServiceQuestions: View {
                 showingZipPrompt = true
             }){
                 Text("Nhập ZIP Code để tìm Governor của bạn")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .buttonStyle(BorderlessButtonStyle())
             .padding(.top, 5)
@@ -93,7 +93,7 @@ struct ServiceQuestions: View {
             ForEach(govAndCap) { gnc in
                 if gnc.state == state{
                     Text("\(gnc.capital)")
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                        .font(deviceManager.isTablet ? .title3 : .body)
                         .fontWeight(.bold)
                 }
             }
@@ -101,7 +101,7 @@ struct ServiceQuestions: View {
                 showingZipPrompt = true
             }){
                 Text("Nhập ZIP Code để tìm Capital của bạn")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .buttonStyle(BorderlessButtonStyle())
             .padding(.top, 5)

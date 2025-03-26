@@ -52,7 +52,7 @@ struct CTLearnQuestions: View {
                 //1. VStack contains keyword
                 VStack{
                     Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
-                        .font(deviceManager.isTablet ? .title : .body)
+                        .font(deviceManager.isTablet ? .title3 : .body)
                         .multilineTextAlignment(.center)
                 }//.1
                 .padding()
@@ -113,7 +113,7 @@ struct CTLearnQuestions: View {
                     } label: {
                         HStack {
                             Text(selectedPart.partChosen)
-                                .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                .font(deviceManager.isTablet ? .title3 : .body)
                             Image(systemName: "chevron.down")
                                 .resizable()
                                 .scaledToFit()
@@ -147,10 +147,11 @@ struct NavButton: View {
     var body: some View {
         HStack(){
             Button(action: prevQuestion){
-                Text("Tro Ve")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                Text("Trở Về")
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 10)
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)
@@ -159,10 +160,11 @@ struct NavButton: View {
             Spacer()
             
             Button(action: nextQuestion){
-                Text("Tiep Theo")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                Text("Tiếp Theo")
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 10)
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)

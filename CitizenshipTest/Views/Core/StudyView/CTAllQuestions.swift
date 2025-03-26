@@ -34,17 +34,17 @@ struct CTAllQuestions: View {
             List(paginatedQuestions){question in
                 Section(header: Text("Câu hỏi \(question.id)")
                     .id(question.id)
-                    .font(deviceManager.isTablet ? .title3 : .footnote)){
+                    .font(deviceManager.isTablet ? .body : .footnote)){
                         //question stack
                         HStack{
                             //VStack contains ENG and VIE questions
                             VStack(alignment: .leading) {
                                 Text(question.question)
-                                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                    .font(deviceManager.isTablet ? .title3 : .body)
                                     .fontWeight(.bold)
                                 
                                 Text(question.questionVie)
-                                    .font(deviceManager.isTablet ? .title : .body)
+                                    .font(deviceManager.isTablet ? .title3 : .body)
                             }
                             
                             Spacer()
@@ -62,7 +62,7 @@ struct CTAllQuestions: View {
                                     Image(systemName: "speaker.wave.3")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: deviceManager.isTablet ? 50 : 25)
+                                        .frame(height: deviceManager.isTablet ? 40 : 20)
                                 }
                                 .buttonStyle(BorderlessButtonStyle())
                                 .padding(.bottom)
@@ -80,7 +80,7 @@ struct CTAllQuestions: View {
                                     Image(systemName: markedQuestions.contains {$0.id == question.id} ? "bookmark.fill" : "bookmark")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: deviceManager.isTablet ? 50 : 25)
+                                        .frame(height: deviceManager.isTablet ? 40 : 20)
                                 }
                                 .buttonStyle(BorderlessButtonStyle())
                             }
@@ -92,7 +92,7 @@ struct CTAllQuestions: View {
                             if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44{
                                 VStack{
                                     Text("Trả lời:")
-                                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                        .font(deviceManager.isTablet ? .title3 : .body)
                                         .fontWeight(.bold)
                                         .padding(.bottom, 1)
                                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -157,11 +157,11 @@ struct CTAllQuestions: View {
                                 //Eng and Vie answer
                                 VStack(alignment: .leading){
                                     Text("Trả lời: \(question.answer)")
-                                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                                        .font(deviceManager.isTablet ? .title3 : .body)
                                         .fontWeight(.bold)
                                     
                                     Text(question.answerVie)
-                                        .font(deviceManager.isTablet ? .title : .body)
+                                        .font(deviceManager.isTablet ? .title3 : .body)
                                 }
                                 
                                 Spacer()
@@ -178,7 +178,7 @@ struct CTAllQuestions: View {
                                         Image(systemName: "speaker.wave.3")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                                            .frame(height: deviceManager.isTablet ? 40 : 20)
                                     }
                                     .buttonStyle(BorderlessButtonStyle())
                                 }
@@ -226,10 +226,11 @@ struct NavButtonAllQ: View {
     var body: some View {
         HStack(){
             Button(action: prevQuestion){
-                Text("Tro Ve")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                Text("Trở Về")
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 10)
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)
@@ -237,10 +238,11 @@ struct NavButtonAllQ: View {
             Spacer()
             
             Button(action: nextQuestion){
-                Text("Tiep Theo")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                Text("Tiếp Theo")
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 10)
             .foregroundStyle(.white)
             .background(.blue)
             .cornerRadius(10)

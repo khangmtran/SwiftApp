@@ -94,6 +94,19 @@ struct CTMarkedQuestionTest: View {
                         )
                     }
                 }
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            startNewTest()
+                        }) {
+                            Image(systemName: "arrow.counterclockwise")
+                            Text("Làm Lại")
+                                .font(deviceManager.isTablet ? .title3 : .body)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
             }
         }
         .onAppear {
