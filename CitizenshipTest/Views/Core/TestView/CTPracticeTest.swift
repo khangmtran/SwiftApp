@@ -1,9 +1,7 @@
-//
 //  CTPracticeTest.swift
 //  CitizenshipTest
 //
 //  Created by Khang Tran on 3/12/25.
-//
 
 import SwiftUI
 import AVFoundation
@@ -57,8 +55,8 @@ struct CTPracticeTest: View {
             }
         }
         .onAppear {
-            checkForExistingProgress()
-            isLoading = false
+                checkForExistingProgress()
+                isLoading = false
         }
     }
     

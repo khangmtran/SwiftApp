@@ -22,7 +22,13 @@ struct CTMarkedQuestionTest: View {
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.modelContext) private var context
     @Query private var markedQuestionIds: [MarkedQuestion]
+    @AppStorage("markedQuestionsTestCompleted") private var testCompleted = false
+    
+    private var progressManager: TestProgressManager {
+        TestProgressManager(modelContext: context)
+    }
     
     var body: some View {
         VStack {
@@ -59,15 +65,19 @@ struct CTMarkedQuestionTest: View {
                     .padding(.top)
                 }
                 .padding()
-            } else if showResult {
+            } else if showResult || testCompleted {
                 CTMarkedResultView(
                     questions: $markedQuestions,
                     showResult: $showResult,
                     qIndex: $qIndex,
                     score: $score,
                     userAns: $userAns,
-                    incorrQ: $incorrQ
+                    incorrQ: $incorrQ,
+                    testCompleted: $testCompleted
                 )
+                .onAppear() {
+                    testCompleted = true
+                }
             } else {
                 GeometryReader { geo in
                     VStack {
@@ -79,14 +89,71 @@ struct CTMarkedQuestionTest: View {
                             showResult: $showResult,
                             score: $score,
                             incorrQ: $incorrQ,
-                            userAns: $userAns
+                            userAns: $userAns,
+                            saveProgress: saveProgress
                         )
                     }
                 }
             }
         }
         .onAppear {
-            loadMarkedQuestions()
+            checkForExistingProgress()
+        }
+    }
+    
+    private func checkForExistingProgress() {
+        loadMarkedQuestions()
+        
+        // After loading marked questions, check for existing progress
+        do {
+            if let progress = try progressManager.getProgress(for: .markedQuestions) {
+                // Verify if the saved question IDs match current marked questions
+                let savedQuestionIds = progress.questionIds
+                let currentMarkedQuestionIds = markedQuestions.map { $0.id }
+                
+                // Only restore progress if the marked questions are the same
+                if Set(savedQuestionIds).isSubset(of: Set(currentMarkedQuestionIds)) &&
+                   savedQuestionIds.count == currentMarkedQuestionIds.count {
+                    qIndex = progress.currentIndex
+                    score = progress.score
+                    userAns = progress.userAnswers
+                    incorrQ = progress.incorrectAnswers
+                } else {
+                    // If marked questions have changed, start a new test
+                    startNewTest()
+                }
+            } else {
+                startNewTest()
+            }
+        } catch {
+            startNewTest()
+        }
+    }
+    
+    private func startNewTest() {
+        qIndex = 0
+        score = 0
+        userAns = []
+        incorrQ = []
+        testCompleted = false
+        
+        if !markedQuestions.isEmpty {
+            saveProgress()
+        }
+    }
+    
+    private func saveProgress() {
+        do {
+            try progressManager.saveProgress(
+                testType: .markedQuestions,
+                currentIndex: qIndex,
+                score: score,
+                questionIds: markedQuestions.map { $0.id },
+                userAnswers: userAns,
+                incorrectAnswers: incorrQ
+            )
+        } catch {
+            print("Error saving progress: \(error)")
         }
     }
     
@@ -106,6 +173,7 @@ struct CTMarkedQuestionTest: View {
     }
 }
 
+
 struct CTMarkedResultView: View {
     @Binding var questions: [CTQuestion]
     @Binding var showResult: Bool
@@ -113,10 +181,15 @@ struct CTMarkedResultView: View {
     @Binding var score: Int
     @Binding var userAns: [Bool]
     @Binding var incorrQ: [String]
+    @Binding var testCompleted: Bool
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var deviceManager: DeviceManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    
+    private var progressManager: TestProgressManager {
+        TestProgressManager(modelContext: context)
+    }
     
     var body: some View {
         GeometryReader { geo in
@@ -139,7 +212,14 @@ struct CTMarkedResultView: View {
                     score = 0
                     userAns = []
                     incorrQ = []
+                    testCompleted = false
                     showResult = false
+                    
+                    do {
+                               try progressManager.clearProgress(for: .markedQuestions)
+                           } catch {
+                               print("Error clearing progress: \(error)")
+                           }
                 }) {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
@@ -282,6 +362,8 @@ struct MarkedAnswerView: View {
     @State private var shuffledAnswers: [String] = []
     @State private var answersInitialized = false
     
+    var saveProgress: () -> Void
+    
     var body: some View {
         VStack {
             // Handle zip questions
@@ -381,18 +463,20 @@ struct MarkedAnswerView: View {
             userAns.append(false)
             incorrQ.append(selectedAns)
         }
-        
-        if qIndex == markedQuestions.count - 1{
+                
+        if qIndex == markedQuestions.count - 1 {
+            saveProgress()
             showResult = true
         }
-        
     }
     
     private func advanceToNextQuestion() {
         if qIndex < markedQuestions.count - 1 {
             qIndex += 1
             isAns = false
+            saveProgress()
         } else {
+            saveProgress()
             showResult = true
         }
     }

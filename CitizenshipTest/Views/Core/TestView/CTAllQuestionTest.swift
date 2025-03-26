@@ -19,19 +19,29 @@ struct CTAllQuestionTest: View {
     @State private var showResult: Bool = false
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
+    @Environment(\.modelContext) private var context
+    @AppStorage("allQuestionsTestCompleted") private var testCompleted = false
+    
+    private var progressManager: TestProgressManager {
+        TestProgressManager(modelContext: context)
+    }
     
     var body: some View {
         VStack {
             if isLoading {
                 ProgressView()
-            } else if showResult {
+            } else if showResult || testCompleted {
                 CTAllTestResultView(
                     showResult: $showResult,
                     qIndex: $qIndex,
                     score: $score,
                     userAns: $userAns,
-                    incorrQ: $incorrQ
+                    incorrQ: $incorrQ,
+                    testCompleted: $testCompleted
                 )
+                .onAppear() {
+                    testCompleted = true
+                }
             } else {
                 GeometryReader { geo in
                     VStack {
@@ -42,16 +52,57 @@ struct CTAllQuestionTest: View {
                             showResult: $showResult,
                             score: $score,
                             incorrQ: $incorrQ,
-                            userAns: $userAns
+                            userAns: $userAns,
+                            saveProgress: saveProgress
                         )
                     }
                 }
             }
         }
         .onAppear {
-            isLoading = false
+            checkForExistingProgress()
+        
         }
-        .navigationTitle("Thi Thử 100 Câu")
+    }
+    
+    private func checkForExistingProgress() {
+        do {
+            if let progress = try progressManager.getProgress(for: .allQuestions) {
+                qIndex = progress.currentIndex
+                score = progress.score
+                userAns = progress.userAnswers
+                incorrQ = progress.incorrectAnswers
+                isLoading = false
+            } else {
+                startNewTest()
+            }
+        } catch {
+            startNewTest()
+        }
+    }
+    
+    private func startNewTest() {
+        qIndex = 0
+        score = 0
+        userAns = []
+        incorrQ = []
+        saveProgress()
+        isLoading = false
+    }
+    
+    private func saveProgress() {
+        do {
+            try progressManager.saveProgress(
+                testType: .allQuestions,
+                currentIndex: qIndex,
+                score: score,
+                questionIds: questionList.questions.map { $0.id },
+                userAnswers: userAns,
+                incorrectAnswers: incorrQ
+            )
+        } catch {
+            print("Error saving progress: \(error)")
+        }
     }
 }
 
@@ -137,13 +188,15 @@ struct AllTestAnswerView: View {
     @State private var shuffledAnswers: [String] = []
     @State private var answersInitialized = false
     
+    var saveProgress: () -> Void
+    
     var body: some View {
         VStack {
             let currentQuestion = questionList.questions[qIndex]
             
             // Handle ZIP code-dependent questions
             if currentQuestion.id == 20 || currentQuestion.id == 23 ||
-               currentQuestion.id == 43 || currentQuestion.id == 44 {
+                currentQuestion.id == 43 || currentQuestion.id == 44 {
                 if userSetting.zipCode.isEmpty {
                     Button(action: {
                         showZipInput = true
@@ -176,7 +229,9 @@ struct AllTestAnswerView: View {
                         qIndex += 1
                         isAns = false
                         updateShuffledAnswers()
+                        saveProgress()
                     } else {
+                        saveProgress()
                         showResult = true
                     }
                 }) {
@@ -202,6 +257,9 @@ struct AllTestAnswerView: View {
         .onChange(of: userSetting.zipCode) { oldValue, newValue in
             updateShuffledAnswers()
         }
+        .onChange(of: qIndex) { oldValue, newValue in
+            updateShuffledAnswers()
+        }
     }
     
     private func answerButton(ans: String, correctAns: String) -> some View {
@@ -217,8 +275,9 @@ struct AllTestAnswerView: View {
                 userAns.append(false)
                 incorrQ.append(selectedAns)
             }
-            
+                        
             if qIndex == questionList.questions.count - 1 {
+                saveProgress()
                 showResult = true
             }
         }) {
@@ -241,7 +300,7 @@ struct AllTestAnswerView: View {
         let correspondAns = wrongAnswer.wrongAns.first { $0.id == currentQuestion.id }!
         
         if currentQuestion.id == 20 || currentQuestion.id == 23 ||
-           currentQuestion.id == 43 || currentQuestion.id == 44 {
+            currentQuestion.id == 43 || currentQuestion.id == 44 {
             if !userSetting.zipCode.isEmpty {
                 let correctAnswer = getZipAnswer(currentQuestion.id)
                 shuffledAnswers = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
@@ -300,12 +359,17 @@ struct CTAllTestResultView: View {
     @Binding var score: Int
     @Binding var userAns: [Bool]
     @Binding var incorrQ: [String]
+    @Binding var testCompleted: Bool
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var showIncorrectOnly = false
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    
+    private var progressManager: TestProgressManager {
+        TestProgressManager(modelContext: context)
+    }
     
     // Filtered questions based on showIncorrectOnly toggle
     private var filteredResults: [(index: Int, question: CTQuestion, correct: Bool, wrongAnswer: String)] {
@@ -334,26 +398,11 @@ struct CTAllTestResultView: View {
                     Circle()
                         .fill(.blue)
                     
-                    VStack {
-                        Text("Score")
-                            .font(deviceManager.isTablet ? .title : .headline)
-                            .foregroundStyle(.white)
-                        
-                        Text("\(score) / \(userAns.count)")
-                            .font(deviceManager.isTablet ? .largeTitle : .title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                        
-                        if (score * 100) / max(1, userAns.count) >= 60 {
-                            Text("Passed!")
-                                .font(deviceManager.isTablet ? .title : .headline)
-                                .foregroundStyle(.white)
-                        } else {
-                            Text("Try again!")
-                                .font(deviceManager.isTablet ? .title : .headline)
-                                .foregroundStyle(.white)
-                        }
-                    }
+                    Text("\(score) / \(userAns.count)")
+                        .font(deviceManager.isTablet ? .largeTitle : .title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                    
                 }
                 .frame(height: geo.size.height/7)
                 
@@ -369,7 +418,14 @@ struct CTAllTestResultView: View {
                     score = 0
                     userAns = []
                     incorrQ = []
+                    testCompleted = false
                     showResult = false
+                    
+                    do {
+                        try progressManager.clearProgress(for: .allQuestions)
+                    } catch {
+                        print("Error clearing progress: \(error)")
+                    }
                 }) {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
@@ -397,7 +453,7 @@ struct CTAllTestResultView: View {
                                     Text("A: \(result.question.answer)")
                                         .font(deviceManager.isTablet ? .body : .subheadline)
                                         .fontWeight(.regular)
-
+                                    
                                     if !result.correct {
                                         Text("Bạn trả lời: \(result.wrongAnswer)")
                                             .font(deviceManager.isTablet ? .body : .subheadline)
@@ -450,7 +506,6 @@ struct CTAllTestResultView: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
 
