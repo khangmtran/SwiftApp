@@ -21,6 +21,7 @@ struct CTMarkedQuestionTest: View {
     @State private var noMarkedQuestionsAlert = false
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
+    @State private var tryAgain: Bool = false
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query private var markedQuestionIds: [MarkedQuestion]
@@ -73,7 +74,10 @@ struct CTMarkedQuestionTest: View {
                     score: $score,
                     userAns: $userAns,
                     incorrQ: $incorrQ,
-                    testCompleted: $testCompleted
+                    testCompleted: $testCompleted,
+                    onTryAgain:{
+                        startNewTest()
+                    }
                 )
                 .onAppear() {
                     testCompleted = true
@@ -90,6 +94,7 @@ struct CTMarkedQuestionTest: View {
                             score: $score,
                             incorrQ: $incorrQ,
                             userAns: $userAns,
+                            tryAgain: $tryAgain,
                             saveProgress: saveProgress
                         )
                     }
@@ -98,6 +103,7 @@ struct CTMarkedQuestionTest: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
+                            tryAgain.toggle()
                             startNewTest()
                         }) {
                             Image(systemName: "arrow.counterclockwise")
@@ -126,7 +132,7 @@ struct CTMarkedQuestionTest: View {
                 
                 // Only restore progress if the marked questions are the same
                 if Set(savedQuestionIds).isSubset(of: Set(currentMarkedQuestionIds)) &&
-                   savedQuestionIds.count == currentMarkedQuestionIds.count {
+                    savedQuestionIds.count == currentMarkedQuestionIds.count {
                     qIndex = progress.currentIndex
                     score = progress.score
                     userAns = progress.userAnswers
@@ -144,6 +150,16 @@ struct CTMarkedQuestionTest: View {
     }
     
     private func startNewTest() {
+        let markedIds = markedQuestionIds.map { $0.id }
+        if markedIds.isEmpty {
+            markedQuestions = []
+            isLoading = false
+            return
+        }
+        
+        markedQuestions = questionList.questions.filter { question in
+            markedIds.contains(question.id)
+        }.sorted { $0.id < $1.id }
         qIndex = 0
         score = 0
         userAns = []
@@ -153,6 +169,7 @@ struct CTMarkedQuestionTest: View {
         if !markedQuestions.isEmpty {
             saveProgress()
         }
+        
     }
     
     private func saveProgress() {
@@ -200,6 +217,8 @@ struct CTMarkedResultView: View {
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
+    var onTryAgain: () -> Void
+    
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
     }
@@ -213,26 +232,24 @@ struct CTMarkedResultView: View {
                         .fill(.blue)
                     
                     Text("\(score) / \(questions.count)")
-                        .font(deviceManager.isTablet ? .largeTitle : .title)
+                        .font(deviceManager.isTablet ? .title2 : .title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                     
                 }
                 .frame(height: geo.size.height/7)
-                
+                .padding(.bottom, 10
+                         
+                )
                 Button(action: {
-                    qIndex = 0
-                    score = 0
-                    userAns = []
-                    incorrQ = []
-                    testCompleted = false
+                    onTryAgain()
                     showResult = false
                     
                     do {
-                               try progressManager.clearProgress(for: .markedQuestions)
-                           } catch {
-                               print("Error clearing progress: \(error)")
-                           }
+                        try progressManager.clearProgress(for: .markedQuestions)
+                    } catch {
+                        print("Error clearing progress: \(error)")
+                    }
                 }) {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
@@ -280,6 +297,7 @@ struct CTMarkedResultView: View {
                                         .scaledToFit()
                                         .frame(height: deviceManager.isTablet ? 25 : 18)
                                 }
+                                .padding(.bottom)
                                 
                                 Button(action: {
                                     if let existingMark = markedQuestions.first(where: {$0.id == question.id}) {
@@ -325,15 +343,21 @@ struct MarkedQuestionView: View {
             
             VStack {
                 Text("\(qIndex + 1) of \(markedQuestions.count)")
-                    .font(deviceManager.isTablet ? .title : .body)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                 
                 ProgressView(value: Double(qIndex + 1) / Double(markedQuestions.count))
-                    .padding()
+                    .padding(.horizontal)
                     .tint(.white)
                 
+                Spacer()
+                
                 Text("\(markedQuestions[qIndex].question)")
-                    .font(deviceManager.isTablet ? .title : .body)
-                    .padding()
+                    .font(deviceManager.isTablet ? .title2 : .title3)
+                    .fontWeight(.medium)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal)
+                
+                Spacer()
                 
                 HStack {
                     Spacer()
@@ -351,8 +375,8 @@ struct MarkedQuestionView: View {
                             .scaledToFit()
                             .frame(height: deviceManager.isTablet ? 50 : 25)
                     }
+                    .padding(.horizontal)
                 }
-                .padding()
             }
         }
     }
@@ -369,6 +393,7 @@ struct MarkedAnswerView: View {
     @Binding var score: Int
     @Binding var incorrQ: [String]
     @Binding var userAns: [Bool]
+    @Binding var tryAgain: Bool
     @State var showZipInput: Bool = false
     @State var selectedAns: String = ""
     @State var isAns: Bool = false
@@ -379,54 +404,57 @@ struct MarkedAnswerView: View {
     
     var body: some View {
         VStack {
-            // Handle zip questions
-            if markedQuestions[qIndex].id == 20 || markedQuestions[qIndex].id == 23 ||
-                markedQuestions[qIndex].id == 43 || markedQuestions[qIndex].id == 44 {
-                if userSetting.zipCode.isEmpty {
-                    Button(action: {
-                        showZipInput = true
-                    }) {
-                        Text("Nhập ZIP Code để thấy câu trả lời")
-                            .padding()
-                            .foregroundStyle(.white)
-                            .background(.blue)
-                            .cornerRadius(10)
+            ScrollView{
+                // Handle zip questions
+                if markedQuestions[qIndex].id == 20 || markedQuestions[qIndex].id == 23 ||
+                    markedQuestions[qIndex].id == 43 || markedQuestions[qIndex].id == 44 {
+                    if userSetting.zipCode.isEmpty {
+                        Button(action: {
+                            showZipInput = true
+                        }) {
+                            Text("Nhập ZIP Code để thấy câu trả lời")
+                                .font(deviceManager.isTablet ? .title3 : .body)
+                                .padding()
+                                .foregroundStyle(.white)
+                                .background(.blue)
+                                .cornerRadius(10)
+                        }
+                    } else {
+                        ForEach(shuffledAnswers, id: \.self) { ans in
+                            Button(action: {
+                                handleAnswer(ans: ans, correctAns: getZipAnswer(markedQuestions[qIndex].id))
+                            }) {
+                                Text(ans)
+                                    .font(deviceManager.isTablet ? .title3 : .body)
+                                    .padding()
+                                    .foregroundStyle(.black)
+                                    .frame(maxWidth: .infinity)
+                                    .background(backgroundColor(for: ans, correctAns: getZipAnswer(markedQuestions[qIndex].id), selectedAns: selectedAns))
+                                    .cornerRadius(10)
+                                    .padding(.horizontal)
+                                    .padding(.vertical, 10)
+                            }
+                            .disabled(isAns)
+                        }
                     }
                 } else {
+                    // Non-zip questions
                     ForEach(shuffledAnswers, id: \.self) { ans in
                         Button(action: {
-                            handleAnswer(ans: ans, correctAns: getZipAnswer(markedQuestions[qIndex].id))
+                            handleAnswer(ans: ans, correctAns: markedQuestions[qIndex].answer)
                         }) {
                             Text(ans)
-                                .fixedSize(horizontal: false, vertical: true)
+                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
-                                .background(backgroundColor(for: ans, correctAns: getZipAnswer(markedQuestions[qIndex].id), selectedAns: selectedAns))
+                                .background(backgroundColor(for: ans, correctAns: markedQuestions[qIndex].answer, selectedAns: selectedAns))
                                 .cornerRadius(10)
                                 .padding(.horizontal)
                                 .padding(.vertical, 10)
                         }
                         .disabled(isAns)
                     }
-                }
-            } else {
-                // Non-zip questions
-                ForEach(shuffledAnswers, id: \.self) { ans in
-                    Button(action: {
-                        handleAnswer(ans: ans, correctAns: markedQuestions[qIndex].answer)
-                    }) {
-                        Text(ans)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding()
-                            .foregroundStyle(.black)
-                            .frame(maxWidth: .infinity)
-                            .background(backgroundColor(for: ans, correctAns: markedQuestions[qIndex].answer, selectedAns: selectedAns))
-                            .cornerRadius(10)
-                            .padding(.horizontal)
-                            .padding(.vertical, 10)
-                    }
-                    .disabled(isAns)
                 }
             }
             
@@ -456,11 +484,14 @@ struct MarkedAnswerView: View {
                 answersInitialized = true
             }
         }
-        .onChange(of: userSetting.zipCode) { oldValue, newValue in
+        .onChange(of: userSetting.zipCode) {
             updateShuffledAnswers()
         }
-        .onChange(of: qIndex) { oldValue, newValue in
+        .onChange(of: qIndex) {
             updateShuffledAnswers()
+        }
+        .onChange(of: tryAgain) {
+            isAns = false
         }
     }
     
@@ -476,7 +507,7 @@ struct MarkedAnswerView: View {
             userAns.append(false)
             incorrQ.append(selectedAns)
         }
-                
+        
         if qIndex == markedQuestions.count - 1 {
             saveProgress()
             showResult = true

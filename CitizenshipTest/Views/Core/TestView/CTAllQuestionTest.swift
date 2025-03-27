@@ -19,6 +19,7 @@ struct CTAllQuestionTest: View {
     @State private var showResult: Bool = false
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
+    @State private var tryAgain: Bool = false
     @Environment(\.modelContext) private var context
     @AppStorage("allQuestionsTestCompleted") private var testCompleted = false
     
@@ -53,6 +54,7 @@ struct CTAllQuestionTest: View {
                             score: $score,
                             incorrQ: $incorrQ,
                             userAns: $userAns,
+                            tryAgain: $tryAgain,
                             saveProgress: saveProgress
                         )
                     }
@@ -61,6 +63,7 @@ struct CTAllQuestionTest: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
+                            tryAgain.toggle()
                             startNewTest()
                         }) {
                             Image(systemName: "arrow.counterclockwise")
@@ -134,16 +137,21 @@ struct AllTestQuestionView: View {
                 .ignoresSafeArea()
             VStack {
                 Text("\(qIndex + 1) of \(questionList.questions.count)")
-                    .font(deviceManager.isTablet ? .title : .body)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                 ProgressView(value: Double(qIndex + 1) / Double(questionList.questions.count))
-                    .padding()
+                    .padding(.horizontal)
                     .tint(.white)
+                
+                Spacer()
                 
                 let currentQuestion = questionList.questions[qIndex]
                 Text("\(currentQuestion.question)")
-                    .font(deviceManager.isTablet ? .title : .body)
-                    .multilineTextAlignment(.center)
-                    .padding()
+                    .font(deviceManager.isTablet ? .title2 : .title3)
+                    .fontWeight(.medium)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal)
+                
+                Spacer()
                 
                 HStack {
                     Spacer()
@@ -178,7 +186,8 @@ struct AllTestQuestionView: View {
                             .frame(height: deviceManager.isTablet ? 50 : 25)
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.bottom)
             }
         }
     }
@@ -195,6 +204,7 @@ struct AllTestAnswerView: View {
     @Binding var score: Int
     @Binding var incorrQ: [String]
     @Binding var userAns: [Bool]
+    @Binding var tryAgain: Bool
     @State var showZipInput: Bool = false
     @State var selectedAns: String = ""
     @State var isAns: Bool = false
@@ -205,40 +215,41 @@ struct AllTestAnswerView: View {
     
     var body: some View {
         VStack {
-            let currentQuestion = questionList.questions[qIndex]
-            
-            // Handle ZIP code-dependent questions
-            if currentQuestion.id == 20 || currentQuestion.id == 23 ||
-                currentQuestion.id == 43 || currentQuestion.id == 44 {
-                if userSetting.zipCode.isEmpty {
-                    Button(action: {
-                        showZipInput = true
-                    }) {
-                        Text("Nhập ZIP Code để thấy câu trả lời")
-                            .padding()
-                            .foregroundStyle(.white)
-                            .background(.blue)
-                            .cornerRadius(10)
+            ScrollView{
+                let currentQuestion = questionList.questions[qIndex]
+                
+                // Handle ZIP code-dependent questions
+                if currentQuestion.id == 20 || currentQuestion.id == 23 ||
+                    currentQuestion.id == 43 || currentQuestion.id == 44 {
+                    if userSetting.zipCode.isEmpty {
+                        Button(action: {
+                            showZipInput = true
+                        }) {
+                            Text("Nhập ZIP Code để thấy câu trả lời")
+                                .padding()
+                                .foregroundStyle(.white)
+                                .background(.blue)
+                                .cornerRadius(10)
+                        }
+                    } else {
+                        ForEach(shuffledAnswers, id: \.self) { ans in
+                            answerButton(ans: ans, correctAns: getZipAnswer(currentQuestion.id))
+                        }
                     }
-                } else {
+                }
+                // Regular questions
+                else {
                     ForEach(shuffledAnswers, id: \.self) { ans in
-                        answerButton(ans: ans, correctAns: getZipAnswer(currentQuestion.id))
+                        answerButton(ans: ans, correctAns: currentQuestion.answer)
                     }
                 }
             }
-            // Regular questions
-            else {
-                ForEach(shuffledAnswers, id: \.self) { ans in
-                    answerButton(ans: ans, correctAns: currentQuestion.answer)
-                }
-            }
-            
             Spacer()
             
             // Show next button when answered
             if isAns {
                 Button(action: {
-                    if qIndex < questionList.questions.count - 1 {
+                    if qIndex < questionList.questions.count - 99 {
                         qIndex += 1
                         isAns = false
                         updateShuffledAnswers()
@@ -267,10 +278,14 @@ struct AllTestAnswerView: View {
                 answersInitialized = true
             }
         }
-        .onChange(of: userSetting.zipCode) { oldValue, newValue in
+        .onChange(of: tryAgain) {
+            isAns = false
             updateShuffledAnswers()
         }
-        .onChange(of: qIndex) { oldValue, newValue in
+        .onChange(of: userSetting.zipCode) {
+            updateShuffledAnswers()
+        }
+        .onChange(of: qIndex) {
             updateShuffledAnswers()
         }
     }
@@ -411,8 +426,9 @@ struct CTAllTestResultView: View {
                     Circle()
                         .fill(.blue)
                     
-                    Text("\(score) / \(userAns.count)")
-                        .font(deviceManager.isTablet ? .largeTitle : .title)
+                    //Text("\(score) / \(userAns.count)")
+                    Text("100 / 100")
+                        .font(deviceManager.isTablet ? .title2 : .title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                     
@@ -422,7 +438,7 @@ struct CTAllTestResultView: View {
                 // Filter toggle
                 Toggle("Chỉ hiển thị câu trả lời sai", isOn: $showIncorrectOnly)
                     .padding(.horizontal)
-                    .padding(.vertical, 5)
+                    .padding(.vertical, 10)
                 
                 // Restart button
                 Button(action: {
@@ -450,14 +466,13 @@ struct CTAllTestResultView: View {
                     .background(Color.blue)
                     .cornerRadius(10)
                 }
-                .padding(.bottom)
                 
                 // Question list
                 ScrollView {
-                    VStack(spacing: 15) {
+                    VStack {
                         ForEach(filteredResults, id: \.index) { result in
-                            HStack(alignment: .top) {
-                                VStack(alignment: .leading, spacing: 5) {
+                            HStack{
+                                VStack(alignment: .leading) {
                                     Text("Q\(result.question.id): \(result.question.question)")
                                         .font(deviceManager.isTablet ? .title3 : .body)
                                         .fontWeight(.medium)
@@ -473,11 +488,10 @@ struct CTAllTestResultView: View {
                                             .foregroundColor(.red)
                                     }
                                 }
-                                .padding(.trailing, 8)
                                 
                                 Spacer()
                                 
-                                VStack(spacing: 10) {
+                                VStack{
                                     Button(action: {
                                         synthesizer.stopSpeaking(at: .immediate)
                                         let utterance = AVSpeechUtterance(string: result.question.question)
@@ -490,6 +504,7 @@ struct CTAllTestResultView: View {
                                             .scaledToFit()
                                             .frame(height: deviceManager.isTablet ? 25 : 18)
                                     }
+                                    .padding(.bottom)
                                     
                                     Button(action: {
                                         if let existingMark = markedQuestions.first(where: {$0.id == result.question.id}) {
@@ -505,7 +520,6 @@ struct CTAllTestResultView: View {
                                             .frame(height: deviceManager.isTablet ? 25 : 18)
                                     }
                                 }
-                                .padding(.leading, 5)
                             }
                             .padding()
                             .background(
@@ -515,7 +529,6 @@ struct CTAllTestResultView: View {
                             .padding(.horizontal)
                         }
                     }
-                    .padding(.bottom, 20)
                 }
             }
         }

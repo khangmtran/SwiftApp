@@ -16,7 +16,7 @@ struct CTLearnQuestions: View {
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @State private var synthesizer = AVSpeechSynthesizer()
-    @State private var qIndex = 0
+    @State private var qIndex = -1
     @State private var questionCount = 0
     private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8"]
     
@@ -213,13 +213,12 @@ struct QuestionView: View {
         VStack{
             VStack{
                 Text("\(qId). \(question)")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                 
                 Text(vieQuestion)
-                    .font(deviceManager.isTablet ? .title : .body)
-                    .fontWeight(.thin)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                     .multilineTextAlignment(.center)
                 
                 Text("Từ quan trọng:")
@@ -228,7 +227,7 @@ struct QuestionView: View {
                     
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(learn)")
-                    .font(deviceManager.isTablet ? .title : .body)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, 1)
             }
@@ -248,7 +247,7 @@ struct QuestionView: View {
                     Image(systemName: markedQuestions.contains {$0.id == qId} ? "bookmark.fill" : "bookmark")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: deviceManager.isTablet ? 50 : 25)
+                        .frame(height: deviceManager.isTablet ? 40 : 20)
                 }
                 .padding(.trailing)
                 
@@ -262,7 +261,7 @@ struct QuestionView: View {
                     Image(systemName: "speaker.wave.3")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: deviceManager.isTablet ? 30 : 20)
+                        .frame(height: deviceManager.isTablet ? 40 : 20)
                 }
             }
             
@@ -293,7 +292,7 @@ struct AnswerView: View {
         VStack{
             if qId == 20 || qId == 23 || qId == 43 || qId == 44{
                 Text("Trả Lời:")
-                    .font(deviceManager.isTablet ? .title : .body)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                     .padding(.bottom, 1)
                 ServiceQuestions(
                     questionId: qId,
@@ -306,15 +305,14 @@ struct AnswerView: View {
             else{
                 VStack{
                     Text("Trả Lời:")
-                        .font(deviceManager.isTablet ? .title : .body)
+                        .font(deviceManager.isTablet ? .title3 : .body)
                     Text(ans)
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                        .font(deviceManager.isTablet ? .title3 : .body)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
                         .padding(.top, 1)
                     Text(vieAns)
-                        .font(deviceManager.isTablet ? .title : .body)
-                        .fontWeight(.thin)
+                        .font(deviceManager.isTablet ? .title3 : .body)
                         .multilineTextAlignment(.center)
                         .padding(.bottom)
                 }
@@ -332,7 +330,7 @@ struct AnswerView: View {
                     Image(systemName: "speaker.wave.3")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: deviceManager.isTablet ? 30 : 20)
+                        .frame(height: deviceManager.isTablet ? 40 : 20)
                 }
             }
         }

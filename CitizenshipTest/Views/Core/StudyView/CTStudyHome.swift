@@ -30,7 +30,7 @@ struct CTStudyHome : View{
                     .listRowBackground(Color.blue.opacity(0.1))
 
                     NavigationLink(destination: CTLearnQuestions()){
-                        CTCustomMenuItem(title: "Học Dễ Nhớ", subtitle: "Học 100 câu hỏi theo từng phần",
+                        CTCustomMenuItem(title: "Học Theo Nhóm", subtitle: "Học 100 câu hỏi theo từng nhóm từ khoá",
                                          assetImage: "book_stack")
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
@@ -102,7 +102,7 @@ struct CTCustomMenuItem: View{
                     .fontWeight(.bold)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(subtitle)
-                    .font(deviceManager.isTablet ? .title : .body)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxWidth: .infinity)

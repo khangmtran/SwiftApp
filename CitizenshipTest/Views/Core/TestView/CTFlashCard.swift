@@ -21,7 +21,7 @@ struct CTFlashCard: View{
     @State private var showingZipPrompt = false
     @State private var showQuestionType: Bool = false
     @State private var noMarkedQuestionsAlert: Bool = false
-    @State private var qType = "Thứ Tự"
+    @State private var qType = "Thứ Tự Thẻ"
     @State private var showJumpPrompt: Bool = false
     @State private var qIndex = 0
     @EnvironmentObject var userSetting: UserSetting
@@ -33,16 +33,15 @@ struct CTFlashCard: View{
     
     var body: some View{
         VStack{
-            HStack{
-                Text("Card \(qIndex + 1) / \(questions.count)")
+            HStack(alignment: .center){
+                Text("Thẻ \(qIndex + 1) / \(questions.count)")
+                    .font(deviceManager.isTablet ? .title3 : .body)
                 Spacer()
                 Button(action: {
                     showJumpPrompt = true
                 }) {
                     HStack {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .imageScale(.medium)
-                        Text("Nhảy đến")
+                        Text("Tìm Thẻ")
                             .font(deviceManager.isTablet ? .title3 : .body)
                     }
                     .foregroundColor(.blue)
@@ -183,8 +182,8 @@ struct NavButtonsFC: View{
     var body: some View {
         HStack(){
             Button(action: prevQuestion){
-                Text("Tro Ve")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                Text("Trở Về")
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .padding()
             .foregroundStyle(.white)
@@ -194,8 +193,8 @@ struct NavButtonsFC: View{
             Spacer()
             
             Button(action: nextQuestion){
-                Text("Tiep Theo")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                Text("Tiếp Theo")
+                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .padding()
             .foregroundStyle(.white)
@@ -249,9 +248,9 @@ struct CardFront: View{
             
             VStack{
                 Text("Question \(questions[qIndex].id):")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                 Text("\(questions[qIndex].question)")
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(deviceManager.isTablet ? .title2 : .title3)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
@@ -305,7 +304,7 @@ struct CardFront: View{
                     isFlipped.toggle()
                 }) {
                     Text("Lật Thẻ")
-                        .font(deviceManager.isTablet ? .title : .body)
+                        .font(deviceManager.isTablet ? .title2 : .title3)
                         .padding()
                         .foregroundColor(.white)
                         .background(Color.blue)
@@ -354,14 +353,14 @@ struct CardBack: View{
                     }
                     else{
                         Text("\(questions[qIndex].answer)")
-                            .font(deviceManager.isTablet ? .largeTitle : .title3)
+                            .font(deviceManager.isTablet ? .title2 : .title3)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.vertical, 1)
                             .padding(.horizontal)
                         Text("\(questions[qIndex].answerVie)")
-                            .font(deviceManager.isTablet ? .title : .body)
+                            .font(deviceManager.isTablet ? .title3 : .body)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.horizontal)
@@ -408,7 +407,7 @@ struct CardBack: View{
                         isFlipped.toggle()
                     }) {
                         Text("Lật Thẻ")
-                            .font(deviceManager.isTablet ? .title : .body)
+                            .font(deviceManager.isTablet ? .title2 : .title3)
                             .padding()
                             .foregroundColor(.white)
                             .background(Color.blue)
@@ -449,6 +448,7 @@ struct QuestionTypeView: View {
             }){
                 Image(systemName: "xmark")
                     .foregroundStyle(.gray)
+                    .padding(.top)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
             

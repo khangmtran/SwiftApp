@@ -30,115 +30,111 @@ struct CTAudioStudy: View {
     
     var body: some View {
         GeometryReader { geo in
-            VStack {
-                // Controls section
-                Toggle("Nghe Đáp Án", isOn: $playAnswers)
-                    .font(deviceManager.isTablet ? .title3 : .body)
-                    .toggleStyle(SwitchToggleStyle(tint: .blue))
-                    .disabled(isPlaying)
-                    .padding()
-                
-                // Progress indicator
-                VStack {
-                    Text("\(currentQuestionIndex + 1) / \(questionList.questions.count)")
-                        .font(deviceManager.isTablet ? .title : .title3)
+            VStack{
+                ScrollView {
+                    // Controls section
+                    Toggle("Nghe Đáp Án", isOn: $playAnswers)
+                        .font(deviceManager.isTablet ? .title3 : .body)
+                        .toggleStyle(SwitchToggleStyle(tint: .blue))
+                        .disabled(isPlaying)
+                        .padding()
                     
-                    ProgressView(value: Double(currentQuestionIndex + 1), total: Double(questionList.questions.count))
-                        .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                        .padding(.horizontal)
-                }
-                .padding()
-                
-                Spacer()
-                
-                // Question/Answer display
-                VStack(spacing: 20) {
+                    // Progress indicator
                     VStack {
-                        HStack {
-                            Text("Câu hỏi \(questionList.questions[currentQuestionIndex].id)")
-                                .font(deviceManager.isTablet ? .title3 : .headline)
-                                .foregroundColor(.blue)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            
-                            // Add bookmark button
-                            Button(action: {
-                                if let existingMark = markedQuestions.first(where: {$0.id == questionList.questions[currentQuestionIndex].id}) {
-                                    context.delete(existingMark)
-                                } else {
-                                    let newMark = MarkedQuestion(id: questionList.questions[currentQuestionIndex].id)
-                                    context.insert(newMark)
-                                }
-                            }) {
-                                Image(systemName: markedQuestions.contains(where: {$0.id == questionList.questions[currentQuestionIndex].id}) ? "bookmark.fill" : "bookmark")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: deviceManager.isTablet ? 25 : 18)
-                            }
-                        }
-                        
-                        Text(questionList.questions[currentQuestionIndex].question)
-                            .font(deviceManager.isTablet ? .title2 : .title3)
-                            .fontWeight(.medium)
-                            .multilineTextAlignment(.leading)
-                            .padding(.vertical, 5)
-                        
-                        Text(questionList.questions[currentQuestionIndex].questionVie)
+                        Text("\(currentQuestionIndex + 1) / \(questionList.questions.count)")
                             .font(deviceManager.isTablet ? .title3 : .body)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.leading)
+                        
+                        ProgressView(value: Double(currentQuestionIndex + 1), total: Double(questionList.questions.count))
+                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                            .padding(.horizontal)
                     }
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
                     
-                    if playAnswers {
+                    // Question/Answer display
+                    VStack {
                         VStack {
-                            Text("Đáp án")
-                                .font(deviceManager.isTablet ? .title3 : .headline)
-                                .foregroundColor(.green)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            
-                            if [20, 23, 43, 44].contains(questionList.questions[currentQuestionIndex].id) {
-                                ServiceQuestions(
-                                    questionId: questionList.questions[currentQuestionIndex].id,
-                                    showingZipPrompt: $showingZipPrompt,
-                                    govAndCap: govCapManager.govAndCap
-                                )
-                                .padding(.vertical, 5)
-                            } else {
-                                // Regular answer display
-                                Text(questionList.questions[currentQuestionIndex].answer)
-                                    .font(deviceManager.isTablet ? .title2 : .title3)
-                                    .fontWeight(.medium)
-                                    .multilineTextAlignment(.leading)
-                                    .padding(.vertical, 5)
+                            HStack {
+                                Text("Câu hỏi \(questionList.questions[currentQuestionIndex].id)")
+                                    .font(deviceManager.isTablet ? .title3 : .headline)
+                                    .foregroundColor(.blue)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 
-                                Text(questionList.questions[currentQuestionIndex].answerVie)
-                                    .font(deviceManager.isTablet ? .title3 : .body)
-                                    .foregroundColor(.secondary)
-                                    .multilineTextAlignment(.leading)
+                                // Add bookmark button
+                                Button(action: {
+                                    if let existingMark = markedQuestions.first(where: {$0.id == questionList.questions[currentQuestionIndex].id}) {
+                                        context.delete(existingMark)
+                                    } else {
+                                        let newMark = MarkedQuestion(id: questionList.questions[currentQuestionIndex].id)
+                                        context.insert(newMark)
+                                    }
+                                }) {
+                                    Image(systemName: markedQuestions.contains(where: {$0.id == questionList.questions[currentQuestionIndex].id}) ? "bookmark.fill" : "bookmark")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: deviceManager.isTablet ? 25 : 20)
+                                }
                             }
+                            
+                            Text(questionList.questions[currentQuestionIndex].question)
+                                .font(deviceManager.isTablet ? .title3 : .body)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .fontWeight(.bold)
+                                .multilineTextAlignment(.leading)
+                                .padding(.vertical, 5)
+                            
+                            Text(questionList.questions[currentQuestionIndex].questionVie)
+                                .font(deviceManager.isTablet ? .title3 : .body)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .multilineTextAlignment(.leading)
                         }
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.green.opacity(0.1)))
+                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
+                        
+                        if playAnswers {
+                            VStack {
+                                Text("Đáp án")
+                                    .font(deviceManager.isTablet ? .title3 : .headline)
+                                    .foregroundColor(.blue)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                
+                                if [20, 23, 43, 44].contains(questionList.questions[currentQuestionIndex].id) {
+                                    ServiceQuestions(
+                                        questionId: questionList.questions[currentQuestionIndex].id,
+                                        showingZipPrompt: $showingZipPrompt,
+                                        govAndCap: govCapManager.govAndCap
+                                    )
+                                    .padding(.vertical, 5)
+                                } else {
+                                    // Regular answer display
+                                    Text(questionList.questions[currentQuestionIndex].answer)
+                                        .font(deviceManager.isTablet ? .title3 : .body)
+                                        .fontWeight(.bold)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .multilineTextAlignment(.leading)
+                                        .padding(.vertical, 5)
+                                    
+                                    
+                                    Text(questionList.questions[currentQuestionIndex].answerVie)
+                                        .font(deviceManager.isTablet ? .title3 : .body)
+                                        .multilineTextAlignment(.leading)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                            }
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
+                        }
                     }
+                    .padding()
                 }
-                .padding()
-                .transition(.opacity)
-                
-                
-                Spacer()
-                
                 // Playback controls
-                VStack(spacing: 20) {
+                VStack {
                     // Standard playback controls
-                    HStack(spacing: deviceManager.isTablet ? 60 : 30) {
+                    HStack(spacing: 20) {
                         Button(action: previousTenQuestions) {
                             Image(systemName: "backward.end.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: deviceManager.isTablet ? 40 : 25)
-                            
-                            
                         }
                         .disabled(currentQuestionIndex < 10 || isPlaying)
                         
@@ -166,18 +162,16 @@ struct CTAudioStudy: View {
                         .disabled(currentQuestionIndex == questionList.questions.count - 1 || isPlaying)
                         
                         Button(action: nextTenQuestions) {
-                            
                             Image(systemName: "forward.end.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: deviceManager.isTablet ? 40 : 25)
-                            
                         }
                         .disabled(currentQuestionIndex > questionList.questions.count - 11 || isPlaying)
                         
                     }
                 }
-                .padding(.bottom, 30)
+                .padding(.vertical)
             }
             .padding()
         }
