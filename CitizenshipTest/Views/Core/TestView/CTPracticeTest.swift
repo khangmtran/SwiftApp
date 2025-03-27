@@ -372,10 +372,40 @@ struct PracticeAnswerView: View{
                                 .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
                                 .background(.blue)
                                 .cornerRadius(10)
                         }
+                        .padding()
+                        
+                        Button(action: {
+                            selectedAns = "Bỏ qua"
+                            userAns.append(false)
+                            incorrQ.append(selectedAns)
+                            
+                            if qIndex == 9 {
+                                isAns = false
+                                saveProgress()
+                                showResult = true
+                            }
+                            else{
+                                qIndex += 1
+                                saveProgress()
+                            }
+                            
+                        }) {
+                            Text("Bỏ qua câu hỏi này")
+                                .font(deviceManager.isTablet ? .title3 : .body)
+                                .padding()
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .background(.red.opacity(0.8))
+                                .cornerRadius(10)
+                        }
+                        .padding(.horizontal)
+                    
                     }
+                    
                     else{
                         ForEach(shuffledAnswers, id: \.self) { ans in
                             Button(action: {

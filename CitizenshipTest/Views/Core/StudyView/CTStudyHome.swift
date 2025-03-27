@@ -25,23 +25,23 @@ struct CTStudyHome : View{
                 
                 List{
                     NavigationLink(destination: CTAllQuestions()){
-                        CTCustomMenuItem(title: "100 Câu Hỏi", subtitle: "Xem tất cả câu hỏi và câu trả lời", assetImage: "book")
+                        CTCustomMenuItem(title: "100 Câu Hỏi", subtitle: "Xem tất cả câu hỏi và câu trả lời", assetImage: "openbook")
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
 
                     NavigationLink(destination: CTLearnQuestions()){
                         CTCustomMenuItem(title: "Học Theo Nhóm", subtitle: "Học 100 câu hỏi theo từng nhóm từ khoá",
-                                         assetImage: "book_stack")
+                                         assetImage: "bookstack4")
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
                     
                     NavigationLink(destination: CTAllMarkedQuestion()){
-                        CTCustomMenuItem(title: "Câu Hỏi Đánh Dấu", subtitle: "Xem tất cả câu hỏi được đánh dấu", assetImage: "pen_paper")
+                        CTCustomMenuItem(title: "Câu Hỏi Đánh Dấu", subtitle: "Xem tất cả câu hỏi được đánh dấu", assetImage: "bookmark1")
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
                     
                     NavigationLink(destination: CTAudioStudy()){
-                        CTCustomMenuItem(title: "Nghe Câu Hỏi", subtitle: "Nghe tất cả câu hỏi và câu trả lời", systemImg: "headphones")
+                        CTCustomMenuItem(title: "Nghe Câu Hỏi", subtitle: "Nghe tất cả câu hỏi và câu trả lời", assetImage: "headphone3")
                     }
                     .listRowBackground(Color.blue.opacity(0.1))
 
@@ -62,51 +62,5 @@ struct CTHomeMenu_Provider: PreviewProvider{
             .environmentObject(GovCapManager())
             .environmentObject(WrongAnswer())
             .environmentObject(SelectedPart())
-    }
-}
-
-struct CTCustomMenuItem: View{
-    @EnvironmentObject var deviceManager : DeviceManager
-    let title: String
-    let subtitle: String
-    let systemImg: String?
-    let assetImage: String?
-    
-    init(title: String, subtitle: String, systemImg: String? = nil, assetImage: String? = nil) {
-        self.title = title
-        self.subtitle = subtitle
-        self.systemImg = systemImg
-        self.assetImage = assetImage
-    }
-    
-    var body: some View{
-        
-        HStack{
-            VStack{
-                if let systemImg = systemImg{
-                    Image(systemName: systemImg)
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundStyle(.blue)
-                } else if let assetImage = assetImage{
-                    Image(assetImage)
-                        .resizable()
-                        .scaledToFit()
-                }
-            }
-            .frame(width: deviceManager.isTablet ? 150 : 75)
-            
-            VStack(){
-                Text(title)
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
-                    .fontWeight(.bold)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text(subtitle)
-                    .font(deviceManager.isTablet ? .title3 : .body)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-        }
     }
 }

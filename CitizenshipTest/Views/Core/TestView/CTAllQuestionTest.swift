@@ -226,11 +226,41 @@ struct AllTestAnswerView: View {
                             showZipInput = true
                         }) {
                             Text("Nhập ZIP Code để thấy câu trả lời")
+                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
                                 .background(.blue)
                                 .cornerRadius(10)
                         }
+                        .padding()
+                        
+                        Button(action: {
+                            selectedAns = "Bỏ qua"
+                            userAns.append(false)
+                            incorrQ.append(selectedAns)
+                            
+                            if qIndex == questionList.questions.count - 1 {
+                                saveProgress()
+                                showResult = true
+                            }
+                            else{
+                                qIndex += 1
+                                saveProgress()
+                            }
+                            
+                        }) {
+                            Text("Bỏ qua câu hỏi này")
+                                .font(deviceManager.isTablet ? .title3 : .body)
+                                .padding()
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .background(.red.opacity(0.8))
+                                .cornerRadius(10)
+                        }
+                        .padding(.horizontal)
+                    
+                        
                     } else {
                         ForEach(shuffledAnswers, id: \.self) { ans in
                             answerButton(ans: ans, correctAns: getZipAnswer(currentQuestion.id))
@@ -249,7 +279,7 @@ struct AllTestAnswerView: View {
             // Show next button when answered
             if isAns {
                 Button(action: {
-                    if qIndex < questionList.questions.count - 99 {
+                    if qIndex < questionList.questions.count - 1 {
                         qIndex += 1
                         isAns = false
                         updateShuffledAnswers()

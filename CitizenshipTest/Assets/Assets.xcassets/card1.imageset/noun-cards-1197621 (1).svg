@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200pt" height="1200pt" version="1.1" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+ <path transform="scale(24)" d="m30.5 15.5h4.5c0.28011 0 0.5 0.21908 0.5 0.50309v20.994c0 0.27523-0.22819 0.50309-0.5 0.50309h-15c-0.28011 0-0.5-0.21908-0.5-0.50309v-4.4969h11z" fill="none" stroke="#000"/>
+ <path transform="scale(24)" d="m15.5 10.5h14c0.55225 0 1 0.55225 1 1v20c0 0.55225-0.44775 1-1 1h-14c-0.55225 0-1-0.55225-1-1v-20c0-0.55225 0.44775-1 1-1z" fill="none" stroke="#000"/>
+</svg>

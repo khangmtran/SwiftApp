@@ -334,6 +334,8 @@ struct MarkedQuestionView: View {
     @Binding var qIndex: Int
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var deviceManager: DeviceManager
+    @Environment(\.modelContext) private var context
+    @Query private var markedQuestionIds: [MarkedQuestion]
     
     var body: some View {
         ZStack {
@@ -362,6 +364,21 @@ struct MarkedQuestionView: View {
                 HStack {
                     Spacer()
                     
+                    Button(action: {
+                        if let existingMark = markedQuestionIds.first(where: {$0.id == markedQuestions[qIndex].id}) {
+                            context.delete(existingMark)
+                        } else {
+                            let newMark = MarkedQuestion(id: markedQuestions[qIndex].id)
+                            context.insert(newMark)
+                        }
+                    }) {
+                        Image(systemName: markedQuestionIds.contains(where: {$0.id == markedQuestions[qIndex].id}) ? "bookmark.fill" : "bookmark")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                    }
+                    .padding(.trailing)
+                    
                     // Voice button
                     Button(action: {
                         synthesizer.stopSpeaking(at: .immediate)
@@ -376,6 +393,7 @@ struct MarkedQuestionView: View {
                             .frame(height: deviceManager.isTablet ? 50 : 25)
                     }
                     .padding(.horizontal)
+                    .padding(.bottom)
                 }
             }
         }
@@ -416,9 +434,36 @@ struct MarkedAnswerView: View {
                                 .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
                                 .background(.blue)
                                 .cornerRadius(10)
                         }
+                        .padding()
+                        
+                        Button(action: {
+                            selectedAns = "Bỏ qua"
+                            userAns.append(false)
+                            incorrQ.append(selectedAns)
+                            
+                            if qIndex == markedQuestions.count - 1 {
+                                saveProgress()
+                                showResult = true
+                            }
+                            else{
+                                qIndex += 1
+                                saveProgress()
+                            }
+                        }) {
+                            Text("Bỏ qua câu hỏi này")
+                                .font(deviceManager.isTablet ? .title3 : .body)
+                                .padding()
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .background(.red.opacity(0.8))
+                                .cornerRadius(10)
+                        }
+                        .padding(.horizontal)
+                        
                     } else {
                         ForEach(shuffledAnswers, id: \.self) { ans in
                             Button(action: {
