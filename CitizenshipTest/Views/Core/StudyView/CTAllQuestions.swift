@@ -146,7 +146,7 @@ struct CTAllQuestions: View {
                                         Image(systemName: "speaker.wave.3")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                                            .frame(height: deviceManager.isTablet ? 40 : 20)
                                     }
                                     .buttonStyle(BorderlessButtonStyle())
                                 }

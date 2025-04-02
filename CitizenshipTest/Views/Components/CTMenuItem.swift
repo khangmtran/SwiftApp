@@ -36,7 +36,7 @@ struct CTCustomMenuItem: View{
                         .scaledToFit()
                 }
             }
-            .frame(width: deviceManager.isTablet ? 150 : 75)
+            .frame(height: deviceManager.isTablet ? 150 : 75)
             
             VStack(){
                 Text(title)

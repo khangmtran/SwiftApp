@@ -49,7 +49,7 @@ struct CTPracticeTest: View {
                 GeometryReader { geo in
                     VStack {
                         PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
-                            .frame(height: geo.size.height / 3)
+                            .frame(height: geo.size.height / 2.5)
                         PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, tryAgain: $tryAgain, saveProgress: saveProgress)
                     }
                 }
@@ -287,15 +287,22 @@ struct PracticeQuestionView: View{
                     .padding(.horizontal)
                     .tint(.white)
                 
-                Spacer()
-                
-                Text("\(tenQuestions[qIndex].question)")
-                    .font(deviceManager.isTablet ? .title2 : .title3)
-                    .fontWeight(.medium)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal)
-                
-                Spacer()
+                GeometryReader { geo in
+                    ScrollView(showsIndicators: true) {
+                        VStack {
+                            Spacer()
+                            Text("\(tenQuestions[qIndex].question)")
+                                .font(deviceManager.isTablet ? .title2 : .title3)
+                                .fontWeight(.medium)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.horizontal)
+                            
+                            Spacer()
+                        }
+                        .frame(minHeight: geo.size.height)
+                        .frame(maxWidth: .infinity)
+                    }
+                }
                 
                 HStack{
                     Spacer()
