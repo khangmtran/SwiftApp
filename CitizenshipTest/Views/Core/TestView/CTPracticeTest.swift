@@ -319,7 +319,7 @@ struct PracticeQuestionView: View{
                         Image(systemName: markedQuestions.contains {$0.id == tenQuestions[qIndex].id} ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 40 : 25)
+                            .frame(height: deviceManager.isTablet ? 40 : 23)
                     }
                     .padding(.trailing)
                     
@@ -334,7 +334,7 @@ struct PracticeQuestionView: View{
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 40 : 25)
+                            .frame(height: deviceManager.isTablet ? 40 : 23)
                     }
                 }
                 .padding(.horizontal)

@@ -17,16 +17,14 @@ struct CTGuide: View {
         ScrollView{
             if selectedPart.partChosen == "Phần 8"{
                 VStack{
-                    Text("Phần 8 sẽ không có từ khóa như những phần khác. Phần 8 sẽ là phần tập hợp của các câu hỏi còn sót lại.")
+                    Text("Phần 8 sẽ không có từ khóa như những phần khác. Phần 8 sẽ là phần tập hợp của các câu hỏi còn lại.")
                         .font(dvice.isTablet ? .title3 : .body)
-                    Text("Ở mỗi câu hỏi sẽ có phần Từ Quan Trọng, là những từ đặc trưng cho mỗi câu hỏi và không được lặp lại ở các câu khác. Điều này giúp bạn dễ dàng nhận diện từng câu hỏi một cách riêng biệt.")
-                        .font(dvice.isTablet ? .title3 : .body)
-                        .padding(.vertical)
+                        .padding(.bottom)
                     Text("Lưu ý: Những câu hỏi có dấu * là những câu hỏi thường gặp trong bài thi.")
                         .font(dvice.isTablet ? .title3 : .body)
                 }
                 .padding()
-                .background(Color(UIColor.systemGroupedBackground))
+                .background(Color.blue.opacity(0.1))
                 .cornerRadius(20)
                 
             }else{
@@ -37,10 +35,8 @@ struct CTGuide: View {
                         .font(dvice.isTablet ? .title3 : .body)
                         .multilineTextAlignment(.center)
                         .padding(.vertical)
-                    Text("Ở mỗi câu hỏi sẽ có phần 'Từ Quan Trọng', là những từ đặc trưng cho mỗi câu hỏi và không được lặp lại ở các câu khác. Điều này giúp bạn dễ dàng nhận diện từng câu hỏi một cách riêng biệt.")
                     Text("Lưu ý: Những câu hỏi có dấu * là những câu hỏi thường gặp trong bài thi.")
                         .font(dvice.isTablet ? .title3 : .body)
-                        .padding(.top)
                 }
                 .padding()
                 .background(Color.blue.opacity(0.1))

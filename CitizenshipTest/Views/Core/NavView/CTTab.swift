@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+extension View {
+    func supportAccessibilityTextSizes() -> some View {
+        self.dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+    }
+}
+
 struct CTTab: View {
     @State private var selectedTab = 1
     @EnvironmentObject var deviceManager: DeviceManager
@@ -65,6 +71,8 @@ struct CTTab: View {
                 }
                 .tag(2)
         }
+        .supportAccessibilityTextSizes()
+
     }
 }
 

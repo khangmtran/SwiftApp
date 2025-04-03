@@ -176,7 +176,7 @@ struct AllTestQuestionView: View {
                         Image(systemName: markedQuestions.contains {$0.id == currentQuestion.id} ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                            .frame(height: deviceManager.isTablet ? 50 : 23)
                     }
                     .padding(.trailing)
                     
@@ -191,7 +191,7 @@ struct AllTestQuestionView: View {
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                            .frame(height: deviceManager.isTablet ? 50 : 23)
                     }
                 }
                 .padding(.horizontal)

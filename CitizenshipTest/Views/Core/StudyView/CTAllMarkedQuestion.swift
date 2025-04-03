@@ -31,23 +31,22 @@ struct CTAllMarkedQuestion: View {
     var body: some View {
         VStack {
             if filteredQuestions.isEmpty {
-                VStack {
-                    Spacer()
-                    Text("Chưa có câu hỏi đánh dấu")
-                        .font(deviceManager.isTablet ? .title3 : .body)
-                        .foregroundColor(.gray)
-                    Text("Hãy đánh dấu những câu hỏi bạn muốn ôn tập")
-                        .font(deviceManager.isTablet ? .title3 : .callout)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                    
+                VStack(spacing: 20) {
                     Image(systemName: "bookmark.slash")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100, height: 100)
                         .foregroundColor(.gray)
-                        .padding()
+                    
+                    Text("Bạn chưa đánh dấu câu hỏi nào")
+                        .font(deviceManager.isTablet ? .title : .headline)
+                        .foregroundColor(.gray)
+                    
+                    Text("Hãy đánh dấu câu hỏi để ôn tập tại đây")
+                        .font(deviceManager.isTablet ? .body : .callout)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
                     
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
@@ -60,9 +59,8 @@ struct CTAllMarkedQuestion: View {
                             .cornerRadius(10)
                     }
                     .padding(.top)
-                    
-                    Spacer()
                 }
+                .padding()
             } else {
                 List {
                     Section {

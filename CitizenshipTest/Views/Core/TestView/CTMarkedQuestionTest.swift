@@ -382,7 +382,7 @@ struct MarkedQuestionView: View {
                         Image(systemName: markedQuestionIds.contains(where: {$0.id == markedQuestions[qIndex].id}) ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                            .frame(height: deviceManager.isTablet ? 50 : 23)
                     }
                     .padding(.trailing)
                     
@@ -397,11 +397,11 @@ struct MarkedQuestionView: View {
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                            .frame(height: deviceManager.isTablet ? 50 : 23)
                     }
-                    .padding(.horizontal)
-                    .padding(.bottom)
                 }
+                .padding(.horizontal)
+                .padding(.bottom)
             }
         }
     }

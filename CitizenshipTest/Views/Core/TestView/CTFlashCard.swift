@@ -257,7 +257,7 @@ struct CardFront: View{
                     .padding(.vertical, 1)
                     .padding(.horizontal)
                 Text(questions[qIndex].questionVie)
-                    .font(deviceManager.isTablet ? .title : .body)
+                    .font(deviceManager.isTablet ? .title3 : .body)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal)
@@ -279,7 +279,7 @@ struct CardFront: View{
                         Image(systemName: markedQuestions.contains {$0.id == questions[qIndex].id} ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                            .frame(height: deviceManager.isTablet ? 50 : 23)
                     }
                     .padding(.trailing)
                     
@@ -294,7 +294,7 @@ struct CardFront: View{
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 25)
+                            .frame(height: deviceManager.isTablet ? 50 : 23)
                     }
                 }
                 .padding()
@@ -304,7 +304,7 @@ struct CardFront: View{
                     isFlipped.toggle()
                 }) {
                     Text("Lật Thẻ")
-                        .font(deviceManager.isTablet ? .title2 : .title3)
+                        .font(deviceManager.isTablet ? .title3 : .body)
                         .padding()
                         .foregroundColor(.white)
                         .background(Color.blue)
@@ -382,7 +382,7 @@ struct CardBack: View{
                             Image(systemName: markedQuestions.contains {$0.id == questions[qIndex].id} ? "bookmark.fill" : "bookmark")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 50 : 25)
+                                .frame(height: deviceManager.isTablet ? 50 : 23)
                         }
                         .padding(.trailing)
                         
@@ -397,7 +397,7 @@ struct CardBack: View{
                             Image(systemName: "speaker.wave.3")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 50 : 25)
+                                .frame(height: deviceManager.isTablet ? 50 : 23)
                         }
                     }
                     .padding()
@@ -442,77 +442,76 @@ struct QuestionTypeView: View {
     @AppStorage("flashCardIndex") private var savedIndex: Int = 0
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
             Button(action:{
                 dismiss()
             }){
                 Image(systemName: "xmark")
                     .foregroundStyle(.gray)
-                    .padding(.top)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
             
             Text("Chọn Trình Tự Câu Hỏi")
-            //.font(.headline)
-                .padding(.top)
+                .padding(10)
             
-            // Handle sequential order
-            Button(action: {
-                questions = questionList.questions
-                qIndex = 0
-                savedIndex = 0
-                qType = "Thứ Tự"
-                dismiss()
-            }) {
-                HStack {
-                    Image(systemName: "list.number")
-                    Text("Thứ Tự")
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(.horizontal)
-            
-            // Handle random order
-            Button(action: {
-                questions = questionList.questions.shuffled()
-                qIndex = 0
-                savedIndex = 0
-                qType = "Ngẫu Nhiên"
-                dismiss()
-            }) {
-                HStack {
-                    Image(systemName: "shuffle")
-                    Text("Ngẫu Nhiên")
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(.horizontal)
-            
-            // Handle marked questions
-            Button(action: {
-                let filteredQuestions = questionList.questions.filter { question in
-                    markedQuestions.contains{$0.id == question.id}
-                }
-                
-                if !filteredQuestions.isEmpty {
-                    questions = filteredQuestions
+            VStack(spacing: 20){
+                // Handle sequential order
+                Button(action: {
+                    questions = questionList.questions
                     qIndex = 0
                     savedIndex = 0
-                    qType = "Đánh Dấu"
-                } else {
-                    shouldShowAlertOnDismiss = true
+                    qType = "Thứ Tự"
+                    dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "list.number")
+                        Text("Thứ Tự")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                dismiss()
-            })
-            {
-                HStack {
-                    Image(systemName: "bookmark")
-                    Text("Đánh Dấu")
+                .padding(.horizontal)
+                
+                // Handle random order
+                Button(action: {
+                    questions = questionList.questions.shuffled()
+                    qIndex = 0
+                    savedIndex = 0
+                    qType = "Ngẫu Nhiên"
+                    dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "shuffle")
+                        Text("Ngẫu Nhiên")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+                
+                // Handle marked questions
+                Button(action: {
+                    let filteredQuestions = questionList.questions.filter { question in
+                        markedQuestions.contains{$0.id == question.id}
+                    }
+                    
+                    if !filteredQuestions.isEmpty {
+                        questions = filteredQuestions
+                        qIndex = 0
+                        savedIndex = 0
+                        qType = "Đánh Dấu"
+                    } else {
+                        shouldShowAlertOnDismiss = true
+                    }
+                    dismiss()
+                })
+                {
+                    HStack {
+                        Image(systemName: "bookmark")
+                        Text("Đánh Dấu")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
-            
             Spacer()
         }
         .padding()

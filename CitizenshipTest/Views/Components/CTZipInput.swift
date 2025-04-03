@@ -13,12 +13,13 @@ struct CTZipInput: View {
     @State private var tempZipCode: String = ""
     @State private var isTyping = false
     @State private var errorMsg = false
+    @State private var errorText = "ZIP Code không hợp lệ, xin vui lòng nhập lại"
     private let geocodioService = CTGeocodioService()
     
     var body: some View {
         NavigationView {
             VStack {
-                TextField(tempZipCode.isEmpty ? "Enter ZIP Code" : "\(tempZipCode)", text: $tempZipCode)
+                TextField(tempZipCode.isEmpty ? "Nhập ZIP Code" : "\(tempZipCode)", text: $tempZipCode)
                     .font(deviceManager.isTablet ? .largeTitle : .title3)
                     .multilineTextAlignment(.center)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -37,20 +38,24 @@ struct CTZipInput: View {
                                 userSetting.legislators = legislators
                                 dismiss()
                             }
+                        } catch _ as URLError {
+                            errorText = "Lỗi kết nối, xin vui lòng kiểm tra kết nối mạng"
+                            errorMsg = true
                         } catch {
                             print("Error: \(error)")
+                            errorText = "ZIP Code không hợp lệ, xin vui lòng nhập lại"
                             errorMsg = true
                         }
                         isTyping = false
                     }
                 }){
-                    Text("Save")
+                    Text("Tìm")
                         .font(deviceManager.isTablet ? .largeTitle : .title3)
                 }
                 .disabled(tempZipCode.count != 5 || isTyping)
                 
                 if errorMsg{
-                    Text("ZIP Code khong hop le, xin vui long nhap lai")
+                    Text(errorText)
                         .font(deviceManager.isTablet ? .largeTitle : .title3)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.red)
@@ -61,13 +66,13 @@ struct CTZipInput: View {
                     ProgressView()
                 }
             }
-            .navigationTitle("Enter ZIP Code")
+            .navigationTitle("Tìm Đại Diện")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         dismiss()
                     }){
-                        Text("Cancel")
+                        Text("Huỷ")
                         .font(deviceManager.isTablet ? .title : .body)
                     }
                 }
