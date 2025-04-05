@@ -48,17 +48,17 @@
         "id": 6,
         "question": "What is one right or freedom from the First Amendment?",
         "questionVie": "Một quyền tự do trong Tu chính án đầu tiên là gì?",
-        "answer": "speech",
-        "answerVie": "tự do ngôn luận",
+        "answer": "Speech",
+        "answerVie": "Tự do ngôn luận",
         "type": "CA",
-        "learn": "1. One right: Một quyền\n2. from the First Amendment: Từ tu chính án đầu tiên"
+        "learn": "1. One right: Một quyền\n2. from the First Amendment: Trong tu chính án đầu tiên"
     },
     {
         "id": 7,
         "question": "How many amendments does the Constitution have?",
         "questionVie": "Hiến pháp có bao nhiêu tu chính án?",
-        "answer": "twenty-seven (27)",
-        "answerVie": "hai mươi bảy (27)",
+        "answer": "Twenty-seven (27)",
+        "answerVie": "Hai mươi bảy (27)",
         "type": "CA",
         "learn": "1. How many amendments: Bao nhiêu tu chính án"
     },
@@ -186,7 +186,7 @@
         "answer": "Four hundred thirty-five (435)",
         "answerVie": "Bốn trăm ba mươi lăm (435)",
         "type": "WCCR",
-        "learn": "1. How many voting members: Bao nhiêu Thành viên"
+        "learn": "1. How many voting members: Bao nhiêu thành viên"
     },
     {
         "id": 22,
@@ -429,7 +429,7 @@
         "answer": "Any citizen can vote (Women and men can vote)",
         "answerVie": "Bất cứ công dân nào cũng có thể bầu cử (phụ nữ và nam giới đều có thể bầu cử)",
         "type": "CA",
-        "learn": "1. Four amendments: Bốn tu chính án"
+        "learn": "1. Four amendments: Bốn tu chính án\n 2. Describe one: Nêu một"
     },
     {
         "id": 49,
@@ -690,7 +690,7 @@
         "answer": "Fought for women's rights",
         "answerVie": "Đấu tranh vì quyền lợi của phụ nữ",
         "type": "SND",
-        "learn": "1. Susan B. Anthony\n 2. Do: Làm"
+        "learn": "1. Susan B. Anthony\n2. Do: Làm"
     },
     {
         "id": 78,

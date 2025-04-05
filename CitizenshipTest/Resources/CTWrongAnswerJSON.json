@@ -7,9 +7,9 @@
     },
     {
         "id": 2,
-        "firstIncorrect": "Protects individual rights",
+        "firstIncorrect": "Reviews laws",
         "secondIncorrect": "Declares our independence",
-        "thirdIncorrect": "Defines self-government"
+        "thirdIncorrect": "Advises the President"
     },
     {
         "id": 3,
@@ -19,9 +19,9 @@
     },
     {
         "id": 4,
-        "firstIncorrect": "A right or freedom",
-        "secondIncorrect": "The supreme law of the land",
-        "thirdIncorrect": "Sets up the government"
+        "firstIncorrect": "The Constitution",
+        "secondIncorrect": "The Supreme Court",
+        "thirdIncorrect": "Freedom of religion"
     },
     {
         "id": 5,
@@ -31,9 +31,9 @@
     },
     {
         "id": 6,
-        "firstIncorrect": "The right to vote",
-        "secondIncorrect": "The right to bear arms",
-        "thirdIncorrect": "The right to a fair trial"
+        "firstIncorrect": "Vote",
+        "secondIncorrect": "Sets up the government",
+        "thirdIncorrect": "A change"
     },
     {
         "id": 7,
@@ -44,38 +44,38 @@
     {
         "id": 8,
         "firstIncorrect": "Set up the government",
-        "secondIncorrect": "Guaranteed rights to citizens",
-        "thirdIncorrect": "Protected freedom of religion"
+        "secondIncorrect": "Reviewed laws",
+        "thirdIncorrect": "The Amendments"
     },
     {
         "id": 9,
         "firstIncorrect": "Speech and Religion",
-        "secondIncorrect": "Pursuit of Happiness",
+        "secondIncorrect": "The Bill of Rights",
         "thirdIncorrect": "Self-government"
     },
     {
         "id": 10,
         "firstIncorrect": "The supreme law of the land",
-        "secondIncorrect": "Freedom to vote in any state",
-        "thirdIncorrect": "Freedom only for citizens"
+        "secondIncorrect": "Speech",
+        "thirdIncorrect": "Life and Liberty"
     },
     {
         "id": 11,
-        "firstIncorrect": "Capitalist economy",
+        "firstIncorrect": "Economy",
         "secondIncorrect": "Constitutional economy",
-        "thirdIncorrect": "Free trade economy"
+        "thirdIncorrect": "United States economy"
     },
     {
         "id": 12,
-        "firstIncorrect": "Only citizens must follow the law",
-        "secondIncorrect": "The President enforces the law",
-        "thirdIncorrect": "Congress makes the laws"
+        "firstIncorrect": "Review laws",
+        "secondIncorrect": "The supreme law of the land",
+        "thirdIncorrect": "The Constitution"
     },
     {
         "id": 13,
-        "firstIncorrect": "Judicial branch",
+        "firstIncorrect": "The Amendments",
         "secondIncorrect": "The Cabinet",
-        "thirdIncorrect": "The White House"
+        "thirdIncorrect": "The Constitution"
     },
     {
         "id": 14,
@@ -98,7 +98,7 @@
     {
         "id": 17,
         "firstIncorrect": "The House and the Cabinet",
-        "secondIncorrect": "The Executive and Judicial",
+        "secondIncorrect": "The Congress and Representative",
         "thirdIncorrect": "The President and Vice President"
     },
     {
@@ -140,14 +140,14 @@
     {
         "id": 24,
         "firstIncorrect": "All people of the city",
-        "secondIncorrect": "Only voters in their district",
+        "secondIncorrect": "The Speaker of the House",
         "thirdIncorrect": "The House of Representatives"
     },
     {
         "id": 25,
-        "firstIncorrect": "They are older states",
-        "secondIncorrect": "They have more land area",
-        "thirdIncorrect": "They have more Senators"
+        "firstIncorrect": "(Because) they have more states",
+        "secondIncorrect": "(Because) they have more Representatives",
+        "thirdIncorrect": "(Because) they have more Senators"
     },
     {
         "id": 26,
@@ -177,13 +177,13 @@
         "id": 30,
         "firstIncorrect": "The Speaker of the House",
         "secondIncorrect": "The Chief Justice",
-        "thirdIncorrect": "The Secretary of State"
+        "thirdIncorrect": "The Senator"
     },
     {
         "id": 31,
-        "firstIncorrect": "The Secretary of State",
+        "firstIncorrect": "The Representative",
         "secondIncorrect": "The Chief Justice",
-        "thirdIncorrect": "The President Pro Tempore"
+        "thirdIncorrect": "The Senator"
     },
     {
         "id": 32,
@@ -205,27 +205,27 @@
     },
     {
         "id": 35,
-        "firstIncorrect": "Checks the President's power",
-        "secondIncorrect": "Reviews laws for the President",
-        "thirdIncorrect": "Enforces laws for the President"
+        "firstIncorrect": "Print money",
+        "secondIncorrect": "Reviews laws",
+        "thirdIncorrect": "Checks and balances"
     },
     {
         "id": 36,
-        "firstIncorrect": "Secretary of State and Secretary of Defense",
-        "secondIncorrect": "Secretary of Treasury and Secretary of Justice",
-        "thirdIncorrect": "Secretary of Agriculture and Secretary of Labor"
+        "firstIncorrect": "Speaker of the House and Senate",
+        "secondIncorrect": "Chief Justice and Speaker of the House",
+        "thirdIncorrect": "Governor and Senate"
     },
     {
         "id": 37,
         "firstIncorrect": "Makes laws",
         "secondIncorrect": "Advises the President",
-        "thirdIncorrect": "Commands the military"
+        "thirdIncorrect": "Print money"
     },
     {
         "id": 38,
-        "firstIncorrect": "The Federal Court",
+        "firstIncorrect": "The Constitution",
         "secondIncorrect": "The Senate Court",
-        "thirdIncorrect": "The Congressional Court"
+        "thirdIncorrect": "The laws"
     },
     {
         "id": 39,
@@ -242,14 +242,14 @@
     {
         "id": 41,
         "firstIncorrect": "To provide schooling",
-        "secondIncorrect": "To create state laws",
-        "thirdIncorrect": "To issue driver's licenses"
+        "secondIncorrect": "To provide safety",
+        "thirdIncorrect": "To give a driver's licenses"
     },
     {
         "id": 42,
         "firstIncorrect": "Print money",
         "secondIncorrect": "Declare war",
-        "thirdIncorrect": "Make treaties with other countries"
+        "thirdIncorrect": "Make treaties"
     },
     {
         "id": 43,
@@ -259,21 +259,21 @@
     },
     {
         "id": 44,
-        "firstIncorrect": "The largest city",
+        "firstIncorrect": "Missouri",
         "secondIncorrect": "Washington D.C.",
-        "thirdIncorrect": "New York City"
+        "thirdIncorrect": "Mississippi"
     },
     {
         "id": 45,
-        "firstIncorrect": "Green and Libertarian",
-        "secondIncorrect": "Liberal and Conservative",
-        "thirdIncorrect": "Federal and National"
+        "firstIncorrect": "Communism and Democratic",
+        "secondIncorrect": "Governor and Communism",
+        "thirdIncorrect": "Senate and Governor"
     },
     {
         "id": 46,
         "firstIncorrect": "Democratic Party",
-        "secondIncorrect": "Independent Party",
-        "thirdIncorrect": "Green Party"
+        "secondIncorrect": "Communism Party",
+        "thirdIncorrect": "Senate Party"
     },
     {
         "id": 47,
@@ -284,26 +284,26 @@
     {
         "id": 48,
         "firstIncorrect": "Only men can vote",
-        "secondIncorrect": "Only property owners can vote",
-        "thirdIncorrect": "Only citizens over 21 can vote"
+        "secondIncorrect": "Only women can vote",
+        "thirdIncorrect": "21 and older"
     },
     {
         "id": 49,
-        "firstIncorrect": "Serve on a jury in a state court",
-        "secondIncorrect": "Pay taxes",
+        "firstIncorrect": "Any citizen can vote",
+        "secondIncorrect": "Freedom of speech",
         "thirdIncorrect": "Obey the law"
     },
     {
         "id": 50,
-        "firstIncorrect": "Freedom of speech anywhere",
+        "firstIncorrect": "Freedom of speech",
         "secondIncorrect": "Freedom of religion",
-        "thirdIncorrect": "Right to bear arms"
+        "thirdIncorrect": "Obey the law"
     },
     {
         "id": 51,
         "firstIncorrect": "Vote in a federal election",
-        "secondIncorrect": "Run for federal office",
-        "thirdIncorrect": "Apply for a federal job"
+        "secondIncorrect": "Print money",
+        "thirdIncorrect": "Give a driver's license"
     },
     {
         "id": 52,
@@ -313,9 +313,9 @@
     },
     {
         "id": 53,
-        "firstIncorrect": "Pay taxes only when required",
-        "secondIncorrect": "Vote only for your party",
-        "thirdIncorrect": "Serve in the military only in wartime"
+        "firstIncorrect": "Print money",
+        "secondIncorrect": "Vote in a federal election",
+        "thirdIncorrect": "Review laws"
     },
     {
         "id": 54,
@@ -326,8 +326,8 @@
     {
         "id": 55,
         "firstIncorrect": "Pay taxes and obey the law",
-        "secondIncorrect": "Serve in military and vote",
-        "thirdIncorrect": "Run for office and join a political party"
+        "secondIncorrect": "Review laws and vote",
+        "thirdIncorrect": "Obey the law and vote in a federal election"
     },
     {
         "id": 56,
@@ -339,13 +339,13 @@
         "id": 57,
         "firstIncorrect": "At age twenty-one (21)",
         "secondIncorrect": "At age sixteen (16)",
-        "thirdIncorrect": "Only citizens register"
+        "thirdIncorrect": "At age seventeen(17)"
     },
     {
         "id": 58,
-        "firstIncorrect": "For gold and silver",
-        "secondIncorrect": "To escape war",
-        "thirdIncorrect": "To practice their religion"
+        "firstIncorrect": "Give a driver's license",
+        "secondIncorrect": "To vote",
+        "thirdIncorrect": "To print money"
     },
     {
         "id": 59,
@@ -356,14 +356,14 @@
     {
         "id": 60,
         "firstIncorrect": "Europeans",
-        "secondIncorrect": "Asians",
+        "secondIncorrect": "American Indians",
         "thirdIncorrect": "Native Americans"
     },
     {
         "id": 61,
-        "firstIncorrect": "Because of religious freedom",
+        "firstIncorrect": "Because of freedom of religion",
         "secondIncorrect": "Because of freedom of speech",
-        "thirdIncorrect": "Because they wanted independence"
+        "thirdIncorrect": "Freedom"
     },
     {
         "id": 62,
@@ -385,14 +385,14 @@
     },
     {
         "id": 65,
-        "firstIncorrect": "The Declaration of Independence was signed",
-        "secondIncorrect": "President Washington was elected",
-        "thirdIncorrect": "The Revolutionary War ended"
+        "firstIncorrect": "The Declaration of Independence was written",
+        "secondIncorrect": "Freedom",
+        "thirdIncorrect": "The Civil War"
     },
     {
         "id": 66,
-        "firstIncorrect": "1776",
-        "secondIncorrect": "1783",
+        "firstIncorrect": "1777",
+        "secondIncorrect": "1887",
         "thirdIncorrect": "1800"
     },
     {
@@ -421,26 +421,26 @@
     },
     {
         "id": 71,
-        "firstIncorrect": "Alaska",
+        "firstIncorrect": "Arizona",
         "secondIncorrect": "Florida",
         "thirdIncorrect": "Texas"
     },
     {
         "id": 72,
         "firstIncorrect": "World War I",
-        "secondIncorrect": "The Civil War",
+        "secondIncorrect": "World War II",
         "thirdIncorrect": "Vietnam War"
     },
     {
         "id": 73,
-        "firstIncorrect": "The Revolutionary War",
-        "secondIncorrect": "The War of 1812",
+        "firstIncorrect": "Vietnam War",
+        "secondIncorrect": "World War II",
         "thirdIncorrect": "World War I"
     },
     {
         "id": 74,
-        "firstIncorrect": "Foreign invasion",
-        "secondIncorrect": "Religious persecution",
+        "firstIncorrect": "Freedom",
+        "secondIncorrect": "U.S. diplomat",
         "thirdIncorrect": "High taxes"
     },
     {
@@ -451,19 +451,19 @@
     },
     {
         "id": 76,
-        "firstIncorrect": "Ended the Civil War",
-        "secondIncorrect": "Created the United States",
-        "thirdIncorrect": "Established voting rights for all men"
+        "firstIncorrect": "The Civil War",
+        "secondIncorrect": "Set up the government",
+        "thirdIncorrect": "Fought for women's rights"
     },
     {
         "id": 77,
-        "firstIncorrect": "Fought for civil rights",
+        "firstIncorrect": "Write to a newspaper",
         "secondIncorrect": "Freed the slaves",
-        "thirdIncorrect": "Led the women's movement"
+        "thirdIncorrect": "U.S diplomat"
     },
     {
         "id": 78,
-        "firstIncorrect": "The Revolutionary War",
+        "firstIncorrect": "The War of 1912",
         "secondIncorrect": "The War of 1812",
         "thirdIncorrect": "The Civil War"
     },
@@ -494,14 +494,14 @@
     {
         "id": 83,
         "firstIncorrect": "Terrorism",
-        "secondIncorrect": "Economic collapse",
-        "thirdIncorrect": "Military expansion"
+        "secondIncorrect": "Democratic",
+        "thirdIncorrect": "Republican"
     },
     {
         "id": 84,
-        "firstIncorrect": "Women's suffrage movement",
-        "secondIncorrect": "Labor movement",
-        "thirdIncorrect": "Environmental movement"
+        "firstIncorrect": "Women's rights",
+        "secondIncorrect": "Freedom",
+        "thirdIncorrect": "Civil War"
     },
     {
         "id": 85,
@@ -511,9 +511,9 @@
     },
     {
         "id": 86,
-        "firstIncorrect": "The Civil War began",
-        "secondIncorrect": "The United States became independent",
-        "thirdIncorrect": "The Cold War ended"
+        "firstIncorrect": "The Civil War",
+        "secondIncorrect": "Freedom",
+        "thirdIncorrect": "Slavery"
     },
     {
         "id": 87,
@@ -530,14 +530,14 @@
     {
         "id": 89,
         "firstIncorrect": "Atlantic (Ocean)",
-        "secondIncorrect": "Gulf of Mexico",
-        "thirdIncorrect": "Arctic (Ocean)"
+        "secondIncorrect": "East (Ocean)",
+        "thirdIncorrect": "West (Ocean)"
     },
     {
         "id": 90,
         "firstIncorrect": "Pacific (Ocean)",
-        "secondIncorrect": "Gulf of Mexico",
-        "thirdIncorrect": "Great Lakes"
+        "secondIncorrect": "West (Ocean)",
+        "thirdIncorrect": "East (Ocean)"
     },
     {
         "id": 91,
@@ -559,21 +559,21 @@
     },
     {
         "id": 94,
-        "firstIncorrect": "New York City",
-        "secondIncorrect": "Philadelphia",
-        "thirdIncorrect": "Boston"
+        "firstIncorrect": "New York",
+        "secondIncorrect": "Washington",
+        "thirdIncorrect": "California"
     },
     {
         "id": 95,
         "firstIncorrect": "Washington, D.C.",
-        "secondIncorrect": "Philadelphia",
-        "thirdIncorrect": "Boston"
+        "secondIncorrect": "Washington",
+        "thirdIncorrect": "California"
     },
     {
         "id": 96,
-        "firstIncorrect": "Because there are 13 states today",
-        "secondIncorrect": "Because there were 13 presidents at the time",
-        "thirdIncorrect": "Because there are 13 branches of government"
+        "firstIncorrect": "Because there were 13 states",
+        "secondIncorrect": "Because there are 13 freedom",
+        "thirdIncorrect": "Because there were 13 capitals"
     },
     {
         "id": 97,
@@ -583,9 +583,9 @@
     },
     {
         "id": 98,
-        "firstIncorrect": "America the Beautiful",
-        "secondIncorrect": "God Bless America",
-        "thirdIncorrect": "My Country, 'Tis of Thee"
+        "firstIncorrect": "The America",
+        "secondIncorrect": "The United States",
+        "thirdIncorrect": "The States"
     },
     {
         "id": 99,
@@ -595,8 +595,8 @@
     },
     {
         "id": 100,
-        "firstIncorrect": "Independence Day and Flag Day",
-        "secondIncorrect": "President's Day and Election Day",
-        "thirdIncorrect": "Labor Day and Columbus Day"
+        "firstIncorrect": "Constitution Day and Christmas",
+        "secondIncorrect": "Vote Day and Thanksgiving",
+        "thirdIncorrect": "Election Day and Labor Day"
     }
 ]
