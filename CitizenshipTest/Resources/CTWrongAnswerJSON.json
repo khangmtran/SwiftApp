@@ -309,7 +309,7 @@
         "id": 52,
         "firstIncorrect": "The President",
         "secondIncorrect": "The Constitution",
-        "thirdIncorrect": "The United States"
+        "thirdIncorrect": "The Supreme Court"
     },
     {
         "id": 53,
@@ -373,9 +373,9 @@
     },
     {
         "id": 63,
-        "firstIncorrect": "July 4, 1787",
-        "secondIncorrect": "June 4, 1776",
-        "thirdIncorrect": "July 4, 1783"
+        "firstIncorrect": "April 1, 1876",
+        "secondIncorrect": "March 3, 1865",
+        "thirdIncorrect": "August 8, 1783"
     },
     {
         "id": 64,

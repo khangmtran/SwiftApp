@@ -464,8 +464,7 @@ struct CTAllTestResultView: View {
                     Circle()
                         .fill(.blue)
                     
-                    //Text("\(score) / \(userAns.count)")
-                    Text("100 / 100")
+                    Text("\(score) / \(userAns.count)")
                         .font(deviceManager.isTablet ? .title2 : .title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)

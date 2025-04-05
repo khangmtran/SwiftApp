@@ -123,6 +123,7 @@ struct CTAllMarkedQuestion: View {
                                                 .scaledToFit()
                                                 .frame(height: deviceManager.isTablet ? 40 : 20)
                                         }
+                                        .buttonStyle(BorderlessButtonStyle())
                                         .padding(.bottom)
                                         
                                         // Bookmark button
@@ -139,6 +140,7 @@ struct CTAllMarkedQuestion: View {
                                                 .scaledToFit()
                                                 .frame(height: deviceManager.isTablet ? 40 : 20)
                                         }
+                                        .buttonStyle(BorderlessButtonStyle())
                                     }
                                 }
                                 .padding(.vertical)
@@ -233,6 +235,7 @@ struct CTAllMarkedQuestion: View {
                                                 .scaledToFit()
                                                 .frame(height: deviceManager.isTablet ? 40 : 20)
                                         }
+                                        .buttonStyle(BorderlessButtonStyle())
                                     }
                                 }
                                 .padding(.vertical)
