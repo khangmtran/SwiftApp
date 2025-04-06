@@ -14,6 +14,7 @@ struct CTAudioStudy: View {
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var audioManager: AudioManager
     @AppStorage("audioStudyQIndex") private var currentQuestionIndex = 0
     @State private var isPlaying = false
     @State private var playAnswers = true
@@ -198,8 +199,8 @@ struct CTAudioStudy: View {
         
         let question = questionList.questions[currentQuestionIndex]
         let utterance = AVSpeechUtterance(string: question.question)
-        utterance.voice = AVSpeechSynthesisVoice()
-        utterance.rate = 0.4
+        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+        utterance.rate = audioManager.speechRate
         
         delegate = SpeechDelegate(
             onFinished: {
@@ -263,8 +264,8 @@ struct CTAudioStudy: View {
         }
         
         let utterance = AVSpeechUtterance(string: answerText)
-        utterance.voice = AVSpeechSynthesisVoice()
-        utterance.rate = 0.4
+        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+        utterance.rate = audioManager.speechRate
         
         // Create and store a strong reference to the answer delegate
         delegate = SpeechDelegate(
@@ -372,5 +373,6 @@ class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
         .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(GovCapManager())
+        .environmentObject(AudioManager())
         .modelContainer(for: MarkedQuestion.self)
 }

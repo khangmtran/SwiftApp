@@ -214,6 +214,7 @@ struct CTMarkedResultView: View {
     @Binding var testCompleted: Bool
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -288,8 +289,8 @@ struct CTMarkedResultView: View {
                                 Button(action: {
                                     synthesizer.stopSpeaking(at: .immediate)
                                     let utterance = AVSpeechUtterance(string: question.question)
-                                    utterance.voice = AVSpeechSynthesisVoice()
-                                    utterance.rate = 0.3
+                                    utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                                    utterance.rate = audioManager.speechRate
                                     synthesizer.speak(utterance)
                                 }) {
                                     Image(systemName: "speaker.wave.3")
@@ -337,6 +338,7 @@ struct MarkedQuestionView: View {
     @Binding var qIndex: Int
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestionIds: [MarkedQuestion]
     
@@ -393,8 +395,8 @@ struct MarkedQuestionView: View {
                     Button(action: {
                         synthesizer.stopSpeaking(at: .immediate)
                         let utterance = AVSpeechUtterance(string: markedQuestions[qIndex].question)
-                        utterance.voice = AVSpeechSynthesisVoice()
-                        utterance.rate = 0.3
+                        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                        utterance.rate = audioManager.speechRate
                         synthesizer.speak(utterance)
                     }) {
                         Image(systemName: "speaker.wave.3")

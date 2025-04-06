@@ -17,6 +17,7 @@ struct CTAllQuestions: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -55,8 +56,8 @@ struct CTAllQuestions: View {
                                 Button(action: {
                                     synthesizer.stopSpeaking(at: .immediate)
                                     let utterance = AVSpeechUtterance(string: question.question)
-                                    utterance.voice = AVSpeechSynthesisVoice()
-                                    utterance.rate = 0.3
+                                    utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                                    utterance.rate = audioManager.speechRate
                                     synthesizer.speak(utterance)
                                 }){
                                     Image(systemName: "speaker.wave.3")
@@ -139,8 +140,8 @@ struct CTAllQuestions: View {
                                         }
                                         
                                         let utterance = AVSpeechUtterance(string: textToSpeak)
-                                        utterance.voice = AVSpeechSynthesisVoice()
-                                        utterance.rate = 0.3
+                                        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                                        utterance.rate = audioManager.speechRate
                                         synthesizer.speak(utterance)
                                     }) {
                                         Image(systemName: "speaker.wave.3")
@@ -219,6 +220,7 @@ struct CTAllQuestions: View {
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())
         .environmentObject(GovCapManager())
+        .environmentObject(AudioManager())
 }
 
 struct NavButtonAllQ: View {

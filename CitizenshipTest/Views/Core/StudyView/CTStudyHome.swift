@@ -13,6 +13,7 @@ struct CTStudyHome : View{
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var wrongAns: WrongAnswer
     @EnvironmentObject var selectedPard: SelectedPart
+    @EnvironmentObject var audioManager: AudioManager
     
     var body: some View{
         VStack{
@@ -59,5 +60,6 @@ struct CTHomeMenu_Provider: PreviewProvider{
             .environmentObject(GovCapManager())
             .environmentObject(WrongAnswer())
             .environmentObject(SelectedPart())
+            .environmentObject(AudioManager())
     }
 }

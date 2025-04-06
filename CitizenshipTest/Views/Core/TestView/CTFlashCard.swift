@@ -28,6 +28,7 @@ struct CTFlashCard: View{
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var audioManager: AudioManager
     
     var body: some View{
         VStack{
@@ -227,6 +228,7 @@ struct CardFront: View{
     @Binding var isChangingCard: Bool
     let synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -277,8 +279,8 @@ struct CardFront: View{
                     Button(action: {
                         synthesizer.stopSpeaking(at: .immediate)
                         let utterance = AVSpeechUtterance(string: questions[qIndex].question)
-                        utterance.voice = AVSpeechSynthesisVoice()
-                        utterance.rate = 0.3
+                        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                        utterance.rate = audioManager.speechRate
                         synthesizer.speak(utterance)
                     }){
                         Image(systemName: "speaker.wave.3")
@@ -321,6 +323,7 @@ struct CardBack: View{
     let synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var audioManager: AudioManager
     @Binding var showingZipPrompt: Bool
     @EnvironmentObject var userSetting: UserSetting
     @Environment(\.modelContext) private var context
@@ -380,8 +383,8 @@ struct CardBack: View{
                         Button(action: {
                             synthesizer.stopSpeaking(at: .immediate)
                             let utterance = AVSpeechUtterance(string: questions[qIndex].answer)
-                            utterance.voice = AVSpeechSynthesisVoice()
-                            utterance.rate = 0.3
+                            utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                            utterance.rate = audioManager.speechRate
                             synthesizer.speak(utterance)
                         }){
                             Image(systemName: "speaker.wave.3")

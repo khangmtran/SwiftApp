@@ -70,6 +70,7 @@ struct CTTab: View {
                     .environmentObject(deviceManager)
                     .environmentObject(userSetting)
                     .environmentObject(govCapManager)
+                    .environmentObject(audioManager)
                 // Navigation destinations for Test tab
                     .navigationDestination(for: TestRoute.self) { route in
                         switch route {
@@ -80,6 +81,7 @@ struct CTTab: View {
                                 .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(govCapManager)
+                                .environmentObject(audioManager)
                         case .allQuestionsTest:
                             CTAllQuestionTest()
                                 .environmentObject(questionList)
@@ -87,6 +89,7 @@ struct CTTab: View {
                                 .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(govCapManager)
+                                .environmentObject(audioManager)
                         case .markedQuestionsTest:
                             CTMarkedQuestionTest()
                                 .environmentObject(questionList)
@@ -94,12 +97,14 @@ struct CTTab: View {
                                 .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(govCapManager)
+                                .environmentObject(audioManager)
                         case .flashCard:
                             CTFlashCard()
                                 .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(questionList)
                                 .environmentObject(govCapManager)
+                                .environmentObject(audioManager)
                         }
                     }
             }
@@ -119,6 +124,7 @@ struct CTTab: View {
                     .environmentObject(govCapManager)
                     .environmentObject(wrongAnswer)
                     .environmentObject(selectedPart)
+                    .environmentObject(audioManager)
                 // Navigation destinations for Study tab
                     .navigationDestination(for: StudyRoute.self) { route in
                         switch route {
@@ -128,6 +134,7 @@ struct CTTab: View {
                                 .environmentObject(userSetting)
                                 .environmentObject(questionList)
                                 .environmentObject(govCapManager)
+                                .environmentObject(audioManager)
                         case .learnQuestions:
                             CTLearnQuestions()
                                 .environmentObject(userSetting)
@@ -135,18 +142,21 @@ struct CTTab: View {
                                 .environmentObject(selectedPart)
                                 .environmentObject(questionList)
                                 .environmentObject(govCapManager)
+                                .environmentObject(audioManager)
                         case .allMarkedQuestions:
                             CTAllMarkedQuestion()
                                 .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(questionList)
                                 .environmentObject(govCapManager)
+                                .environmentObject(audioManager)
                         case .audioStudy:
                             CTAudioStudy()
                                 .environmentObject(questionList)
                                 .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(govCapManager)
+                                .environmentObject(audioManager)
                         }
                     }
             }

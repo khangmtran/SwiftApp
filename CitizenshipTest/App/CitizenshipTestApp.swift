@@ -116,13 +116,14 @@ class AudioManager: ObservableObject{
        init() {
            let savedRate = UserDefaults.standard.float(forKey: "speechRate")
            self.speechRate = savedRate == 0 ? 0.4 : savedRate
-           self.voiceActor = UserDefaults.standard.string(forKey: "voiceActor") ?? "Samantha"
-           self.voiceIdentifier = UserDefaults.standard.string(forKey: "voiceIdentifier") ?? "com.apple.voice.compact.en-US.Samantha"
+           self.voiceActor = UserDefaults.standard.string(forKey: "voiceActor") ?? "Nicky"
+           self.voiceIdentifier = UserDefaults.standard.string(forKey: "voiceIdentifier") ?? "com.apple.ttsbundle.siri_Nicky_en-US_compact"
        }
        
     func getVoices() -> [AVSpeechSynthesisVoice] {
+        let selectedActors = ["Karen", "Arthur", "Nicky", "Aaron", "Samantha", "Tessa"]
         return AVSpeechSynthesisVoice.speechVoices().filter { voice in
-            return voice.language.contains("en-US")
+            return selectedActors.contains(voice.name)
         }
     }
 }

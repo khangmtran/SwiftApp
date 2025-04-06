@@ -138,6 +138,7 @@ struct CTLearnQuestions: View {
             .environmentObject(UserSetting())
             .environmentObject(QuestionList())
             .environmentObject(GovCapManager())
+            .environmentObject(AudioManager())
     }
 }
 
@@ -209,6 +210,7 @@ struct QuestionView: View {
     var learn: String
     var synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -257,8 +259,8 @@ struct QuestionView: View {
                 Button(action: {
                     synthesizer.stopSpeaking(at: .immediate)
                     let utterance = AVSpeechUtterance(string: question)
-                    utterance.voice = AVSpeechSynthesisVoice()
-                    utterance.rate = 0.3
+                    utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                    utterance.rate = audioManager.speechRate
                     synthesizer.speak(utterance)
                 }){
                     Image(systemName: "speaker.wave.3")
@@ -289,6 +291,7 @@ struct AnswerView: View {
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var audioManager: AudioManager
     @State var showingZipPrompt = false
     
     var body: some View {
@@ -326,8 +329,8 @@ struct AnswerView: View {
                 Button(action: {
                     synthesizer.stopSpeaking(at: .immediate)
                     let utterance = AVSpeechUtterance(string: ans)
-                    utterance.voice = AVSpeechSynthesisVoice()
-                    utterance.rate = 0.3
+                    utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                    utterance.rate = audioManager.speechRate
                     synthesizer.speak(utterance)
                 }){
                     Image(systemName: "speaker.wave.3")

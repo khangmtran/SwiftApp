@@ -15,9 +15,12 @@ struct CTSetting: View {
     @EnvironmentObject var audioManager: AudioManager
     @State private var showingZipPrompt = false
     @State private var voices: [AVSpeechSynthesisVoice] = []
+    @State private var synthesizer = AVSpeechSynthesizer()
     
     var body: some View {
         ScrollView {
+            Text("Đại Diện Của Bạn")
+            VStack{
                 HStack {
                     VStack(alignment: .leading) {
                         Text("ZIP Code")
@@ -127,8 +130,10 @@ struct CTSetting: View {
                             .fontWeight(.medium)
                     }
                 }
-        
-            
+            }
+            .padding()
+            .background(.blue.opacity(0.1))
+            .cornerRadius(10)
             
             Text("Âm Thanh")
                 
@@ -137,13 +142,21 @@ struct CTSetting: View {
                 Text("Tốc độ đọc")
                     .frame(maxWidth: .infinity, alignment: .leading)
                 HStack {
-                    Text("0.1")
+                    Text("1")
                         .font(deviceManager.isTablet ? .footnote : .caption)
                         .foregroundColor(.gray)
                     
-                    Slider(value: $audioManager.speechRate, in: 0.1...1.0, step: 0.1)
+                    Slider(value: $audioManager.speechRate, in: 0.1...0.5, step: 0.1)
+                        .onChange(of: audioManager.speechRate){
+                            synthesizer.stopSpeaking(at: .immediate)
+                            let sampleText = "This is the voice of \(audioManager.voiceActor)."
+                            let utterance = AVSpeechUtterance(string: sampleText)
+                            utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                            utterance.rate = audioManager.speechRate
+                            synthesizer.speak(utterance)
+                        }
                     
-                    Text("1.0")
+                    Text("5")
                         .font(deviceManager.isTablet ? .footnote : .caption)
                         .foregroundColor(.gray)
                 }
@@ -165,22 +178,34 @@ struct CTSetting: View {
                         .onChange(of: audioManager.voiceIdentifier) {
                             if let voice = voices.first(where: { $0.identifier == audioManager.voiceIdentifier }) {
                                 audioManager.voiceActor = voice.name
+                                synthesizer.stopSpeaking(at: .immediate)
+                                let sampleText = "This is the voice of \(audioManager.voiceActor)"
+                                let utterance = AVSpeechUtterance(string: sampleText)
+                                utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                                utterance.rate = audioManager.speechRate
+                                synthesizer.speak(utterance)
                             }
                         }
                 }
             }
+            .padding()
+            .background(.blue.opacity(0.1))
+            .cornerRadius(10)
             
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.large)
-            .sheet(isPresented: $showingZipPrompt) {
-                CTZipInput()
-                    .environmentObject(userSetting)
-                    .environmentObject(deviceManager)
-            }
         }
         .padding()
         .onAppear(){
             voices = audioManager.getVoices()
+        }
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
+        }
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.large)
+        .sheet(isPresented: $showingZipPrompt) {
+            CTZipInput()
+                .environmentObject(userSetting)
+                .environmentObject(deviceManager)
         }
     }
 }

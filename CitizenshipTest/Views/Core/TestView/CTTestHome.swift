@@ -13,6 +13,7 @@ struct CTTestHome: View {
     @EnvironmentObject var questions: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var wrongAns: WrongAnswer
+    @EnvironmentObject var audioManager: AudioManager
     
     var body: some View {
         VStack {
@@ -82,4 +83,5 @@ struct CTTestHome: View {
         .environmentObject(QuestionList())
         .environmentObject(GovCapManager())
         .environmentObject(WrongAnswer())
+        .environmentObject(AudioManager())
 }

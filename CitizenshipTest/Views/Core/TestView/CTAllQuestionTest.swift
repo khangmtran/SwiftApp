@@ -13,6 +13,7 @@ struct CTAllQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var deviceManager: DeviceManager
+    @EnvironmentObject var audioManager: AudioManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var isLoading: Bool = true
@@ -127,6 +128,7 @@ struct AllTestQuestionView: View {
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -184,8 +186,8 @@ struct AllTestQuestionView: View {
                     Button(action: {
                         synthesizer.stopSpeaking(at: .immediate)
                         let utterance = AVSpeechUtterance(string: currentQuestion.question)
-                        utterance.voice = AVSpeechSynthesisVoice()
-                        utterance.rate = 0.3
+                        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                        utterance.rate = audioManager.speechRate
                         synthesizer.speak(utterance)
                     }) {
                         Image(systemName: "speaker.wave.3")
@@ -210,6 +212,7 @@ struct AllTestAnswerView: View {
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var audioManager: AudioManager
     @Binding var qIndex: Int
     @Binding var showResult: Bool
     @Binding var score: Int
@@ -434,6 +437,7 @@ struct CTAllTestResultView: View {
     @State private var showIncorrectOnly = false
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -536,8 +540,8 @@ struct CTAllTestResultView: View {
                                     Button(action: {
                                         synthesizer.stopSpeaking(at: .immediate)
                                         let utterance = AVSpeechUtterance(string: result.question.question)
-                                        utterance.voice = AVSpeechSynthesisVoice()
-                                        utterance.rate = 0.3
+                                        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                                        utterance.rate = audioManager.speechRate
                                         synthesizer.speak(utterance)
                                     }) {
                                         Image(systemName: "speaker.wave.3")
