@@ -106,16 +106,23 @@ class AudioManager: ObservableObject{
                UserDefaults.standard.set(voiceActor, forKey: "voiceActor")
            }
        }
+    
+    @Published var voiceIdentifier: String {
+           didSet {
+               UserDefaults.standard.set(voiceIdentifier, forKey: "voiceIdentifier")
+           }
+       }
        
        init() {
            let savedRate = UserDefaults.standard.float(forKey: "speechRate")
            self.speechRate = savedRate == 0 ? 0.4 : savedRate
-           self.voiceActor = UserDefaults.standard.string(forKey: "voiceActor") ?? ""
+           self.voiceActor = UserDefaults.standard.string(forKey: "voiceActor") ?? "Samantha"
+           self.voiceIdentifier = UserDefaults.standard.string(forKey: "voiceIdentifier") ?? "com.apple.voice.compact.en-US.Samantha"
        }
        
     func getVoices() -> [AVSpeechSynthesisVoice] {
         return AVSpeechSynthesisVoice.speechVoices().filter { voice in
-            return voice.language.contains("en-")
+            return voice.language.contains("en-US")
         }
     }
 }
@@ -128,7 +135,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var questionList = QuestionList()
     @StateObject private var govCapManager = GovCapManager()
     @StateObject private var wrongAnswer = WrongAnswer()
-    @StateObject private var audioSettings = AudioManager()
+    @StateObject private var audioManager = AudioManager()
 
     var body: some Scene {
         WindowGroup {
@@ -139,7 +146,7 @@ struct CitizenshipTestApp: App{
                 .environmentObject(questionList)
                 .environmentObject(govCapManager)
                 .environmentObject(wrongAnswer)
-                .environmentObject(audioSettings)
+                .environmentObject(audioManager)
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
         }
     }

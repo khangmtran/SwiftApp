@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct CTSetting: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
-    @EnvironmentObject var synthesizer: AudioManager
+    @EnvironmentObject var audioManager: AudioManager
     @State private var showingZipPrompt = false
+    @State private var voices: [AVSpeechSynthesisVoice] = []
     
     var body: some View {
         ScrollView {
@@ -139,7 +141,7 @@ struct CTSetting: View {
                         .font(deviceManager.isTablet ? .footnote : .caption)
                         .foregroundColor(.gray)
                     
-                    Slider(value: $synthesizer.speechRate, in: 0.1...1.0, step: 0.1)
+                    Slider(value: $audioManager.speechRate, in: 0.1...1.0, step: 0.1)
                     
                     Text("1.0")
                         .font(deviceManager.isTablet ? .footnote : .caption)
@@ -148,8 +150,23 @@ struct CTSetting: View {
                 
                 HStack{
                     Text("Giọng đọc")
-                    Spacer()
-                    
+                        Spacer()
+                        
+                        Picker(selection: $audioManager.voiceIdentifier, label: HStack {
+                            Text(audioManager.voiceActor)
+                                .font(deviceManager.isTablet ? .title3 : .body)
+                            Image(systemName: "chevron.down")
+                        }) {
+                            ForEach(voices, id: \.self) { voice in
+                                Text(voice.name).tag(voice.identifier)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .onChange(of: audioManager.voiceIdentifier) {
+                            if let voice = voices.first(where: { $0.identifier == audioManager.voiceIdentifier }) {
+                                audioManager.voiceActor = voice.name
+                            }
+                        }
                 }
             }
             
@@ -162,6 +179,9 @@ struct CTSetting: View {
             }
         }
         .padding()
+        .onAppear(){
+            voices = audioManager.getVoices()
+        }
     }
 }
 

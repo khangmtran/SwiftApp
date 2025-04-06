@@ -43,7 +43,7 @@ struct CTTab: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var selectedPart: SelectedPart
-    @EnvironmentObject var synthesizer: AudioManager
+    @EnvironmentObject var audioManager: AudioManager
     
     var tabSelection: Binding<Tab>{
         return .init {
@@ -163,7 +163,7 @@ struct CTTab: View {
                     .environmentObject(deviceManager)
                     .environmentObject(userSetting)
                     .environmentObject(govCapManager)
-                    .environmentObject(synthesizer)
+                    .environmentObject(audioManager)
                 // Navigation destinations for Settings tab
                     .navigationDestination(for: SettingsRoute.self) { route in
                         switch route {
