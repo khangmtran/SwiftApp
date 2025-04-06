@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import AVFoundation
 
 class UserSetting: ObservableObject {
     @Published var state: String{
@@ -93,6 +94,32 @@ class WrongAnswer: ObservableObject{
     }
 }
 
+class AudioManager: ObservableObject{
+    @Published var speechRate: Float {
+            didSet {
+                UserDefaults.standard.set(speechRate, forKey: "speechRate")
+            }
+        }
+    
+    @Published var voiceActor: String {
+           didSet {
+               UserDefaults.standard.set(voiceActor, forKey: "voiceActor")
+           }
+       }
+       
+       init() {
+           let savedRate = UserDefaults.standard.float(forKey: "speechRate")
+           self.speechRate = savedRate == 0 ? 0.4 : savedRate
+           self.voiceActor = UserDefaults.standard.string(forKey: "voiceActor") ?? ""
+       }
+       
+    func getVoices() -> [AVSpeechSynthesisVoice] {
+        return AVSpeechSynthesisVoice.speechVoices().filter { voice in
+            return voice.language.contains("en-")
+        }
+    }
+}
+
 @main
 struct CitizenshipTestApp: App{
     @StateObject private var selectedPart = SelectedPart()
@@ -101,6 +128,8 @@ struct CitizenshipTestApp: App{
     @StateObject private var questionList = QuestionList()
     @StateObject private var govCapManager = GovCapManager()
     @StateObject private var wrongAnswer = WrongAnswer()
+    @StateObject private var audioSettings = AudioManager()
+
     var body: some Scene {
         WindowGroup {
             CTTab()
@@ -110,6 +139,7 @@ struct CitizenshipTestApp: App{
                 .environmentObject(questionList)
                 .environmentObject(govCapManager)
                 .environmentObject(wrongAnswer)
+                .environmentObject(audioSettings)
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
         }
     }

@@ -11,11 +11,11 @@ struct CTSetting: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var synthesizer: AudioManager
     @State private var showingZipPrompt = false
     
     var body: some View {
-        List {
-            Section("Đại diện của bạn"){
+        ScrollView {
                 HStack {
                     VStack(alignment: .leading) {
                         Text("ZIP Code")
@@ -126,7 +126,33 @@ struct CTSetting: View {
                     }
                 }
         
+            
+            
+            Text("Âm Thanh")
+                
+
+            VStack{
+                Text("Tốc độ đọc")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                HStack {
+                    Text("0.1")
+                        .font(deviceManager.isTablet ? .footnote : .caption)
+                        .foregroundColor(.gray)
+                    
+                    Slider(value: $synthesizer.speechRate, in: 0.1...1.0, step: 0.1)
+                    
+                    Text("1.0")
+                        .font(deviceManager.isTablet ? .footnote : .caption)
+                        .foregroundColor(.gray)
+                }
+                
+                HStack{
+                    Text("Giọng đọc")
+                    Spacer()
+                    
+                }
             }
+            
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.large)
             .sheet(isPresented: $showingZipPrompt) {
@@ -135,6 +161,7 @@ struct CTSetting: View {
                     .environmentObject(deviceManager)
             }
         }
+        .padding()
     }
 }
 
@@ -143,4 +170,5 @@ struct CTSetting: View {
         .environmentObject(UserSetting())
         .environmentObject(DeviceManager())
         .environmentObject(GovCapManager())
+        .environmentObject(AudioManager())
 }
