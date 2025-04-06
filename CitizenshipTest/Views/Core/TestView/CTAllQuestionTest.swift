@@ -77,8 +77,8 @@ struct CTAllQuestionTest: View {
         }
         .onAppear {
             checkForExistingProgress()
-        
         }
+
     }
     
     private func checkForExistingProgress() {
@@ -197,6 +197,9 @@ struct AllTestQuestionView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
+        }
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
         }
     }
 }
@@ -326,6 +329,7 @@ struct AllTestAnswerView: View {
         .onChange(of: qIndex) {
             updateShuffledAnswers()
         }
+
     }
     
     private func answerButton(ans: String, correctAns: String) -> some View {
@@ -568,6 +572,9 @@ struct CTAllTestResultView: View {
                     }
                 }
             }
+        }
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
         }
     }
 }

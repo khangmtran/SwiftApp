@@ -246,6 +246,9 @@ struct CTAllMarkedQuestion: View {
                 .scrollContentBackground(.hidden)
             }
         }
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
+        }
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)

@@ -41,8 +41,16 @@ class UserSetting: ObservableObject {
     }
 }
 
-class SelectedPart: ObservableObject{
-    @Published var partChosen: String = "Phần 1"
+class SelectedPart: ObservableObject {
+    @Published var partChosen: String {
+        didSet {
+            UserDefaults.standard.set(partChosen, forKey: "selectedLearningPart")
+        }
+    }
+    
+    init() {
+        self.partChosen = UserDefaults.standard.string(forKey: "selectedLearningPart") ?? "Phần 1"
+    }
 }
 
 class DeviceManager: ObservableObject{

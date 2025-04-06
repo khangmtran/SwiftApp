@@ -16,8 +16,8 @@ struct CTLearnQuestions: View {
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @State private var synthesizer = AVSpeechSynthesizer()
-    @State private var qIndex = -1
-    @State private var questionCount = 0
+    @AppStorage("learnQuestionsIndex") private var qIndex = -1
+    @AppStorage("learnQuestionsQCount") private var questionCount = 0
     private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8"]
     
     let partToType = [
@@ -86,6 +86,9 @@ struct CTLearnQuestions: View {
                         
                     }//.2
                 }
+            }
+            .onDisappear(){
+                synthesizer.stopSpeaking(at: .immediate)
             }
             .safeAreaInset(edge: .bottom) {
                 NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)

@@ -262,7 +262,9 @@ struct CTResultView: View {
                 
             }
         }
-        
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
+        }
     }
 }
 
@@ -340,6 +342,9 @@ struct PracticeQuestionView: View{
                 .padding(.horizontal)
                 .padding(.bottom)
             }
+        }
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
         }
     }
 }

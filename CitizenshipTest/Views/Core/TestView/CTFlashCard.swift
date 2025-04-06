@@ -28,8 +28,6 @@ struct CTFlashCard: View{
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
-    @AppStorage("flashCardIndex") private var savedIndex: Int = 0
-    
     
     var body: some View{
         VStack{
@@ -98,20 +96,17 @@ struct CTFlashCard: View{
             synthesizer.stopSpeaking(at: .immediate)
         }
         .onAppear(){
-            questions = questionList.questions
-            if !questions.isEmpty{
-                if savedIndex >= 0 && savedIndex < questions.count {
-                    qIndex = savedIndex
-                } else {
-                    qIndex = 0
-                    savedIndex = 0
-                }
+            if questions.isEmpty{
+                questions = questionList.questions
             }
         }
         .safeAreaInset(edge: .bottom) {
             NavButtonsFC(qIndex: $qIndex, questions: questions)
                 .padding()
                 .background(Color.white)
+        }
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
         }
         
     }
@@ -177,7 +172,6 @@ struct NavButtonsFC: View{
     @Binding var qIndex: Int
     let questions: [CTQuestion]
     @EnvironmentObject var deviceManager: DeviceManager
-    @AppStorage("flashCardIndex") private var savedIndex: Int = 0
 
     var body: some View {
         HStack(){
@@ -208,22 +202,18 @@ struct NavButtonsFC: View{
     private func nextQuestion(){
         if qIndex < questions.count - 1 {
             qIndex += 1
-            savedIndex += 1
         }
         else if qIndex == questions.count - 1{
             qIndex = 0
-            savedIndex = 0
         }
     }
     
     private func prevQuestion(){
         if qIndex > 0{
             qIndex -= 1
-            savedIndex -= 1
         }
         else if qIndex == 0{
             qIndex = questions.count - 1
-            savedIndex = questions.count - 1
         }
     }
 }
@@ -439,7 +429,6 @@ struct QuestionTypeView: View {
     @Binding var qType: String
     @State private var shouldShowAlertOnDismiss = false
     @Query private var markedQuestions: [MarkedQuestion]
-    @AppStorage("flashCardIndex") private var savedIndex: Int = 0
 
     var body: some View {
         VStack {
@@ -459,7 +448,6 @@ struct QuestionTypeView: View {
                 Button(action: {
                     questions = questionList.questions
                     qIndex = 0
-                    savedIndex = 0
                     qType = "Thứ Tự"
                     dismiss()
                 }) {
@@ -475,7 +463,6 @@ struct QuestionTypeView: View {
                 Button(action: {
                     questions = questionList.questions.shuffled()
                     qIndex = 0
-                    savedIndex = 0
                     qType = "Ngẫu Nhiên"
                     dismiss()
                 }) {
@@ -496,7 +483,6 @@ struct QuestionTypeView: View {
                     if !filteredQuestions.isEmpty {
                         questions = filteredQuestions
                         qIndex = 0
-                        savedIndex = 0
                         qType = "Đánh Dấu"
                     } else {
                         shouldShowAlertOnDismiss = true

@@ -326,6 +326,9 @@ struct CTMarkedResultView: View {
                 
             }
         }
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
+        }
     }
 }
 
@@ -403,6 +406,9 @@ struct MarkedQuestionView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
+        }
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
         }
     }
 }

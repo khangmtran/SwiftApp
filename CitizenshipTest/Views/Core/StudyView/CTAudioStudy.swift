@@ -6,15 +6,15 @@
 //
 
 import SwiftUI
-import AVFoundation
 import SwiftData
+import AVFoundation
 
 struct CTAudioStudy: View {
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
-    @State private var currentQuestionIndex = 0
+    @AppStorage("audioStudyQIndex") private var currentQuestionIndex = 0
     @State private var isPlaying = false
     @State private var playAnswers = true
     @State private var synthesizer = AVSpeechSynthesizer()
@@ -23,7 +23,7 @@ struct CTAudioStudy: View {
     @State private var showingZipPrompt = false
     @State private var delegate: SpeechDelegate?
     @Environment(\.modelContext) private var context
-    @Query private var markedQuestions: [MarkedQuestion]
+    @Query private var markedQuestions: [MarkedQuestion]    
     
     // Duration between speaking question and answer (seconds)
     private let pauseDuration: TimeInterval = 2
@@ -36,7 +36,6 @@ struct CTAudioStudy: View {
                     Toggle("Nghe Đáp Án", isOn: $playAnswers)
                         .font(deviceManager.isTablet ? .title3 : .body)
                         .toggleStyle(SwitchToggleStyle(tint: .blue))
-                        .disabled(isPlaying)
                         .padding()
                     
                     // Progress indicator
@@ -136,7 +135,6 @@ struct CTAudioStudy: View {
                                 .scaledToFit()
                                 .frame(height: deviceManager.isTablet ? 40 : 25)
                         }
-                        .disabled(currentQuestionIndex < 10 || isPlaying)
                         
                         Button(action: previousQuestion) {
                             Image(systemName: "backward.fill")
@@ -144,7 +142,6 @@ struct CTAudioStudy: View {
                                 .scaledToFit()
                                 .frame(height: deviceManager.isTablet ? 40 : 25)
                         }
-                        .disabled(currentQuestionIndex == 0 || isPlaying)
                         
                         Button(action: togglePlayback) {
                             Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
@@ -159,7 +156,6 @@ struct CTAudioStudy: View {
                                 .scaledToFit()
                                 .frame(height: deviceManager.isTablet ? 40 : 25)
                         }
-                        .disabled(currentQuestionIndex == questionList.questions.count - 1 || isPlaying)
                         
                         Button(action: nextTenQuestions) {
                             Image(systemName: "forward.end.fill")
@@ -167,7 +163,6 @@ struct CTAudioStudy: View {
                                 .scaledToFit()
                                 .frame(height: deviceManager.isTablet ? 40 : 25)
                         }
-                        .disabled(currentQuestionIndex > questionList.questions.count - 11 || isPlaying)
                         
                     }
                 }
@@ -215,10 +210,6 @@ struct CTAudioStudy: View {
                         self.playCurrentAnswer()
                     }
                 } else {
-                    // Move to next question automatically if answers are disabled
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        AudioServicesPlaySystemSound(1152)
-                    }
                     self.timer = Timer.scheduledTimer(withTimeInterval: self.pauseDuration, repeats: false) { _ in
                         self.finishAudioSequence()
                     }
@@ -278,9 +269,6 @@ struct CTAudioStudy: View {
         // Create and store a strong reference to the answer delegate
         delegate = SpeechDelegate(
             onFinished: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    AudioServicesPlaySystemSound(1152)
-                }
                 self.timer = Timer.scheduledTimer(withTimeInterval: self.pauseDuration, repeats: false) { _ in
                     self.finishAudioSequence()
                 }
@@ -321,12 +309,20 @@ struct CTAudioStudy: View {
             stopAudio()
             currentQuestionIndex += 1
         }
+        else{
+            stopAudio()
+            currentQuestionIndex = 0
+        }
     }
     
     private func previousQuestion() {
         if currentQuestionIndex > 0 {
             stopAudio()
             currentQuestionIndex -= 1
+        }
+        else{
+            stopAudio()
+            currentQuestionIndex = questionList.questions.count - 1
         }
     }
     
@@ -335,12 +331,24 @@ struct CTAudioStudy: View {
             stopAudio()
             currentQuestionIndex += 10
         }
+        else{
+            stopAudio()
+            let num1 = 10
+            let num2 = questionList.questions.count - currentQuestionIndex
+            currentQuestionIndex = num1 - num2
+        }
     }
     
     private func previousTenQuestions() {
         if currentQuestionIndex >= 10 {
             stopAudio()
             currentQuestionIndex -= 10
+        }
+        else{
+            stopAudio()
+            let num1 = 100
+            let num2 = 10 - currentQuestionIndex
+            currentQuestionIndex = num1 - num2
         }
     }
 }

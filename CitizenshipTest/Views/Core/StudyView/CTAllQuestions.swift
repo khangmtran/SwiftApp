@@ -206,6 +206,9 @@ struct CTAllQuestions: View {
                     scrollProxy.scrollTo(firstQId, anchor: .center)
                 }
             }
+            .onDisappear(){
+                synthesizer.stopSpeaking(at: .immediate)
+            }
         }
     }
     
