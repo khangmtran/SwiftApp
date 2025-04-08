@@ -20,21 +20,26 @@ struct Legislator: Codable, Identifiable {
 }
 
 class CTGeocodioService {
-    private let apiKey = "0eaed66a3af37ee17636001e6176e7777aa7e7a"
+    private let baseURL = "https://citizenship-swiftapp-backend.onrender.com/api/geocode"
     
     func fetchLegislators(zipCode: String) async throws -> [Legislator] {
-        let urlString = "https://api.geocod.io/v1.7/geocode?q=\(zipCode)&fields=cd&format=simple&api_key=\(apiKey)"
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: baseURL) else {
             throw URLError(.badURL)
         }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let requestBody = ["zipCode": zipCode]
+        request.httpBody = try JSONEncoder().encode(requestBody)
+
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let proxyResponse = try JSONDecoder().decode(ProxyResponse.self, from: data)
         
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let decoder = JSONDecoder()
-        let response = try decoder.decode(GeocodioResponse.self, from: data)
-        
-        let state = extractStateFromAddress(address: response.address)
-        
-        return response.fields.congressional_districts.first?.current_legislators.map{ legislator in
+        let state = extractStateFromAddress(address: proxyResponse.data.address)
+
+        return proxyResponse.data.fields.congressional_districts.first?.current_legislators.map { legislator in
             Legislator(
                 type: legislator.type,
                 firstName: legislator.bio.first_name,
@@ -43,13 +48,18 @@ class CTGeocodioService {
             )
         } ?? []
     }
-    
+
     private func extractStateFromAddress(address: String) -> String {
         let cityStateZip = address.components(separatedBy: ", ")
         let state = cityStateZip[1].components(separatedBy: " ")
         return state[0]
     }
 }
+
+struct ProxyResponse: Codable {
+    let data: GeocodioResponse
+}
+
 
 // Response models
 struct GeocodioResponse: Codable {
