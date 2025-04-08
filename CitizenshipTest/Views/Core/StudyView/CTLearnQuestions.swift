@@ -328,10 +328,49 @@ struct AnswerView: View {
                 Spacer()
                 Button(action: {
                     synthesizer.stopSpeaking(at: .immediate)
-                    let utterance = AVSpeechUtterance(string: ans)
-                    utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
-                    utterance.rate = audioManager.speechRate
-                    synthesizer.speak(utterance)
+                                                            
+                    // Handle special questions (20, 23, 43, 44)
+                    if qId == 20 || qId == 23 || qId == 43 || qId == 44 {
+                        var textToSpeak = ""
+                        
+                        if qId == 20 {
+                            // Senator
+                            let senators = userSetting.legislators.filter { $0.type == "senator" }
+                            if !senators.isEmpty {
+                                let senatorNames = senators.map { "\($0.firstName) \($0.lastName)" }.joined(separator: ", ")
+                                textToSpeak = senatorNames
+                            }
+                        } else if qId == 23 {
+                            // Representative
+                            let representatives = userSetting.legislators.filter { $0.type == "representative" }
+                            if let representative = representatives.first {
+                                textToSpeak = "\(representative.firstName) \(representative.lastName)"
+                            }
+                        } else if qId == 43 {
+                            // Governor
+                            let state = userSetting.state
+                            if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
+                                textToSpeak = govCap.gov
+                            }
+                        } else if qId == 44 {
+                            // Capital
+                            let state = userSetting.state
+                            if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
+                                textToSpeak = govCap.capital
+                            }
+                        }
+                        
+                        let utterance = AVSpeechUtterance(string: textToSpeak)
+                        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                        utterance.rate = audioManager.speechRate
+                        synthesizer.speak(utterance)
+                    } else {
+                        // Regular questions
+                        let utterance = AVSpeechUtterance(string: ans)
+                        utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                        utterance.rate = audioManager.speechRate
+                        synthesizer.speak(utterance)
+                    }
                 }){
                     Image(systemName: "speaker.wave.3")
                         .resizable()

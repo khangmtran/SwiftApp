@@ -293,6 +293,7 @@ struct CardFront: View{
                 
                 Button(action: {
                     isChangingCard = false
+                    synthesizer.stopSpeaking(at: .immediate)
                     isFlipped.toggle()
                 }) {
                     Text("Lật Thẻ")
@@ -382,10 +383,53 @@ struct CardBack: View{
                         //voice
                         Button(action: {
                             synthesizer.stopSpeaking(at: .immediate)
-                            let utterance = AVSpeechUtterance(string: questions[qIndex].answer)
-                            utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
-                            utterance.rate = audioManager.speechRate
-                            synthesizer.speak(utterance)
+                            let questionId = questions[qIndex].id
+                            if questionId == 20 || questionId == 23 || questionId == 43 || questionId == 44 {
+                                var textToSpeak = ""
+                                
+                                if questionId == 20 {
+                                    // Senator
+                                    let senators = userSetting.legislators.filter { $0.type == "senator" }
+                                    if !senators.isEmpty {
+                                        let senatorNames = senators.map { "\($0.firstName) \($0.lastName)" }.joined(separator: ", ")
+                                        textToSpeak = senatorNames
+                                    }
+                                } else if questionId == 23 {
+                                    // Representative
+                                    let representatives = userSetting.legislators.filter { $0.type == "representative" }
+                                    if let representative = representatives.first {
+                                        textToSpeak = "\(representative.firstName) \(representative.lastName)"
+                                    }
+                                } else if questionId == 43 {
+                                    // Governor
+                                    let state = userSetting.state
+                                    if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
+                                        textToSpeak = govCap.gov
+                                    }
+                                } else if questionId == 44 {
+                                    // Capital
+                                    let state = userSetting.state
+                                    if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
+                                        textToSpeak = govCap.capital
+                                    }
+                                }
+                                
+                                // If no specific answer is available, use default answer
+                                if textToSpeak.isEmpty {
+                                    textToSpeak = questions[qIndex].answer
+                                }
+                                
+                                let utterance = AVSpeechUtterance(string: textToSpeak)
+                                utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                                utterance.rate = audioManager.speechRate
+                                synthesizer.speak(utterance)
+                            } else {
+                                // Regular questions
+                                let utterance = AVSpeechUtterance(string: questions[qIndex].answer)
+                                utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                                utterance.rate = audioManager.speechRate
+                                synthesizer.speak(utterance)
+                            }
                         }){
                             Image(systemName: "speaker.wave.3")
                                 .resizable()
@@ -397,6 +441,7 @@ struct CardBack: View{
                     
                     Button(action: {
                         isChangingCard = false
+                        synthesizer.stopSpeaking(at: .immediate)
                         isFlipped.toggle()
                     }) {
                         Text("Lật Thẻ")
