@@ -60,7 +60,6 @@ struct ProxyResponse: Codable {
     let data: GeocodioResponse
 }
 
-
 // Response models
 struct GeocodioResponse: Codable {
     let address: String

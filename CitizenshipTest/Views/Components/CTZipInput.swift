@@ -8,7 +8,6 @@ import SwiftUI
 
 struct CTZipInput: View {
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var deviceManager: DeviceManager
     @Environment(\.dismiss) private var dismiss
     @State private var tempZipCode: String = ""
     @State private var isTyping = false
@@ -20,7 +19,7 @@ struct CTZipInput: View {
         NavigationView {
             VStack {
                 TextField(tempZipCode.isEmpty ? "Nhập ZIP Code" : "\(tempZipCode)", text: $tempZipCode)
-                    .font(deviceManager.isTablet ? .largeTitle : .title3)
+                    .font(.title3)
                     .multilineTextAlignment(.center)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.numberPad)
@@ -50,13 +49,12 @@ struct CTZipInput: View {
                     }
                 }){
                     Text("Tìm")
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
+                        .font(.title3)
                 }
                 .disabled(tempZipCode.count != 5 || isTyping)
                 
                 if errorMsg{
                     Text(errorText)
-                        .font(deviceManager.isTablet ? .largeTitle : .title3)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.red)
                         .padding()
@@ -73,7 +71,6 @@ struct CTZipInput: View {
                         dismiss()
                     }){
                         Text("Huỷ")
-                        .font(deviceManager.isTablet ? .title : .body)
                     }
                 }
             }
@@ -87,6 +84,5 @@ struct CTZipInput: View {
 #Preview{
     CTZipInput()
         .environmentObject(UserSetting())
-        .environmentObject(DeviceManager())
 }
 

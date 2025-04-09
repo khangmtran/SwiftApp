@@ -12,7 +12,6 @@ import SwiftData
 struct CTMarkedQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
-    @EnvironmentObject var deviceManager: DeviceManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var markedQuestions: [CTQuestion] = []
@@ -44,11 +43,11 @@ struct CTMarkedQuestionTest: View {
                         .foregroundColor(.gray)
                     
                     Text("Bạn chưa đánh dấu câu hỏi nào")
-                        .font(deviceManager.isTablet ? .title : .headline)
+                        .font(.headline)
                         .foregroundColor(.gray)
                     
                     Text("Hãy đánh dấu câu hỏi để luyện tập tại đây")
-                        .font(deviceManager.isTablet ? .body : .callout)
+                        .font(.callout)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
@@ -57,7 +56,6 @@ struct CTMarkedQuestionTest: View {
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("Quay Lại")
-                            .font(deviceManager.isTablet ? .title3 : .body)
                             .padding()
                             .foregroundColor(.white)
                             .background(Color.blue)
@@ -108,7 +106,6 @@ struct CTMarkedQuestionTest: View {
                         }) {
                             Image(systemName: "arrow.counterclockwise")
                             Text("Làm Lại")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .foregroundColor(.blue)
                         }
                     }
@@ -213,7 +210,6 @@ struct CTMarkedResultView: View {
     @Binding var incorrQ: [String]
     @Binding var testCompleted: Bool
     @State private var synthesizer = AVSpeechSynthesizer()
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
@@ -233,7 +229,7 @@ struct CTMarkedResultView: View {
                         .fill(.blue)
                     
                     Text("\(score) / \(questions.count)")
-                        .font(deviceManager.isTablet ? .title2 : .title3)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                     
@@ -255,7 +251,6 @@ struct CTMarkedResultView: View {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
                         Text("Thử Lại")
-                            .font(deviceManager.isTablet ? .title3 : .body)
                     }
                     .padding()
                     .foregroundColor(.white)
@@ -269,15 +264,14 @@ struct CTMarkedResultView: View {
                         HStack{
                             VStack(alignment: .leading) {
                                 Text("Q\(question.id): \(question.question)")
-                                    .font(deviceManager.isTablet ? .title3 : .body)
                                     .fontWeight(.medium)
                                 
                                 Text("Đáp án: \(question.answer)")
-                                    .font(deviceManager.isTablet ? .body : .subheadline)
+                                    .font(.subheadline)
                                     .fontWeight(.regular)
                                 if index < userAns.count && !userAns[index]{
                                     Text("Bạn trả lời: \(incorrQ[index])")
-                                        .font(deviceManager.isTablet ? .body : .subheadline)
+                                        .font(.subheadline)
                                         .fontWeight(.regular)
                                         .foregroundStyle(.red)
                                 }
@@ -296,7 +290,7 @@ struct CTMarkedResultView: View {
                                     Image(systemName: "speaker.wave.3")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: deviceManager.isTablet ? 25 : 18)
+                                        .frame(height: 18)
                                 }
                                 .padding(.bottom)
                                 
@@ -311,7 +305,7 @@ struct CTMarkedResultView: View {
                                     Image(systemName: markedQuestions.contains(where: {$0.id == question.id}) ? "bookmark.fill" : "bookmark")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: deviceManager.isTablet ? 25 : 18)
+                                        .frame(height: 18)
                                 }
                             }
                             
@@ -337,7 +331,6 @@ struct MarkedQuestionView: View {
     var markedQuestions: [CTQuestion]
     @Binding var qIndex: Int
     @State private var synthesizer = AVSpeechSynthesizer()
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestionIds: [MarkedQuestion]
@@ -350,7 +343,6 @@ struct MarkedQuestionView: View {
             
             VStack {
                 Text("\(qIndex + 1) of \(markedQuestions.count)")
-                    .font(deviceManager.isTablet ? .title3 : .body)
                 
                 ProgressView(value: Double(qIndex + 1) / Double(markedQuestions.count))
                     .padding(.horizontal)
@@ -361,7 +353,7 @@ struct MarkedQuestionView: View {
                         VStack {
                             Spacer()
                             Text("\(markedQuestions[qIndex].question)")
-                                .font(deviceManager.isTablet ? .title2 : .title3)
+                                .font(.title3)
                                 .fontWeight(.medium)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.horizontal)
@@ -387,7 +379,7 @@ struct MarkedQuestionView: View {
                         Image(systemName: markedQuestionIds.contains(where: {$0.id == markedQuestions[qIndex].id}) ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 23)
+                            .frame(height: 23)
                     }
                     .padding(.trailing)
                     
@@ -402,7 +394,7 @@ struct MarkedQuestionView: View {
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 23)
+                            .frame(height: 23)
                     }
                 }
                 .padding(.horizontal)
@@ -418,7 +410,6 @@ struct MarkedQuestionView: View {
 struct MarkedAnswerView: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
     var markedQuestions: [CTQuestion]
     @Binding var qIndex: Int
@@ -446,7 +437,6 @@ struct MarkedAnswerView: View {
                             showZipInput = true
                         }) {
                             Text("Nhập ZIP Code để thấy câu trả lời")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
@@ -470,7 +460,6 @@ struct MarkedAnswerView: View {
                             }
                         }) {
                             Text("Bỏ qua câu hỏi này")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
@@ -485,7 +474,6 @@ struct MarkedAnswerView: View {
                                 handleAnswer(ans: ans, correctAns: getZipAnswer(markedQuestions[qIndex].id))
                             }) {
                                 Text(ans)
-                                    .font(deviceManager.isTablet ? .title3 : .body)
                                     .padding()
                                     .foregroundStyle(.black)
                                     .frame(maxWidth: .infinity)
@@ -504,7 +492,6 @@ struct MarkedAnswerView: View {
                             handleAnswer(ans: ans, correctAns: markedQuestions[qIndex].answer)
                         }) {
                             Text(ans)
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
@@ -536,7 +523,6 @@ struct MarkedAnswerView: View {
         .sheet(isPresented: $showZipInput) {
             CTZipInput()
                 .environmentObject(userSetting)
-                .environmentObject(deviceManager)
         }
         .onAppear {
             if !answersInitialized {
@@ -646,7 +632,6 @@ struct MarkedAnswerView: View {
     CTMarkedQuestionTest()
         .environmentObject(QuestionList())
         .environmentObject(WrongAnswer())
-        .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(GovCapManager())
         .modelContainer(for: MarkedQuestion.self)

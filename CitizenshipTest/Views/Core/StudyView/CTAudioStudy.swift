@@ -11,7 +11,6 @@ import AVFoundation
 
 struct CTAudioStudy: View {
     @EnvironmentObject var questionList: QuestionList
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
@@ -35,14 +34,12 @@ struct CTAudioStudy: View {
                 ScrollView {
                     // Controls section
                     Toggle("Nghe Đáp Án", isOn: $playAnswers)
-                        .font(deviceManager.isTablet ? .title3 : .body)
                         .toggleStyle(SwitchToggleStyle(tint: .blue))
                         .padding()
                     
                     // Progress indicator
                     VStack {
                         Text("\(currentQuestionIndex + 1) / \(questionList.questions.count)")
-                            .font(deviceManager.isTablet ? .title3 : .body)
                         
                         ProgressView(value: Double(currentQuestionIndex + 1), total: Double(questionList.questions.count))
                             .progressViewStyle(LinearProgressViewStyle(tint: .blue))
@@ -55,7 +52,7 @@ struct CTAudioStudy: View {
                         VStack {
                             HStack {
                                 Text("Câu hỏi \(questionList.questions[currentQuestionIndex].id)")
-                                    .font(deviceManager.isTablet ? .title3 : .headline)
+                                    .font(.headline)
                                     .foregroundColor(.blue)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 
@@ -71,19 +68,18 @@ struct CTAudioStudy: View {
                                     Image(systemName: markedQuestions.contains(where: {$0.id == questionList.questions[currentQuestionIndex].id}) ? "bookmark.fill" : "bookmark")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: deviceManager.isTablet ? 25 : 20)
+                                        .frame(height: 20)
                                 }
                             }
                             
                             Text(questionList.questions[currentQuestionIndex].question)
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .fixedSize(horizontal: false, vertical: true)
-                                .fontWeight(.bold)
+                                .font(.headline)
                                 .multilineTextAlignment(.leading)
                                 .padding(.vertical, 5)
                             
                             Text(questionList.questions[currentQuestionIndex].questionVie)
-                                .font(deviceManager.isTablet ? .title3 : .body)
+                                .font(.subheadline)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .multilineTextAlignment(.leading)
                         }
@@ -93,7 +89,7 @@ struct CTAudioStudy: View {
                         if playAnswers {
                             VStack {
                                 Text("Đáp án")
-                                    .font(deviceManager.isTablet ? .title3 : .headline)
+                                    .font(.headline)
                                     .foregroundColor(.blue)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 
@@ -107,15 +103,14 @@ struct CTAudioStudy: View {
                                 } else {
                                     // Regular answer display
                                     Text(questionList.questions[currentQuestionIndex].answer)
-                                        .font(deviceManager.isTablet ? .title3 : .body)
-                                        .fontWeight(.bold)
+                                        .font(.headline)
                                         .fixedSize(horizontal: false, vertical: true)
                                         .multilineTextAlignment(.leading)
                                         .padding(.vertical, 5)
                                     
                                     
                                     Text(questionList.questions[currentQuestionIndex].answerVie)
-                                        .font(deviceManager.isTablet ? .title3 : .body)
+                                        .font(.subheadline)
                                         .multilineTextAlignment(.leading)
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
@@ -134,35 +129,35 @@ struct CTAudioStudy: View {
                             Image(systemName: "backward.end.fill")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 40 : 25)
+                                .frame(height: 25)
                         }
                         
                         Button(action: previousQuestion) {
                             Image(systemName: "backward.fill")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 40 : 25)
+                                .frame(height: 25)
                         }
                         
                         Button(action: togglePlayback) {
                             Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 70 : 45)
+                                .frame(height: 45)
                         }
                         
                         Button(action: nextQuestion) {
                             Image(systemName: "forward.fill")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 40 : 25)
+                                .frame(height: 25)
                         }
                         
                         Button(action: nextTenQuestions) {
                             Image(systemName: "forward.end.fill")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 40 : 25)
+                                .frame(height: 25)
                         }
                         
                     }
@@ -174,7 +169,6 @@ struct CTAudioStudy: View {
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
-                .environmentObject(deviceManager)
         }
         .onDisappear {
             stopAudio()
@@ -370,7 +364,6 @@ class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
 #Preview {
     CTAudioStudy()
         .environmentObject(QuestionList())
-        .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(GovCapManager())
         .environmentObject(AudioManager())

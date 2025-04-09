@@ -13,7 +13,6 @@ struct CTAllMarkedQuestion: View {
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var showingZipPrompt = false
     @State private var showingConfirmationDialog = false
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
@@ -40,11 +39,11 @@ struct CTAllMarkedQuestion: View {
                         .foregroundColor(.gray)
                     
                     Text("Bạn chưa đánh dấu câu hỏi nào")
-                        .font(deviceManager.isTablet ? .title : .headline)
+                        .font(.headline)
                         .foregroundColor(.gray)
                     
                     Text("Hãy đánh dấu câu hỏi để ôn tập tại đây")
-                        .font(deviceManager.isTablet ? .body : .callout)
+                        .font(.callout)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
@@ -53,7 +52,6 @@ struct CTAllMarkedQuestion: View {
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("Quay Lại")
-                            .font(deviceManager.isTablet ? .title3 : .body)
                             .padding()
                             .foregroundColor(.white)
                             .background(Color.blue)
@@ -72,7 +70,6 @@ struct CTAllMarkedQuestion: View {
                                 Image(systemName: "trash")
                                     .foregroundColor(.red)
                                 Text("Xóa Tất Cả Câu Hỏi Đánh Dấu")
-                                    .font(deviceManager.isTablet ? .title3 : .body)
                                     .foregroundColor(.red)
                             }
                         }
@@ -94,17 +91,15 @@ struct CTAllMarkedQuestion: View {
                     // Questions
                     ForEach(filteredQuestions) { question in
                         Section(header: Text("Câu hỏi \(question.id)")
-                            .font(deviceManager.isTablet ? .title3 : .footnote)) {
+                            .font(.footnote)) {
                                 // Question stack
                                 HStack {
                                     // VStack contains ENG and VIE questions
                                     VStack(alignment: .leading) {
                                         Text(question.question)
-                                            .font(deviceManager.isTablet ? .title3 : .body)
-                                            .fontWeight(.bold)
-                                        
+                                            .font(.headline)
                                         Text(question.questionVie)
-                                            .font(deviceManager.isTablet ? .title3 : .body)
+                                            .font(.subheadline)
                                     }
                                     
                                     Spacer()
@@ -122,7 +117,7 @@ struct CTAllMarkedQuestion: View {
                                             Image(systemName: "speaker.wave.3")
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(height: deviceManager.isTablet ? 40 : 20)
+                                                .frame(height: 20)
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
                                         .padding(.bottom)
@@ -139,7 +134,7 @@ struct CTAllMarkedQuestion: View {
                                             Image(systemName: "bookmark.fill")
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(height: deviceManager.isTablet ? 40 : 20)
+                                                .frame(height: 20)
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
                                     }
@@ -151,8 +146,7 @@ struct CTAllMarkedQuestion: View {
                                     if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44 {
                                         VStack{
                                             Text("Trả lời:")
-                                                .font(deviceManager.isTablet ? .title3 : .body)
-                                                .fontWeight(.bold)
+                                                .font(.headline)
                                                 .padding(.bottom, 1)
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                             ServiceQuestions(
@@ -205,7 +199,7 @@ struct CTAllMarkedQuestion: View {
                                                 Image(systemName: "speaker.wave.3")
                                                     .resizable()
                                                     .scaledToFit()
-                                                    .frame(height: deviceManager.isTablet ? 40 : 20)
+                                                    .frame(height: 20)
                                             }
                                             .buttonStyle(BorderlessButtonStyle())
                                         }
@@ -214,11 +208,9 @@ struct CTAllMarkedQuestion: View {
                                         // Eng and Vie answer
                                         VStack(alignment: .leading) {
                                             Text("Trả lời: \(question.answer)")
-                                                .font(deviceManager.isTablet ? .title3 : .body)
-                                                .fontWeight(.bold)
-                                            
+                                                .font(.headline)
                                             Text(question.answerVie)
-                                                .font(deviceManager.isTablet ? .title : .body)
+                                                .font(.subheadline)
                                         }
                                         
                                         Spacer()
@@ -234,7 +226,7 @@ struct CTAllMarkedQuestion: View {
                                             Image(systemName: "speaker.wave.3")
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(height: deviceManager.isTablet ? 40 : 20)
+                                                .frame(height: 20)
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
                                     }
@@ -253,7 +245,6 @@ struct CTAllMarkedQuestion: View {
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
-                .environmentObject(deviceManager)
         }
         .navigationTitle("Câu Hỏi Đánh Dấu")
     }
@@ -268,7 +259,6 @@ struct CTAllMarkedQuestion: View {
 
 #Preview {
     CTAllMarkedQuestion()
-        .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())
         .environmentObject(GovCapManager())

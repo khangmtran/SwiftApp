@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CTInitialScreen: View{
     @EnvironmentObject var selectedPart: SelectedPart
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
@@ -40,7 +39,6 @@ struct CTInitialScreen: View{
                 .fullScreenCover(isPresented: $showNewScreen){
                     CTStudyHome()
                         .environmentObject(selectedPart)
-                        .environmentObject(deviceManager)
                         .environmentObject(userSetting)
                         .environmentObject(questionList)
                         .environmentObject(govCapManager)
@@ -55,7 +53,6 @@ struct CTInitialScreen_provider: PreviewProvider{
     static var previews: some View{
         CTInitialScreen()
             .environmentObject(SelectedPart())
-            .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
             .environmentObject(QuestionList())
             .environmentObject(GovCapManager())

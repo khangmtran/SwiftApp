@@ -25,7 +25,6 @@ struct CTFlashCard: View{
     @State private var showJumpPrompt: Bool = false
     @State private var qIndex = 0
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
@@ -34,14 +33,12 @@ struct CTFlashCard: View{
         VStack{
             HStack(alignment: .center){
                 Text("Thẻ \(qIndex + 1) / \(questions.count)")
-                    .font(deviceManager.isTablet ? .title3 : .body)
                 Spacer()
                 Button(action: {
                     showJumpPrompt = true
                 }) {
                     HStack {
                         Text("Tìm Thẻ")
-                            .font(deviceManager.isTablet ? .title3 : .body)
                     }
                     .foregroundColor(.blue)
                 }
@@ -124,7 +121,6 @@ struct JumpToCardView: View {
     var totalCards: Int
     @State private var selectedCardNumber: Int
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var deviceManager: DeviceManager
     
     init(qIndex: Binding<Int>, totalCards: Int, jumpToIndex: Binding<String>) {
         self._qIndex = qIndex
@@ -138,12 +134,11 @@ struct JumpToCardView: View {
                 Button("Hủy") {
                     dismiss()
                 }
-                .font(deviceManager.isTablet ? .title3 : .body)
                 
                 Spacer()
                 
                 Text("Chọn thẻ")
-                    .font(deviceManager.isTablet ? .title2 : .headline)
+                    .font(.headline)
                     .fontWeight(.bold)
                 
                 Spacer()
@@ -152,7 +147,6 @@ struct JumpToCardView: View {
                     qIndex = selectedCardNumber - 1
                     dismiss()
                 }
-                .font(deviceManager.isTablet ? .title3 : .body)
                 .foregroundColor(.blue)
             }
             .padding(.top)
@@ -161,7 +155,7 @@ struct JumpToCardView: View {
             Picker("Thẻ số", selection: $selectedCardNumber) {
                 ForEach(1...totalCards, id: \.self) { num in
                     Text("\(num)")
-                        .font(deviceManager.isTablet ? .title : .title3)
+                        .font(.title3)
                 }
             }
             .pickerStyle(.wheel)
@@ -172,13 +166,11 @@ struct JumpToCardView: View {
 struct NavButtonsFC: View{
     @Binding var qIndex: Int
     let questions: [CTQuestion]
-    @EnvironmentObject var deviceManager: DeviceManager
 
     var body: some View {
         HStack(){
             Button(action: prevQuestion){
                 Text("Trở Về")
-                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .padding()
             .foregroundStyle(.white)
@@ -189,7 +181,6 @@ struct NavButtonsFC: View{
             
             Button(action: nextQuestion){
                 Text("Tiếp Theo")
-                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .padding()
             .foregroundStyle(.white)
@@ -227,7 +218,6 @@ struct CardFront: View{
     @Binding var qIndex: Int
     @Binding var isChangingCard: Bool
     let synthesizer: AVSpeechSynthesizer
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
@@ -240,16 +230,14 @@ struct CardFront: View{
             
             VStack{
                 Text("Question \(questions[qIndex].id):")
-                    .font(deviceManager.isTablet ? .title3 : .body)
                 Text("\(questions[qIndex].question)")
-                    .font(deviceManager.isTablet ? .title2 : .title3)
+                    .font(.title3)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.vertical, 1)
                     .padding(.horizontal)
                 Text(questions[qIndex].questionVie)
-                    .font(deviceManager.isTablet ? .title3 : .body)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal)
@@ -271,7 +259,7 @@ struct CardFront: View{
                         Image(systemName: markedQuestions.contains {$0.id == questions[qIndex].id} ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 23)
+                            .frame(height: 23)
                     }
                     .padding(.trailing)
                     
@@ -286,7 +274,7 @@ struct CardFront: View{
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 23)
+                            .frame(height: 23)
                     }
                 }
                 .padding()
@@ -297,7 +285,6 @@ struct CardFront: View{
                     isFlipped.toggle()
                 }) {
                     Text("Lật Thẻ")
-                        .font(deviceManager.isTablet ? .title3 : .body)
                         .padding()
                         .foregroundColor(.white)
                         .background(Color.blue)
@@ -322,7 +309,6 @@ struct CardBack: View{
     @Binding var qIndex: Int
     @Binding var isChangingCard: Bool
     let synthesizer: AVSpeechSynthesizer
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
     @Binding var showingZipPrompt: Bool
@@ -347,14 +333,13 @@ struct CardBack: View{
                     }
                     else{
                         Text("\(questions[qIndex].answer)")
-                            .font(deviceManager.isTablet ? .title2 : .title3)
+                            .font(.title3)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.vertical, 1)
                             .padding(.horizontal)
                         Text("\(questions[qIndex].answerVie)")
-                            .font(deviceManager.isTablet ? .title3 : .body)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.horizontal)
@@ -376,7 +361,7 @@ struct CardBack: View{
                             Image(systemName: markedQuestions.contains {$0.id == questions[qIndex].id} ? "bookmark.fill" : "bookmark")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 50 : 23)
+                                .frame(height: 23)
                         }
                         .padding(.trailing)
                         
@@ -434,7 +419,7 @@ struct CardBack: View{
                             Image(systemName: "speaker.wave.3")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 50 : 23)
+                                .frame(height: 23)
                         }
                     }
                     .padding()
@@ -445,7 +430,7 @@ struct CardBack: View{
                         isFlipped.toggle()
                     }) {
                         Text("Lật Thẻ")
-                            .font(deviceManager.isTablet ? .title2 : .title3)
+                            .font(.title3)
                             .padding()
                             .foregroundColor(.white)
                             .background(Color.blue)
@@ -463,7 +448,6 @@ struct CardBack: View{
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
-                .environmentObject(deviceManager)
         }
     }
 }
@@ -560,7 +544,6 @@ struct QuestionTypeView: View {
 
 #Preview{
     CTFlashCard()
-        .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())
         .environmentObject(GovCapManager())

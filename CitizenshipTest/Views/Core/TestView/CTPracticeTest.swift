@@ -10,7 +10,6 @@ import SwiftData
 struct CTPracticeTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
-    @EnvironmentObject var deviceManager: DeviceManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var tenQuestions: [CTQuestion] = []
@@ -62,7 +61,6 @@ struct CTPracticeTest: View {
                         }) {
                             Image(systemName: "arrow.counterclockwise")
                             Text("Làm Lại")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .foregroundColor(.blue)
                         }
                     }
@@ -130,7 +128,6 @@ struct CTResultView: View {
     @Binding var incorrQ: [String]
     @Binding var testCompleted: Bool
     @State private var synthesizer = AVSpeechSynthesizer()
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
@@ -149,7 +146,7 @@ struct CTResultView: View {
                         .fill(.blue)
                     
                     Text("\(score) / \(questions.count)")
-                        .font(deviceManager.isTablet ? .title2 : .title3)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                     
@@ -159,13 +156,13 @@ struct CTResultView: View {
                 if score >= 6 {
                     Text("Chúc mừng bạn đã vượt qua được bài kiểm tra")
                         .multilineTextAlignment(.center)
-                        .font(deviceManager.isTablet ? .title : .headline)
+                        .font(.headline)
                         .padding(.horizontal)
                         .padding(.vertical, 10)
                 } else {
                     Text("Bạn cần làm đúng ít nhất 6 câu để vượt qua bài kiểm tra. Hãy cố gắng thêm nhé!")
                         .multilineTextAlignment(.center)
-                        .font(deviceManager.isTablet ? .title : .headline)
+                        .font(.headline)
                         .padding(.horizontal)
                         .padding(.vertical, 10)
                 }
@@ -191,7 +188,6 @@ struct CTResultView: View {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
                         Text("Thử Lại")
-                            .font(deviceManager.isTablet ? .title3 : .body)
                     }
                     .padding()
                     .foregroundColor(.white)
@@ -205,15 +201,14 @@ struct CTResultView: View {
                         HStack{
                             VStack(alignment: .leading) {
                                 Text("Q\(question.id): \(question.question)")
-                                    .font(deviceManager.isTablet ? .title3 : .body)
                                     .fontWeight(.medium)
                                 
                                 Text("Đáp án: \(question.answer)")
-                                    .font(deviceManager.isTablet ? .body : .subheadline)
+                                    .font(.subheadline)
                                     .fontWeight(.regular)
                                 if index < userAns.count && !userAns[index]{
                                     Text("Bạn trả lời: \(incorrQ[index])")
-                                        .font(deviceManager.isTablet ? .body : .subheadline)
+                                        .font(.subheadline)
                                         .fontWeight(.regular)
                                         .foregroundStyle(.red)
                                 }
@@ -232,7 +227,7 @@ struct CTResultView: View {
                                     Image(systemName: "speaker.wave.3")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: deviceManager.isTablet ? 25 : 18)
+                                        .frame(height: 18)
                                 }
                                 .padding(.bottom)
                                                                     
@@ -247,7 +242,7 @@ struct CTResultView: View {
                                     Image(systemName: markedQuestions.contains(where: {$0.id == question.id}) ? "bookmark.fill" : "bookmark")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: deviceManager.isTablet ? 25 : 18)
+                                        .frame(height: 18)
                                 }
                             }
                             
@@ -274,7 +269,6 @@ struct PracticeQuestionView: View{
     var tenQuestions: [CTQuestion]
     @Binding var qIndex: Int
     @State private var synthesizer = AVSpeechSynthesizer()
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
@@ -286,7 +280,6 @@ struct PracticeQuestionView: View{
                 .ignoresSafeArea()
             VStack{
                 Text("\(qIndex + 1) of \(tenQuestions.count)")
-                    .font(deviceManager.isTablet ? .title3 : .body)
                 ProgressView(value: Double(qIndex + 1) / 10)
                     .padding(.horizontal)
                     .tint(.white)
@@ -296,7 +289,7 @@ struct PracticeQuestionView: View{
                         VStack {
                             Spacer()
                             Text("\(tenQuestions[qIndex].question)")
-                                .font(deviceManager.isTablet ? .title2 : .title3)
+                                .font(.title3)
                                 .fontWeight(.medium)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.horizontal)
@@ -323,7 +316,7 @@ struct PracticeQuestionView: View{
                         Image(systemName: markedQuestions.contains {$0.id == tenQuestions[qIndex].id} ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 40 : 23)
+                            .frame(height: 23)
                     }
                     .padding(.trailing)
                     
@@ -338,7 +331,7 @@ struct PracticeQuestionView: View{
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 40 : 23)
+                            .frame(height: 23)
                     }
                 }
                 .padding(.horizontal)
@@ -354,7 +347,6 @@ struct PracticeQuestionView: View{
 struct PracticeAnswerView: View{
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
     var tenQuestions: [CTQuestion]
     @Binding var qIndex: Int
@@ -383,7 +375,6 @@ struct PracticeAnswerView: View{
                             showZipInput = true
                         }){
                             Text("Nhập ZIP Code để thấy câu trả lời")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
@@ -409,7 +400,6 @@ struct PracticeAnswerView: View{
                             
                         }) {
                             Text("Bỏ qua câu hỏi này")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
@@ -441,7 +431,6 @@ struct PracticeAnswerView: View{
                                 }
                             }){
                                 Text(ans)
-                                    .font(deviceManager.isTablet ? .title3 : .body)
                                     .padding()
                                     .foregroundStyle(.black)
                                     .frame(maxWidth: .infinity)
@@ -475,7 +464,6 @@ struct PracticeAnswerView: View{
                             }
                         }){
                             Text(ans)
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
@@ -510,7 +498,6 @@ struct PracticeAnswerView: View{
         .sheet(isPresented: $showZipInput) {
             CTZipInput()
                 .environmentObject(userSetting)
-                .environmentObject(deviceManager)
         }
         .onAppear {
             if !answersInitialized {
@@ -594,6 +581,5 @@ struct PracticeAnswerView: View{
         .environmentObject(QuestionList())
         .environmentObject(WrongAnswer())
         .environmentObject(UserSetting())
-        .environmentObject(DeviceManager())
         .environmentObject(GovCapManager())
 }

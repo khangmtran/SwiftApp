@@ -54,10 +54,6 @@ class SelectedPart: ObservableObject {
     }
 }
 
-class DeviceManager: ObservableObject{
-    @Published var isTablet: Bool = UIDevice.current.userInterfaceIdiom == .pad
-}
-
 @Model
 class MarkedQuestion{
     @Attribute(.unique) var id: Int
@@ -131,7 +127,6 @@ class AudioManager: ObservableObject{
 @main
 struct CitizenshipTestApp: App{
     @StateObject private var selectedPart = SelectedPart()
-    @StateObject private var deviceManager = DeviceManager()
     @StateObject private var userSetting = UserSetting()
     @StateObject private var questionList = QuestionList()
     @StateObject private var govCapManager = GovCapManager()
@@ -142,7 +137,6 @@ struct CitizenshipTestApp: App{
         WindowGroup {
             CTTab()
                 .environmentObject(selectedPart)
-                .environmentObject(deviceManager)
                 .environmentObject(userSetting)
                 .environmentObject(questionList)
                 .environmentObject(govCapManager)

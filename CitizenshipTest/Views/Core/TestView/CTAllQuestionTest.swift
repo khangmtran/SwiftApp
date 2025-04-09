@@ -12,7 +12,6 @@ import SwiftData
 struct CTAllQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var audioManager: AudioManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
@@ -69,7 +68,6 @@ struct CTAllQuestionTest: View {
                         }) {
                             Image(systemName: "arrow.counterclockwise")
                             Text("Làm Lại")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .foregroundColor(.blue)
                         }
                     }
@@ -126,7 +124,6 @@ struct CTAllQuestionTest: View {
 struct AllTestQuestionView: View {
     var qIndex: Int
     @State private var synthesizer = AVSpeechSynthesizer()
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
@@ -139,7 +136,6 @@ struct AllTestQuestionView: View {
                 .ignoresSafeArea()
             VStack {
                 Text("\(qIndex + 1) of \(questionList.questions.count)")
-                    .font(deviceManager.isTablet ? .title3 : .body)
                 ProgressView(value: Double(qIndex + 1) / Double(questionList.questions.count))
                     .padding(.horizontal)
                     .tint(.white)
@@ -151,7 +147,7 @@ struct AllTestQuestionView: View {
                         VStack {
                             Spacer()
                             Text("\(currentQuestion.question)")
-                                .font(deviceManager.isTablet ? .title2 : .title3)
+                                .font(.title3)
                                 .fontWeight(.medium)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.horizontal)
@@ -178,7 +174,7 @@ struct AllTestQuestionView: View {
                         Image(systemName: markedQuestions.contains {$0.id == currentQuestion.id} ? "bookmark.fill" : "bookmark")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 23)
+                            .frame(height: 23)
                     }
                     .padding(.trailing)
                     
@@ -193,7 +189,7 @@ struct AllTestQuestionView: View {
                         Image(systemName: "speaker.wave.3")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: deviceManager.isTablet ? 50 : 23)
+                            .frame(height: 23)
                     }
                 }
                 .padding(.horizontal)
@@ -209,7 +205,6 @@ struct AllTestQuestionView: View {
 struct AllTestAnswerView: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
@@ -240,7 +235,6 @@ struct AllTestAnswerView: View {
                             showZipInput = true
                         }) {
                             Text("Nhập ZIP Code để thấy câu trả lời")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
@@ -265,7 +259,6 @@ struct AllTestAnswerView: View {
                             
                         }) {
                             Text("Bỏ qua câu hỏi này")
-                                .font(deviceManager.isTablet ? .title3 : .body)
                                 .padding()
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
@@ -314,7 +307,6 @@ struct AllTestAnswerView: View {
         .sheet(isPresented: $showZipInput) {
             CTZipInput()
                 .environmentObject(userSetting)
-                .environmentObject(deviceManager)
         }
         .onAppear {
             if !answersInitialized {
@@ -435,7 +427,6 @@ struct CTAllTestResultView: View {
     @Binding var testCompleted: Bool
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var showIncorrectOnly = false
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
@@ -473,7 +464,7 @@ struct CTAllTestResultView: View {
                         .fill(.blue)
                     
                     Text("\(score) / \(userAns.count)")
-                        .font(deviceManager.isTablet ? .title2 : .title3)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                     
@@ -504,7 +495,6 @@ struct CTAllTestResultView: View {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
                         Text("Thử Lại")
-                            .font(deviceManager.isTablet ? .title3 : .body)
                     }
                     .padding()
                     .foregroundColor(.white)
@@ -519,17 +509,16 @@ struct CTAllTestResultView: View {
                             HStack{
                                 VStack(alignment: .leading) {
                                     Text("Q\(result.question.id): \(result.question.question)")
-                                        .font(deviceManager.isTablet ? .title3 : .body)
                                         .fontWeight(.medium)
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("A: \(result.question.answer)")
-                                        .font(deviceManager.isTablet ? .body : .subheadline)
+                                        .font(.subheadline)
                                         .fontWeight(.regular)
                                     
                                     if !result.correct {
                                         Text("Bạn trả lời: \(result.wrongAnswer)")
-                                            .font(deviceManager.isTablet ? .body : .subheadline)
+                                            .font(.subheadline)
                                             .foregroundColor(.red)
                                     }
                                 }
@@ -547,7 +536,7 @@ struct CTAllTestResultView: View {
                                         Image(systemName: "speaker.wave.3")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: deviceManager.isTablet ? 25 : 18)
+                                            .frame(height: 18)
                                     }
                                     .padding(.bottom)
                                     
@@ -562,7 +551,7 @@ struct CTAllTestResultView: View {
                                         Image(systemName: markedQuestions.contains(where: {$0.id == result.question.id}) ? "bookmark.fill" : "bookmark")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(height: deviceManager.isTablet ? 25 : 18)
+                                            .frame(height: 18)
                                     }
                                 }
                             }
@@ -588,6 +577,5 @@ struct CTAllTestResultView: View {
         .environmentObject(QuestionList())
         .environmentObject(WrongAnswer())
         .environmentObject(UserSetting())
-        .environmentObject(DeviceManager())
         .environmentObject(GovCapManager())
 }

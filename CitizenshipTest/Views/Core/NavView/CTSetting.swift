@@ -10,7 +10,6 @@ import AVFoundation
 
 struct CTSetting: View {
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
     @State private var showingZipPrompt = false
@@ -20,20 +19,21 @@ struct CTSetting: View {
     var body: some View {
         ScrollView {
             Text("Đại Diện Của Bạn")
+                .font(.title3)
+                .fontWeight(.semibold)
             VStack{
-                HStack {
+                HStack(alignment: .firstTextBaseline) {
                     VStack(alignment: .leading) {
                         Text("ZIP Code")
-                            .font(deviceManager.isTablet ? .title3 : .body)
+                            .font(.callout)
                         Text("Mã ZIP")
-                            .font(deviceManager.isTablet ? .footnote : .caption)
+                            .font(.footnote)
                             .foregroundColor(.gray)
                     }
                     
                     Spacer()
                     
-                    Text(userSetting.zipCode)
-                        .font(deviceManager.isTablet ? .title3 : .body)
+                    Text(userSetting.zipCode).font(.callout)
                     
                     Button(action: {
                         showingZipPrompt = true
@@ -43,99 +43,94 @@ struct CTSetting: View {
                     }
                 }
                 
-                HStack {
+                HStack(alignment: .firstTextBaseline) {
                     VStack(alignment: .leading) {
                         Text("State")
-                            .font(deviceManager.isTablet ? .title3 : .body)
+                            .font(.callout)
                         Text("Tiểu Bang")
-                            .font(deviceManager.isTablet ? .footnote : .caption)
+                            .font(.footnote)
                             .foregroundColor(.gray)
                     }
                     
                     Spacer()
                     
-                    Text(userSetting.state)
-                        .font(deviceManager.isTablet ? .title3 : .body)
-                }
-                
-                let senators = userSetting.legislators.filter { $0.type == "senator" }
-                ForEach(senators) { senator in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Senator")
-                                .font(deviceManager.isTablet ? .body : .subheadline)
-                            Text("Thượng Nghị Sĩ")
-                                .font(deviceManager.isTablet ? .footnote : .caption)
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("\(senator.firstName) \(senator.lastName)")
-                            .font(deviceManager.isTablet ? .body : .subheadline)
-                            .fontWeight(.medium)
-                    }
-                }
-                
-                let representatives = userSetting.legislators.filter { $0.type == "representative" }
-                ForEach(representatives) { rep in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Representative")
-                                .font(deviceManager.isTablet ? .body : .subheadline)
-                            Text("Hạ Nghị Sĩ")
-                                .font(deviceManager.isTablet ? .footnote : .caption)
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("\(rep.firstName) \(rep.lastName)")
-                            .font(deviceManager.isTablet ? .body : .subheadline)
-                            .fontWeight(.medium)
-                    }
+                    Text(userSetting.state).font(.callout)
                 }
                 
                 let stateInfo = govCapManager.govAndCap.filter { $0.state == userSetting.state }
                 ForEach(stateInfo) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Governor")
-                                .font(deviceManager.isTablet ? .body : .subheadline)
-                            Text("Thống Đốc")
-                                .font(deviceManager.isTablet ? .footnote : .caption)
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Spacer()
-                        
-                        Text(item.gov)
-                            .font(deviceManager.isTablet ? .body : .subheadline)
-                            .fontWeight(.medium)
-                    }
-                    
-                    HStack {
+                    HStack(alignment: .firstTextBaseline) {
                         VStack(alignment: .leading) {
                             Text("Capital City")
-                                .font(deviceManager.isTablet ? .body : .subheadline)
+                                .font(.callout)
                             Text("Thủ Phủ")
-                                .font(deviceManager.isTablet ? .footnote : .caption)
+                                .font(.footnote)
                                 .foregroundColor(.gray)
                         }
                         
                         Spacer()
                         
-                        Text(item.capital)
-                            .font(deviceManager.isTablet ? .body : .subheadline)
-                            .fontWeight(.medium)
+                        Text(item.capital).font(.callout)
+                    }
+                    
+                    HStack(alignment: .firstTextBaseline) {
+                        VStack(alignment: .leading) {
+                            Text("Governor")
+                                .font(.callout)
+                            Text("Thống Đốc")
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                        
+                        Text(item.gov).font(.callout)
+                    }
+                    
+                }
+                
+                let representatives = userSetting.legislators.filter { $0.type == "representative" }
+                ForEach(representatives) { rep in
+                    HStack(alignment: .firstTextBaseline) {
+                        VStack(alignment: .leading) {
+                            Text("Representative")
+                                .font(.callout)
+                            Text("Hạ Nghị Sĩ")
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                        
+                        Text("\(rep.firstName) \(rep.lastName)").font(.callout)
                     }
                 }
+                
+                let senators = userSetting.legislators.filter { $0.type == "senator" }
+                ForEach(senators) { senator in
+                    HStack(alignment: .firstTextBaseline) {
+                        VStack(alignment: .leading) {
+                            Text("Senator")
+                                .font(.callout)
+                            Text("Thượng Nghị Sĩ")
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                        
+                        Text("\(senator.firstName) \(senator.lastName)").font(.callout)
+                    }
+                }
+                                
             }
             .padding()
             .background(.blue.opacity(0.1))
             .cornerRadius(10)
             
             Text("Âm Thanh")
+                .font(.title3)
+                .fontWeight(.semibold)
                 
 
             VStack{
@@ -143,7 +138,6 @@ struct CTSetting: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 HStack {
                     Text("1")
-                        .font(deviceManager.isTablet ? .footnote : .caption)
                         .foregroundColor(.gray)
                     
                     Slider(value: $audioManager.speechRate, in: 0.1...0.5, step: 0.1)
@@ -157,7 +151,6 @@ struct CTSetting: View {
                         }
                     
                     Text("5")
-                        .font(deviceManager.isTablet ? .footnote : .caption)
                         .foregroundColor(.gray)
                 }
                 
@@ -167,7 +160,6 @@ struct CTSetting: View {
                         
                         Picker(selection: $audioManager.voiceIdentifier, label: HStack {
                             Text(audioManager.voiceActor)
-                                .font(deviceManager.isTablet ? .title3 : .body)
                             Image(systemName: "chevron.down")
                         }) {
                             ForEach(voices, id: \.self) { voice in
@@ -200,12 +192,11 @@ struct CTSetting: View {
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)
         }
-        .navigationTitle("Settings")
+        .navigationTitle("Cài Đặt")
         .navigationBarTitleDisplayMode(.large)
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
-                .environmentObject(deviceManager)
         }
     }
 }
@@ -213,7 +204,6 @@ struct CTSetting: View {
 #Preview {
     CTSetting()
         .environmentObject(UserSetting())
-        .environmentObject(DeviceManager())
         .environmentObject(GovCapManager())
         .environmentObject(AudioManager())
 }

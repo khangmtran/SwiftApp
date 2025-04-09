@@ -2,7 +2,7 @@
     {
         "id": 1,
         "question": "What is the supreme law of the land?",
-        "questionVie": "Luật pháp tối cao của quốc gia là gì",
+        "questionVie": "Luật pháp tối cao của quốc gia là gì?",
         "answer": "The Constitution",
         "answerVie": "Hiến Pháp",
         "type": "LD",
@@ -11,7 +11,7 @@
     {
         "id": 2,
         "question": "What does the Constitution do?",
-        "questionVie": "Hiến Pháp làm gì",
+        "questionVie": "Hiến Pháp làm gì?",
         "answer": "Sets up the government",
         "answerVie": "Thiết lập chính phủ",
         "type": "CA",

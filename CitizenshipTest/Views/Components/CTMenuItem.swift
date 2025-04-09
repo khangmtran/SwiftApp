@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CTCustomMenuItem: View{
-    @EnvironmentObject var deviceManager : DeviceManager
     let title: String
     let subtitle: String
     let systemImg: String?
@@ -36,15 +35,14 @@ struct CTCustomMenuItem: View{
                         .scaledToFit()
                 }
             }
-            .frame(height: deviceManager.isTablet ? 150 : 75)
+            .frame(height: 75)
             
             VStack(){
                 Text(title)
-                    .font(deviceManager.isTablet ? .title3 : .body)
                     .fontWeight(.bold)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(subtitle)
-                    .font(deviceManager.isTablet ? .body : .subheadline)
+                    .font(.subheadline)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxWidth: .infinity)

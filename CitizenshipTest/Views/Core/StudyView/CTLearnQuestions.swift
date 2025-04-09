@@ -11,7 +11,6 @@ import SwiftData
 
 struct CTLearnQuestions: View {
     @EnvironmentObject var userSetting: UserSetting
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
@@ -52,7 +51,7 @@ struct CTLearnQuestions: View {
                 //1. VStack contains keyword
                 VStack{
                     Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
-                        .font(deviceManager.isTablet ? .title3 : .body)
+                        .font(.subheadline)
                         .multilineTextAlignment(.center)
                 }//.1
                 .padding()
@@ -100,7 +99,6 @@ struct CTLearnQuestions: View {
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing){
                     Text("\(questionCount) / \(filteredQuestion.count)")
-                        .font(deviceManager.isTablet ? .title : .body)
                 }
             }
             .toolbar {
@@ -116,11 +114,10 @@ struct CTLearnQuestions: View {
                     } label: {
                         HStack {
                             Text(selectedPart.partChosen)
-                                .font(deviceManager.isTablet ? .title3 : .body)
                             Image(systemName: "chevron.down")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: deviceManager.isTablet ? 20 : 10)
+                                .frame(height: 10)
                         }
                     }
                 }
@@ -134,7 +131,6 @@ struct CTLearnQuestions: View {
     NavigationStack{
         CTLearnQuestions()
             .environmentObject(SelectedPart())
-            .environmentObject(DeviceManager())
             .environmentObject(UserSetting())
             .environmentObject(QuestionList())
             .environmentObject(GovCapManager())
@@ -143,7 +139,6 @@ struct CTLearnQuestions: View {
 }
 
 struct NavButton: View {
-    @EnvironmentObject var deviceManager: DeviceManager
     @Binding var qIndex: Int
     @Binding var qCount: Int
     let totalQuestionsIndex: Int
@@ -152,7 +147,6 @@ struct NavButton: View {
         HStack(){
             Button(action: prevQuestion){
                 Text("Trở Về")
-                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .padding(.horizontal)
             .padding(.vertical, 10)
@@ -165,7 +159,6 @@ struct NavButton: View {
             
             Button(action: nextQuestion){
                 Text("Tiếp Theo")
-                    .font(deviceManager.isTablet ? .title3 : .body)
             }
             .padding(.horizontal)
             .padding(.vertical, 10)
@@ -209,7 +202,6 @@ struct QuestionView: View {
     var qId: Int
     var learn: String
     var synthesizer: AVSpeechSynthesizer
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
@@ -218,21 +210,21 @@ struct QuestionView: View {
         VStack{
             VStack{
                 Text("\(qId). \(question)")
-                    .font(deviceManager.isTablet ? .title3 : .body)
-                    .fontWeight(.bold)
+                    .font(.headline)
                     .multilineTextAlignment(.center)
                 
                 Text(vieQuestion)
-                    .font(deviceManager.isTablet ? .title3 : .body)
+                    .font(.subheadline)
                     .multilineTextAlignment(.center)
                 
                 Text("Từ quan trọng:")
+                    .font(.subheadline)
                     .underline()
                     .padding(.top)
                     
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(learn)")
-                    .font(deviceManager.isTablet ? .title3 : .body)
+                    .font(.subheadline)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, 1)
             }
@@ -252,7 +244,7 @@ struct QuestionView: View {
                     Image(systemName: markedQuestions.contains {$0.id == qId} ? "bookmark.fill" : "bookmark")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: deviceManager.isTablet ? 40 : 20)
+                        .frame(height: 20)
                 }
                 .padding(.trailing)
                 
@@ -266,7 +258,7 @@ struct QuestionView: View {
                     Image(systemName: "speaker.wave.3")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: deviceManager.isTablet ? 40 : 20)
+                        .frame(height: 20)
                 }
             }
             
@@ -288,7 +280,6 @@ struct AnswerView: View {
     var vieAns: String
     var learn: String
     var synthesizer: AVSpeechSynthesizer
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
@@ -298,7 +289,7 @@ struct AnswerView: View {
         VStack{
             if qId == 20 || qId == 23 || qId == 43 || qId == 44{
                 Text("Trả Lời:")
-                    .font(deviceManager.isTablet ? .title3 : .body)
+                    .font(.subheadline)
                     .padding(.bottom, 1)
                 ServiceQuestions(
                     questionId: qId,
@@ -311,14 +302,13 @@ struct AnswerView: View {
             else{
                 VStack{
                     Text("Trả Lời:")
-                        .font(deviceManager.isTablet ? .title3 : .body)
+                        .font(.subheadline)
                     Text(ans)
-                        .font(deviceManager.isTablet ? .title3 : .body)
-                        .fontWeight(.bold)
+                        .font(.headline)
                         .multilineTextAlignment(.center)
                         .padding(.top, 1)
                     Text(vieAns)
-                        .font(deviceManager.isTablet ? .title3 : .body)
+                        .font(.subheadline)
                         .multilineTextAlignment(.center)
                         .padding(.bottom)
                 }
@@ -375,7 +365,7 @@ struct AnswerView: View {
                     Image(systemName: "speaker.wave.3")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: deviceManager.isTablet ? 40 : 20)
+                        .frame(height: 20)
                 }
             }
         }
@@ -391,7 +381,6 @@ struct AnswerView: View {
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
-                .environmentObject(deviceManager)
         }
     }
 }

@@ -37,9 +37,9 @@
     },
     {
         "id": 7,
-        "firstIncorrect": "Ten (10)",
-        "secondIncorrect": "Thirteen (13)",
-        "thirdIncorrect": "Fifty (50)"
+        "firstIncorrect": "Ten",
+        "secondIncorrect": "Thirteen",
+        "thirdIncorrect": "Fifty"
     },
     {
         "id": 8,
@@ -103,15 +103,15 @@
     },
     {
         "id": 18,
-        "firstIncorrect": "Fifty (50)",
-        "secondIncorrect": "Four hundred thirty-five (435)",
-        "thirdIncorrect": "Nine (9)"
+        "firstIncorrect": "Fifty",
+        "secondIncorrect": "Four hundred thirty-five",
+        "thirdIncorrect": "Nine"
     },
     {
         "id": 19,
-        "firstIncorrect": "Two (2)",
-        "secondIncorrect": "Four (4)",
-        "thirdIncorrect": "Eight (8)"
+        "firstIncorrect": "Two",
+        "secondIncorrect": "Four",
+        "thirdIncorrect": "Eight"
     },
     {
         "id": 20,
@@ -121,15 +121,15 @@
     },
     {
         "id": 21,
-        "firstIncorrect": "One hundred (100)",
-        "secondIncorrect": "Fifty (50)",
-        "thirdIncorrect": "Two hundred seventy-five (275)"
+        "firstIncorrect": "One hundred",
+        "secondIncorrect": "Fifty",
+        "thirdIncorrect": "Two hundred seventy-five"
     },
     {
         "id": 22,
-        "firstIncorrect": "Six (6)",
-        "secondIncorrect": "Four (4)",
-        "thirdIncorrect": "One (1)"
+        "firstIncorrect": "Six",
+        "secondIncorrect": "Four",
+        "thirdIncorrect": "One"
     },
     {
         "id": 23,
@@ -151,9 +151,9 @@
     },
     {
         "id": 26,
-        "firstIncorrect": "Two (2)",
-        "secondIncorrect": "Six (6)",
-        "thirdIncorrect": "Eight (8)"
+        "firstIncorrect": "Two",
+        "secondIncorrect": "Six",
+        "thirdIncorrect": "Eight"
     },
     {
         "id": 27,
@@ -229,9 +229,9 @@
     },
     {
         "id": 39,
-        "firstIncorrect": "Seven (7)",
-        "secondIncorrect": "Eleven (11)",
-        "thirdIncorrect": "Five (5)"
+        "firstIncorrect": "Seven",
+        "secondIncorrect": "Eleven",
+        "thirdIncorrect": "Five"
     },
     {
         "id": 40,
@@ -319,9 +319,9 @@
     },
     {
         "id": 54,
-        "firstIncorrect": "Twenty-one (21) and older",
-        "secondIncorrect": "Sixteen (16) and older",
-        "thirdIncorrect": "Twenty-five (25) and older"
+        "firstIncorrect": "Twenty-one and older",
+        "secondIncorrect": "Sixteen and older",
+        "thirdIncorrect": "Twenty-five and older"
     },
     {
         "id": 55,
@@ -337,9 +337,9 @@
     },
     {
         "id": 57,
-        "firstIncorrect": "At age twenty-one (21)",
-        "secondIncorrect": "At age sixteen (16)",
-        "thirdIncorrect": "At age seventeen(17)"
+        "firstIncorrect": "At age twenty-one",
+        "secondIncorrect": "At age sixteen",
+        "thirdIncorrect": "At age seventeen"
     },
     {
         "id": 58,

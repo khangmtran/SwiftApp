@@ -37,7 +37,6 @@ struct CTTab: View {
     @State private var testStack: NavigationPath = .init()
     @State private var studyStack: NavigationPath = .init()
     @State private var settingStack: NavigationPath = .init()
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
@@ -67,7 +66,6 @@ struct CTTab: View {
                 CTTestHome()
                     .environmentObject(questionList)
                     .environmentObject(wrongAnswer)
-                    .environmentObject(deviceManager)
                     .environmentObject(userSetting)
                     .environmentObject(govCapManager)
                     .environmentObject(audioManager)
@@ -78,7 +76,6 @@ struct CTTab: View {
                             CTPracticeTest()
                                 .environmentObject(questionList)
                                 .environmentObject(wrongAnswer)
-                                .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
@@ -86,7 +83,6 @@ struct CTTab: View {
                             CTAllQuestionTest()
                                 .environmentObject(questionList)
                                 .environmentObject(wrongAnswer)
-                                .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
@@ -94,13 +90,11 @@ struct CTTab: View {
                             CTMarkedQuestionTest()
                                 .environmentObject(questionList)
                                 .environmentObject(wrongAnswer)
-                                .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                         case .flashCard:
                             CTFlashCard()
-                                .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(questionList)
                                 .environmentObject(govCapManager)
@@ -111,14 +105,12 @@ struct CTTab: View {
             .tabItem {
                 Image(systemName: "checkmark.circle")
                 Text("Kiểm tra")
-                    .font(deviceManager.isTablet ? .title : .body)
             }
             .tag(Tab.test)
             
             // Learn Tab
             NavigationStack(path: $studyStack) {
                 CTStudyHome()
-                    .environmentObject(deviceManager)
                     .environmentObject(userSetting)
                     .environmentObject(questionList)
                     .environmentObject(govCapManager)
@@ -130,7 +122,6 @@ struct CTTab: View {
                         switch route {
                         case .allQuestions:
                             CTAllQuestions()
-                                .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(questionList)
                                 .environmentObject(govCapManager)
@@ -138,14 +129,12 @@ struct CTTab: View {
                         case .learnQuestions:
                             CTLearnQuestions()
                                 .environmentObject(userSetting)
-                                .environmentObject(deviceManager)
                                 .environmentObject(selectedPart)
                                 .environmentObject(questionList)
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                         case .allMarkedQuestions:
                             CTAllMarkedQuestion()
-                                .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(questionList)
                                 .environmentObject(govCapManager)
@@ -153,7 +142,6 @@ struct CTTab: View {
                         case .audioStudy:
                             CTAudioStudy()
                                 .environmentObject(questionList)
-                                .environmentObject(deviceManager)
                                 .environmentObject(userSetting)
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
@@ -163,14 +151,12 @@ struct CTTab: View {
             .tabItem {
                 Image(systemName: "book.fill")
                 Text("Học")
-                    .font(deviceManager.isTablet ? .title : .body)
             }
             .tag(Tab.study)
             
             // Settings Tab
             NavigationStack(path: $settingStack){
                 CTSetting()
-                    .environmentObject(deviceManager)
                     .environmentObject(userSetting)
                     .environmentObject(govCapManager)
                     .environmentObject(audioManager)
@@ -180,14 +166,12 @@ struct CTTab: View {
                         case .zipInput:
                             CTZipInput()
                                 .environmentObject(userSetting)
-                                .environmentObject(deviceManager)
                         }
                     }
             }
             .tabItem {
                 Image(systemName: "gearshape.fill")
                 Text("Cài đặt")
-                    .font(deviceManager.isTablet ? .title : .body)
             }
             .tag(Tab.setting)
         }
@@ -203,7 +187,6 @@ enum Tab: Int{
 
 #Preview {
     CTTab()
-        .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())
         .environmentObject(GovCapManager())

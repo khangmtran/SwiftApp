@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CTTestHome: View {
-    @EnvironmentObject var deviceManager: DeviceManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questions: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
@@ -18,7 +17,7 @@ struct CTTestHome: View {
     var body: some View {
         VStack {
             Text("Học Thi Quốc Tịch 2025")
-                .font(deviceManager.isTablet ? .largeTitle : .title)
+                .font(.title)
                 .bold()
                 .multilineTextAlignment(.center)
                 .padding(.vertical)
@@ -78,7 +77,6 @@ struct CTTestHome: View {
 
 #Preview {
     CTTestHome()
-        .environmentObject(DeviceManager())
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())
         .environmentObject(GovCapManager())
