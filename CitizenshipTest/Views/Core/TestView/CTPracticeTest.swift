@@ -17,7 +17,7 @@ struct CTPracticeTest: View {
     @State private var showResult: Bool = false
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
-    @State private var tryAgain: Bool = false
+    @State private var showingProgressDialog: Bool = false
     @Environment(\.modelContext) private var context
     @AppStorage("practiceTestCompleted") private var testCompleted = false
     
@@ -49,20 +49,7 @@ struct CTPracticeTest: View {
                     VStack {
                         PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
                             .frame(height: geo.size.height / 2.5)
-                        PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, tryAgain: $tryAgain, saveProgress: saveProgress)
-                    }
-                }
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            tryAgain.toggle()
-                            startNewTest()
-                        }) {
-                            Image(systemName: "arrow.counterclockwise")
-                            Text("Làm Lại")
-                                .foregroundColor(.blue)
-                        }
+                        PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
                     }
                 }
             }
@@ -71,11 +58,26 @@ struct CTPracticeTest: View {
                 checkForExistingProgress()
                 isLoading = false
         }
+        .alert("Tiếp tục bài kiểm tra?", isPresented: $showingProgressDialog) {
+            Button("Tiếp tục", role: .cancel) {
+                isLoading = false
+            }
+            Button("Bắt đầu lại", role: .destructive) {
+                startNewTest()
+            }
+        } message: {
+            Text("Bạn có một bài kiểm tra chưa hoàn thành. Bạn muốn tiếp tục hay bắt đầu lại?")
+        }
     }
     
     private func checkForExistingProgress() {
         do {
             if let progress = try progressManager.getProgress(for: .practice) {
+                if progress.currentIndex == 0 {
+                    startNewTest()
+                    isLoading = false
+                    return
+                }
                 tenQuestions = progress.questionIds.compactMap { id in
                     questionList.questions.first { $0.id == id }
                 }
@@ -83,7 +85,11 @@ struct CTPracticeTest: View {
                 score = progress.score
                 userAns = progress.userAnswers
                 incorrQ = progress.incorrectAnswers
-                isLoading = false
+                if !testCompleted {
+                    showingProgressDialog = true
+                } else {
+                    isLoading = false
+                }
             } else {
                 startNewTest()
                 isLoading = false
@@ -389,7 +395,6 @@ struct PracticeAnswerView: View{
     @Binding var score: Int
     @Binding var incorrQ: [String]
     @Binding var userAns: [Bool]
-    @Binding var tryAgain: Bool
     @State var showZipInput: Bool = false
     @State var selectedAns: String = ""
     @State var isAns: Bool = false
@@ -540,10 +545,6 @@ struct PracticeAnswerView: View{
                 updateShuffledAnswers()
                 answersInitialized = true
             }
-        }
-        .onChange(of: tryAgain){
-            updateShuffledAnswers()
-            isAns = false
         }
         .onChange(of: userSetting.zipCode) { oldValue, newValue in
             updateShuffledAnswers()

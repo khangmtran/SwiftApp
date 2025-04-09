@@ -182,7 +182,7 @@
     {
         "id": 21,
         "question": "The House of Representatives has how many voting members?",
-        "questionVie": "Hạ nghị viện gồm bao nhiêu thành viên",
+        "questionVie": "Hạ nghị viện gồm bao nhiêu thành viên?",
         "answer": "Four hundred thirty-five",
         "answerVie": "Bốn trăm ba mươi lăm",
         "type": "WCCR",
@@ -209,7 +209,7 @@
     {
         "id": 24,
         "question": "Who does a U.S. Senator represent?",
-        "questionVie": "Thượng nghị sĩ đại diện cho những ai",
+        "questionVie": "Thượng nghị sĩ đại diện cho những ai?",
         "answer": "All people of the state",
         "answerVie": "Tất cả những người dân của tiểu bang đó",
         "type": "WCCR",
@@ -218,7 +218,7 @@
     {
         "id": 25,
         "question": "Why do some states have more Representatives than other states?",
-        "questionVie": "Tại sao một số tiểu bang có nhiều Hạ nghị sĩ hơn những tiểu bang khác",
+        "questionVie": "Tại sao một số tiểu bang có nhiều Hạ nghị sĩ hơn những tiểu bang khác?",
         "answer": "(Because) they have more people",
         "answerVie": "(Bởi vì) họ có nhiều người dân hơn",
         "type": "WCCR",
@@ -227,7 +227,7 @@
     {
         "id": 26,
         "question": "We elect a President for how many years?",
-        "questionVie": "Chúng ta bầu cử Tổng thống với nhiệm kỳ là mấy năm",
+        "questionVie": "Chúng ta bầu cử Tổng thống với nhiệm kỳ là mấy năm?",
         "answer": "Four",
         "answerVie": "Bốn",
         "type": "PVP",
@@ -236,7 +236,7 @@
     {
         "id": 27,
         "question": "In what month do we vote for President?*",
-        "questionVie": "Chúng ta bầu cử Tổng thống vào tháng nào",
+        "questionVie": "Chúng ta bầu cử Tổng thống vào tháng nào?",
         "answer": "November",
         "answerVie": "Tháng mười một",
         "type": "PVP",
@@ -245,7 +245,7 @@
     {
         "id": 28,
         "question": "What is the name of the President of the United States now?*",
-        "questionVie": "Tên của Tổng thống Mỹ hiện nay là gì",
+        "questionVie": "Tên của Tổng thống Mỹ hiện nay là gì?",
         "answer": "Donald Trump",
         "answerVie": "",
         "type": "PVP",
@@ -254,7 +254,7 @@
     {
         "id": 29,
         "question": "What is the name of the Vice President of the United States now?",
-        "questionVie": "Tên của Phó Tổng thống hiện tại là ai",
+        "questionVie": "Tên của Phó Tổng thống hiện tại là gì?",
         "answer": "JD Vance",
         "answerVie": "",
         "type": "PVP",
@@ -263,7 +263,7 @@
     {
         "id": 30,
         "question": "If the President can no longer serve, who becomes President?",
-        "questionVie": "Nếu Tổng thống đương nhiệm không thể tiếp tục chức vị Tổng thống, ai sẽ kế nhiệm chức Tổng thống",
+        "questionVie": "Nếu Tổng thống đương nhiệm không thể tiếp tục chức vị Tổng thống, ai sẽ kế nhiệm chức Tổng thống?",
         "answer": "The Vice President",
         "answerVie": "Phó Tổng thống",
         "type": "PVP",
@@ -272,7 +272,7 @@
     {
         "id": 31,
         "question": "If both the President and the Vice President can no longer serve, who becomes President?",
-        "questionVie": "Nếu cả hai Tổng thống và Phó Tổng thống đều không thể tiếp tục chức vị, thì ai sẽ kế nhiệm chức Tổng thống",
+        "questionVie": "Nếu cả hai Tổng thống và Phó Tổng thống đều không thể tiếp tục chức vị, thì ai sẽ kế nhiệm chức Tổng thống?",
         "answer": "The Speaker of the House",
         "answerVie": "Chủ Tịch Hạ Nghị Viện",
         "type": "PVP",
@@ -290,7 +290,7 @@
     {
         "id": 33,
         "question": "Who signs bills to become laws?",
-        "questionVie": "Ai ký bản dự luật để ban hành thành luật pháp",
+        "questionVie": "Ai ký bản dự luật để ban hành thành luật pháp?",
         "answer": "The President",
         "answerVie": "Tổng thống",
         "type": "LD",
@@ -299,7 +299,7 @@
     {
         "id": 34,
         "question": "Who vetoes bills?",
-        "questionVie": "Ai có quyền phủ quyết các dự luật",
+        "questionVie": "Ai có quyền phủ quyết các dự luật?",
         "answer": "The President",
         "answerVie": "Tổng thống",
         "type": "CL",
@@ -308,7 +308,7 @@
     {
         "id": 35,
         "question": "What does the President's Cabinet do?",
-        "questionVie": "Bộ phận nội chính phủ của Tổng thống làm gì",
+        "questionVie": "Bộ phận nội chính phủ của Tổng thống làm gì?",
         "answer": "Advises the President",
         "answerVie": "Cố vấn cho Tổng thống",
         "type": "PVP",
@@ -317,7 +317,7 @@
     {
         "id": 36,
         "question": "What are two Cabinet-level positions?",
-        "questionVie": "Nêu hai chức vụ trong bộ phận nội chính phủ",
+        "questionVie": "Nêu hai chức vụ trong bộ phận nội chính phủ?",
         "answer": "Secretary of Education and Secretary of Energy",
         "answerVie": "Bộ trưởng giáo dục và bộ trưởng năng lượng",
         "type": "CL",
@@ -335,7 +335,7 @@
     {
         "id": 38,
         "question": "What is the highest court in the United States?",
-        "questionVie": "Tòa án cao nhất của Hoa Kỳ là gì",
+        "questionVie": "Tòa án cao nhất của Hoa Kỳ là gì?",
         "answer": "The Supreme Court",
         "answerVie": "Tòa Án Tối Cao",
         "type": "US",
@@ -353,7 +353,7 @@
     {
         "id": 40,
         "question": "Who is the Chief Justice of the United States now?",
-        "questionVie": "Ai là Chánh Án Tối Cao của Hoa Kỳ hiện nay",
+        "questionVie": "Ai là Chánh Án Tối Cao của Hoa Kỳ hiện nay?",
         "answer": "John Roberts",
         "answerVie": "",
         "type": "US",
@@ -398,7 +398,7 @@
     {
         "id": 45,
         "question": "What are the two major political parties in the United States?",
-        "questionVie": "Hai đảng chính của Hoa Kỳ là hai đảng nào",
+        "questionVie": "Hai đảng chính của Hoa Kỳ là hai đảng nào?",
         "answer": "Democratic and Republican",
         "answerVie": "Đảng Dân Chủ và Đảng Cộng Hòa",
         "type": "US",
@@ -407,7 +407,7 @@
     {
         "id": 46,
         "question": "What is the political party of the President now?",
-        "questionVie": "Đảng của tổng thống hiện tại là đảng nào",
+        "questionVie": "Đảng của tổng thống hiện tại là đảng nào?",
         "answer": "Republican Party",
         "answerVie": "Đảng Cộng Hòa",
         "type": "PVP",
@@ -452,7 +452,7 @@
     {
         "id": 51,
         "question": "What are two rights of everyone living in the United States?",
-        "questionVie": "Hai quyền của mọi người sống ở Hoa Kỳ",
+        "questionVie": "Hai quyền của mọi người sống ở Hoa Kỳ là gì?",
         "answer": "Freedom of speech and Freedom of religion",
         "answerVie": "Tự do ngôn luận và tự do tôn giáo",
         "type": "US",
@@ -479,7 +479,7 @@
     {
         "id": 54,
         "question": "How old do citizens have to be to vote for President?*",
-        "questionVie": "Công dân Mỹ phải bao nhiêu tuổi mới có thể bầu cử Tổng thống",
+        "questionVie": "Công dân Mỹ phải bao nhiêu tuổi mới có thể bầu cử Tổng thống?",
         "answer": "Eighteen and older",
         "answerVie": "Từ mười tám tuổi trở lên",
         "type": "PVP",
@@ -488,7 +488,7 @@
     {
         "id": 55,
         "question": "What are two ways that Americans can participate in their democracy?",
-        "questionVie": "Hai cách công dân Mỹ có thể tham gia nền dân chủ?",
+        "questionVie": "Hai cách công dân Mỹ có thể tham gia nền dân chủ là gì?",
         "answer": "Vote and Write to a newspaper",
         "answerVie": "Bầu cử và Viết báo",
         "type": "GSA",
@@ -632,7 +632,7 @@
     {
         "id": 71,
         "question": "What territory did the United States buy from France in 1803?",
-        "questionVie": "Nước Mỹ đã mua lại lãnh thổ nào từ Pháp vào năm 1803",
+        "questionVie": "Nước Mỹ đã mua lại lãnh thổ nào từ Pháp vào năm 1803?",
         "answer": "Louisiana",
         "answerVie": "",
         "type": "US",
@@ -857,7 +857,7 @@
     {
         "id": 96,
         "question": "Why does the flag have 13 stripes?",
-        "questionVie": "Tại sao lá cờ có 13 đường sọc?",
+        "questionVie": "Tại sao lá cờ Mỹ có 13 đường sọc?",
         "answer": "Because there were 13 original colonies",
         "answerVie": "Vì có 13 thuộc địa nguyên thủy",
         "type": "SND",

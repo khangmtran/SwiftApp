@@ -20,7 +20,7 @@ struct CTMarkedQuestionTest: View {
     @State private var noMarkedQuestionsAlert = false
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
-    @State private var tryAgain: Bool = false
+    @State private var showingProgressDialog: Bool = false
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query private var markedQuestionIds: [MarkedQuestion]
@@ -92,28 +92,24 @@ struct CTMarkedQuestionTest: View {
                             score: $score,
                             incorrQ: $incorrQ,
                             userAns: $userAns,
-                            tryAgain: $tryAgain,
                             saveProgress: saveProgress
                         )
-                    }
-                }
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            tryAgain.toggle()
-                            startNewTest()
-                        }) {
-                            Image(systemName: "arrow.counterclockwise")
-                            Text("Làm Lại")
-                                .foregroundColor(.blue)
-                        }
                     }
                 }
             }
         }
         .onAppear {
             checkForExistingProgress()
+        }
+        .alert("Tiếp tục bài kiểm tra?", isPresented: $showingProgressDialog) {
+            Button("Bắt đầu lại", role: .destructive) {
+                startNewTest()
+            }
+            Button("Tiếp tục", role: .cancel) {
+                isLoading = false
+            }
+        } message: {
+            Text("Bạn có một bài kiểm tra chưa hoàn thành. Bạn muốn tiếp tục hay bắt đầu lại?")
         }
     }
     
@@ -130,10 +126,19 @@ struct CTMarkedQuestionTest: View {
                 // Only restore progress if the marked questions are the same
                 if Set(savedQuestionIds).isSubset(of: Set(currentMarkedQuestionIds)) &&
                     savedQuestionIds.count == currentMarkedQuestionIds.count {
+                    if progress.currentIndex == 0 {
+                        startNewTest()
+                        return
+                    }
                     qIndex = progress.currentIndex
                     score = progress.score
                     userAns = progress.userAnswers
                     incorrQ = progress.incorrectAnswers
+                    if !testCompleted {
+                        showingProgressDialog = true
+                    } else {
+                        isLoading = false
+                    }
                 } else {
                     // If marked questions have changed, start a new test
                     startNewTest()
@@ -452,7 +457,6 @@ struct MarkedAnswerView: View {
     @Binding var score: Int
     @Binding var incorrQ: [String]
     @Binding var userAns: [Bool]
-    @Binding var tryAgain: Bool
     @State var showZipInput: Bool = false
     @State var selectedAns: String = ""
     @State var isAns: Bool = false
@@ -570,9 +574,6 @@ struct MarkedAnswerView: View {
         }
         .onChange(of: qIndex) {
             updateShuffledAnswers()
-        }
-        .onChange(of: tryAgain) {
-            isAns = false
         }
     }
     

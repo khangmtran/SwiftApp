@@ -19,7 +19,7 @@ struct CTAllQuestionTest: View {
     @State private var showResult: Bool = false
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
-    @State private var tryAgain: Bool = false
+    @State private var showingProgressDialog: Bool = false
     @Environment(\.modelContext) private var context
     @AppStorage("allQuestionsTestCompleted") private var testCompleted = false
     
@@ -54,22 +54,8 @@ struct CTAllQuestionTest: View {
                             score: $score,
                             incorrQ: $incorrQ,
                             userAns: $userAns,
-                            tryAgain: $tryAgain,
                             saveProgress: saveProgress
                         )
-                    }
-                }
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            tryAgain.toggle()
-                            startNewTest()
-                        }) {
-                            Image(systemName: "arrow.counterclockwise")
-                            Text("Làm Lại")
-                                .foregroundColor(.blue)
-                        }
                     }
                 }
             }
@@ -77,17 +63,35 @@ struct CTAllQuestionTest: View {
         .onAppear {
             checkForExistingProgress()
         }
-        
+        .alert("Tiếp tục bài kiểm tra?", isPresented: $showingProgressDialog) {
+            Button("Bắt đầu lại", role: .destructive) {
+                startNewTest()
+            }
+            Button("Tiếp tục", role: .cancel) {
+                isLoading = false
+            }
+        } message: {
+            Text("Bạn có một bài kiểm tra chưa hoàn thành. Bạn muốn tiếp tục hay bắt đầu lại?")
+        }
     }
     
     private func checkForExistingProgress() {
         do {
             if let progress = try progressManager.getProgress(for: .allQuestions) {
+                if progress.currentIndex == 0 {
+                    startNewTest()
+                    return
+                }
                 qIndex = progress.currentIndex
                 score = progress.score
                 userAns = progress.userAnswers
                 incorrQ = progress.incorrectAnswers
-                isLoading = false
+                if !testCompleted {
+                    showingProgressDialog = true
+                    isLoading = false
+                } else {
+                    isLoading = false
+                }
             } else {
                 startNewTest()
             }
@@ -213,7 +217,6 @@ struct AllTestAnswerView: View {
     @Binding var score: Int
     @Binding var incorrQ: [String]
     @Binding var userAns: [Bool]
-    @Binding var tryAgain: Bool
     @State var showZipInput: Bool = false
     @State var selectedAns: String = ""
     @State var isAns: Bool = false
@@ -313,10 +316,6 @@ struct AllTestAnswerView: View {
                 updateShuffledAnswers()
                 answersInitialized = true
             }
-        }
-        .onChange(of: tryAgain) {
-            isAns = false
-            updateShuffledAnswers()
         }
         .onChange(of: userSetting.zipCode) {
             updateShuffledAnswers()

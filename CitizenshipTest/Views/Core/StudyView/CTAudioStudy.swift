@@ -185,6 +185,7 @@ struct CTAudioStudy: View {
     }
     
     private func playCurrentQuestion() {
+        UIApplication.shared.isIdleTimerDisabled = true
         isPlaying = true
         isPlayingAnswer = false
         
@@ -297,6 +298,7 @@ struct CTAudioStudy: View {
         // Clear the delegate to prevent potential memory leaks
         synthesizer.delegate = nil
         delegate = nil
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
     private func nextQuestion() {
