@@ -77,7 +77,7 @@ struct CTAllQuestionTest: View {
         .onAppear {
             checkForExistingProgress()
         }
-
+        
     }
     
     private func checkForExistingProgress() {
@@ -139,7 +139,7 @@ struct AllTestQuestionView: View {
                 ProgressView(value: Double(qIndex + 1) / Double(questionList.questions.count))
                     .padding(.horizontal)
                     .tint(.white)
-                                
+                
                 let currentQuestion = questionList.questions[qIndex]
                 
                 GeometryReader { geo in
@@ -158,7 +158,7 @@ struct AllTestQuestionView: View {
                         .frame(maxWidth: .infinity)
                     }
                 }
-     
+                
                 HStack {
                     Spacer()
                     
@@ -266,7 +266,7 @@ struct AllTestAnswerView: View {
                                 .cornerRadius(10)
                         }
                         .padding(.horizontal)
-                    
+                        
                         
                     } else {
                         ForEach(shuffledAnswers, id: \.self) { ans in
@@ -324,7 +324,7 @@ struct AllTestAnswerView: View {
         .onChange(of: qIndex) {
             updateShuffledAnswers()
         }
-
+        
     }
     
     private func answerButton(ans: String, correctAns: String) -> some View {
@@ -340,7 +340,7 @@ struct AllTestAnswerView: View {
                 userAns.append(false)
                 incorrQ.append(selectedAns)
             }
-                        
+            
             if qIndex == questionList.questions.count - 1 {
                 saveProgress()
                 showResult = true
@@ -429,6 +429,8 @@ struct CTAllTestResultView: View {
     @State private var showIncorrectOnly = false
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var govCapManager: GovCapManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -463,7 +465,7 @@ struct CTAllTestResultView: View {
                     Circle()
                         .fill(.blue)
                     
-                    Text("\(score) / \(userAns.count)")
+                    Text("\(score) / 100")
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
@@ -512,9 +514,16 @@ struct CTAllTestResultView: View {
                                         .fontWeight(.medium)
                                         .multilineTextAlignment(.leading)
                                     
-                                    Text("A: \(result.question.answer)")
-                                        .font(.subheadline)
-                                        .fontWeight(.regular)
+                                    if result.question.id == 20 || result.question.id == 23 ||
+                                        result.question.id == 43 || result.question.id == 44 {
+                                        Text("Đáp án: \(getZipAnswerForResult(result.question.id))")
+                                            .font(.subheadline)
+                                            .fontWeight(.regular)
+                                    } else {
+                                        Text("Đáp án: \(result.question.answer)")
+                                            .font(.subheadline)
+                                            .fontWeight(.regular)
+                                    }
                                     
                                     if !result.correct {
                                         Text("Bạn trả lời: \(result.wrongAnswer)")
@@ -569,6 +578,33 @@ struct CTAllTestResultView: View {
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)
         }
+    }
+    private func getZipAnswerForResult(_ questionId: Int) -> String {
+        switch questionId {
+        case 20:
+            let senators = userSetting.legislators.filter { $0.type == "senator" }
+            if let senator = senators.first {
+                return "\(senator.firstName) \(senator.lastName)"
+            }
+        case 23:
+            let representatives = userSetting.legislators.filter { $0.type == "representative" }
+            if let rep = representatives.first {
+                return "\(rep.firstName) \(rep.lastName)"
+            }
+        case 43:
+            let state = userSetting.state
+            if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
+                return govCap.gov
+            }
+        case 44:
+            let state = userSetting.state
+            if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
+                return govCap.capital
+            }
+        default:
+            return ""
+        }
+        return ""
     }
 }
 

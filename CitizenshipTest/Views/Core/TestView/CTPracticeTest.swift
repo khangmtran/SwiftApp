@@ -130,6 +130,8 @@ struct CTResultView: View {
     @State private var synthesizer = AVSpeechSynthesizer()
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var govCapManager: GovCapManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
@@ -145,7 +147,7 @@ struct CTResultView: View {
                     Circle()
                         .fill(.blue)
                     
-                    Text("\(score) / \(questions.count)")
+                    Text("\(score) / 10")
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
@@ -202,10 +204,16 @@ struct CTResultView: View {
                             VStack(alignment: .leading) {
                                 Text("Q\(question.id): \(question.question)")
                                     .fontWeight(.medium)
-                                
-                                Text("Đáp án: \(question.answer)")
-                                    .font(.subheadline)
-                                    .fontWeight(.regular)
+                                if question.id == 20 || question.id == 23 ||
+                                    question.id == 43 || question.id == 44 {
+                                    Text("Đáp án: \(getZipAnswerForResult(question.id))")
+                                        .font(.subheadline)
+                                        .fontWeight(.regular)
+                                } else {
+                                    Text("Đáp án: \(question.answer)")
+                                        .font(.subheadline)
+                                        .fontWeight(.regular)
+                                }
                                 if index < userAns.count && !userAns[index]{
                                     Text("Bạn trả lời: \(incorrQ[index])")
                                         .font(.subheadline)
@@ -261,6 +269,33 @@ struct CTResultView: View {
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)
         }
+    }
+    private func getZipAnswerForResult(_ questionId: Int) -> String {
+        switch questionId {
+        case 20:
+            let senators = userSetting.legislators.filter { $0.type == "senator" }
+            if let senator = senators.first {
+                return "\(senator.firstName) \(senator.lastName)"
+            }
+        case 23:
+            let representatives = userSetting.legislators.filter { $0.type == "representative" }
+            if let rep = representatives.first {
+                return "\(rep.firstName) \(rep.lastName)"
+            }
+        case 43:
+            let state = userSetting.state
+            if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
+                return govCap.gov
+            }
+        case 44:
+            let state = userSetting.state
+            if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
+                return govCap.capital
+            }
+        default:
+            return ""
+        }
+        return ""
     }
 }
 
@@ -415,7 +450,7 @@ struct PracticeAnswerView: View{
                             Button(action: {
                                 selectedAns = ans
                                 isAns = true
-                                if selectedAns == tenQuestions[qIndex].answer{
+                                if selectedAns == getZipAnswer(tenQuestions[qIndex].id){
                                     score += 1
                                     userAns.append(true)
                                     incorrQ.append("")
@@ -439,6 +474,7 @@ struct PracticeAnswerView: View{
                                     .padding(.horizontal)
                                     .padding(.vertical, 10)
                             }
+                            .disabled(isAns)
                         }
                     }
                 }
