@@ -6,13 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		2AF5951D2DA7225200924BCD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AF5951C2DA7225200924BCD /* Launch Screen.storyboard */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		2A7D9E8E2D3C6F93008CC9D4 /* CitizenshipTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CitizenshipTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2AF5951C2DA7225200924BCD /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -50,7 +45,6 @@
 		2A7D9E852D3C6F93008CC9D4 = {
 			isa = PBXGroup;
 			children = (
-				2AF5951C2DA7225200924BCD /* Launch Screen.storyboard */,
 				2A7D9E902D3C6F93008CC9D4 /* CitizenshipTest */,
 				2A7D9E8F2D3C6F93008CC9D4 /* Products */,
 			);
@@ -128,7 +122,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AF5951D2DA7225200924BCD /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
