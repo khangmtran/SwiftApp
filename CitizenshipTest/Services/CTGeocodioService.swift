@@ -39,15 +39,34 @@ class CTGeocodioService {
         
         let state = extractStateFromAddress(address: proxyResponse.data.address)
 
-        return proxyResponse.data.fields.congressional_districts.first?.current_legislators.map { legislator in
-            Legislator(
-                type: legislator.type,
-                firstName: legislator.bio.first_name,
-                lastName: legislator.bio.last_name,
-                state: state
-            )
-        } ?? []
-    }
+        var allLegislators: [Legislator] = []
+            
+            // Process all congressional districts
+            for district in proxyResponse.data.fields.congressional_districts {
+                let districtsLegislators = district.current_legislators.map { legislator in
+                    Legislator(
+                        type: legislator.type,
+                        firstName: legislator.bio.first_name,
+                        lastName: legislator.bio.last_name,
+                        state: state
+                    )
+                }
+                
+                // Add legislators from this district to our collection
+                allLegislators.append(contentsOf: districtsLegislators)
+            }
+            
+            // Remove duplicates (e.g., senators that appear in multiple districts)
+            // by creating a dictionary keyed by a unique identifier for each legislator
+            var uniqueLegislators: [String: Legislator] = [:]
+            
+            for legislator in allLegislators {
+                let key = "\(legislator.type)_\(legislator.firstName)_\(legislator.lastName)"
+                uniqueLegislators[key] = legislator
+            }
+            
+            return Array(uniqueLegislators.values)
+        }
 
     private func extractStateFromAddress(address: String) -> String {
         let cityStateZip = address.components(separatedBy: ", ")

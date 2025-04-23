@@ -333,8 +333,9 @@ struct AnswerView: View {
                         } else if qId == 23 {
                             // Representative
                             let representatives = userSetting.legislators.filter { $0.type == "representative" }
-                            if let representative = representatives.first {
-                                textToSpeak = "\(representative.firstName) \(representative.lastName)"
+                            if !representatives.isEmpty {
+                                let repNames = representatives.map { "\($0.firstName) \($0.lastName)" }.joined(separator: ", ")
+                                textToSpeak = repNames
                             }
                         } else if qId == 43 {
                             // Governor

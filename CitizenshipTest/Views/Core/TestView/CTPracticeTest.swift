@@ -280,13 +280,13 @@ struct CTResultView: View {
         switch questionId {
         case 20:
             let senators = userSetting.legislators.filter { $0.type == "senator" }
-            if let senator = senators.first {
-                return "\(senator.firstName) \(senator.lastName)"
+            if !senators.isEmpty {
+                return senators.map { "\($0.firstName) \($0.lastName)" }.joined(separator: "\n")
             }
         case 23:
             let representatives = userSetting.legislators.filter { $0.type == "representative" }
-            if let rep = representatives.first {
-                return "\(rep.firstName) \(rep.lastName)"
+            if !representatives.isEmpty {
+                return representatives.map { "\($0.firstName) \($0.lastName)" }.joined(separator: "\n")
             }
         case 43:
             let state = userSetting.state
@@ -550,6 +550,7 @@ struct PracticeAnswerView: View{
             updateShuffledAnswers()
         }
         .onChange(of: qIndex){
+            isAns = false
             updateShuffledAnswers()
         }
         
@@ -588,13 +589,13 @@ struct PracticeAnswerView: View{
         switch questionId {
         case 20:
             let senators = userSetting.legislators.filter { $0.type == "senator" }
-            if let senator = senators.first {
-                return "\(senator.firstName) \(senator.lastName)"
+            if !senators.isEmpty {
+                return senators.map { "\($0.firstName) \($0.lastName)" }.joined(separator: "\n")
             }
         case 23:
             let representatives = userSetting.legislators.filter { $0.type == "representative" }
-            if let rep = representatives.first {
-                return "\(rep.firstName) \(rep.lastName)"
+            if !representatives.isEmpty {
+                return representatives.map { "\($0.firstName) \($0.lastName)" }.joined(separator: "\n")
             }
         case 43:
             let state = userSetting.state

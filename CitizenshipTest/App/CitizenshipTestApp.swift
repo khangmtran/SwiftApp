@@ -112,15 +112,35 @@ class AudioManager: ObservableObject{
        init() {
            let savedRate = UserDefaults.standard.float(forKey: "speechRate")
            self.speechRate = savedRate == 0 ? 0.4 : savedRate
-           self.voiceActor = UserDefaults.standard.string(forKey: "voiceActor") ?? "Nicky"
-           self.voiceIdentifier = UserDefaults.standard.string(forKey: "voiceIdentifier") ?? "com.apple.ttsbundle.siri_Nicky_en-US_compact"
+           self.voiceActor = UserDefaults.standard.string(forKey: "voiceActor") ?? "Samantha"
+           self.voiceIdentifier = UserDefaults.standard.string(forKey: "voiceIdentifier") ?? "com.apple.voice.compact.en-US.Samantha"
+           configureAudioSessionForSpeech()
        }
        
+    private func configureAudioSessionForSpeech() {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(
+                    .playback,
+                    mode: .spokenAudio,
+                    options: [.duckOthers]
+                )
+                
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch {
+                print("Failed to configure audio session: \(error)")
+            }
+        }
+    
     func getVoices() -> [AVSpeechSynthesisVoice] {
+        let allVoices = AVSpeechSynthesisVoice.speechVoices()
         let selectedActors = ["Karen", "Arthur", "Nicky", "Aaron", "Samantha", "Tessa"]
-        return AVSpeechSynthesisVoice.speechVoices().filter { voice in
+        let filteredVoices = allVoices.filter { voice in
             return selectedActors.contains(voice.name)
         }
+        if filteredVoices.isEmpty {
+            return allVoices.filter { $0.language.contains("en-") }
+        }
+        return filteredVoices
     }
 }
 

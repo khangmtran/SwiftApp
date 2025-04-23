@@ -60,7 +60,37 @@ struct ServiceQuestions: View {
             }
             .buttonStyle(BorderlessButtonStyle())
             .padding(.top, 5)
+            
+            if !representatives.isEmpty {
+                Text(makeAttributedString())
+                    .font(.footnote)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 8)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
+    }
+    
+    private func makeAttributedString() -> AttributedString {
+        var text = AttributedString("Nếu có nhiều hơn một Hạ nghị sĩ, bạn nên truy cập ")
+        
+        // Create the link part
+        var linkText = AttributedString("house.gov")
+        linkText.foregroundColor = .blue
+        linkText.underlineStyle = .single
+        
+        if let url = URL(string: "https://www.house.gov/representatives/find-your-representative") {
+            linkText.link = url
+        }
+        
+        // Add the rest of the text
+        let endText = AttributedString(" để tìm Hạ nghị sĩ chính xác của bạn")
+        
+        // Combine all parts
+        text.append(linkText)
+        text.append(endText)
+        
+        return text
     }
     
     private var governorView: some View {

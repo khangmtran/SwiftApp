@@ -26,7 +26,7 @@ struct CTAudioStudy: View {
     @Query private var markedQuestions: [MarkedQuestion]    
     
     // Duration between speaking question and answer (seconds)
-    private let pauseDuration: TimeInterval = 2
+    private let pauseDuration: TimeInterval = 3
     
     var body: some View {
         GeometryReader { geo in
@@ -239,8 +239,8 @@ struct CTAudioStudy: View {
                 } else if questionId == 23 {
                     // Representative
                     let representatives = userSetting.legislators.filter { $0.type == "representative" }
-                    if let representative = representatives.first {
-                        answerText = "\(representative.firstName) \(representative.lastName)"
+                    if !representatives.isEmpty {
+                        answerText = representatives.map { "\($0.firstName) \($0.lastName)" }.joined(separator: ", ")
                     }
                 } else if questionId == 43 {
                     // Governor

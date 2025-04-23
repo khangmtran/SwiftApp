@@ -174,8 +174,9 @@ struct CTAllMarkedQuestion: View {
                                                 } else if question.id == 23 {
                                                     // Representative
                                                     let representatives = userSetting.legislators.filter { $0.type == "representative" }
-                                                    if let representative = representatives.first {
-                                                        textToSpeak = "\(representative.firstName) \(representative.lastName)"
+                                                    if !representatives.isEmpty {
+                                                        let repNames = representatives.map { "\($0.firstName) \($0.lastName)" }.joined(separator: ", ")
+                                                        textToSpeak = repNames
                                                     }
                                                 } else if question.id == 43 {
                                                     // Governor
@@ -234,6 +235,12 @@ struct CTAllMarkedQuestion: View {
                                 .padding(.vertical)
                             }
                             .listRowBackground(Color.blue.opacity(0.1))
+                    }
+                    Section {
+                        Text("Một số câu hỏi bao gồm nhiều đáp án khả thi đã được chọn lọc ra những đáp án dễ học. Nếu bạn muốn tham khảo thêm các đáp án khác, vui lòng truy cập uscis.gov")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
                     }
                 }
                 .scrollContentBackground(.hidden)

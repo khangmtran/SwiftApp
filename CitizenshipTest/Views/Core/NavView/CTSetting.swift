@@ -159,7 +159,7 @@ struct CTSetting: View {
                         Spacer()
                         
                         Picker(selection: $audioManager.voiceIdentifier, label: HStack {
-                            Text(audioManager.voiceActor)
+                            Text(audioManager.voiceActor.isEmpty ? "Chọn Người Đọc" : audioManager.voiceActor)
                             Image(systemName: "chevron.down")
                         }) {
                             ForEach(voices, id: \.self) { voice in

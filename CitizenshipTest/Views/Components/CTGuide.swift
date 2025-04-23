@@ -17,8 +17,9 @@ struct CTGuide: View {
             if selectedPart.partChosen == "Phần 8"{
                 VStack{
                     Text("Phần 8 sẽ không có từ khóa như những phần khác. Phần 8 sẽ là phần tập hợp của các câu hỏi còn lại.")
-                        .padding(.bottom)
                     Text("Lưu ý: Những câu hỏi có dấu * là những câu hỏi thường gặp trong bài thi.")
+                        .padding(.vertical, 5)
+                    Text("Một số câu hỏi bao gồm nhiều đáp án khả thi đã được chọn lọc ra những đáp án dễ học. Nếu bạn muốn tham khảo thêm các đáp án khác, vui lòng truy cập uscis.gov")
                 }
                 .padding()
                 .background(Color.blue.opacity(0.1))
@@ -29,8 +30,10 @@ struct CTGuide: View {
                     Text("Để giúp bạn học dễ dàng hơn, các câu hỏi trong mỗi phần học đã được sắp xếp theo các từ khóa. Những từ khóa này sẽ xuất hiện trong tất cả câu hỏi ở \(selectedPart.partChosen):")
                     Text(CTPartMessages().partMessages[selectedPart.partChosen] ?? "")
                         .multilineTextAlignment(.center)
-                        .padding(.vertical)
+                        .padding(.vertical, 8)
                     Text("Lưu ý: Những câu hỏi có dấu * là những câu hỏi thường gặp trong bài thi.")
+                    Text("Một số câu hỏi bao gồm nhiều đáp án khả thi đã được chọn lọc ra những đáp án dễ học. Nếu bạn muốn tham khảo thêm các đáp án khác, vui lòng truy cập uscis.gov")
+                        .padding(.top, 5)
                 }
                 .padding()
                 .background(Color.blue.opacity(0.1))
