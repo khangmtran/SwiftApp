@@ -42,6 +42,12 @@ struct ServiceQuestions: View {
             }
             .buttonStyle(BorderlessButtonStyle())
             .padding(.top, 5)
+            
+            Text(makeAttributedStringSen())
+                .font(.footnote)
+                .multilineTextAlignment(.center)
+                .padding(.top, 8)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
     
@@ -62,7 +68,7 @@ struct ServiceQuestions: View {
             .padding(.top, 5)
             
             if !representatives.isEmpty {
-                Text(makeAttributedString())
+                Text(makeAttributedStringRep())
                     .font(.footnote)
                     .multilineTextAlignment(.center)
                     .padding(.top, 8)
@@ -71,7 +77,29 @@ struct ServiceQuestions: View {
         }
     }
     
-    private func makeAttributedString() -> AttributedString {
+    private func makeAttributedStringSen() -> AttributedString {
+        var text = AttributedString("Truy cập ")
+        
+        // Create the link part
+        var linkText = AttributedString("senate.gov")
+        linkText.foregroundColor = .blue
+        linkText.underlineStyle = .single
+        
+        if let url = URL(string: "https://www.senate.gov/") {
+            linkText.link = url
+        }
+        
+        // Add the rest of the text
+        let endText = AttributedString(" để biết thêm thông tin chi tiết")
+        
+        // Combine all parts
+        text.append(linkText)
+        text.append(endText)
+        
+        return text
+    }
+    
+    private func makeAttributedStringRep() -> AttributedString {
         var text = AttributedString("Nếu có nhiều hơn một Hạ nghị sĩ, bạn nên truy cập ")
         
         // Create the link part
@@ -110,7 +138,35 @@ struct ServiceQuestions: View {
             }
             .buttonStyle(BorderlessButtonStyle())
             .padding(.top, 5)
+            
+            Text(makeAttributedStringGov())
+                .font(.footnote)
+                .multilineTextAlignment(.center)
+                .padding(.top, 8)
+                .fixedSize(horizontal: false, vertical: true)
         }
+    }
+    
+    private func makeAttributedStringGov() -> AttributedString {
+        var text = AttributedString("Truy cập ")
+        
+        // Create the link part
+        var linkText = AttributedString("usa.gov")
+        linkText.foregroundColor = .blue
+        linkText.underlineStyle = .single
+        
+        if let url = URL(string: "https://www.usa.gov/state-governments") {
+            linkText.link = url
+        }
+        
+        // Add the rest of the text
+        let endText = AttributedString(" để biết thêm thông tin chi tiết")
+        
+        // Combine all parts
+        text.append(linkText)
+        text.append(endText)
+        
+        return text
     }
     
     private var capitalView: some View {

@@ -43,7 +43,7 @@
     },
     {
         "id": 8,
-        "gov": "John Carney",
+        "gov": "Matt Meyer",
         "state": "DE",
         "capital": "Dover"
     },
@@ -79,7 +79,7 @@
     },
     {
         "id": 14,
-        "gov": "Eric Holcomb",
+        "gov": "Mike Braun",
         "state": "IN",
         "capital": "Indianapolis"
     },
@@ -145,7 +145,7 @@
     },
     {
         "id": 25,
-        "gov": "Mike Parson",
+        "gov": "Mike Kehoe",
         "state": "MO",
         "capital": "Jefferson City"
     },
@@ -169,7 +169,7 @@
     },
     {
         "id": 29,
-        "gov": "Chris Sununu",
+        "gov": "Kelly Ayotte",
         "state": "NH",
         "capital": "Concord"
     },
@@ -193,13 +193,13 @@
     },
     {
         "id": 33,
-        "gov": "Roy Cooper",
+        "gov": "Josh Stein",
         "state": "NC",
         "capital": "Raleigh"
     },
     {
         "id": 34,
-        "gov": "Doug Burgum",
+        "gov": "Kelly Armstrong",
         "state": "ND",
         "capital": "Bismarck"
     },
@@ -241,7 +241,7 @@
     },
     {
         "id": 41,
-        "gov": "Kristi Noem",
+        "gov": "Larry Rhoden",
         "state": "SD",
         "capital": "Pierre"
     },
@@ -277,13 +277,13 @@
     },
     {
         "id": 47,
-        "gov": "Jay Inslee",
+        "gov": "Bob Ferguson",
         "state": "WA",
         "capital": "Olympia"
     },
     {
         "id": 48,
-        "gov": "Jim Justice",
+        "gov": "Patrick Morrisey",
         "state": "WV",
         "capital": "Charleston"
     },
