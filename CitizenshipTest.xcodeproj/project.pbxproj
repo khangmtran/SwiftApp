@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FAF517E46AB393189F3D9B8F /* Pods_CitizenshipTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		1B467D5BA3779669A10890F0 /* Pods-CitizenshipTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CitizenshipTest.debug.xcconfig"; path = "Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest.debug.xcconfig"; sourceTree = "<group>"; };
 		2A7D9E8E2D3C6F93008CC9D4 /* CitizenshipTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CitizenshipTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE02832875BD7B72D84F7D1F /* Pods-CitizenshipTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CitizenshipTest.release.xcconfig"; path = "Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest.release.xcconfig"; sourceTree = "<group>"; };
+		EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CitizenshipTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAF517E46AB393189F3D9B8F /* Pods_CitizenshipTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +55,8 @@
 			children = (
 				2A7D9E902D3C6F93008CC9D4 /* CitizenshipTest */,
 				2A7D9E8F2D3C6F93008CC9D4 /* Products */,
+				34D1292694DB00011A412928 /* Pods */,
+				2F9D4465D42C62F0D8DFCED8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +68,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		2F9D4465D42C62F0D8DFCED8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		34D1292694DB00011A412928 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1B467D5BA3779669A10890F0 /* Pods-CitizenshipTest.debug.xcconfig */,
+				CE02832875BD7B72D84F7D1F /* Pods-CitizenshipTest.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -65,9 +92,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2A7D9E9C2D3C6F95008CC9D4 /* Build configuration list for PBXNativeTarget "CitizenshipTest" */;
 			buildPhases = (
+				75137C25DC1E57B2087FA38B /* [CP] Check Pods Manifest.lock */,
 				2A7D9E8A2D3C6F93008CC9D4 /* Sources */,
 				2A7D9E8B2D3C6F93008CC9D4 /* Frameworks */,
 				2A7D9E8C2D3C6F93008CC9D4 /* Resources */,
+				C59E69E4C8112141DF5C0547 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -77,8 +106,6 @@
 				2A7D9E902D3C6F93008CC9D4 /* CitizenshipTest */,
 			);
 			name = CitizenshipTest;
-			packageProductDependencies = (
-			);
 			productName = CitizenshipTest;
 			productReference = 2A7D9E8E2D3C6F93008CC9D4 /* CitizenshipTest.app */;
 			productType = "com.apple.product-type.application";
@@ -126,6 +153,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		75137C25DC1E57B2087FA38B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CitizenshipTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C59E69E4C8112141DF5C0547 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2A7D9E8A2D3C6F93008CC9D4 /* Sources */ = {
@@ -259,6 +328,7 @@
 		};
 		2A7D9E9D2D3C6F95008CC9D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B467D5BA3779669A10890F0 /* Pods-CitizenshipTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -268,6 +338,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"CitizenshipTest/Preview Content\"";
 				DEVELOPMENT_TEAM = 5DXTD2FHHR;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CitizenshipTest/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Học Quốc Tịch";
@@ -295,6 +366,7 @@
 		};
 		2A7D9E9E2D3C6F95008CC9D4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE02832875BD7B72D84F7D1F /* Pods-CitizenshipTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -304,6 +376,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"CitizenshipTest/Preview Content\"";
 				DEVELOPMENT_TEAM = 5DXTD2FHHR;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CitizenshipTest/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Học Quốc Tịch";

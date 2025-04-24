@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import AVFoundation
+import GoogleMobileAds
 
 class UserSetting: ObservableObject {
     @Published var state: String{
@@ -153,6 +154,10 @@ struct CitizenshipTestApp: App{
     @StateObject private var wrongAnswer = WrongAnswer()
     @StateObject private var audioManager = AudioManager()
 
+    init() {
+        MobileAds.shared.start(completionHandler: nil)
+    }
+    
     var body: some Scene {
         WindowGroup {
             CTTab()
