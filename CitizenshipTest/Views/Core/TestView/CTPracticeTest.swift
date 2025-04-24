@@ -39,18 +39,22 @@ struct CTPracticeTest: View {
                     incorrQ: $incorrQ,
                     testCompleted: $testCompleted
                 )
+                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
                 .onAppear(){
                     testCompleted = true
                 }
 
             }
             else {
-                GeometryReader { geo in
-                    VStack {
-                        PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
-                            .frame(height: geo.size.height / 2.5)
-                        PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
+                VStack{
+                    GeometryReader { geo in
+                        VStack {
+                            PracticeQuestionView(tenQuestions: tenQuestions, qIndex: $qIndex)
+                                .frame(height: geo.size.height / 3.25)
+                            PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
+                        }
                     }
+                    CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
                 }
             }
         }
@@ -320,10 +324,10 @@ struct PracticeQuestionView: View{
                 .fill(.blue.opacity(0.5))
                 .ignoresSafeArea()
             VStack{
-                Text("\(qIndex + 1) of \(tenQuestions.count)")
                 ProgressView(value: Double(qIndex + 1) / 10)
                     .padding(.horizontal)
                     .tint(.white)
+                    .padding(.top, 5)
                 
                 GeometryReader { geo in
                     ScrollView(showsIndicators: true) {
@@ -377,6 +381,11 @@ struct PracticeQuestionView: View{
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
+            }
+        }
+        .toolbar{
+            ToolbarItem(placement: .principal){
+                Text("\(qIndex + 1) / \(tenQuestions.count)")
             }
         }
         .onDisappear(){
@@ -477,7 +486,7 @@ struct PracticeAnswerView: View{
                                     .background(backgroundColor(for: ans, correctAns: getZipAnswer(tenQuestions[qIndex].id), selectedAns: selectedAns))
                                     .cornerRadius(10)
                                     .padding(.horizontal)
-                                    .padding(.vertical, 10)
+                                    .padding(.vertical, 5)
                             }
                             .disabled(isAns)
                         }
@@ -511,15 +520,13 @@ struct PracticeAnswerView: View{
                                 .background(backgroundColor(for: ans, correctAns: tenQuestions[qIndex].answer, selectedAns: selectedAns))
                                 .cornerRadius(10)
                                 .padding(.horizontal)
-                                .padding(.vertical, 10)
+                                .padding(.vertical, 5)
                         }
                         .disabled(isAns)
                     }
                 }
             }
-                
-                Spacer()
-                
+            VStack{
                 //show next button when answered
                 if isAns{
                     Button(action: {
@@ -531,10 +538,12 @@ struct PracticeAnswerView: View{
                             .resizable()
                             .scaledToFit()
                             .frame(height: 50)
-                            .padding(.bottom)
+                            //.padding(.bottom)
                     }
                 }
-            
+                Spacer()
+            }.frame(height: 125)
+                     
         }
         .sheet(isPresented: $showZipInput) {
             CTZipInput()

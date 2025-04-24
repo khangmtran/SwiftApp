@@ -35,7 +35,7 @@ struct CTAudioStudy: View {
                     // Controls section
                     Toggle("Nghe Đáp Án", isOn: $playAnswers)
                         .toggleStyle(SwitchToggleStyle(tint: .blue))
-                        .padding()
+                        .padding(.horizontal)
                     
                     // Progress indicator
                     VStack {
@@ -43,9 +43,8 @@ struct CTAudioStudy: View {
                         
                         ProgressView(value: Double(currentQuestionIndex + 1), total: Double(questionList.questions.count))
                             .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                            .padding(.horizontal)
                     }
-                    .padding()
+                    .padding(10)
                     
                     // Question/Answer display
                     VStack {
@@ -159,10 +158,10 @@ struct CTAudioStudy: View {
                                 .scaledToFit()
                                 .frame(height: 25)
                         }
-                        
                     }
-                }
-                .padding(.vertical)
+                    Spacer()
+                }.frame(height: 125)
+                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
             }
             .padding()
         }

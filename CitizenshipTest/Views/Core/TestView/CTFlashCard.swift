@@ -32,7 +32,7 @@ struct CTFlashCard: View{
     var body: some View{
         VStack{
             HStack(alignment: .center){
-                Text("Thẻ \(qIndex + 1) / \(questions.count)")
+                Text("Thẻ \(qIndex + 1) / \(questions.count)") 
                 Spacer()
                 Button(action: {
                     showJumpPrompt = true

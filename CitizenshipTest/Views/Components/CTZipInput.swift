@@ -18,6 +18,7 @@ struct CTZipInput: View {
     var body: some View {
         NavigationView {
             VStack {
+                Spacer()
                 TextField(tempZipCode.isEmpty ? "Nhập ZIP Code" : "\(tempZipCode)", text: $tempZipCode)
                     .font(.title3)
                     .multilineTextAlignment(.center)
@@ -63,6 +64,8 @@ struct CTZipInput: View {
                 if isTyping {
                     ProgressView()
                 }
+                Spacer()
+                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
             }
             .navigationTitle("Tìm Đại Diện")
             .toolbar {

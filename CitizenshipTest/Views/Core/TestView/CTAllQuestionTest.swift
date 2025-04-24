@@ -40,23 +40,27 @@ struct CTAllQuestionTest: View {
                     incorrQ: $incorrQ,
                     testCompleted: $testCompleted
                 )
+                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
                 .onAppear() {
                     testCompleted = true
                 }
             } else {
-                GeometryReader { geo in
-                    VStack {
-                        AllTestQuestionView(qIndex: qIndex)
-                            .frame(height: geo.size.height / 2.5)
-                        AllTestAnswerView(
-                            qIndex: $qIndex,
-                            showResult: $showResult,
-                            score: $score,
-                            incorrQ: $incorrQ,
-                            userAns: $userAns,
-                            saveProgress: saveProgress
-                        )
+                VStack{
+                    GeometryReader { geo in
+                        VStack {
+                            AllTestQuestionView(qIndex: qIndex)
+                                .frame(height: geo.size.height / 3.25)
+                            AllTestAnswerView(
+                                qIndex: $qIndex,
+                                showResult: $showResult,
+                                score: $score,
+                                incorrQ: $incorrQ,
+                                userAns: $userAns,
+                                saveProgress: saveProgress
+                            )
+                        }
                     }
+                    CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
                 }
             }
         }
@@ -139,7 +143,6 @@ struct AllTestQuestionView: View {
                 .fill(.blue.opacity(0.5))
                 .ignoresSafeArea()
             VStack {
-                Text("\(qIndex + 1) of \(questionList.questions.count)")
                 ProgressView(value: Double(qIndex + 1) / Double(questionList.questions.count))
                     .padding(.horizontal)
                     .tint(.white)
@@ -198,6 +201,11 @@ struct AllTestQuestionView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
+            }
+        }
+        .toolbar{
+            ToolbarItem(placement: .principal){
+                Text("\(qIndex + 1) / \(questionList.questions.count)")
             }
         }
         .onDisappear(){
@@ -279,33 +287,37 @@ struct AllTestAnswerView: View {
                 }
                 // Regular questions
                 else {
+                    
                     ForEach(shuffledAnswers, id: \.self) { ans in
                         answerButton(ans: ans, correctAns: currentQuestion.answer)
+                        
                     }
                 }
             }
-            Spacer()
-            
-            // Show next button when answered
-            if isAns {
-                Button(action: {
-                    if qIndex < questionList.questions.count - 1 {
-                        qIndex += 1
-                        isAns = false
-                        updateShuffledAnswers()
-                        saveProgress()
-                    } else {
-                        saveProgress()
-                        showResult = true
+
+            VStack{
+                // Show next button when answered
+                if isAns {
+                    Button(action: {
+                        if qIndex < questionList.questions.count - 1 {
+                            qIndex += 1
+                            isAns = false
+                            updateShuffledAnswers()
+                            saveProgress()
+                        } else {
+                            saveProgress()
+                            showResult = true
+                        }
+                    }) {
+                        Image(systemName: "greaterthan.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 50)
+                            .padding(.bottom)
                     }
-                }) {
-                    Image(systemName: "greaterthan.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 50)
-                        .padding(.bottom)
+                    Spacer()
                 }
-            }
+            }.frame(height: 125)
         }
         .sheet(isPresented: $showZipInput) {
             CTZipInput()
@@ -354,7 +366,7 @@ struct AllTestAnswerView: View {
                 .background(backgroundColor(for: ans, correctAns: correctAns, selectedAns: selectedAns))
                 .cornerRadius(10)
                 .padding(.horizontal)
-                .padding(.vertical, 10)
+                .padding(.vertical, 5)
         }
         .disabled(isAns)
     }

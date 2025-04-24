@@ -45,9 +45,6 @@ struct CTStudyHome : View{
             }
             .scrollContentBackground(.hidden)
             .listRowSpacing(20)
-            
-            Spacer()
-            CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
         }
         
     }

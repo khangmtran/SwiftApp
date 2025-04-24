@@ -36,6 +36,7 @@ struct CTMarkedQuestionTest: View {
                 ProgressView()
             } else if markedQuestions.isEmpty {
                 VStack(spacing: 20) {
+                    Spacer()
                     Image(systemName: "bookmark.slash")
                         .resizable()
                         .scaledToFit()
@@ -62,6 +63,8 @@ struct CTMarkedQuestionTest: View {
                             .cornerRadius(10)
                     }
                     .padding(.top)
+                    Spacer()
+                    CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
                 }
                 .padding()
             } else if showResult || testCompleted {
@@ -77,25 +80,29 @@ struct CTMarkedQuestionTest: View {
                         startNewTest()
                     }
                 )
+                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
                 .onAppear() {
                     testCompleted = true
                 }
             } else {
-                GeometryReader { geo in
-                    VStack {
-                        MarkedQuestionView(markedQuestions: markedQuestions, qIndex: $qIndex)
-                            .frame(height: geo.size.height / 2.5)
-                        MarkedAnswerView(
-                            markedQuestions: markedQuestions,
-                            qIndex: $qIndex,
-                            showResult: $showResult,
-                            score: $score,
-                            incorrQ: $incorrQ,
-                            userAns: $userAns,
-                            saveProgress: saveProgress
-                        )
+                VStack{
+                    GeometryReader { geo in
+                        VStack {
+                            MarkedQuestionView(markedQuestions: markedQuestions, qIndex: $qIndex)
+                                .frame(height: geo.size.height / 3.25)
+                            MarkedAnswerView(
+                                markedQuestions: markedQuestions,
+                                qIndex: $qIndex,
+                                showResult: $showResult,
+                                score: $score,
+                                incorrQ: $incorrQ,
+                                userAns: $userAns,
+                                saveProgress: saveProgress
+                            )
+                        }
                     }
                 }
+                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
             }
         }
         .onAppear {
@@ -382,8 +389,6 @@ struct MarkedQuestionView: View {
                 .ignoresSafeArea()
             
             VStack {
-                Text("\(qIndex + 1) of \(markedQuestions.count)")
-                
                 ProgressView(value: Double(qIndex + 1) / Double(markedQuestions.count))
                     .padding(.horizontal)
                     .tint(.white)
@@ -439,6 +444,11 @@ struct MarkedQuestionView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
+            }
+        }
+        .toolbar{
+            ToolbarItem(placement: .principal){
+                Text("\(qIndex + 1) / \(markedQuestions.count)")
             }
         }
         .onDisappear(){
@@ -519,7 +529,7 @@ struct MarkedAnswerView: View {
                                     .background(backgroundColor(for: ans, correctAns: getZipAnswer(markedQuestions[qIndex].id), selectedAns: selectedAns))
                                     .cornerRadius(10)
                                     .padding(.horizontal)
-                                    .padding(.vertical, 10)
+                                    .padding(.vertical, 5)
                             }
                             .disabled(isAns)
                         }
@@ -537,27 +547,28 @@ struct MarkedAnswerView: View {
                                 .background(backgroundColor(for: ans, correctAns: markedQuestions[qIndex].answer, selectedAns: selectedAns))
                                 .cornerRadius(10)
                                 .padding(.horizontal)
-                                .padding(.vertical, 10)
+                                .padding(.vertical, 5)
                         }
                         .disabled(isAns)
                     }
                 }
             }
             
-            Spacer()
-            
             // Show next button when answered
-            if isAns {
-                Button(action: {
-                    advanceToNextQuestion()
-                }) {
-                    Image(systemName: "greaterthan.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 50)
-                        .padding(.bottom)
+            VStack{
+                if isAns {
+                    Button(action: {
+                        advanceToNextQuestion()
+                    }) {
+                        Image(systemName: "greaterthan.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 50)
+                            .padding(.bottom)
+                    }
                 }
-            }
+                Spacer()
+            }.frame(height: 125)
         }
         .sheet(isPresented: $showZipInput) {
             CTZipInput()

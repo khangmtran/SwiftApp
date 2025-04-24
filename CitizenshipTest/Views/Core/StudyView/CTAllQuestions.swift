@@ -2,7 +2,7 @@
 //  CTAllQuestions.swift
 //  CitizenshipTest
 //
-//  Created by Khang Tran on 1/24/25.
+//  Modified on 4/23/25.
 //
 
 import SwiftUI
@@ -12,7 +12,6 @@ import SwiftData
 struct CTAllQuestions: View {
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var showingZipPrompt = false
-    @State private var page = 0
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
@@ -20,25 +19,15 @@ struct CTAllQuestions: View {
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     
-    private var paginatedQuestions: [CTQuestion]{
-        let startIndex = page * 10
-        let endIndex = min(startIndex + 9, questionList.questions.count - 1)
-        if startIndex >= questionList.questions.count{
-            return []
-        }
-        return Array(questionList.questions[startIndex...endIndex])
-    }
-    
     var body: some View {
-        ScrollViewReader{ scrollProxy in
-            List{
-                ForEach(paginatedQuestions) { question in
+        VStack{
+            List {
+                ForEach(questionList.questions) { question in
                     Section(header: Text("Câu hỏi \(question.id)")
-                        .id(question.id)
                         .font(.footnote)){
-                            //question stack
-                            HStack{
-                                //VStack contains ENG and VIE questions
+                            // Question stack
+                            HStack {
+                                // VStack contains ENG and VIE questions
                                 VStack(alignment: .leading) {
                                     Text(question.question)
                                         .font(.headline)
@@ -50,7 +39,7 @@ struct CTAllQuestions: View {
                                 
                                 Spacer()
                                 
-                                //VStack contains voice and bookmark buttons
+                                // VStack contains voice and bookmark buttons
                                 VStack() {
                                     // Voice button
                                     Button(action: {
@@ -88,10 +77,10 @@ struct CTAllQuestions: View {
                             }
                             .padding(.vertical, 10)
                             
-                            //answer stack
-                            HStack{
-                                if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44{
-                                    VStack{
+                            // Answer stack
+                            HStack {
+                                if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44 {
+                                    VStack {
                                         Text("Trả lời:")
                                             .font(.headline)
                                             .padding(.bottom, 1)
@@ -104,7 +93,7 @@ struct CTAllQuestions: View {
                                     }
                                     Spacer()
                                     
-                                    VStack(alignment: .leading){
+                                    VStack(alignment: .leading) {
                                         Button(action: {
                                             synthesizer.stopSpeaking(at: .immediate)
                                             
@@ -153,10 +142,10 @@ struct CTAllQuestions: View {
                                     }
                                 }
                                 
-                                // all questions except q20 and 23
-                                else{
-                                    //Eng and Vie answer
-                                    VStack(alignment: .leading){
+                                // All questions except q20, q23, q43, q44
+                                else {
+                                    // Eng and Vie answer
+                                    VStack(alignment: .leading) {
                                         Text("Trả lời: \(question.answer)")
                                             .font(.headline)
                                         Text(question.answerVie)
@@ -166,13 +155,13 @@ struct CTAllQuestions: View {
                                     
                                     Spacer()
                                     
-                                    //voice button
-                                    VStack(alignment: .leading){
+                                    // Voice button
+                                    VStack(alignment: .leading) {
                                         Button(action: {
                                             synthesizer.stopSpeaking(at: .immediate)
                                             let utterance = AVSpeechUtterance(string: question.answer)
-                                            utterance.voice = AVSpeechSynthesisVoice()
-                                            utterance.rate = 0.3
+                                            utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                                            utterance.rate = audioManager.speechRate
                                             synthesizer.speak(utterance)
                                         }){
                                             Image(systemName: "speaker.wave.3")
@@ -188,6 +177,7 @@ struct CTAllQuestions: View {
                         }
                         .listRowBackground(Color.blue.opacity(0.1))
                 }
+                
                 Section {
                     Text("Một số câu hỏi bao gồm nhiều đáp án khả thi đã được chọn lọc ra những đáp án dễ học. Nếu bạn muốn tham khảo thêm các đáp án khác, vui lòng truy cập uscis.gov")
                         .font(.footnote)
@@ -195,84 +185,24 @@ struct CTAllQuestions: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            .scrollContentBackground(.hidden)
-            .sheet(isPresented: $showingZipPrompt) {
-                CTZipInput()
-                    .environmentObject(userSetting)
-            }
-            .safeAreaInset(edge: .bottom) {
-                NavButtonAllQ(page: $page)
-                    .padding()
-                    .background(Color.white)
-            }
-            .navigationTitle("100 Câu Hỏi")
-            .onChange(of: page) { oldValue, newValue in
-                withAnimation{
-                    let firstQId = paginatedQuestions.first?.id
-                    scrollProxy.scrollTo(firstQId, anchor: .center)
-                }
-            }
-            .onDisappear(){
-                synthesizer.stopSpeaking(at: .immediate)
-            }
+            CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
         }
-        
+        .scrollContentBackground(.hidden)
+        .sheet(isPresented: $showingZipPrompt) {
+            CTZipInput()
+                .environmentObject(userSetting)
+        }
+        .navigationTitle("100 Câu Hỏi")
+        .onDisappear(){
+            synthesizer.stopSpeaking(at: .immediate)
+        }
     }
-    
 }
+
 #Preview {
     CTAllQuestions()
         .environmentObject(UserSetting())
         .environmentObject(QuestionList())
         .environmentObject(GovCapManager())
         .environmentObject(AudioManager())
-}
-
-struct NavButtonAllQ: View {
-    @Binding var page: Int
-    private let totalPages: Int = 9
-    
-    var body: some View {
-        HStack(){
-            Button(action: prevQuestion){
-                Text("Trở Về")
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 10)
-            .foregroundStyle(.white)
-            .background(.blue)
-            .cornerRadius(10)
-            
-            Spacer()
-            
-            Button(action: nextQuestion){
-                Text("Tiếp Theo")
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 10)
-            .foregroundStyle(.white)
-            .background(.blue)
-            .cornerRadius(10)
-            
-        }//hstack contains prv and nxt arrows
-        
-    }
-    
-    private func nextQuestion(){
-        if page < totalPages {
-            page += 1
-        }
-        else if page == totalPages{
-            page = 0
-        }
-    }
-    
-    private func prevQuestion(){
-        if page > 0{
-            page -= 1
-        }
-        else if page == 0{
-            page = totalPages
-        }
-    }
 }
