@@ -15,12 +15,10 @@ class InterstitialAdManager: NSObject, ObservableObject {
     private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
     
     // Counters for different activities
-    @Published var testQuestionCounter = 0
-    @Published var audioQuestionCounter = 0
+    @Published var buttonClicked = 0
     
     // Constants for when to show ads
-    private let testQuestionThreshold = 10
-    private let audioQuestionThreshold = 10
+    private let buttonThreshold = 20
     
     private override init() {
         super.init()
@@ -52,34 +50,15 @@ class InterstitialAdManager: NSObject, ObservableObject {
     }
     
     // Method to increment test question counter and show ad if needed
-    func incrementTestQuestionCounter() -> Bool {
-        testQuestionCounter += 1
+    func incrementButtonCounter() -> Bool {
+        buttonClicked += 1
         
-        if testQuestionCounter >= testQuestionThreshold {
-            testQuestionCounter = 0
+        if buttonClicked >= buttonThreshold {
+            buttonClicked = 0
             showAd()
             return true
         }
         return false
-    }
-    
-    // Method to increment audio question counter and show ad if needed
-    func incrementAudioQuestionCounter() -> Bool {
-        audioQuestionCounter += 1
-        
-        if audioQuestionCounter >= audioQuestionThreshold {
-            audioQuestionCounter = 0
-            showAd()
-            return true
-        }
-        return false
-    }
-    
-    // Method to show ad after test completion
-    func showAdAfterTest() {
-        // Reset the test question counter
-        testQuestionCounter = 0
-        showAd()
     }
 }
 
