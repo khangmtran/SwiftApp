@@ -28,6 +28,7 @@ struct CTFlashCard: View{
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     var body: some View{
         VStack{
@@ -97,6 +98,7 @@ struct CTFlashCard: View{
             if questions.isEmpty{
                 questions = questionList.questions
             }
+            adManager.showAd()
         }
         .safeAreaInset(edge: .bottom) {
             NavButtonsFC(qIndex: $qIndex, questions: questions)
@@ -165,6 +167,7 @@ struct JumpToCardView: View {
 
 struct NavButtonsFC: View{
     @Binding var qIndex: Int
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     let questions: [CTQuestion]
 
     var body: some View {
@@ -198,6 +201,7 @@ struct NavButtonsFC: View{
         else if qIndex == questions.count - 1{
             qIndex = 0
         }
+        adManager.showAd()
     }
     
     private func prevQuestion(){
@@ -207,6 +211,7 @@ struct NavButtonsFC: View{
         else if qIndex == 0{
             qIndex = questions.count - 1
         }
+        adManager.showAd()
     }
 }
 
@@ -221,6 +226,7 @@ struct CardFront: View{
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     var body: some View{
         ZStack{
@@ -283,6 +289,7 @@ struct CardFront: View{
                     isChangingCard = false
                     synthesizer.stopSpeaking(at: .immediate)
                     isFlipped.toggle()
+                    adManager.showAd()
                 }) {
                     Text("Lật Thẻ")
                         .padding()
@@ -315,7 +322,8 @@ struct CardBack: View{
     @EnvironmentObject var userSetting: UserSetting
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
-    
+    @ObservedObject private var adManager = InterstitialAdManager.shared
+
     var body: some View{
         VStack{
             ZStack{
@@ -429,6 +437,7 @@ struct CardBack: View{
                         isChangingCard = false
                         synthesizer.stopSpeaking(at: .immediate)
                         isFlipped.toggle()
+                        adManager.showAd()
                     }) {
                         Text("Lật Thẻ")
                             .font(.title3)

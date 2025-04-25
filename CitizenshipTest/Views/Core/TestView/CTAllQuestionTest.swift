@@ -21,9 +21,11 @@ struct CTAllQuestionTest: View {
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
     @State private var showingProgressDialog: Bool = false
+    @State private var hasCheckedForProgress: Bool = false
     @Environment(\.modelContext) private var context
     @AppStorage("allQuestionsTestCompleted") private var testCompleted = false
-    
+    @ObservedObject private var adManager = InterstitialAdManager.shared
+
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
     }
@@ -41,11 +43,12 @@ struct CTAllQuestionTest: View {
                     incorrQ: $incorrQ,
                     testCompleted: $testCompleted
                 )
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
                 .onAppear() {
                     testCompleted = true
+                    adManager.showAd()
                 }
+                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                       height: AdSizeBanner.size.height)
             } else {
                 VStack{
                     GeometryReader { geo in
@@ -65,6 +68,7 @@ struct CTAllQuestionTest: View {
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }
+                
             }
         }
         .onAppear {
@@ -73,9 +77,11 @@ struct CTAllQuestionTest: View {
         .alert("Tiếp tục bài kiểm tra?", isPresented: $showingProgressDialog) {
             Button("Bắt đầu lại", role: .destructive) {
                 startNewTest()
+                adManager.showAd()
             }
             Button("Tiếp tục", role: .cancel) {
                 isLoading = false
+                adManager.showAd()
             }
         } message: {
             Text("Bạn có một bài kiểm tra chưa hoàn thành. Bạn muốn tiếp tục hay bắt đầu lại?")
@@ -87,14 +93,16 @@ struct CTAllQuestionTest: View {
             if let progress = try progressManager.getProgress(for: .allQuestions) {
                 if progress.currentIndex == 0 {
                     startNewTest()
+                    adManager.showAd()
                     return
                 }
                 qIndex = progress.currentIndex
                 score = progress.score
                 userAns = progress.userAnswers
                 incorrQ = progress.incorrectAnswers
-                if !testCompleted {
+                if !testCompleted && !hasCheckedForProgress{
                     showingProgressDialog = true
+                    hasCheckedForProgress = true
                     isLoading = false
                 } else {
                     isLoading = false
@@ -448,7 +456,8 @@ struct CTAllTestResultView: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
-    
+    @ObservedObject private var adManager = InterstitialAdManager.shared
+
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
     }
@@ -508,6 +517,7 @@ struct CTAllTestResultView: View {
                     } catch {
                         print("Error clearing progress: \(error)")
                     }
+                    adManager.showAd()
                 }) {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")

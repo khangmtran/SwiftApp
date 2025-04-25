@@ -14,7 +14,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     @Published private var interstitialAd: InterstitialAd?
     
     // Minimum interval between ads (in seconds)
-    private let minimumAdInterval: TimeInterval = 120 // 2 minutes
+    private let minimumAdInterval: TimeInterval = 10 // 2 minutes
     
     // Track when ad timer started (reset when app becomes active)
     private var adTimerStartTime: Date = Date()

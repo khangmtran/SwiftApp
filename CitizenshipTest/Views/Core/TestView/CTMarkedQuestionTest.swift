@@ -22,10 +22,12 @@ struct CTMarkedQuestionTest: View {
     @State private var incorrQ: [String] = []
     @State private var userAns: [Bool] = []
     @State private var showingProgressDialog: Bool = false
+    @State private var hasCheckedForProgress: Bool = false
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query private var markedQuestionIds: [MarkedQuestion]
     @AppStorage("markedQuestionsTestCompleted") private var testCompleted = false
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
@@ -71,6 +73,9 @@ struct CTMarkedQuestionTest: View {
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }
+                .onAppear(){
+                    adManager.showAd()
+                }
             } else if showResult || testCompleted {
                 CTMarkedResultView(
                     questions: $markedQuestions,
@@ -84,11 +89,12 @@ struct CTMarkedQuestionTest: View {
                         startNewTest()
                     }
                 )
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
                 .onAppear() {
                     testCompleted = true
+                    adManager.showAd()
                 }
+                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                       height: AdSizeBanner.size.height)
             } else {
                 VStack{
                     GeometryReader { geo in
@@ -117,9 +123,11 @@ struct CTMarkedQuestionTest: View {
         .alert("Tiếp tục bài kiểm tra?", isPresented: $showingProgressDialog) {
             Button("Bắt đầu lại", role: .destructive) {
                 startNewTest()
+                adManager.showAd()
             }
             Button("Tiếp tục", role: .cancel) {
                 isLoading = false
+                adManager.showAd()
             }
         } message: {
             Text("Bạn có một bài kiểm tra chưa hoàn thành. Bạn muốn tiếp tục hay bắt đầu lại?")
@@ -141,14 +149,16 @@ struct CTMarkedQuestionTest: View {
                     savedQuestionIds.count == currentMarkedQuestionIds.count {
                     if progress.currentIndex == 0 {
                         startNewTest()
+                        adManager.showAd()
                         return
                     }
                     qIndex = progress.currentIndex
                     score = progress.score
                     userAns = progress.userAnswers
                     incorrQ = progress.incorrectAnswers
-                    if !testCompleted {
+                    if !testCompleted && !hasCheckedForProgress{
                         showingProgressDialog = true
+                        hasCheckedForProgress = true
                     } else {
                         isLoading = false
                     }
@@ -233,6 +243,7 @@ struct CTMarkedResultView: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     var onTryAgain: () -> Void
     
@@ -267,6 +278,7 @@ struct CTMarkedResultView: View {
                     } catch {
                         print("Error clearing progress: \(error)")
                     }
+                    adManager.showAd()
                 }) {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")

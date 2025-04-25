@@ -23,6 +23,7 @@ struct CTAudioStudy: View {
     @State private var timer: Timer?
     @State private var showingZipPrompt = false
     @State private var delegate: SpeechDelegate?
+    @State private var autoPlayQuestionCounter: Int = 0
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     @ObservedObject private var adManager = InterstitialAdManager.shared
@@ -191,7 +192,6 @@ struct CTAudioStudy: View {
     }
     
     private func playCurrentQuestion() {
-        adManager.showAd()
         UIApplication.shared.isIdleTimerDisabled = true
         isPlaying = true
         isPlayingAnswer = false
@@ -306,6 +306,7 @@ struct CTAudioStudy: View {
         synthesizer.delegate = nil
         delegate = nil
         UIApplication.shared.isIdleTimerDisabled = false
+        adManager.showAd()
     }
     
     private func nextQuestion() {
@@ -317,6 +318,7 @@ struct CTAudioStudy: View {
             stopAudio()
             currentQuestionIndex = 0
         }
+        adManager.showAd()
     }
     
     private func previousQuestion() {
@@ -328,6 +330,7 @@ struct CTAudioStudy: View {
             stopAudio()
             currentQuestionIndex = questionList.questions.count - 1
         }
+        adManager.showAd()
     }
     
     private func nextTenQuestions() {
@@ -341,6 +344,7 @@ struct CTAudioStudy: View {
             let num2 = questionList.questions.count - currentQuestionIndex
             currentQuestionIndex = num1 - num2
         }
+        adManager.showAd()
     }
     
     private func previousTenQuestions() {
@@ -354,6 +358,7 @@ struct CTAudioStudy: View {
             let num2 = 10 - currentQuestionIndex
             currentQuestionIndex = num1 - num2
         }
+        adManager.showAd()
     }
 }
 
