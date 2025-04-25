@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import AVFoundation
+import GoogleMobileAds
 
 struct CTAudioStudy: View {
     @EnvironmentObject var questionList: QuestionList
@@ -31,7 +32,7 @@ struct CTAudioStudy: View {
     var body: some View {
         GeometryReader { geo in
             VStack{
-                ScrollView {
+                VStack{
                     // Controls section
                     Toggle("Nghe Đáp Án", isOn: $playAnswers)
                         .toggleStyle(SwitchToggleStyle(tint: .blue))
@@ -45,125 +46,127 @@ struct CTAudioStudy: View {
                             .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                     }
                     .padding(10)
-                    
-                    // Question/Answer display
-                    VStack {
+                    ScrollView {
+                        // Question/Answer display
                         VStack {
-                            HStack {
-                                Text("Câu hỏi \(questionList.questions[currentQuestionIndex].id)")
-                                    .font(.headline)
-                                    .foregroundColor(.blue)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                // Add bookmark button
-                                Button(action: {
-                                    if let existingMark = markedQuestions.first(where: {$0.id == questionList.questions[currentQuestionIndex].id}) {
-                                        context.delete(existingMark)
-                                    } else {
-                                        let newMark = MarkedQuestion(id: questionList.questions[currentQuestionIndex].id)
-                                        context.insert(newMark)
-                                    }
-                                }) {
-                                    Image(systemName: markedQuestions.contains(where: {$0.id == questionList.questions[currentQuestionIndex].id}) ? "bookmark.fill" : "bookmark")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 20)
-                                }
-                            }
-                            
-                            Text(questionList.questions[currentQuestionIndex].question)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .font(.headline)
-                                .multilineTextAlignment(.leading)
-                                .padding(.vertical, 5)
-                            
-                            Text(questionList.questions[currentQuestionIndex].questionVie)
-                                .font(.subheadline)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .multilineTextAlignment(.leading)
-                        }
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
-                        
-                        if playAnswers {
                             VStack {
-                                Text("Đáp án")
-                                    .font(.headline)
-                                    .foregroundColor(.blue)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if [20, 23, 43, 44].contains(questionList.questions[currentQuestionIndex].id) {
-                                    ServiceQuestions(
-                                        questionId: questionList.questions[currentQuestionIndex].id,
-                                        showingZipPrompt: $showingZipPrompt,
-                                        govAndCap: govCapManager.govAndCap
-                                    )
-                                    .padding(.vertical, 5)
-                                } else {
-                                    // Regular answer display
-                                    Text(questionList.questions[currentQuestionIndex].answer)
+                                HStack {
+                                    Text("Câu hỏi \(questionList.questions[currentQuestionIndex].id)")
                                         .font(.headline)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .multilineTextAlignment(.leading)
-                                        .padding(.vertical, 5)
+                                        .foregroundColor(.blue)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
                                     
-                                    
-                                    Text(questionList.questions[currentQuestionIndex].answerVie)
-                                        .font(.subheadline)
-                                        .multilineTextAlignment(.leading)
-                                        .fixedSize(horizontal: false, vertical: true)
+                                    // Add bookmark button
+                                    Button(action: {
+                                        if let existingMark = markedQuestions.first(where: {$0.id == questionList.questions[currentQuestionIndex].id}) {
+                                            context.delete(existingMark)
+                                        } else {
+                                            let newMark = MarkedQuestion(id: questionList.questions[currentQuestionIndex].id)
+                                            context.insert(newMark)
+                                        }
+                                    }) {
+                                        Image(systemName: markedQuestions.contains(where: {$0.id == questionList.questions[currentQuestionIndex].id}) ? "bookmark.fill" : "bookmark")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 20)
+                                    }
                                 }
+                                
+                                Text(questionList.questions[currentQuestionIndex].question)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(.headline)
+                                    .multilineTextAlignment(.leading)
+                                    .padding(.vertical, 5)
+                                
+                                Text(questionList.questions[currentQuestionIndex].questionVie)
+                                    .font(.subheadline)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .multilineTextAlignment(.leading)
                             }
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
+                            
+                            if playAnswers {
+                                VStack {
+                                    Text("Đáp án")
+                                        .font(.headline)
+                                        .foregroundColor(.blue)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    
+                                    if [20, 23, 43, 44].contains(questionList.questions[currentQuestionIndex].id) {
+                                        ServiceQuestions(
+                                            questionId: questionList.questions[currentQuestionIndex].id,
+                                            showingZipPrompt: $showingZipPrompt,
+                                            govAndCap: govCapManager.govAndCap
+                                        )
+                                        .padding(.vertical, 5)
+                                    } else {
+                                        // Regular answer display
+                                        Text(questionList.questions[currentQuestionIndex].answer)
+                                            .font(.headline)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .multilineTextAlignment(.leading)
+                                            .padding(.vertical, 5)
+                                        
+                                        
+                                        Text(questionList.questions[currentQuestionIndex].answerVie)
+                                            .font(.subheadline)
+                                            .multilineTextAlignment(.leading)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
-                // Playback controls
-                VStack {
-                    // Standard playback controls
-                    HStack(spacing: 20) {
-                        Button(action: previousTenQuestions) {
-                            Image(systemName: "backward.end.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 25)
+                .padding()
+                    // Playback controls
+                    VStack {
+                        // Standard playback controls
+                        HStack(spacing: 20) {
+                            Button(action: previousTenQuestions) {
+                                Image(systemName: "backward.end.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 25)
+                            }
+                            
+                            Button(action: previousQuestion) {
+                                Image(systemName: "backward.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 25)
+                            }
+                            
+                            Button(action: togglePlayback) {
+                                Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 45)
+                            }
+                            
+                            Button(action: nextQuestion) {
+                                Image(systemName: "forward.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 25)
+                            }
+                            
+                            Button(action: nextTenQuestions) {
+                                Image(systemName: "forward.end.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 25)
+                            }
                         }
-                        
-                        Button(action: previousQuestion) {
-                            Image(systemName: "backward.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 25)
-                        }
-                        
-                        Button(action: togglePlayback) {
-                            Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 45)
-                        }
-                        
-                        Button(action: nextQuestion) {
-                            Image(systemName: "forward.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 25)
-                        }
-                        
-                        Button(action: nextTenQuestions) {
-                            Image(systemName: "forward.end.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 25)
-                        }
-                    }
-                    Spacer()
-                }.frame(height: 125)
-                CTAdBannerView()
+                        Spacer()
+                    }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
+                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                       height: AdSizeBanner.size.height)
             }
-            .padding()
         }
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()

@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import SwiftData
+import GoogleMobileAds
 
 struct CTMarkedQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
@@ -35,38 +36,41 @@ struct CTMarkedQuestionTest: View {
             if isLoading {
                 ProgressView()
             } else if markedQuestions.isEmpty {
-                VStack(spacing: 20) {
-                    Spacer()
-                    Image(systemName: "bookmark.slash")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.gray)
-                    
-                    Text("Bạn chưa đánh dấu câu hỏi nào")
-                        .font(.headline)
-                        .foregroundColor(.gray)
-                    
-                    Text("Hãy đánh dấu câu hỏi để luyện tập tại đây")
-                        .font(.callout)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                    
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Quay Lại")
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.blue)
-                            .cornerRadius(10)
+                VStack{
+                    VStack(spacing: 20) {
+                        Spacer()
+                        Image(systemName: "bookmark.slash")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.gray)
+                        
+                        Text("Bạn chưa đánh dấu câu hỏi nào")
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                        
+                        Text("Hãy đánh dấu câu hỏi để luyện tập tại đây")
+                            .font(.callout)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                        
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Text("Quay Lại")
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
+                        .padding(.top)
+                        Spacer()
                     }
-                    .padding(.top)
-                    Spacer()
-                    CTAdBannerView()
+                    .padding()
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
                 }
-                .padding()
             } else if showResult || testCompleted {
                 CTMarkedResultView(
                     questions: $markedQuestions,
@@ -80,7 +84,8 @@ struct CTMarkedQuestionTest: View {
                         startNewTest()
                     }
                 )
-                CTAdBannerView()
+                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                       height: AdSizeBanner.size.height)
                 .onAppear() {
                     testCompleted = true
                 }
@@ -102,7 +107,8 @@ struct CTMarkedQuestionTest: View {
                         }
                     }
                 }
-                CTAdBannerView()
+                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                       height: AdSizeBanner.size.height)
             }
         }
         .onAppear {
@@ -568,7 +574,7 @@ struct MarkedAnswerView: View {
                     }
                 }
                 Spacer()
-            }.frame(height: 125)
+            }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
         }
         .sheet(isPresented: $showZipInput) {
             CTZipInput()

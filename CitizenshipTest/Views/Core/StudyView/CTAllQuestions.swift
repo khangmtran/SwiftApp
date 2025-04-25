@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import SwiftData
+import GoogleMobileAds
 
 struct CTAllQuestions: View {
     @State private var synthesizer = AVSpeechSynthesizer()
@@ -185,7 +186,8 @@ struct CTAllQuestions: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            CTAdBannerView()
+            CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                   height: AdSizeBanner.size.height)
         }
         .scrollContentBackground(.hidden)
         .sheet(isPresented: $showingZipPrompt) {

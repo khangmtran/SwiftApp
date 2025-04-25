@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import SwiftData
+import GoogleMobileAds
 
 struct CTAllQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
@@ -40,7 +41,8 @@ struct CTAllQuestionTest: View {
                     incorrQ: $incorrQ,
                     testCompleted: $testCompleted
                 )
-                CTAdBannerView()
+                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                       height: AdSizeBanner.size.height)
                 .onAppear() {
                     testCompleted = true
                 }
@@ -60,7 +62,8 @@ struct CTAllQuestionTest: View {
                             )
                         }
                     }
-                    CTAdBannerView()
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
                 }
             }
         }
@@ -317,7 +320,7 @@ struct AllTestAnswerView: View {
                     }
                     Spacer()
                 }
-            }.frame(height: 125)
+            }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
         }
         .sheet(isPresented: $showZipInput) {
             CTZipInput()

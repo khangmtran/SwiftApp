@@ -5,6 +5,7 @@
 //  Created by Khang Tran on 2/8/25.
 //
 import SwiftUI
+import GoogleMobileAds
 
 struct CTZipInput: View {
     @EnvironmentObject var userSetting: UserSetting
@@ -65,7 +66,8 @@ struct CTZipInput: View {
                     ProgressView()
                 }
                 Spacer()
-                CTAdBannerView()
+                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                       height: AdSizeBanner.size.height)
             }
             .navigationTitle("Tìm Đại Diện")
             .toolbar {

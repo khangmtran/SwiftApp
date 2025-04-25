@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import SwiftData
+import GoogleMobileAds
 
 struct CTAllMarkedQuestion: View {
     @State private var synthesizer = AVSpeechSynthesizer()
@@ -31,38 +32,41 @@ struct CTAllMarkedQuestion: View {
     var body: some View {
         VStack {
             if filteredQuestions.isEmpty {
-                VStack(spacing: 20) {
-                    Spacer()
-                    Image(systemName: "bookmark.slash")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.gray)
-                    
-                    Text("Bạn chưa đánh dấu câu hỏi nào")
-                        .font(.headline)
-                        .foregroundColor(.gray)
-                    
-                    Text("Hãy đánh dấu câu hỏi để ôn tập tại đây")
-                        .font(.callout)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                    
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Quay Lại")
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.blue)
-                            .cornerRadius(10)
+                VStack{
+                    VStack(spacing: 20) {
+                        Spacer()
+                        Image(systemName: "bookmark.slash")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.gray)
+                        
+                        Text("Bạn chưa đánh dấu câu hỏi nào")
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                        
+                        Text("Hãy đánh dấu câu hỏi để ôn tập tại đây")
+                            .font(.callout)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                        
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Text("Quay Lại")
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
+                        .padding(.top)
+                        Spacer()
                     }
-                    .padding(.top)
-                    Spacer()
-                    CTAdBannerView()
+                    .padding()
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
                 }
-                .padding()
             } else {
                 VStack{
                     List {
@@ -247,7 +251,8 @@ struct CTAllMarkedQuestion: View {
                                 .multilineTextAlignment(.center)
                         }
                     }
-                    CTAdBannerView()
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
                 }
                 .scrollContentBackground(.hidden)
             }

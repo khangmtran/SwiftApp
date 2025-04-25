@@ -6,6 +6,7 @@
 import SwiftUI
 import AVFoundation
 import SwiftData
+import GoogleMobileAds
 
 struct CTPracticeTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
@@ -20,6 +21,7 @@ struct CTPracticeTest: View {
     @State private var showingProgressDialog: Bool = false
     @Environment(\.modelContext) private var context
     @AppStorage("practiceTestCompleted") private var testCompleted = false
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
@@ -39,7 +41,8 @@ struct CTPracticeTest: View {
                     incorrQ: $incorrQ,
                     testCompleted: $testCompleted
                 )
-                CTAdBannerView()
+                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                       height: AdSizeBanner.size.height)
                 .onAppear(){
                     testCompleted = true
                 }
@@ -54,7 +57,8 @@ struct CTPracticeTest: View {
                             PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
                         }
                     }
-                    CTAdBannerView()
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
                 }
             }
         }
@@ -409,6 +413,7 @@ struct PracticeAnswerView: View{
     @State var isAns: Bool = false
     @State private var shuffledAnswers: [String] = []
     @State private var answersInitialized: Bool = false
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     var saveProgress: () -> Void
     
@@ -510,6 +515,7 @@ struct PracticeAnswerView: View{
                             if qIndex == 9{
                                 isAns = false
                                 saveProgress()
+                                adManager.showAd()
                                 showResult = true
                             }
                         }){
@@ -542,8 +548,8 @@ struct PracticeAnswerView: View{
                     }
                 }
                 Spacer()
-            }.frame(height: 125)
-                     
+            }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
+
         }
         .sheet(isPresented: $showZipInput) {
             CTZipInput()
