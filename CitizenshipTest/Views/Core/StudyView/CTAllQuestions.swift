@@ -19,6 +19,7 @@ struct CTAllQuestions: View {
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     var body: some View {
         VStack{
@@ -195,6 +196,9 @@ struct CTAllQuestions: View {
                 .environmentObject(userSetting)
         }
         .navigationTitle("100 Câu Hỏi")
+        .onAppear(){
+            adManager.showAd()
+        }
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)
         }

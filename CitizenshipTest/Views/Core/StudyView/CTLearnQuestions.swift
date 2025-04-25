@@ -17,6 +17,7 @@ struct CTLearnQuestions: View {
     @State private var synthesizer = AVSpeechSynthesizer()
     @AppStorage("learnQuestionsIndex") private var qIndex = -1
     @AppStorage("learnQuestionsQCount") private var questionCount = 0
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     private let parts = ["Phần 1", "Phần 2", "Phần 3", "Phần 4", "Phần 5", "Phần 6", "Phần 7", "Phần 8"]
     
     let partToType = [
@@ -39,6 +40,9 @@ struct CTLearnQuestions: View {
         if qIndex == -1{
             VStack{//outer Vs
                 CTGuide(qIndex: $qIndex)
+                    .onAppear(){
+                        adManager.showAd()
+                    }
             }//end outerV
             .safeAreaInset(edge: .bottom) {
                 NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)
@@ -86,6 +90,9 @@ struct CTLearnQuestions: View {
                     }//.2
                 }
             }
+            .onAppear(){
+                adManager.showAd()
+            }
             .onDisappear(){
                 synthesizer.stopSpeaking(at: .immediate)
             }
@@ -106,6 +113,7 @@ struct CTLearnQuestions: View {
                     Menu {
                         ForEach(parts.filter { $0 != selectedPart.partChosen }, id: \.self) { part in
                             Button(part) {
+                                adManager.showAd()
                                 selectedPart.partChosen = part
                                 qIndex = -1
                                 questionCount = 0
@@ -141,6 +149,7 @@ struct CTLearnQuestions: View {
 struct NavButton: View {
     @Binding var qIndex: Int
     @Binding var qCount: Int
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     let totalQuestionsIndex: Int
     
     var body: some View {
@@ -170,6 +179,7 @@ struct NavButton: View {
     }
     
     private func nextQuestion(){
+        adManager.showAd()
         withAnimation{
             if qIndex < totalQuestionsIndex {
                 qIndex += 1
@@ -183,6 +193,7 @@ struct NavButton: View {
     }
     
     private func prevQuestion(){
+        adManager.showAd()
         withAnimation{
             if qIndex > -1{
                 qIndex -= 1
@@ -205,7 +216,7 @@ struct QuestionView: View {
     @EnvironmentObject var audioManager: AudioManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
-    
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     var body: some View {
         VStack{
             VStack{
@@ -233,6 +244,7 @@ struct QuestionView: View {
                 Spacer()
                 
                 Button(action: {
+                    
                     if let existingMark = markedQuestions.first(where: {$0.id == qId}){
                         context.delete(existingMark)
                     }
@@ -249,10 +261,12 @@ struct QuestionView: View {
                 .padding(.trailing)
                 
                 Button(action: {
+                    
                     synthesizer.stopSpeaking(at: .immediate)
                     let utterance = AVSpeechUtterance(string: question)
                     utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
                     utterance.rate = audioManager.speechRate
+                    
                     synthesizer.speak(utterance)
                 }){
                     Image(systemName: "speaker.wave.3")
@@ -284,7 +298,8 @@ struct AnswerView: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
     @State var showingZipPrompt = false
-    
+    @ObservedObject private var adManager = InterstitialAdManager.shared
+
     var body: some View {
         VStack{
             if qId == 20 || qId == 23 || qId == 43 || qId == 44{
@@ -317,6 +332,7 @@ struct AnswerView: View {
             HStack{
                 Spacer()
                 Button(action: {
+                    
                     synthesizer.stopSpeaking(at: .immediate)
                                                             
                     // Handle special questions (20, 23, 43, 44)

@@ -21,6 +21,7 @@ struct CitizenshipTestApp: App{
 
     init() {
         MobileAds.shared.start(completionHandler: nil)
+        _ = InterstitialAdManager.shared
     }
     
     var body: some Scene {

@@ -21,6 +21,7 @@ struct CTAllMarkedQuestion: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     // Get only marked questions from the question list
     private var filteredQuestions: [CTQuestion] {
@@ -256,6 +257,9 @@ struct CTAllMarkedQuestion: View {
                 }
                 .scrollContentBackground(.hidden)
             }
+        }
+        .onAppear(){
+            adManager.showAd()
         }
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)

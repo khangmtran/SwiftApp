@@ -24,7 +24,8 @@ struct CTAudioStudy: View {
     @State private var showingZipPrompt = false
     @State private var delegate: SpeechDelegate?
     @Environment(\.modelContext) private var context
-    @Query private var markedQuestions: [MarkedQuestion]    
+    @Query private var markedQuestions: [MarkedQuestion]
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     
     // Duration between speaking question and answer (seconds)
     private let pauseDuration: TimeInterval = 3
@@ -168,6 +169,9 @@ struct CTAudioStudy: View {
                                        height: AdSizeBanner.size.height)
             }
         }
+        .onAppear(){
+            adManager.showAd()
+        }
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
@@ -187,6 +191,7 @@ struct CTAudioStudy: View {
     }
     
     private func playCurrentQuestion() {
+        adManager.showAd()
         UIApplication.shared.isIdleTimerDisabled = true
         isPlaying = true
         isPlayingAnswer = false
