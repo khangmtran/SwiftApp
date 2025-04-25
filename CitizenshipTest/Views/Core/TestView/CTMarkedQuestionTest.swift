@@ -64,7 +64,7 @@ struct CTMarkedQuestionTest: View {
                     }
                     .padding(.top)
                     Spacer()
-                    CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
+                    CTAdBannerView()
                 }
                 .padding()
             } else if showResult || testCompleted {
@@ -80,7 +80,7 @@ struct CTMarkedQuestionTest: View {
                         startNewTest()
                     }
                 )
-                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
+                CTAdBannerView()
                 .onAppear() {
                     testCompleted = true
                 }
@@ -102,7 +102,7 @@ struct CTMarkedQuestionTest: View {
                         }
                     }
                 }
-                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
+                CTAdBannerView()
             }
         }
         .onAppear {

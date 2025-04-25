@@ -40,7 +40,7 @@ struct CTAllQuestionTest: View {
                     incorrQ: $incorrQ,
                     testCompleted: $testCompleted
                 )
-                CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
+                CTAdBannerView()
                 .onAppear() {
                     testCompleted = true
                 }
@@ -60,7 +60,7 @@ struct CTAllQuestionTest: View {
                             )
                         }
                     }
-                    CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
+                    CTAdBannerView()
                 }
             }
         }

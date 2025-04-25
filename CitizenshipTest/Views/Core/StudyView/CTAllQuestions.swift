@@ -185,7 +185,7 @@ struct CTAllQuestions: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            CTAdBanner(adUnitID: "ca-app-pub-3940256099942544/2435281174").frame(height: 50)
+            CTAdBannerView()
         }
         .scrollContentBackground(.hidden)
         .sheet(isPresented: $showingZipPrompt) {
