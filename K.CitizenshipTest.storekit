@@ -14,13 +14,29 @@
 
   ],
   "products" : [
-
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "6745666555",
+      "localizations" : [
+        {
+          "description" : "Loại Bỏ Quảng Cáo",
+          "displayName" : "Nâng Cấp Ứng Dụng",
+          "locale" : "vi"
+        }
+      ],
+      "productID" : "K.CitizenshipTest.removeads",
+      "referenceName" : "RemoveAds",
+      "type" : "NonConsumable"
+    }
   ],
   "settings" : {
     "_applicationInternalID" : "6744782320",
     "_developerTeamID" : "5DXTD2FHHR",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 768456146.16807604,
+    "_lastSynchronizedDate" : 768466256.87571502,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "current" : null,

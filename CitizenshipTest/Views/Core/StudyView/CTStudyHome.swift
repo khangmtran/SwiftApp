@@ -13,6 +13,8 @@ struct CTStudyHome : View{
     @EnvironmentObject var wrongAns: WrongAnswer
     @EnvironmentObject var selectedPard: SelectedPart
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var storeManager: StoreManager
+    @State private var showingRemoveAdsView = false
     
     var body: some View{
         VStack{
@@ -20,7 +22,23 @@ struct CTStudyHome : View{
                 .font(.title)
                 .bold()
                 .multilineTextAlignment(.center)
-                .padding(.vertical)
+            
+            if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
+                Button(action: {
+                    showingRemoveAdsView = true
+                }) {
+                    HStack {
+                        Text("Loại Bỏ Quảng Cáo")
+                            .fontWeight(.semibold)
+                        Image(systemName: "crown.fill")
+                            .foregroundColor(.yellow)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 5)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                }
+            }
             
             List {
                 NavigationLink(value: StudyRoute.allQuestions) {
@@ -44,7 +62,11 @@ struct CTStudyHome : View{
                 .listRowBackground(Color.blue.opacity(0.1))
             }
             .scrollContentBackground(.hidden)
-            .listRowSpacing(20)
+            .listRowSpacing(10)
+        }
+        .sheet(isPresented: $showingRemoveAdsView) {
+            CTRemoveAdsView()
+                .environmentObject(storeManager)
         }
         
     }

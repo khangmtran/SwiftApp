@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import AVFoundation
 import GoogleMobileAds
+import StoreKit
 
 @main
 struct CitizenshipTestApp: App{
@@ -18,6 +19,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var govCapManager = GovCapManager()
     @StateObject private var wrongAnswer = WrongAnswer()
     @StateObject private var audioManager = AudioManager()
+    @StateObject private var storeManager = StoreManager()
 
     init() {
         MobileAds.shared.start(completionHandler: nil)
@@ -33,6 +35,7 @@ struct CitizenshipTestApp: App{
                 .environmentObject(govCapManager)
                 .environmentObject(wrongAnswer)
                 .environmentObject(audioManager)
+                .environmentObject(storeManager)
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
         }
     }

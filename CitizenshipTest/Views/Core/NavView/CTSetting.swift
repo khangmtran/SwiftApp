@@ -12,7 +12,9 @@ struct CTSetting: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var storeManager: StoreManager
     @State private var showingZipPrompt = false
+    @State private var showingRemoveAdsView = false
     @State private var voices: [AVSpeechSynthesisVoice] = []
     @State private var synthesizer = AVSpeechSynthesizer()
     
@@ -122,7 +124,7 @@ struct CTSetting: View {
                         Text("\(senator.firstName) \(senator.lastName)").font(.callout)
                     }
                 }
-                                
+                
             }
             .padding()
             .background(.blue.opacity(0.1))
@@ -131,8 +133,8 @@ struct CTSetting: View {
             Text("Âm Thanh")
                 .font(.title3)
                 .fontWeight(.semibold)
-                
-
+            
+            
             VStack{
                 Text("Tốc độ đọc")
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -156,34 +158,63 @@ struct CTSetting: View {
                 
                 HStack{
                     Text("Giọng đọc")
-                        Spacer()
-                        
-                        Picker(selection: $audioManager.voiceIdentifier, label: HStack {
-                            Text(audioManager.voiceActor.isEmpty ? "Chọn Người Đọc" : audioManager.voiceActor)
-                            Image(systemName: "chevron.down")
-                        }) {
-                            ForEach(voices, id: \.self) { voice in
-                                Text(voice.name).tag(voice.identifier)
-                            }
+                    Spacer()
+                    
+                    Picker(selection: $audioManager.voiceIdentifier, label: HStack {
+                        Text(audioManager.voiceActor.isEmpty ? "Chọn Người Đọc" : audioManager.voiceActor)
+                        Image(systemName: "chevron.down")
+                    }) {
+                        ForEach(voices, id: \.self) { voice in
+                            Text(voice.name).tag(voice.identifier)
                         }
-                        .pickerStyle(.menu)
-                        .onChange(of: audioManager.voiceIdentifier) {
-                            if let voice = voices.first(where: { $0.identifier == audioManager.voiceIdentifier }) {
-                                audioManager.voiceActor = voice.name
-                                synthesizer.stopSpeaking(at: .immediate)
-                                let sampleText = "This is the voice of \(audioManager.voiceActor)"
-                                let utterance = AVSpeechUtterance(string: sampleText)
-                                utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
-                                utterance.rate = audioManager.speechRate
-                                synthesizer.speak(utterance)
-                            }
+                    }
+                    .pickerStyle(.menu)
+                    .onChange(of: audioManager.voiceIdentifier) {
+                        if let voice = voices.first(where: { $0.identifier == audioManager.voiceIdentifier }) {
+                            audioManager.voiceActor = voice.name
+                            synthesizer.stopSpeaking(at: .immediate)
+                            let sampleText = "This is the voice of \(audioManager.voiceActor)"
+                            let utterance = AVSpeechUtterance(string: sampleText)
+                            utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
+                            utterance.rate = audioManager.speechRate
+                            synthesizer.speak(utterance)
                         }
+                    }
                 }
             }
             .padding()
             .background(.blue.opacity(0.1))
             .cornerRadius(10)
+            Text("Phiên Bản Ứng Dụng")
+                .font(.title3)
+                .fontWeight(.semibold)
+                .padding(.top)
             
+            VStack {
+                HStack(alignment: .firstTextBaseline) {
+                    VStack(alignment: .leading) {
+                        if storeManager.isPurchased("K.CitizenshipTest.removeads") {
+                            Text("Đã Nâng Cấp")
+                        } else {
+                            Text("Miễn Phí")
+                                .frame(alignment: .center)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
+                        Button(action: {
+                            showingRemoveAdsView = true
+                        }) {
+                            Text("Nâng Cấp")
+                        }
+                    }
+                }
+                .padding()
+                .background(.blue.opacity(0.1))
+                .cornerRadius(10)
+            }
         }
         .padding()
         .onAppear(){
@@ -198,6 +229,10 @@ struct CTSetting: View {
             CTZipInput()
                 .environmentObject(userSetting)
         }
+        .sheet(isPresented: $showingRemoveAdsView) {
+            CTRemoveAdsView()
+                .environmentObject(storeManager)
+        }
     }
 }
 
@@ -206,4 +241,5 @@ struct CTSetting: View {
         .environmentObject(UserSetting())
         .environmentObject(GovCapManager())
         .environmentObject(AudioManager())
+        .environmentObject(StoreManager())
 }

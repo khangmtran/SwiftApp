@@ -13,14 +13,32 @@ struct CTTestHome: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var wrongAns: WrongAnswer
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var storeManager: StoreManager
+    @State private var showingRemoveAdsView = false
     
-    var body: some View {
-        VStack {
+    var body: some View{
+        VStack{
             Text("Học Thi Quốc Tịch 2025")
                 .font(.title)
                 .bold()
                 .multilineTextAlignment(.center)
-                .padding(.vertical)
+            
+            if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
+                Button(action: {
+                    showingRemoveAdsView = true
+                }) {
+                    HStack {
+                        Text("Loại Bỏ Quảng Cáo")
+                            .fontWeight(.semibold)
+                        Image(systemName: "crown.fill")
+                            .foregroundColor(.yellow)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 5)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                }
+            }
             
             List {
                 NavigationLink(value: TestRoute.practiceTest) {
@@ -59,9 +77,12 @@ struct CTTestHome: View {
             }
             //.navigationDestination(for: String.self){value in}
             .scrollContentBackground(.hidden)
-            .listRowSpacing(20)
+            .listRowSpacing(10)
         }
-        
+        .sheet(isPresented: $showingRemoveAdsView) {
+            CTRemoveAdsView()
+                .environmentObject(storeManager)
+        }
     }
     private func resetUserSettings() {
         userSetting.zipCode = ""
