@@ -285,7 +285,9 @@ struct CTMarkedResultView: View {
                     do {
                         try progressManager.clearProgress(for: .markedQuestions)
                     } catch {
+#if DEBUG
                         print("Error clearing progress: \(error)")
+#endif
                     }
                     adManager.showAd()
                 }) {
