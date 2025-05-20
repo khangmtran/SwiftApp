@@ -46,7 +46,9 @@ class AudioManager: ObservableObject{
                 
                 try AVAudioSession.sharedInstance().setActive(true)
             } catch {
+#if DEBUG
                 print("Failed to configure audio session: \(error)")
+#endif
             }
         }
     

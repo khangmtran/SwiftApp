@@ -80,10 +80,8 @@ struct CTTestHome: View {
                             Task { @MainActor in
                                 if newValue {
                                     storeManager.purchasedProductIDs.insert("K.CitizenshipTest.removeads")
-                                    print("Simulated purchase of Remove Ads")
                                 } else {
                                     storeManager.purchasedProductIDs.remove("K.CitizenshipTest.removeads")
-                                    print("Simulated removal of Remove Ads purchase")
                                 }
                             }
                         }

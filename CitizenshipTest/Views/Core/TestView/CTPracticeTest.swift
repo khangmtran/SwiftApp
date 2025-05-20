@@ -138,7 +138,9 @@ struct CTPracticeTest: View {
                 incorrectAnswers: incorrQ
             )
         } catch {
+            #if DEBUG
             print("Error saving progress: \(error)")
+            #endif
         }
     }
 }

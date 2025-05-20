@@ -19,7 +19,6 @@ class InterstitialAdManager: NSObject, ObservableObject {
     // Track when ad timer started (reset when app becomes active)
     private var adTimerStartTime: Date = Date()
     private var isAppActive: Bool = true
-    
     private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
     
     // Reference to StoreManager - will be set from the app
@@ -94,7 +93,9 @@ class InterstitialAdManager: NSObject, ObservableObject {
                 with: interstitialAdUnitID, request: Request())
             interstitialAd?.fullScreenContentDelegate = self
         } catch {
-            print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+#if DEBUG
+            print("Failed to load ad: \(error)")
+#endif
         }
     }
     
@@ -108,7 +109,6 @@ class InterstitialAdManager: NSObject, ObservableObject {
         // Only show ad if enough time has passed since timer reset
         if hasEnoughTimePassedSinceTimerReset() {
             guard let interstitialAd = interstitialAd else {
-                print("Ad wasn't ready.")
                 Task {
                     await loadAd()
                 }
@@ -117,7 +117,6 @@ class InterstitialAdManager: NSObject, ObservableObject {
             
             interstitialAd.present(from: nil)
         } else {
-            print("Skipping ad due to minimum time interval not met (time since reset: \(Date().timeIntervalSince(adTimerStartTime)) seconds)")
         }
     }
 }
@@ -125,29 +124,22 @@ class InterstitialAdManager: NSObject, ObservableObject {
 // MARK: - FullScreenContentDelegate
 extension InterstitialAdManager: FullScreenContentDelegate {
     func adDidRecordImpression(_ ad: FullScreenPresentingAd) {
-        print("Interstitial ad impression recorded")
     }
     
     func adDidRecordClick(_ ad: FullScreenPresentingAd) {
-        print("Interstitial ad click recorded")
     }
     
     func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
-        print("Interstitial ad failed to present with error: \(error.localizedDescription)")
     }
     
     func adWillPresentFullScreenContent(_ ad: FullScreenPresentingAd) {
-        print("Interstitial ad will present")
     }
     
     func adWillDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
-        print("Interstitial ad will dismiss")
     }
     
     func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
-        print("Interstitial ad did dismiss")
         resetAdTimer()
-        // Clear the interstitial ad and load a new one
         interstitialAd = nil
         Task {
             await loadAd()

@@ -24,62 +24,46 @@ class StoreManager: ObservableObject {
 
     func fetchProducts() async {
         do {
-            print("Fetching products with IDs: \(productIDs)")
             products = try await Product.products(for: productIDs)
-            print("Fetched \(products.count) products")
-            
-            if products.isEmpty {
-                loadError = "No products found. Please check your App Store Connect configuration."
-                print("No products found!")
-            }
         } catch {
-            loadError = "Failed to fetch products: \(error.localizedDescription)"
+#if DEBUG
             print("Failed to fetch products: \(error)")
+#endif
         }
     }
 
     func purchase(_ product: Product) async {
         do {
-            print("Attempting to purchase: \(product.id)")
             let result = try await product.purchase()
             
             switch result {
             case .success(let verification):
-                print("Purchase successful, verifying...")
                 if case .verified(let transaction) = verification {
-                    print("Transaction verified: \(transaction.productID)")
                     purchasedProductIDs.insert(transaction.productID)
                     await transaction.finish()
-                    print("Transaction finished, product unlocked")
-                } else {
-                    print("Transaction verification failed")
                 }
-            case .userCancelled:
-                print("Purchase cancelled by user")
-            case .pending:
-                print("Purchase pending further action")
             default:
-                print("Other purchase result")
+#if DEBUG
+                print("purchase error")
+#endif
             }
         } catch {
+            #if DEBUG
             print("Purchase failed with error: \(error.localizedDescription)")
+            #endif
         }
     }
 
     func updatePurchasedProducts() async {
-        print("Checking for existing purchases...")
         for await result in Transaction.currentEntitlements {
             if case .verified(let transaction) = result {
-                print("Found verified purchase: \(transaction.productID)")
                 purchasedProductIDs.insert(transaction.productID)
             }
         }
-        print("Finished checking purchases. Found \(purchasedProductIDs.count) purchased products")
     }
 
     func isPurchased(_ productID: String) -> Bool {
         let result = purchasedProductIDs.contains(productID)
-        print("Checking if product \(productID) is purchased: \(result)")
         return result
     }
     

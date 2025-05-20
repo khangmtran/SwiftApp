@@ -140,7 +140,9 @@ struct CTAllQuestionTest: View {
                 incorrectAnswers: incorrQ
             )
         } catch {
+#if DEBUG
             print("Error saving progress: \(error)")
+#endif
         }
     }
 }
@@ -520,7 +522,9 @@ struct CTAllTestResultView: View {
                     do {
                         try progressManager.clearProgress(for: .allQuestions)
                     } catch {
+#if DEBUG
                         print("Error clearing progress: \(error)")
+#endif
                     }
                     adManager.showAd()
                 }) {

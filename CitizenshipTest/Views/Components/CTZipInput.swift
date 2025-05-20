@@ -50,7 +50,6 @@ struct CTZipInput: View {
                             errorText = "Lỗi kết nối, xin vui lòng kiểm tra kết nối mạng"
                             errorMsg = true
                         } catch {
-                            print("Error: \(error)")
                             errorText = "ZIP Code không hợp lệ, xin vui lòng nhập lại"
                             errorMsg = true
                         }
