@@ -19,7 +19,6 @@ class StoreManager: ObservableObject {
     init() {
         Task {
             await fetchProducts()
-            //await updatePurchasedProducts()
         }
     }
 

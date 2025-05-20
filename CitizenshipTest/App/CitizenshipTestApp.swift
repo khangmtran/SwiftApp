@@ -37,6 +37,13 @@ struct CitizenshipTestApp: App{
                 .environmentObject(audioManager)
                 .environmentObject(storeManager)
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
+                .onAppear {
+                    InterstitialAdManager.shared.setStoreManager(storeManager)
+                    
+                    Task {
+                        await storeManager.updatePurchasedProducts()
+                    }
+                }
         }
     }
 }

@@ -22,6 +22,7 @@ struct CTStudyHome : View{
                 .font(.title)
                 .bold()
                 .multilineTextAlignment(.center)
+                .padding(.top)
             
             if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
                 Button(action: {

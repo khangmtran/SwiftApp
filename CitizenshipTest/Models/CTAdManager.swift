@@ -2,7 +2,7 @@
 //  CTAdManager.swift
 //  CitizenshipTest
 //
-//  Created by Khang Tran on 4/24/25.
+//  Modified on 5/16/25
 //
 
 import SwiftUI
@@ -21,6 +21,13 @@ class InterstitialAdManager: NSObject, ObservableObject {
     private var isAppActive: Bool = true
     
     private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
+    
+    // Reference to StoreManager - will be set from the app
+    private var storeManager: StoreManager?
+    
+    func setStoreManager(_ manager: StoreManager) {
+        self.storeManager = manager
+    }
     
     private override init() {
         super.init()
@@ -77,6 +84,11 @@ class InterstitialAdManager: NSObject, ObservableObject {
     
     @MainActor
     func loadAd() async {
+        // Don't load ads if user has purchased ad removal
+        if let storeManager = storeManager, storeManager.isPurchased("K.CitizenshipTest.removeads") {
+            return
+        }
+        
         do {
             interstitialAd = try await InterstitialAd.load(
                 with: interstitialAdUnitID, request: Request())
@@ -86,7 +98,13 @@ class InterstitialAdManager: NSObject, ObservableObject {
         }
     }
     
+    @MainActor
     func showAd() {
+        // Don't show ads if user has purchased ad removal
+        if let storeManager = storeManager, storeManager.isPurchased("K.CitizenshipTest.removeads") {
+            return
+        }
+        
         // Only show ad if enough time has passed since timer reset
         if hasEnoughTimePassedSinceTimerReset() {
             guard let interstitialAd = interstitialAd else {
@@ -98,7 +116,6 @@ class InterstitialAdManager: NSObject, ObservableObject {
             }
             
             interstitialAd.present(from: nil)
-
         } else {
             print("Skipping ad due to minimum time interval not met (time since reset: \(Date().timeIntervalSince(adTimerStartTime)) seconds)")
         }
