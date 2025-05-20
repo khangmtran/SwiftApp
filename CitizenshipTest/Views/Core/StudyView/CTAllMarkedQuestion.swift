@@ -18,6 +18,7 @@ struct CTAllMarkedQuestion: View {
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var storeManager: StoreManager
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
@@ -252,8 +253,10 @@ struct CTAllMarkedQuestion: View {
                                 .multilineTextAlignment(.center)
                         }
                     }
-                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                           height: AdSizeBanner.size.height)
+                    if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                               height: AdSizeBanner.size.height)
+                    }
                 }
                 .scrollContentBackground(.hidden)
             }

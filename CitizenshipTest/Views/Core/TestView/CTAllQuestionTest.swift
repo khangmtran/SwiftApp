@@ -14,6 +14,7 @@ struct CTAllQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var storeManager: StoreManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var isLoading: Bool = true
@@ -47,8 +48,10 @@ struct CTAllQuestionTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
+                if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             } else {
                 VStack{
                     GeometryReader { geo in
@@ -65,8 +68,10 @@ struct CTAllQuestionTest: View {
                             )
                         }
                     }
-                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                           height: AdSizeBanner.size.height)
+                    if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                               height: AdSizeBanner.size.height)
+                    }
                 }
                 
             }

@@ -13,6 +13,7 @@ import GoogleMobileAds
 struct CTMarkedQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var storeManager: StoreManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var markedQuestions: [CTQuestion] = []
@@ -70,8 +71,10 @@ struct CTMarkedQuestionTest: View {
                         Spacer()
                     }
                     .padding()
-                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                           height: AdSizeBanner.size.height)
+                    if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                               height: AdSizeBanner.size.height)
+                    }
                 }
                 .onAppear(){
                     adManager.showAd()
@@ -93,8 +96,10 @@ struct CTMarkedQuestionTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
+                if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             } else {
                 VStack{
                     GeometryReader { geo in
@@ -113,8 +118,10 @@ struct CTMarkedQuestionTest: View {
                         }
                     }
                 }
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
+                if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             }
         }
         .onAppear {

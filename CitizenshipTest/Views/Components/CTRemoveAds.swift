@@ -45,8 +45,6 @@ struct CTRemoveAdsView: View {
                         .padding(.horizontal)
                     }
                     
-                    Spacer()
-                    
                     if let product = storeManager.products.first(where: { $0.id == removeAdsProductID }) {
                         if storeManager.isPurchased(removeAdsProductID) {
                             VStack {
@@ -55,10 +53,6 @@ struct CTRemoveAdsView: View {
                                     .scaledToFit()
                                     .frame(width: 50, height: 50)
                                     .foregroundColor(.green)
-                                
-                                Text("Bạn đã mua thành công!")
-                                    .font(.headline)
-                                    .padding()
                             }
                         } else {
                             Button(action: {
@@ -66,7 +60,6 @@ struct CTRemoveAdsView: View {
                             }) {
                                 HStack {
                                     Text("Loại Bỏ Quảng Cáo")
-                                        .fontWeight(.bold)
                                     
                                     Spacer()
                                     
@@ -85,6 +78,44 @@ struct CTRemoveAdsView: View {
                                 .padding(.horizontal)
                             }
                             .disabled(isPurchasing)
+                            
+                            VStack{
+                                Text("Nếu bạn đã mua và cần khôi phục sản phẩm")
+                                    .fontWeight(.semibold)
+                                    .multilineTextAlignment(.center)
+                                
+                                Button(action: {
+                                    Task {
+                                        isPurchasing = true
+                                        await storeManager.updatePurchasedProducts()
+                                        if storeManager.isPurchased(removeAdsProductID) {
+                                            alertMessage = "Khôi phục thành công!"
+                                        } else {
+                                            alertMessage = "Không tìm thấy gói đã mua. Vui lòng đảm bảo bạn đang sử dụng đúng tài khoản đã mua."
+                                        }
+                                        
+                                        isPurchasing = false
+                                        showAlert = true
+                                    }
+                                }) {
+                                    HStack {
+                                        Text("Khôi Phục")
+                                        
+                                        if isPurchasing {
+                                            ProgressView()
+                                                .padding(.leading, 5)
+                                        }
+                                    }
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                                }
+                                .disabled(isPurchasing)
+                                .padding(.horizontal)
+                            }
+                            
                         }
                     } else {
                         VStack {
@@ -124,16 +155,16 @@ struct CTRemoveAdsView: View {
     
     private func purchaseProduct(_ product: Product) {
         isPurchasing = true
-
+        
         Task {
             await storeManager.purchase(product)
-
+            
             if storeManager.isPurchased(product.id) {
                 alertMessage = "Cảm ơn bạn đã mua! Tất cả quảng cáo đã được loại bỏ!"
             } else {
                 alertMessage = "Giao dịch chưa hoàn tất. Vui lòng thử lại sau."
             }
-
+            
             isPurchasing = false
             showAlert = true
         }

@@ -30,7 +30,21 @@ class UserSetting: ObservableObject {
         }
     }
     
+    @Published var zipSearchCount: Int {
+        didSet {
+            UserDefaults.standard.set(zipSearchCount, forKey: "zipSearchCount")
+        }
+    }
+    
+    @Published var lastZipSearchDate: Date {
+        didSet {
+            UserDefaults.standard.set(lastZipSearchDate, forKey: "lastZipSearchDate")
+        }
+    }
+    
     init() {
+        self.zipSearchCount = UserDefaults.standard.integer(forKey: "zipSearchCount")
+        self.lastZipSearchDate = UserDefaults.standard.object(forKey: "lastZipSearchDate") as? Date ?? Date.distantPast
         self.zipCode = UserDefaults.standard.string(forKey: "userZip") ?? ""
         self.state = UserDefaults.standard.string(forKey: "userState") ?? ""
         if let savedLegislatorsData = UserDefaults.standard.data(forKey: "userLegislators"),
@@ -38,6 +52,24 @@ class UserSetting: ObservableObject {
             self.legislators = decodedLegislators
         } else {
             self.legislators = []
+        }
+    }
+    
+    func canSearchZip() -> Bool {
+        let calendar = Calendar.current
+        if !calendar.isDateInToday(lastZipSearchDate) {
+            zipSearchCount = 0
+            lastZipSearchDate = Date()
+        }
+        return zipSearchCount < 5
+    }
+    
+    func incrementZipSearchCount() {
+        if Calendar.current.isDateInToday(lastZipSearchDate) {
+            zipSearchCount += 1
+        } else {
+            zipSearchCount = 1
+            lastZipSearchDate = Date()
         }
     }
 }
@@ -65,7 +97,7 @@ class MarkedQuestion{
 
 class QuestionList: ObservableObject {
     @Published var questions: [CTQuestion]
-
+    
     init() {
         self.questions = CTDataLoader().loadQuestions()
     }

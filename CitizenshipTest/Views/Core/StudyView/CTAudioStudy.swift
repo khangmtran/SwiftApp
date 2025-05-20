@@ -15,6 +15,7 @@ struct CTAudioStudy: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var storeManager: StoreManager
     @AppStorage("audioStudyQIndex") private var currentQuestionIndex = 0
     @State private var isPlaying = false
     @State private var playAnswers = true
@@ -166,8 +167,10 @@ struct CTAudioStudy: View {
                         }
                         Spacer()
                     }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
+                if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             }
         }
         .onAppear(){

@@ -28,12 +28,19 @@ struct CTZipInput: View {
                     .padding()
                 
                 Button(action: {
+                    guard userSetting.canSearchZip() else {
+                        errorText = "Bạn đã đạt giới hạn 5 lần tìm kiếm mỗi ngày"
+                        errorMsg = true
+                        return
+                    }
+
                     Task {
                         isTyping = true
                         do {
                             let legislators = try await geocodioService.fetchLegislators(zipCode: tempZipCode)
                             errorMsg = false
-                            await MainActor.run{
+                            await MainActor.run {
+                                userSetting.incrementZipSearchCount()
                                 userSetting.state = legislators.first?.state ?? ""
                                 userSetting.zipCode = tempZipCode
                                 userSetting.legislators = legislators
@@ -49,7 +56,7 @@ struct CTZipInput: View {
                         }
                         isTyping = false
                     }
-                }){
+                }) {
                     Text("Tìm")
                         .font(.title3)
                 }

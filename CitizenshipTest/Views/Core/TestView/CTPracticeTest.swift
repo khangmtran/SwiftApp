@@ -11,6 +11,7 @@ import GoogleMobileAds
 struct CTPracticeTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var storeManager: StoreManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var tenQuestions: [CTQuestion] = []
@@ -46,8 +47,10 @@ struct CTPracticeTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
+                if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             }
             else {
                 VStack{
@@ -58,8 +61,10 @@ struct CTPracticeTest: View {
                             PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
                         }
                     }
-                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                           height: AdSizeBanner.size.height)
+                    if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                               height: AdSizeBanner.size.height)
+                    }
                 }
             }
         }

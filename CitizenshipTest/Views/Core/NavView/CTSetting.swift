@@ -197,7 +197,6 @@ struct CTSetting: View {
                             Text("Đã Nâng Cấp")
                         } else {
                             Text("Miễn Phí")
-                                .frame(alignment: .center)
                         }
                     }
                     
@@ -215,6 +214,38 @@ struct CTSetting: View {
                 .background(.blue.opacity(0.1))
                 .cornerRadius(10)
             }
+            
+            Divider().padding()
+            
+            HStack(spacing: 20) {
+                Button(action: {
+                    if let url = URL(string: "https://sites.google.com/view/lienhe-contact") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("Liên Hệ Chúng Tôi")
+                }
+                
+                Rectangle()
+                        .frame(width: 1, height: 20)
+                        .foregroundColor(.gray)
+                
+                Button(action: {
+                    if let url = URL(string: "https://sites.google.com/view/hocquoctichapp-privacypolicy") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("Chính Sách Bảo Mật")
+                }
+            }
+            
+            VStack{
+                Text("Học Thi Quốc Tịch Mỹ v1.0.0")
+                    .font(.footnote)
+                    .foregroundStyle(.gray)
+                    .padding(.top)
+            }
+            
         }
         .padding()
         .onAppear(){
