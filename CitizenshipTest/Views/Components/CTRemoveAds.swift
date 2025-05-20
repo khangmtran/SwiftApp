@@ -119,18 +119,17 @@ struct CTRemoveAdsView: View {
                         }
                     } else {
                         VStack {
-                            
                             Text("Không thể tải thông tin sản phẩm")
                                 .font(.headline)
                                 .foregroundColor(.red)
                             
-                            //                                if let error = storeManager.loadError {
-                            //                                    Text(error)
-                            //                                        .font(.caption)
-                            //                                        .foregroundColor(.red)
-                            //                                        .multilineTextAlignment(.center)
-                            //                                        .padding(.horizontal)
-                            //                                }
+                            if let error = storeManager.loadError {
+                                Text(error)
+                                    .font(.caption)
+                                    .foregroundColor(.red)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.horizontal)
+                            }
                             
                             
                         }

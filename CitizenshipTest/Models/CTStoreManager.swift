@@ -19,6 +19,7 @@ class StoreManager: ObservableObject {
     init() {
         Task {
             await fetchProducts()
+            await listenForTransactions()
         }
     }
 
@@ -27,15 +28,24 @@ class StoreManager: ObservableObject {
             products = try await Product.products(for: productIDs)
         } catch {
 #if DEBUG
+            loadError = "\(error.localizedDescription), \(error)"
             print("Failed to fetch products: \(error)")
 #endif
+        }
+    }
+
+    func listenForTransactions() async {
+        for await verificationResult in Transaction.updates {
+            if case .verified(let transaction) = verificationResult {
+                purchasedProductIDs.insert(transaction.productID)
+                await transaction.finish()
+            }
         }
     }
 
     func purchase(_ product: Product) async {
         do {
             let result = try await product.purchase()
-            
             switch result {
             case .success(let verification):
                 if case .verified(let transaction) = verification {
