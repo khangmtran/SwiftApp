@@ -253,7 +253,7 @@ struct CTAllMarkedQuestion: View {
                                 .multilineTextAlignment(.center)
                         }
                     }
-                    if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
                         CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                height: AdSizeBanner.size.height)
                     }

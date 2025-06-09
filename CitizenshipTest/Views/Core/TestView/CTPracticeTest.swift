@@ -47,7 +47,7 @@ struct CTPracticeTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }
@@ -61,7 +61,7 @@ struct CTPracticeTest: View {
                             PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
                         }
                     }
-                    if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
                         CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                height: AdSizeBanner.size.height)
                     }

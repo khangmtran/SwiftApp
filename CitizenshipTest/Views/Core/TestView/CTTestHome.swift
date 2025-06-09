@@ -24,7 +24,7 @@ struct CTTestHome: View {
                 .multilineTextAlignment(.center)
                 .padding(.top)
             
-            if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
+            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
                 Button(action: {
                     showingRemoveAdsView = true
                 }) {
@@ -74,14 +74,14 @@ struct CTTestHome: View {
                         }
                     }
                     
-                    Toggle("Toggle Ad-Free Status", isOn: Binding(
-                        get: { storeManager.isPurchased("K.CitizenshipTest.removeads") },
+                    Toggle("Toggle Ad-Free Statu", isOn: Binding(
+                        get: { storeManager.isPurchased("KnT.CitizenshipTest.removeAds") },
                         set: { newValue in
                             Task { @MainActor in
                                 if newValue {
-                                    storeManager.purchasedProductIDs.insert("K.CitizenshipTest.removeads")
+                                    storeManager.purchasedProductIDs.insert("KnT.CitizenshipTest.removeAds")
                                 } else {
-                                    storeManager.purchasedProductIDs.remove("K.CitizenshipTest.removeads")
+                                    storeManager.purchasedProductIDs.remove("KnT.CitizenshipTest.removeAds")
                                 }
                             }
                         }

@@ -193,7 +193,7 @@ struct CTSetting: View {
             VStack {
                 HStack(alignment: .firstTextBaseline) {
                     VStack(alignment: .leading) {
-                        if storeManager.isPurchased("K.CitizenshipTest.removeads") {
+                        if storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
                             Text("Đã Nâng Cấp")
                         } else {
                             Text("Miễn Phí")
@@ -202,7 +202,7 @@ struct CTSetting: View {
                     
                     Spacer()
                     
-                    if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
                         Button(action: {
                             showingRemoveAdsView = true
                         }) {

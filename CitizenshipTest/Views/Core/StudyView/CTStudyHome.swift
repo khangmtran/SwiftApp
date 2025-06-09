@@ -24,7 +24,7 @@ struct CTStudyHome : View{
                 .multilineTextAlignment(.center)
                 .padding(.top)
             
-            if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
+            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
                 Button(action: {
                     showingRemoveAdsView = true
                 }) {

@@ -14,7 +14,7 @@ class StoreManager: ObservableObject {
     @Published var purchasedProductIDs = Set<String>()
     @Published var loadError: String? = nil
 
-    private let productIDs = ["K.CitizenshipTest.removeads"]
+    private let productIDs = ["KnT.CitizenshipTest.removeAds"]
 
     init() {
         Task {
@@ -27,10 +27,9 @@ class StoreManager: ObservableObject {
         do {
             products = try await Product.products(for: productIDs)
         } catch {
-#if DEBUG
-            loadError = "\(error.localizedDescription), \(error)"
+            #if DEBUG
             print("Failed to fetch products: \(error)")
-#endif
+            #endif
         }
     }
 

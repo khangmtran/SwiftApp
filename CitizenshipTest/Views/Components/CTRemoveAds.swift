@@ -15,7 +15,7 @@ struct CTRemoveAdsView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     
-    private let removeAdsProductID = "K.CitizenshipTest.removeads"
+    private let removeAdsProductID = "KnT.CitizenshipTest.removeAds"
     
     var body: some View {
         NavigationStack {
@@ -123,14 +123,13 @@ struct CTRemoveAdsView: View {
                                 .font(.headline)
                                 .foregroundColor(.red)
                             
-                            if let error = storeManager.loadError {
-                                Text(error)
-                                    .font(.caption)
-                                    .foregroundColor(.red)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal)
-                            }
-                            
+//                            if let error = storeManager.loadError {
+//                                Text(error)
+//                                    .font(.caption)
+//                                    .foregroundColor(.red)
+//                                    .multilineTextAlignment(.center)
+//                                    .padding(.horizontal)
+//                            }
                             
                         }
                         .padding()

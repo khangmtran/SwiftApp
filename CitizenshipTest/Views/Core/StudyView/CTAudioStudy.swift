@@ -167,7 +167,7 @@ struct CTAudioStudy: View {
                         }
                         Spacer()
                     }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
-                if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }

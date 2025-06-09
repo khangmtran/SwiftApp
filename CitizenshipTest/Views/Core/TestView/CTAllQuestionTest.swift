@@ -48,7 +48,7 @@ struct CTAllQuestionTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }
@@ -68,7 +68,7 @@ struct CTAllQuestionTest: View {
                             )
                         }
                     }
-                    if !storeManager.isPurchased("K.CitizenshipTest.removeads"){
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
                         CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                height: AdSizeBanner.size.height)
                     }

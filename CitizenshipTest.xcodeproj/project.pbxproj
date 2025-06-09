@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2A5BC92C2DCDB450003EC7C4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A5BC92B2DCDB450003EC7C4 /* StoreKit.framework */; };
-		2A5BC92E2DCDB5AB003EC7C4 /* K.CitizenshipTest.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 2A5BC92D2DCDB5AB003EC7C4 /* K.CitizenshipTest.storekit */; };
+		2A5BC9342DF7994F003EC7C4 /* Học Quốc Tịch.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 2A5BC9332DF7994F003EC7C4 /* Học Quốc Tịch.storekit */; };
 		FAF517E46AB393189F3D9B8F /* Pods_CitizenshipTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1B467D5BA3779669A10890F0 /* Pods-CitizenshipTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CitizenshipTest.debug.xcconfig"; path = "Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest.debug.xcconfig"; sourceTree = "<group>"; };
 		2A5BC92B2DCDB450003EC7C4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		2A5BC92D2DCDB5AB003EC7C4 /* K.CitizenshipTest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = K.CitizenshipTest.storekit; sourceTree = "<group>"; };
+		2A5BC9332DF7994F003EC7C4 /* Học Quốc Tịch.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Học Quốc Tịch.storekit"; sourceTree = "<group>"; };
 		2A7D9E8E2D3C6F93008CC9D4 /* CitizenshipTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CitizenshipTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE02832875BD7B72D84F7D1F /* Pods-CitizenshipTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CitizenshipTest.release.xcconfig"; path = "Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest.release.xcconfig"; sourceTree = "<group>"; };
 		EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CitizenshipTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +58,7 @@
 		2A7D9E852D3C6F93008CC9D4 = {
 			isa = PBXGroup;
 			children = (
-				2A5BC92D2DCDB5AB003EC7C4 /* K.CitizenshipTest.storekit */,
+				2A5BC9332DF7994F003EC7C4 /* Học Quốc Tịch.storekit */,
 				2A7D9E902D3C6F93008CC9D4 /* CitizenshipTest */,
 				2A7D9E8F2D3C6F93008CC9D4 /* Products */,
 				34D1292694DB00011A412928 /* Pods */,
@@ -156,7 +156,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A5BC92E2DCDB5AB003EC7C4 /* K.CitizenshipTest.storekit in Resources */,
+				2A5BC9342DF7994F003EC7C4 /* Học Quốc Tịch.storekit in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,9 +342,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"CitizenshipTest/Preview Content\"";
-				DEVELOPMENT_TEAM = 5DXTD2FHHR;
+				DEVELOPMENT_TEAM = P5Z8ADNW3Q;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -363,8 +363,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = K.CitizenshipTest;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = KnT.CitizenshipTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -380,9 +380,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"CitizenshipTest/Preview Content\"";
-				DEVELOPMENT_TEAM = 5DXTD2FHHR;
+				DEVELOPMENT_TEAM = P5Z8ADNW3Q;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -401,8 +401,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = K.CitizenshipTest;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = KnT.CitizenshipTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

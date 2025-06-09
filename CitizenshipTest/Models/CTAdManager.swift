@@ -84,7 +84,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     @MainActor
     func loadAd() async {
         // Don't load ads if user has purchased ad removal
-        if let storeManager = storeManager, storeManager.isPurchased("K.CitizenshipTest.removeads") {
+        if let storeManager = storeManager, storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
             return
         }
         
@@ -102,7 +102,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     @MainActor
     func showAd() {
         // Don't show ads if user has purchased ad removal
-        if let storeManager = storeManager, storeManager.isPurchased("K.CitizenshipTest.removeads") {
+        if let storeManager = storeManager, storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
             return
         }
         

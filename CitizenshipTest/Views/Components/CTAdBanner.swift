@@ -10,7 +10,7 @@ struct CTAdBannerView: UIViewControllerRepresentable {
         let viewController = UIViewController()
         
         // Only setup the ad if user hasn't purchased ad removal
-        if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
+        if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
             bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174"
             bannerView.rootViewController = viewController
             viewController.view.addSubview(bannerView)
@@ -21,7 +21,7 @@ struct CTAdBannerView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
         // Only load ads if user hasn't purchased ad removal
-        if !storeManager.isPurchased("K.CitizenshipTest.removeads") {
+        if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
             bannerView.load(Request())
         }
     }

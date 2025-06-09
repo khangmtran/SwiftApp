@@ -9,7 +9,7 @@
       }
     ]
   },
-  "identifier" : "390FA762",
+  "identifier" : "39316F52",
   "nonRenewingSubscriptions" : [
 
   ],
@@ -17,7 +17,7 @@
     {
       "displayPrice" : "4.99",
       "familyShareable" : false,
-      "internalID" : "6745666555",
+      "internalID" : "6747050528",
       "localizations" : [
         {
           "description" : "Loại Bỏ Quảng Cáo",
@@ -25,16 +25,16 @@
           "locale" : "vi"
         }
       ],
-      "productID" : "K.CitizenshipTest.removeads",
-      "referenceName" : "RemoveAds",
+      "productID" : "KnT.CitizenshipTest.removeAds",
+      "referenceName" : "CitizenshipTestRemoveAds",
       "type" : "NonConsumable"
     }
   ],
   "settings" : {
-    "_applicationInternalID" : "6744782320",
-    "_developerTeamID" : "5DXTD2FHHR",
+    "_applicationInternalID" : "6747049894",
+    "_developerTeamID" : "P5Z8ADNW3Q",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 768466256.87571502,
+    "_lastSynchronizedDate" : 771201361.38213801,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
