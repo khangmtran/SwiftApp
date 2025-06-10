@@ -74,7 +74,7 @@ struct CTTestHome: View {
                         }
                     }
                     
-                    Toggle("Toggle Ad-Free Statu", isOn: Binding(
+                    Toggle("Toggle Ad-Free Status", isOn: Binding(
                         get: { storeManager.isPurchased("KnT.CitizenshipTest.removeAds") },
                         set: { newValue in
                             Task { @MainActor in

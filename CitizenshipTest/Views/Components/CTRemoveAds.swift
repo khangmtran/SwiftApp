@@ -155,12 +155,18 @@ struct CTRemoveAdsView: View {
         isPurchasing = true
         
         Task {
-            await storeManager.purchase(product)
-            
-            if storeManager.isPurchased(product.id) {
-                alertMessage = "Cảm ơn bạn đã mua! Tất cả quảng cáo đã được loại bỏ!"
-            } else {
-                alertMessage = "Giao dịch chưa hoàn tất. Vui lòng thử lại sau."
+            await storeManager.updatePurchasedProducts()
+            let alreadyOwned = storeManager.isPurchased(product.id)
+            if alreadyOwned{
+                alertMessage = "Sản phẩm đã được mua từ trước, hệ thống đã khôi phục sản phẩm cho bạn!"
+            }
+            else{
+                await storeManager.purchase(product)
+                if storeManager.isPurchased(product.id) {
+                    alertMessage = "Cảm ơn bạn đã mua! Tất cả quảng cáo đã được loại bỏ!"
+                } else {
+                    alertMessage = "Giao dịch chưa hoàn tất. Vui lòng thử lại sau."
+                }
             }
             
             isPurchasing = false

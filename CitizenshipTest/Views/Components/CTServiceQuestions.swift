@@ -90,7 +90,7 @@ struct ServiceQuestions: View {
         }
         
         // Add the rest of the text
-        let endText = AttributedString(" để biết thêm thông tin chi tiết")
+        let endText = AttributedString(" để tìm thông tin chính xác")
         
         // Combine all parts
         text.append(linkText)
@@ -160,7 +160,7 @@ struct ServiceQuestions: View {
         }
         
         // Add the rest of the text
-        let endText = AttributedString(" để biết thêm thông tin chi tiết")
+        let endText = AttributedString(" để tìm thông tin chính xác")
         
         // Combine all parts
         text.append(linkText)
