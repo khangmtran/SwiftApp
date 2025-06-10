@@ -124,11 +124,30 @@ struct CTSetting: View {
                         Text("\(senator.firstName) \(senator.lastName)").font(.callout)
                     }
                 }
-                
+                HStack{
+                    Text("Để có thông tin chính xác nhất, vui lòng truy cập:")
+                        .font(.callout)
+                        
+                }.padding(.vertical, 5)
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(makeAttributedString(linkText: "usa.gov",
+                                              fullText: "usa.gov để tìm Governor - Thống Đốc",
+                                              url: "https://www.usa.gov/state-governments"))
+                    .font(.callout)
+                    Text(makeAttributedString(linkText: "house.gov",
+                                              fullText: "house.gov để tìm Representative - Hạ Nghị Sĩ",
+                                              url: "https://www.house.gov/representatives/find-your-representative"))
+                    .font(.callout)
+                    Text(makeAttributedString(linkText: "senate.gov",
+                                              fullText: "senate.gov để tìm Senator - Thượng Nghị Sĩ",
+                                              url: "https://www.senate.gov"))
+                    .font(.callout)
+                }
             }
             .padding()
             .background(.blue.opacity(0.1))
             .cornerRadius(10)
+            
             
             Text("Âm Thanh")
                 .font(.title3)
@@ -219,7 +238,7 @@ struct CTSetting: View {
             
             HStack(spacing: 20) {
                 Button(action: {
-                    if let url = URL(string: "https://sites.google.com/view/lienhe-contact") {
+                    if let url = URL(string: "https://kntdeveloper.com/contact.html") {
                         UIApplication.shared.open(url)
                     }
                 }) {
@@ -227,8 +246,8 @@ struct CTSetting: View {
                 }
                 
                 Rectangle()
-                        .frame(width: 1, height: 20)
-                        .foregroundColor(.gray)
+                    .frame(width: 1, height: 20)
+                    .foregroundColor(.gray)
                 
                 Button(action: {
                     if let url = URL(string: "https://sites.google.com/view/hocquoctichapp-privacypolicy") {
@@ -265,6 +284,15 @@ struct CTSetting: View {
                 .environmentObject(storeManager)
         }
     }
+}
+
+func makeAttributedString(linkText: String, fullText: String, url: String) -> AttributedString {
+    var attributedString = AttributedString(fullText)
+    if let range = attributedString.range(of: linkText) {
+        attributedString[range].link = URL(string: url)
+        attributedString[range].foregroundColor = .blue
+    }
+    return attributedString
 }
 
 #Preview {
