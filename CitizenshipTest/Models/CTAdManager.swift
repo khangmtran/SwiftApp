@@ -2,7 +2,7 @@
 //  CTAdManager.swift
 //  CitizenshipTest
 //
-//  Modified on 5/16/25
+//  Modified to disable ads for App Store submission
 //
 
 import SwiftUI
@@ -10,17 +10,15 @@ import GoogleMobileAds
 
 class InterstitialAdManager: NSObject, ObservableObject {
     static let shared = InterstitialAdManager()
-    
     @Published private var interstitialAd: InterstitialAd?
-    
-    // Minimum interval between ads (in seconds)
+    // FLAG TO DISABLE ADS
+    private let adsDisabled = true
+    // Minimum interval between ads
     private let minimumAdInterval: TimeInterval = 120 // 2 minutes
-    
     // Track when ad timer started (reset when app becomes active)
     private var adTimerStartTime: Date = Date()
     private var isAppActive: Bool = true
     private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
-    
     // Reference to StoreManager - will be set from the app
     private var storeManager: StoreManager?
     private let networkMonitor = NetworkMonitor.shared
@@ -31,6 +29,11 @@ class InterstitialAdManager: NSObject, ObservableObject {
     
     private override init() {
         super.init()
+        
+        // Don't initialize anything if ads are disabled
+        if adsDisabled {
+            return
+        }
         
         // Register for app lifecycle notifications
         NotificationCenter.default.addObserver(
@@ -57,22 +60,27 @@ class InterstitialAdManager: NSObject, ObservableObject {
     
     // Reset the ad timer when app becomes active
     @objc private func appDidBecomeActive() {
+        if adsDisabled { return }
         resetAdTimer()
         isAppActive = true
     }
     
     // Mark app as inactive when it goes to background
     @objc private func appWillResignActive() {
+        if adsDisabled { return }
         isAppActive = false
     }
     
     // Reset the ad timer - called when app becomes active
     private func resetAdTimer() {
+        if adsDisabled { return }
         adTimerStartTime = Date()
     }
     
     // Check if enough time has passed since timer was reset
     private func hasEnoughTimePassedSinceTimerReset() -> Bool {
+        if adsDisabled { return false }
+        
         // If app is not active, then time requirement isn't met
         if !isAppActive {
             return false
@@ -84,7 +92,9 @@ class InterstitialAdManager: NSObject, ObservableObject {
     
     @MainActor
     func loadAd() async {
-        // Don't load ads if user has purchased ad removal
+        // Don't load ads if disabled or user has purchased ad removal
+        if adsDisabled { return }
+        
         if let storeManager = storeManager, storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
             return
         }
@@ -109,7 +119,9 @@ class InterstitialAdManager: NSObject, ObservableObject {
     
     @MainActor
     func showAd() {
-        // Don't show ads if user has purchased ad removal
+        // Don't show ads if disabled or user has purchased ad removal
+        if adsDisabled { return }
+        
         if let storeManager = storeManager, storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
             return
         }
@@ -131,7 +143,6 @@ class InterstitialAdManager: NSObject, ObservableObject {
             }
             
             interstitialAd.present(from: nil)
-        } else {
         }
     }
 }
@@ -154,6 +165,7 @@ extension InterstitialAdManager: FullScreenContentDelegate {
     }
     
     func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
+        if adsDisabled { return }
         resetAdTimer()
         interstitialAd = nil
         Task {

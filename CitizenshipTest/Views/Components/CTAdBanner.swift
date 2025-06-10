@@ -6,9 +6,14 @@ struct CTAdBannerView: UIViewControllerRepresentable {
     @StateObject private var networkMonitor = NetworkMonitor.shared
 
     let bannerView = BannerView(adSize: AdSizeBanner)
+    // THIS FLAG TO DISABLE BANNER ADS
+    private let adsDisabled = true
     
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()
+        if adsDisabled {
+            return viewController
+        }
         
         // Only setup the ad if user hasn't purchased ad removal
         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
@@ -21,6 +26,9 @@ struct CTAdBannerView: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        if adsDisabled {
+            return
+        }
         // Only load ads if user hasn't purchased ad removal
         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
             bannerView.load(Request())

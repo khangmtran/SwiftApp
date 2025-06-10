@@ -74,10 +74,10 @@ struct CTZipInput: View {
                     ProgressView()
                 }
                 Spacer()
-                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                           height: AdSizeBanner.size.height)
-                }
+//                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected {
+//                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+//                                           height: AdSizeBanner.size.height)
+//                }
             }
             .navigationTitle("Tìm Đại Diện")
             .toolbar {

@@ -189,10 +189,10 @@ struct CTAllQuestions: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
-            }
+//            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+//                CTAdBannerView().frame(width: AdSizeBanner.size.width,
+//                                       height: AdSizeBanner.size.height)
+//            }
         }
         .scrollContentBackground(.hidden)
         .sheet(isPresented: $showingZipPrompt) {

@@ -49,10 +49,10 @@ struct CTAllQuestionTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                           height: AdSizeBanner.size.height)
-                }
+//                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+//                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+//                                           height: AdSizeBanner.size.height)
+//                }
             } else {
                 VStack{
                     GeometryReader { geo in
@@ -69,10 +69,10 @@ struct CTAllQuestionTest: View {
                             )
                         }
                     }
-                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                               height: AdSizeBanner.size.height)
-                    }
+//                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+//                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+//                                               height: AdSizeBanner.size.height)
+//                    }
                 }
                 
             }

@@ -48,10 +48,10 @@ struct CTPracticeTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                           height: AdSizeBanner.size.height)
-                }
+//                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+//                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+//                                           height: AdSizeBanner.size.height)
+//                }
             }
             else {
                 VStack{
@@ -62,10 +62,10 @@ struct CTPracticeTest: View {
                             PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
                         }
                     }
-                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                               height: AdSizeBanner.size.height)
-                    }
+//                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+//                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+//                                               height: AdSizeBanner.size.height)
+//                    }
                 }
             }
         }
