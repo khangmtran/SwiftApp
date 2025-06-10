@@ -23,6 +23,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     
     // Reference to StoreManager - will be set from the app
     private var storeManager: StoreManager?
+    private let networkMonitor = NetworkMonitor.shared
     
     func setStoreManager(_ manager: StoreManager) {
         self.storeManager = manager
@@ -88,6 +89,13 @@ class InterstitialAdManager: NSObject, ObservableObject {
             return
         }
         
+        guard networkMonitor.isConnected else {
+#if DEBUG
+            print("No internet connection - skipping ad load")
+#endif
+            return
+        }
+        
         do {
             interstitialAd = try await InterstitialAd.load(
                 with: interstitialAdUnitID, request: Request())
@@ -103,6 +111,13 @@ class InterstitialAdManager: NSObject, ObservableObject {
     func showAd() {
         // Don't show ads if user has purchased ad removal
         if let storeManager = storeManager, storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
+            return
+        }
+        
+        guard networkMonitor.isConnected else {
+#if DEBUG
+            print("No internet connection - skipping ad display")
+#endif
             return
         }
         

@@ -21,6 +21,7 @@ struct CTAllQuestions: View {
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     @ObservedObject private var adManager = InterstitialAdManager.shared
+    @StateObject private var networkMonitor = NetworkMonitor.shared
     
     var body: some View {
         VStack{
@@ -188,7 +189,7 @@ struct CTAllQuestions: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
+            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
                 CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                        height: AdSizeBanner.size.height)
             }

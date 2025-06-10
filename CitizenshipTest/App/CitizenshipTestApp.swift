@@ -20,6 +20,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var wrongAnswer = WrongAnswer()
     @StateObject private var audioManager = AudioManager()
     @StateObject private var storeManager = StoreManager()
+    @StateObject private var networkMonitor = NetworkMonitor.shared
 
     init() {
         MobileAds.shared.start(completionHandler: nil)
@@ -36,6 +37,7 @@ struct CitizenshipTestApp: App{
                 .environmentObject(wrongAnswer)
                 .environmentObject(audioManager)
                 .environmentObject(storeManager)
+                .environmentObject(networkMonitor)
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
                 .onAppear {
                     InterstitialAdManager.shared.setStoreManager(storeManager)

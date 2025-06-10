@@ -9,12 +9,14 @@ import GoogleMobileAds
 
 struct CTZipInput: View {
     @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var storeManager: StoreManager
     @Environment(\.dismiss) private var dismiss
     @State private var tempZipCode: String = ""
     @State private var isTyping = false
     @State private var errorMsg = false
     @State private var errorText = "ZIP Code không hợp lệ, xin vui lòng nhập lại"
     private let geocodioService = CTGeocodioService()
+    @StateObject private var networkMonitor = NetworkMonitor.shared
     
     var body: some View {
         NavigationView {
@@ -72,8 +74,10 @@ struct CTZipInput: View {
                     ProgressView()
                 }
                 Spacer()
-                CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                       height: AdSizeBanner.size.height)
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             }
             .navigationTitle("Tìm Đại Diện")
             .toolbar {

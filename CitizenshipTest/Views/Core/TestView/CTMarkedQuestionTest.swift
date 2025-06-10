@@ -29,6 +29,7 @@ struct CTMarkedQuestionTest: View {
     @Query private var markedQuestionIds: [MarkedQuestion]
     @AppStorage("markedQuestionsTestCompleted") private var testCompleted = false
     @ObservedObject private var adManager = InterstitialAdManager.shared
+    @StateObject private var networkMonitor = NetworkMonitor.shared
     
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
@@ -71,7 +72,7 @@ struct CTMarkedQuestionTest: View {
                         Spacer()
                     }
                     .padding()
-                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
                         CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                height: AdSizeBanner.size.height)
                     }
@@ -96,7 +97,7 @@ struct CTMarkedQuestionTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }
@@ -118,7 +119,7 @@ struct CTMarkedQuestionTest: View {
                         }
                     }
                 }
-                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }

@@ -26,6 +26,7 @@ struct CTAllQuestionTest: View {
     @Environment(\.modelContext) private var context
     @AppStorage("allQuestionsTestCompleted") private var testCompleted = false
     @ObservedObject private var adManager = InterstitialAdManager.shared
+    @StateObject private var networkMonitor = NetworkMonitor.shared
 
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
@@ -48,7 +49,7 @@ struct CTAllQuestionTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }
@@ -68,7 +69,7 @@ struct CTAllQuestionTest: View {
                             )
                         }
                     }
-                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
                         CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                height: AdSizeBanner.size.height)
                     }

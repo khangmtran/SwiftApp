@@ -62,6 +62,34 @@ struct CTTestHome: View {
                 }
                 .listRowBackground(Color.blue.opacity(0.1))
                 
+                Section(header: Text("Development Tools")) {
+                    Button(action: {
+                        resetUserSettings()
+                    }) {
+                        HStack {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                            Text("Xóa Cài Đặt (Reset ZIP Code)")
+                                .foregroundColor(.red)
+                        }
+                    }
+                    
+                    Toggle("Toggle Ad-Free Status", isOn: Binding(
+                        get: { storeManager.isPurchased("KnT.CitizenshipTest.removeAds") },
+                        set: { newValue in
+                            Task { @MainActor in
+                                if newValue {
+                                    storeManager.purchasedProductIDs.insert("KnT.CitizenshipTest.removeAds")
+                                } else {
+                                    storeManager.purchasedProductIDs.remove("KnT.CitizenshipTest.removeAds")
+                                }
+                            }
+                        }
+                    ))
+                    .foregroundColor(.blue)
+                    
+                }
+                
             }
             //.navigationDestination(for: String.self){value in}
             .scrollContentBackground(.hidden)

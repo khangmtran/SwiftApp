@@ -28,6 +28,7 @@ struct CTAudioStudy: View {
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     @ObservedObject private var adManager = InterstitialAdManager.shared
+    @StateObject private var networkMonitor = NetworkMonitor.shared
     
     // Duration between speaking question and answer (seconds)
     private let pauseDuration: TimeInterval = 3
@@ -167,7 +168,7 @@ struct CTAudioStudy: View {
                         }
                         Spacer()
                     }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
-                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds"){
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                            height: AdSizeBanner.size.height)
                 }
