@@ -9,6 +9,7 @@ import SwiftUI
 import AVFoundation
 import SwiftData
 import GoogleMobileAds
+import FirebaseCrashlytics
 
 struct CTMarkedQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
@@ -77,9 +78,6 @@ struct CTMarkedQuestionTest: View {
 //                                               height: AdSizeBanner.size.height)
 //                    }
                 }
-                .onAppear(){
-                    adManager.showAd()
-                }
             } else if showResult || testCompleted {
                 CTMarkedResultView(
                     questions: $markedQuestions,
@@ -95,6 +93,7 @@ struct CTMarkedQuestionTest: View {
                 )
                 .onAppear() {
                     testCompleted = true
+                    Crashlytics.crashlytics().log("User's in markQTest result view")
                     adManager.showAd()
                 }
 //                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
@@ -126,15 +125,18 @@ struct CTMarkedQuestionTest: View {
             }
         }
         .onAppear {
+            Crashlytics.crashlytics().log("User went to markQTest")
             checkForExistingProgress()
         }
         .alert("Tiếp tục bài kiểm tra?", isPresented: $showingProgressDialog) {
             Button("Bắt đầu lại", role: .destructive) {
                 startNewTest()
+                Crashlytics.crashlytics().log("User decided to start new test in markedTest")
                 adManager.showAd()
             }
             Button("Tiếp tục", role: .cancel) {
                 isLoading = false
+                Crashlytics.crashlytics().log("User decided to continue old test in markTest")
                 adManager.showAd()
             }
         } message: {

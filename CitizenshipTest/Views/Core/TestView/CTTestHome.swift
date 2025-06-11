@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseCrashlytics
 
 struct CTTestHome: View {
     @EnvironmentObject var userSetting: UserSetting
@@ -65,6 +66,9 @@ struct CTTestHome: View {
             //.navigationDestination(for: String.self){value in}
             .scrollContentBackground(.hidden)
             .listRowSpacing(10)
+        }
+        .onAppear(){
+            Crashlytics.crashlytics().log("User went to TestHome")
         }
         .sheet(isPresented: $showingRemoveAdsView) {
             CTRemoveAdsView()

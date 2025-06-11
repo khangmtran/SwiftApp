@@ -5,13 +5,14 @@
 //  Created by Khang Tran on 1/19/25.
 //
 import SwiftUI
+import FirebaseCrashlytics
 
 struct CTStudyHome : View{
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questions: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var wrongAns: WrongAnswer
-    @EnvironmentObject var selectedPard: SelectedPart
+    @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var storeManager: StoreManager
     @State private var showingRemoveAdsView = false
@@ -23,7 +24,6 @@ struct CTStudyHome : View{
                 .bold()
                 .multilineTextAlignment(.center)
                 .padding(.top)
-            
             if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
                 Button(action: {
                     showingRemoveAdsView = true
@@ -51,7 +51,7 @@ struct CTStudyHome : View{
                     CTCustomMenuItem(title: "Học Theo Nhóm", subtitle: "Học 100 câu hỏi theo từng nhóm từ khoá", assetImage: "bookstack4")
                 }
                 .listRowBackground(Color.blue.opacity(0.1))
-                
+
                 NavigationLink(value: StudyRoute.allMarkedQuestions) {
                     CTCustomMenuItem(title: "Câu Hỏi Đánh Dấu", subtitle: "Xem tất cả câu hỏi được đánh dấu", assetImage: "bookmark1")
                 }
@@ -69,7 +69,14 @@ struct CTStudyHome : View{
             CTRemoveAdsView()
                 .environmentObject(storeManager)
         }
-        
+        .onAppear(){
+            Crashlytics.crashlytics().log("User went to study home")
+        }
+        Button(action:{
+            fatalError("crash")
+        }){
+            Text("fatal")
+        }
     }
 }
 

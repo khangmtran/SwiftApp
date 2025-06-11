@@ -9,6 +9,7 @@ import SwiftUI
 import AVFoundation
 import SwiftData
 import GoogleMobileAds
+import FirebaseCrashlytics
 
 struct CTAllMarkedQuestion: View {
     @State private var synthesizer = AVSpeechSynthesizer()
@@ -93,6 +94,7 @@ struct CTAllMarkedQuestion: View {
                             ) {
                                 Button("Xóa Tất Cả", role: .destructive) {
                                     removeAllMarkedQuestions()
+                                    Crashlytics.crashlytics().log("User removed all mark questions")
                                 }
                                 Button("Hủy", role: .cancel) {}
                             } message: {
@@ -265,6 +267,7 @@ struct CTAllMarkedQuestion: View {
             }
         }
         .onAppear(){
+            Crashlytics.crashlytics().log("User went to AllMarkedQuestions")
             adManager.showAd()
         }
         .onDisappear(){

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2A5BC92C2DCDB450003EC7C4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A5BC92B2DCDB450003EC7C4 /* StoreKit.framework */; };
 		2A5BC9342DF7994F003EC7C4 /* Học Quốc Tịch.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 2A5BC9332DF7994F003EC7C4 /* Học Quốc Tịch.storekit */; };
+		2A5BC9402DFA24D0003EC7C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A5BC93F2DFA24D0003EC7C4 /* GoogleService-Info.plist */; };
+		2A5BC9432DFA2682003EC7C4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2A5BC9422DFA2682003EC7C4 /* FirebaseAnalytics */; };
+		2A5BC9452DFA2682003EC7C4 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2A5BC9442DFA2682003EC7C4 /* FirebaseCrashlytics */; };
 		FAF517E46AB393189F3D9B8F /* Pods_CitizenshipTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */; };
 /* End PBXBuildFile section */
 
@@ -16,6 +19,7 @@
 		1B467D5BA3779669A10890F0 /* Pods-CitizenshipTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CitizenshipTest.debug.xcconfig"; path = "Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest.debug.xcconfig"; sourceTree = "<group>"; };
 		2A5BC92B2DCDB450003EC7C4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2A5BC9332DF7994F003EC7C4 /* Học Quốc Tịch.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Học Quốc Tịch.storekit"; sourceTree = "<group>"; };
+		2A5BC93F2DFA24D0003EC7C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2A7D9E8E2D3C6F93008CC9D4 /* CitizenshipTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CitizenshipTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE02832875BD7B72D84F7D1F /* Pods-CitizenshipTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CitizenshipTest.release.xcconfig"; path = "Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest.release.xcconfig"; sourceTree = "<group>"; };
 		EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CitizenshipTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,7 +52,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAF517E46AB393189F3D9B8F /* Pods_CitizenshipTest.framework in Frameworks */,
+				2A5BC9452DFA2682003EC7C4 /* FirebaseCrashlytics in Frameworks */,
 				2A5BC92C2DCDB450003EC7C4 /* StoreKit.framework in Frameworks */,
+				2A5BC9432DFA2682003EC7C4 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +64,7 @@
 		2A7D9E852D3C6F93008CC9D4 = {
 			isa = PBXGroup;
 			children = (
+				2A5BC93F2DFA24D0003EC7C4 /* GoogleService-Info.plist */,
 				2A5BC9332DF7994F003EC7C4 /* Học Quốc Tịch.storekit */,
 				2A7D9E902D3C6F93008CC9D4 /* CitizenshipTest */,
 				2A7D9E8F2D3C6F93008CC9D4 /* Products */,
@@ -104,6 +111,7 @@
 				2A7D9E8B2D3C6F93008CC9D4 /* Frameworks */,
 				2A7D9E8C2D3C6F93008CC9D4 /* Resources */,
 				C59E69E4C8112141DF5C0547 /* [CP] Copy Pods Resources */,
+				2A5BC94A2DFA3809003EC7C4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -141,6 +149,9 @@
 			);
 			mainGroup = 2A7D9E852D3C6F93008CC9D4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2A5BC9412DFA2682003EC7C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2A7D9E8F2D3C6F93008CC9D4 /* Products */;
 			projectDirPath = "";
@@ -157,12 +168,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A5BC9342DF7994F003EC7C4 /* Học Quốc Tịch.storekit in Resources */,
+				2A5BC9402DFA24D0003EC7C4 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2A5BC94A2DFA3809003EC7C4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
 		75137C25DC1E57B2087FA38B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -343,6 +377,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"CitizenshipTest/Preview Content\"";
 				DEVELOPMENT_TEAM = P5Z8ADNW3Q;
 				ENABLE_PREVIEWS = YES;
@@ -432,6 +467,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2A5BC9412DFA2682003EC7C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2A5BC9422DFA2682003EC7C4 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A5BC9412DFA2682003EC7C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		2A5BC9442DFA2682003EC7C4 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A5BC9412DFA2682003EC7C4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2A7D9E862D3C6F93008CC9D4 /* Project object */;
 }

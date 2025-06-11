@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import SwiftData
+import FirebaseCrashlytics
 
 struct CTFlashCard: View{
     @State private var questions: [CTQuestion] = []
@@ -36,6 +37,7 @@ struct CTFlashCard: View{
                 Text("Thẻ \(qIndex + 1) / \(questions.count)") 
                 Spacer()
                 Button(action: {
+                    Crashlytics.crashlytics().log("User find card in flashcard")
                     showJumpPrompt = true
                 }) {
                     HStack {
@@ -45,6 +47,7 @@ struct CTFlashCard: View{
                 }
                 Spacer()
                 Button(action:{
+                    Crashlytics.crashlytics().log("User look for question types in flash")
                     showQuestionType = true
                 }){
                     Text("\(qType)")
@@ -98,6 +101,7 @@ struct CTFlashCard: View{
             if questions.isEmpty{
                 questions = questionList.questions
             }
+            Crashlytics.crashlytics().log("User went to flashcard")
             adManager.showAd()
         }
         .safeAreaInset(edge: .bottom) {

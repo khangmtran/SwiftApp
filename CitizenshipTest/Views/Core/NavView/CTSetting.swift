@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import FirebaseCrashlytics
 
 struct CTSetting: View {
     @EnvironmentObject var userSetting: UserSetting
@@ -189,6 +190,7 @@ struct CTSetting: View {
                     }
                     .pickerStyle(.menu)
                     .onChange(of: audioManager.voiceIdentifier) {
+                        Crashlytics.crashlytics().log("User changed voice in Setting")
                         if let voice = voices.first(where: { $0.identifier == audioManager.voiceIdentifier }) {
                             audioManager.voiceActor = voice.name
                             synthesizer.stopSpeaking(at: .immediate)
@@ -269,6 +271,8 @@ struct CTSetting: View {
         .padding()
         .onAppear(){
             voices = audioManager.getVoices()
+            Crashlytics.crashlytics().log("User went to Setting")
+            
         }
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)

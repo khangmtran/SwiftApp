@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import GoogleMobileAds
+import FirebaseCrashlytics
 
 struct CTZipInput: View {
     @EnvironmentObject var userSetting: UserSetting
@@ -30,6 +31,7 @@ struct CTZipInput: View {
                     .padding()
                 
                 Button(action: {
+                    Crashlytics.crashlytics().log("User look for representative in zipInput")
                     guard userSetting.canSearchZip() else {
                         errorText = "Bạn đã đạt giới hạn 5 lần tìm kiếm mỗi ngày"
                         errorMsg = true
@@ -92,6 +94,7 @@ struct CTZipInput: View {
         }
         .onAppear {
             tempZipCode = userSetting.zipCode
+            Crashlytics.crashlytics().log("User went to ZipInput")
         }
     }
 }

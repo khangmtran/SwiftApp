@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import AVFoundation
 import GoogleMobileAds
+import FirebaseCrashlytics
 
 struct CTAudioStudy: View {
     @EnvironmentObject var questionList: QuestionList
@@ -175,6 +176,7 @@ struct CTAudioStudy: View {
             }
         }
         .onAppear(){
+            Crashlytics.crashlytics().log("User went to AudioStudy")
             adManager.showAd()
         }
         .sheet(isPresented: $showingZipPrompt) {
@@ -192,6 +194,7 @@ struct CTAudioStudy: View {
             stopAudio()
         } else {
             playCurrentQuestion()
+            Crashlytics.crashlytics().log("User plays audio in AudioStudy")
         }
     }
     
@@ -310,6 +313,7 @@ struct CTAudioStudy: View {
         synthesizer.delegate = nil
         delegate = nil
         UIApplication.shared.isIdleTimerDisabled = false
+        Crashlytics.crashlytics().log("User stop listening in AudioStudy")
         adManager.showAd()
     }
     

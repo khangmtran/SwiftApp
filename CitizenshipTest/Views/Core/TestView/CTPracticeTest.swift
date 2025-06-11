@@ -7,6 +7,7 @@ import SwiftUI
 import AVFoundation
 import SwiftData
 import GoogleMobileAds
+import FirebaseCrashlytics
 
 struct CTPracticeTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
@@ -45,13 +46,14 @@ struct CTPracticeTest: View {
                     testCompleted: $testCompleted
                 )
                 .onAppear(){
+                    Crashlytics.crashlytics().log("User's in practiceTest resultview")
                     testCompleted = true
                     adManager.showAd()
                 }
-//                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-//                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-//                                           height: AdSizeBanner.size.height)
-//                }
+                //                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                //                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                //                                           height: AdSizeBanner.size.height)
+                //                }
             }
             else {
                 VStack{
@@ -62,24 +64,27 @@ struct CTPracticeTest: View {
                             PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
                         }
                     }
-//                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-//                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
-//                                               height: AdSizeBanner.size.height)
-//                    }
+                    //                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                    //                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                    //                                               height: AdSizeBanner.size.height)
+                    //                    }
                 }
             }
         }
         .onAppear {
-                checkForExistingProgress()
-                isLoading = false
+            Crashlytics.crashlytics().log("User went to practiceTest(10q)")
+            checkForExistingProgress()
+            isLoading = false
         }
         .alert("Tiếp tục bài kiểm tra?", isPresented: $showingProgressDialog) {
             Button("Tiếp tục", role: .cancel) {
                 isLoading = false
+                Crashlytics.crashlytics().log("User decided to continue old test in PracticeTest")
                 adManager.showAd()
             }
             Button("Bắt đầu lại", role: .destructive) {
                 startNewTest()
+                Crashlytics.crashlytics().log("User decided to start new test in PracticeTest")
                 adManager.showAd()
             }
         } message: {
@@ -139,9 +144,9 @@ struct CTPracticeTest: View {
                 incorrectAnswers: incorrQ
             )
         } catch {
-            #if DEBUG
+#if DEBUG
             print("Error saving progress: \(error)")
-            #endif
+#endif
         }
     }
 }
@@ -267,7 +272,7 @@ struct CTResultView: View {
                                         .frame(height: 18)
                                 }
                                 .padding(.bottom)
-                                                                    
+                                
                                 Button(action: {
                                     if let existingMark = markedQuestions.first(where: {$0.id == question.id}) {
                                         context.delete(existingMark)
@@ -476,7 +481,7 @@ struct PracticeAnswerView: View{
                                 .cornerRadius(10)
                         }
                         .padding(.horizontal)
-                    
+                        
                     }
                     
                     else{
@@ -559,12 +564,12 @@ struct PracticeAnswerView: View{
                             .resizable()
                             .scaledToFit()
                             .frame(height: 50)
-                            //.padding(.bottom)
+                        //.padding(.bottom)
                     }
                 }
                 Spacer()
             }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
-
+            
         }
         .sheet(isPresented: $showZipInput) {
             CTZipInput()

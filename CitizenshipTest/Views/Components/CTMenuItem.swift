@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseCrashlytics
 
 struct CTCustomMenuItem: View{
     let title: String
@@ -21,7 +22,6 @@ struct CTCustomMenuItem: View{
     }
     
     var body: some View{
-        
         HStack{
             VStack{
                 if let systemImg = systemImg{

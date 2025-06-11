@@ -9,6 +9,7 @@ import SwiftUI
 import AVFoundation
 import SwiftData
 import GoogleMobileAds
+import FirebaseCrashlytics
 
 struct CTAllQuestions: View {
     @State private var synthesizer = AVSpeechSynthesizer()
@@ -201,6 +202,7 @@ struct CTAllQuestions: View {
         }
         .navigationTitle("100 Câu Hỏi")
         .onAppear(){
+            Crashlytics.crashlytics().log("User went to AllQuestions")
             adManager.showAd()
         }
         .onDisappear(){

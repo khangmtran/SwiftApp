@@ -7,6 +7,7 @@
 
 import SwiftUI
 import StoreKit
+import FirebaseCrashlytics
 
 struct CTRemoveAdsView: View {
     @Environment(\.dismiss) private var dismiss
@@ -14,7 +15,7 @@ struct CTRemoveAdsView: View {
     @State private var isPurchasing = false
     @State private var showAlert = false
     @State private var alertMessage = ""
-    
+
     private let removeAdsProductID = "KnT.CitizenshipTest.removeAds"
     
     var body: some View {
@@ -147,6 +148,10 @@ struct CTRemoveAdsView: View {
             }
             .alert(alertMessage, isPresented: $showAlert) {
                 Button("OK", role: .cancel) {}
+            }
+            .onAppear(){
+                Crashlytics.crashlytics().log("User went to see RemoveAds")
+
             }
         }
     }

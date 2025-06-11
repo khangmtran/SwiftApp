@@ -5,6 +5,7 @@
 //  Created by Khang Tran on 2/27/25.
 //
 import SwiftUI
+import FirebaseCrashlytics
 
 struct ServiceQuestions: View {
     let questionId: Int

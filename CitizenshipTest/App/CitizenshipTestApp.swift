@@ -10,6 +10,17 @@ import SwiftData
 import AVFoundation
 import GoogleMobileAds
 import StoreKit
+import FirebaseCore
+import FirebaseCrashlytics
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+
+    return true
+  }
+}
 
 @main
 struct CitizenshipTestApp: App{
@@ -21,10 +32,13 @@ struct CitizenshipTestApp: App{
     @StateObject private var audioManager = AudioManager()
     @StateObject private var storeManager = StoreManager()
     @StateObject private var networkMonitor = NetworkMonitor.shared
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     init() {
         MobileAds.shared.start(completionHandler: nil)
         _ = InterstitialAdManager.shared
+        let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "unknown_device"
+        Crashlytics.crashlytics().setUserID(deviceID)
     }
     
     var body: some Scene {

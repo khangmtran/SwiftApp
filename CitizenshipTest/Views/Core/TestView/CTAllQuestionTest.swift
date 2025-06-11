@@ -9,6 +9,7 @@ import SwiftUI
 import AVFoundation
 import SwiftData
 import GoogleMobileAds
+import FirebaseCrashlytics
 
 struct CTAllQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
@@ -47,6 +48,7 @@ struct CTAllQuestionTest: View {
                 )
                 .onAppear() {
                     testCompleted = true
+                    Crashlytics.crashlytics().log("User's in allQTest result view")
                     adManager.showAd()
                 }
 //                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
@@ -78,15 +80,18 @@ struct CTAllQuestionTest: View {
             }
         }
         .onAppear {
+            Crashlytics.crashlytics().log("User went to allQTest")
             checkForExistingProgress()
         }
         .alert("Tiếp tục bài kiểm tra?", isPresented: $showingProgressDialog) {
             Button("Bắt đầu lại", role: .destructive) {
                 startNewTest()
+                Crashlytics.crashlytics().log("User decided to start new test in allQTest")
                 adManager.showAd()
             }
             Button("Tiếp tục", role: .cancel) {
                 isLoading = false
+                Crashlytics.crashlytics().log("User decided to continue old test in allQTest")
                 adManager.showAd()
             }
         } message: {

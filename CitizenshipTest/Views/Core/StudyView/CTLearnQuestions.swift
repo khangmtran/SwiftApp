@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import SwiftData
+import FirebaseCrashlytics
 
 struct CTLearnQuestions: View {
     @EnvironmentObject var userSetting: UserSetting
@@ -41,6 +42,7 @@ struct CTLearnQuestions: View {
             VStack{//outer Vs
                 CTGuide(qIndex: $qIndex)
                     .onAppear(){
+                        Crashlytics.crashlytics().log("Study Guide in learn question appear")
                         adManager.showAd()
                     }
             }//end outerV
@@ -91,6 +93,7 @@ struct CTLearnQuestions: View {
                 }
             }
             .onAppear(){
+                Crashlytics.crashlytics().log("User went to learnQuestions")
                 adManager.showAd()
             }
             .onDisappear(){
@@ -113,6 +116,7 @@ struct CTLearnQuestions: View {
                     Menu {
                         ForEach(parts.filter { $0 != selectedPart.partChosen }, id: \.self) { part in
                             Button(part) {
+                                Crashlytics.crashlytics().log("User see part \(part) in learnQuestions")
                                 adManager.showAd()
                                 selectedPart.partChosen = part
                                 qIndex = -1
@@ -179,6 +183,7 @@ struct NavButton: View {
     }
     
     private func nextQuestion(){
+        Crashlytics.crashlytics().log("User see next question in learnQuestions")
         adManager.showAd()
         withAnimation{
             if qIndex < totalQuestionsIndex {
@@ -193,6 +198,7 @@ struct NavButton: View {
     }
     
     private func prevQuestion(){
+        Crashlytics.crashlytics().log("User see prev question in learnQuestions")
         adManager.showAd()
         withAnimation{
             if qIndex > -1{
