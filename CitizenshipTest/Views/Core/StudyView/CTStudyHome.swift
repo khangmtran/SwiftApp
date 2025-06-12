@@ -72,11 +72,6 @@ struct CTStudyHome : View{
         .onAppear(){
             Crashlytics.crashlytics().log("User went to study home")
         }
-        Button(action:{
-            fatalError("crash")
-        }){
-            Text("fatal")
-        }
     }
 }
 

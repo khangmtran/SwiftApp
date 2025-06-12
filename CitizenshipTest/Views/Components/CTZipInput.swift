@@ -37,7 +37,7 @@ struct CTZipInput: View {
                         errorMsg = true
                         return
                     }
-
+                    
                     Task {
                         isTyping = true
                         do {
@@ -72,14 +72,19 @@ struct CTZipInput: View {
                         .padding()
                 }
                 
+                Text("Bạn còn \(5 - userSetting.zipSearchCount) lần tìm kiếm trong hôm nay")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .padding()
+                
                 if isTyping {
                     ProgressView()
                 }
                 Spacer()
-//                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected {
-//                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-//                                           height: AdSizeBanner.size.height)
-//                }
+                //                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected {
+                //                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                //                                           height: AdSizeBanner.size.height)
+                //                }
             }
             .navigationTitle("Tìm Đại Diện")
             .toolbar {
