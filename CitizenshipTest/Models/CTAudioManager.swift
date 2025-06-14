@@ -30,7 +30,7 @@ class AudioManager: ObservableObject{
        
        init() {
            let savedRate = UserDefaults.standard.float(forKey: "speechRate")
-           self.speechRate = savedRate == 0 ? 0.4 : savedRate
+           self.speechRate = savedRate == 0 ? 0.3 : savedRate
            self.voiceActor = UserDefaults.standard.string(forKey: "voiceActor") ?? "Samantha"
            self.voiceIdentifier = UserDefaults.standard.string(forKey: "voiceIdentifier") ?? "com.apple.voice.compact.en-US.Samantha"
            configureAudioSessionForSpeech()
