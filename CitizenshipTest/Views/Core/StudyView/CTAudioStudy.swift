@@ -169,10 +169,10 @@ struct CTAudioStudy: View {
                         }
                         Spacer()
                     }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
-//                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-//                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-//                                           height: AdSizeBanner.size.height)
-//                }
+               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                   CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                          height: AdSizeBanner.size.height)
+               }
             }
         }
         .onAppear(){

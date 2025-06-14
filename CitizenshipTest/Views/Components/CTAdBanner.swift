@@ -7,7 +7,7 @@ struct CTAdBannerView: UIViewControllerRepresentable {
 
     let bannerView = BannerView(adSize: AdSizeBanner)
     // THIS FLAG TO DISABLE BANNER ADS
-    private let adsDisabled = true
+    private let adsDisabled = false
     
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()

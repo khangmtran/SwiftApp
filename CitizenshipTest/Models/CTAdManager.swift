@@ -12,7 +12,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     static let shared = InterstitialAdManager()
     @Published private var interstitialAd: InterstitialAd?
     // FLAG TO DISABLE ADS
-    private let adsDisabled = true
+    private let adsDisabled = false
     // Minimum interval between ads
     private let minimumAdInterval: TimeInterval = 120 // 2 minutes
     // Track when ad timer started (reset when app becomes active)

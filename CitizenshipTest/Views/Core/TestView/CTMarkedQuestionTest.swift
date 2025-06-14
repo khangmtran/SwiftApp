@@ -73,10 +73,10 @@ struct CTMarkedQuestionTest: View {
                         Spacer()
                     }
                     .padding()
-//                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-//                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
-//                                               height: AdSizeBanner.size.height)
-//                    }
+                   if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                       CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                              height: AdSizeBanner.size.height)
+                   }
                 }
             } else if showResult || testCompleted {
                 CTMarkedResultView(
@@ -96,10 +96,10 @@ struct CTMarkedQuestionTest: View {
                     Crashlytics.crashlytics().log("User's in markQTest result view")
                     adManager.showAd()
                 }
-//                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-//                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-//                                           height: AdSizeBanner.size.height)
-//                }
+               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                   CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                          height: AdSizeBanner.size.height)
+               }
             } else {
                 VStack{
                     GeometryReader { geo in
@@ -118,10 +118,10 @@ struct CTMarkedQuestionTest: View {
                         }
                     }
                 }
-//                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-//                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
-//                                           height: AdSizeBanner.size.height)
-//                }
+               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                   CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                          height: AdSizeBanner.size.height)
+               }
             }
         }
         .onAppear {
