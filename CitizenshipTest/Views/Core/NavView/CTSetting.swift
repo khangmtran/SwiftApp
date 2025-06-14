@@ -206,6 +206,7 @@ struct CTSetting: View {
             .padding()
             .background(.blue.opacity(0.1))
             .cornerRadius(10)
+            
             Text("Phiên Bản Ứng Dụng")
                 .font(.title3)
                 .fontWeight(.semibold)
