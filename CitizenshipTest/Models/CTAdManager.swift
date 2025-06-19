@@ -18,8 +18,8 @@ class InterstitialAdManager: NSObject, ObservableObject {
     // Track when ad timer started (reset when app becomes active)
     private var adTimerStartTime: Date = Date()
     private var isAppActive: Bool = true
-    private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
-    //private let interstitialAdUnitID = "ca-app-pub-7559937369988658/4112727092" // Real ID
+    //private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
+    private let interstitialAdUnitID = "ca-app-pub-7559937369988658/4112727092" // Real ID
     // Reference to StoreManager - will be set from the app
     private var storeManager: StoreManager?
     private let networkMonitor = NetworkMonitor.shared
