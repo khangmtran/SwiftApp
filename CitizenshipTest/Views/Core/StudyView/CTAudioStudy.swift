@@ -18,9 +18,9 @@ struct CTAudioStudy: View {
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var storeManager: StoreManager
     @AppStorage("audioStudyQIndex") private var currentQuestionIndex = 0
+    @AppStorage("audioStudyPlayMarkedOnly") private var playMarkedOnly = false
     @State private var isPlaying = false
     @State private var playAnswers = true
-    @AppStorage("audioStudyPlayMarkedOnly") private var playMarkedOnly = false
     @State private var questions: [CTQuestion] = []
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var isPlayingAnswer = false
@@ -36,14 +36,7 @@ struct CTAudioStudy: View {
     @StateObject private var networkMonitor = NetworkMonitor.shared
     
     // Duration between speaking question and answer (seconds)
-    private let pauseDuration: TimeInterval = 3
-    
-    // Computed property to get filtered marked questions
-    private var filteredMarkedQuestions: [CTQuestion] {
-        return questionList.questions.filter { question in
-            markedQuestions.contains { $0.id == question.id }
-        }.sorted(by: { $0.id < $1.id })
-    }
+    private let pauseDuration: TimeInterval = 3 //3 in prod
     
     var body: some View {
         GeometryReader { geo in
@@ -70,19 +63,19 @@ struct CTAudioStudy: View {
                         Toggle("", isOn: $playMarkedOnly)
                             .toggleStyle(SwitchToggleStyle(tint: .blue))
                             .disabled(!storeManager.isPurchased("KnT.CitizenshipTest.removeAds"))
-                            .onChange(of: playMarkedOnly) { oldValue, newValue in
-                                if newValue && !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
-                                    playMarkedOnly = false
+                            .onChange(of: playMarkedOnly) {
+                                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
+                                    playMarkedOnly = false //switch back the toggle
                                     showingUpgradeAlert = true
                                 } else {
                                     updateQuestionsArray()
                                     stopAudio()
-                                    // Reset to first question when switching modes
                                     currentQuestionIndex = 0
                                 }
                             }
                     }
                     .padding(.horizontal)
+                    .padding(.top)
                     .onTapGesture {
                         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
                             showingUpgradeAlert = true
@@ -102,11 +95,12 @@ struct CTAudioStudy: View {
                     
                     // Show message if no marked questions
                     if playMarkedOnly && questions.isEmpty {
+                        Spacer()
                         VStack(spacing: 15) {
                             Image(systemName: "bookmark.slash")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 50, height: 50)
+                                .frame(width: 75, height: 75)
                                 .foregroundColor(.gray)
                             
                             Text("Bạn chưa đánh dấu câu hỏi nào")
@@ -119,6 +113,7 @@ struct CTAudioStudy: View {
                                 .multilineTextAlignment(.center)
                         }
                         .padding()
+                        Spacer()
                     } else if !questions.isEmpty {
                         ScrollView {
                             // Question/Answer display
@@ -284,10 +279,13 @@ struct CTAudioStudy: View {
     // Update questions array based on current mode
     private func updateQuestionsArray() {
         if playMarkedOnly && storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
-            questions = filteredMarkedQuestions
-        } else {
-            questions = questionList.questions
-        }
+                // Filter marked questions directly here
+                questions = questionList.questions.filter { question in
+                    markedQuestions.contains { $0.id == question.id }
+                }.sorted(by: { $0.id < $1.id })
+            } else {
+                questions = questionList.questions
+            }
         
         // Ensure currentQuestionIndex is within bounds
         if currentQuestionIndex >= questions.count {
