@@ -2,7 +2,7 @@
 //  CTAdManager.swift
 //  CitizenshipTest
 //
-//  Modified to disable ads for App Store submission
+//  Modified to pause/resume timer instead of resetting
 //
 
 import SwiftUI
@@ -15,11 +15,16 @@ class InterstitialAdManager: NSObject, ObservableObject {
     private let adsDisabled = false
     // Minimum interval between ads
     private let minimumAdInterval: TimeInterval = 60 // 1 minute
-    // Track when ad timer started (reset when app becomes active)
-    private var adTimerStartTime: Date = Date()
-    private var isAppActive: Bool = true
-    //private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
-    private let interstitialAdUnitID = "ca-app-pub-7559937369988658/4112727092" // Real ID
+    
+    // Timer tracking variables
+    private var timerStartTime: Date = Date()
+    private var accumulatedTime: TimeInterval = 0
+    private var isTimerRunning: Bool = true
+    
+    //ads ID
+    private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
+    //private let interstitialAdUnitID = "ca-app-pub-7559937369988658/4112727092" // Real ID
+    
     // Reference to StoreManager - will be set from the app
     private var storeManager: StoreManager?
     private let networkMonitor = NetworkMonitor.shared
@@ -51,44 +56,81 @@ class InterstitialAdManager: NSObject, ObservableObject {
             object: nil
         )
         
-        // Start with a fresh timer
-        resetAdTimer()
+        // Start the timer
+        startTimer()
         
         Task {
             await loadAd()
         }
     }
     
-    // Reset the ad timer when app becomes active
+    // Resume the timer when app becomes active
     @objc private func appDidBecomeActive() {
         if adsDisabled { return }
-        resetAdTimer()
-        isAppActive = true
+        resumeTimer()
     }
     
-    // Mark app as inactive when it goes to background
+    // Pause the timer when app goes to background
     @objc private func appWillResignActive() {
         if adsDisabled { return }
-        isAppActive = false
+        pauseTimer()
     }
     
-    // Reset the ad timer - called when app becomes active
-    private func resetAdTimer() {
+    // Start/restart the timer from the beginning
+    private func startTimer() {
         if adsDisabled { return }
-        adTimerStartTime = Date()
+        timerStartTime = Date()
+        accumulatedTime = 0
+        isTimerRunning = true
     }
     
-    // Check if enough time has passed since timer was reset
-    private func hasEnoughTimePassedSinceTimerReset() -> Bool {
-        if adsDisabled { return false }
+    // Pause the timer and accumulate the elapsed time
+    private func pauseTimer() {
+        if adsDisabled { return }
+        guard isTimerRunning else { return }
         
-        // If app is not active, then time requirement isn't met
-        if !isAppActive {
-            return false
+        let elapsedTime = Date().timeIntervalSince(timerStartTime)
+        accumulatedTime += elapsedTime
+        isTimerRunning = false
+    }
+    
+    // Resume the timer from where it was paused
+    private func resumeTimer() {
+        if adsDisabled { return }
+        guard !isTimerRunning else { return }
+        timerStartTime = Date()
+        isTimerRunning = true
+    }
+    
+    // Reset the timer completely (call this after showing an ad)
+    private func resetTimer() {
+        if adsDisabled { return }
+        accumulatedTime = 0
+        timerStartTime = Date()
+        isTimerRunning = true
+    }
+    
+    // Calculate total elapsed time (accumulated + current session if running)
+    private func getTotalElapsedTime() -> TimeInterval {
+        if adsDisabled { return 0 }
+        
+        var totalTime = accumulatedTime
+        
+        if isTimerRunning {
+            let currentSessionTime = Date().timeIntervalSince(timerStartTime)
+            totalTime += currentSessionTime
         }
         
-        let timeSinceReset = Date().timeIntervalSince(adTimerStartTime)
-        return timeSinceReset >= minimumAdInterval
+        return totalTime
+    }
+    
+    // Check if enough time has passed since timer started
+    private func hasEnoughTimePassedSinceTimerStart() -> Bool {
+        if adsDisabled { return false }
+        
+        let totalElapsedTime = getTotalElapsedTime()
+        
+        return totalElapsedTime >= minimumAdInterval
     }
     
     @MainActor
@@ -134,8 +176,8 @@ class InterstitialAdManager: NSObject, ObservableObject {
             return
         }
         
-        // Only show ad if enough time has passed since timer reset
-        if hasEnoughTimePassedSinceTimerReset() {
+        // Only show ad if enough time has passed since timer started
+        if hasEnoughTimePassedSinceTimerStart() {
             guard let interstitialAd = interstitialAd else {
                 Task {
                     await loadAd()
@@ -167,7 +209,7 @@ extension InterstitialAdManager: FullScreenContentDelegate {
     
     func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
         if adsDisabled { return }
-        resetAdTimer()
+        resetTimer() // Reset timer after showing an ad
         interstitialAd = nil
         Task {
             await loadAd()

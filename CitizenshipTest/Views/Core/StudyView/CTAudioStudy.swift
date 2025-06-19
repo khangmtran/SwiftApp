@@ -20,12 +20,16 @@ struct CTAudioStudy: View {
     @AppStorage("audioStudyQIndex") private var currentQuestionIndex = 0
     @State private var isPlaying = false
     @State private var playAnswers = true
+    @AppStorage("audioStudyPlayMarkedOnly") private var playMarkedOnly = false
+    @State private var questions: [CTQuestion] = []
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var isPlayingAnswer = false
     @State private var timer: Timer?
     @State private var showingZipPrompt = false
     @State private var delegate: SpeechDelegate?
     @State private var autoPlayQuestionCounter: Int = 0
+    @State private var showingUpgradeAlert = false
+    @State private var showingUpgradePrompt = false
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     @ObservedObject private var adManager = InterstitialAdManager.shared
@@ -33,6 +37,13 @@ struct CTAudioStudy: View {
     
     // Duration between speaking question and answer (seconds)
     private let pauseDuration: TimeInterval = 3
+    
+    // Computed property to get filtered marked questions
+    private var filteredMarkedQuestions: [CTQuestion] {
+        return questionList.questions.filter { question in
+            markedQuestions.contains { $0.id == question.id }
+        }.sorted(by: { $0.id < $1.id })
+    }
     
     var body: some View {
         GeometryReader { geo in
@@ -43,128 +54,189 @@ struct CTAudioStudy: View {
                         .toggleStyle(SwitchToggleStyle(tint: .blue))
                         .padding(.horizontal)
                     
-                    // Progress indicator
-                    VStack {
-                        Text("\(currentQuestionIndex + 1) / \(questionList.questions.count)")
-                        
-                        ProgressView(value: Double(currentQuestionIndex + 1), total: Double(questionList.questions.count))
-                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                    }
-                    .padding(10)
-                    ScrollView {
-                        // Question/Answer display
-                        VStack {
-                            VStack {
-                                HStack {
-                                    Text("Câu hỏi \(questionList.questions[currentQuestionIndex].id)")
-                                        .font(.headline)
-                                        .foregroundColor(.blue)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                    // Add bookmark button
-                                    Button(action: {
-                                        if let existingMark = markedQuestions.first(where: {$0.id == questionList.questions[currentQuestionIndex].id}) {
-                                            context.delete(existingMark)
-                                        } else {
-                                            let newMark = MarkedQuestion(id: questionList.questions[currentQuestionIndex].id)
-                                            context.insert(newMark)
-                                        }
-                                    }) {
-                                        Image(systemName: markedQuestions.contains(where: {$0.id == questionList.questions[currentQuestionIndex].id}) ? "bookmark.fill" : "bookmark")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 20)
-                                    }
-                                }
-                                
-                                Text(questionList.questions[currentQuestionIndex].question)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .font(.headline)
-                                    .multilineTextAlignment(.leading)
-                                    .padding(.vertical, 5)
-                                
-                                Text(questionList.questions[currentQuestionIndex].questionVie)
-                                    .font(.subheadline)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .multilineTextAlignment(.leading)
+                    // Marked Questions toggle
+                    HStack {
+                        HStack {
+                            Text("Câu Hỏi Đánh Dấu").fixedSize(horizontal: true, vertical: false)
+                            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
+                                Image(systemName: "lock.fill")
+                                    .foregroundColor(.gray)
+                                    .imageScale(.small)
                             }
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
+                        }
+                        
+                        Spacer()
+                        
+                        Toggle("", isOn: $playMarkedOnly)
+                            .toggleStyle(SwitchToggleStyle(tint: .blue))
+                            .disabled(!storeManager.isPurchased("KnT.CitizenshipTest.removeAds"))
+                            .onChange(of: playMarkedOnly) { oldValue, newValue in
+                                if newValue && !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
+                                    playMarkedOnly = false
+                                    showingUpgradeAlert = true
+                                } else {
+                                    updateQuestionsArray()
+                                    stopAudio()
+                                    // Reset to first question when switching modes
+                                    currentQuestionIndex = 0
+                                }
+                            }
+                    }
+                    .padding(.horizontal)
+                    .onTapGesture {
+                        if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
+                            showingUpgradeAlert = true
+                        }
+                    }
+                    
+                    // Progress indicator
+                    if !questions.isEmpty {
+                        VStack {
+                            Text("\(currentQuestionIndex + 1) / \(questions.count)")
                             
-                            if playAnswers {
+                            ProgressView(value: Double(currentQuestionIndex + 1), total: Double(questions.count))
+                                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                        }
+                        .padding(10)
+                    }
+                    
+                    // Show message if no marked questions
+                    if playMarkedOnly && questions.isEmpty {
+                        VStack(spacing: 15) {
+                            Image(systemName: "bookmark.slash")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(.gray)
+                            
+                            Text("Bạn chưa đánh dấu câu hỏi nào")
+                                .font(.headline)
+                                .foregroundColor(.gray)
+                            
+                            Text("Hãy đánh dấu câu hỏi để nghe tại đây")
+                                .font(.callout)
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding()
+                    } else if !questions.isEmpty {
+                        ScrollView {
+                            // Question/Answer display
+                            VStack {
                                 VStack {
-                                    Text("Đáp án")
-                                        .font(.headline)
-                                        .foregroundColor(.blue)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                    if [20, 23, 43, 44].contains(questionList.questions[currentQuestionIndex].id) {
-                                        ServiceQuestions(
-                                            questionId: questionList.questions[currentQuestionIndex].id,
-                                            showingZipPrompt: $showingZipPrompt,
-                                            govAndCap: govCapManager.govAndCap
-                                        )
-                                        .padding(.vertical, 5)
-                                    } else {
-                                        // Regular answer display
-                                        Text(questionList.questions[currentQuestionIndex].answer)
+                                    HStack {
+                                        Text("Câu hỏi \(questions[currentQuestionIndex].id)")
                                             .font(.headline)
-                                            .fixedSize(horizontal: false, vertical: true)
-                                            .multilineTextAlignment(.leading)
-                                            .padding(.vertical, 5)
+                                            .foregroundColor(.blue)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
                                         
-                                        
-                                        Text(questionList.questions[currentQuestionIndex].answerVie)
-                                            .font(.subheadline)
-                                            .multilineTextAlignment(.leading)
-                                            .fixedSize(horizontal: false, vertical: true)
+                                        // Add bookmark button
+                                        Button(action: {
+                                            if let existingMark = markedQuestions.first(where: {$0.id == questions[currentQuestionIndex].id}) {
+                                                context.delete(existingMark)
+                                            } else {
+                                                let newMark = MarkedQuestion(id: questions[currentQuestionIndex].id)
+                                                context.insert(newMark)
+                                            }
+                                        }) {
+                                            Image(systemName: markedQuestions.contains(where: {$0.id == questions[currentQuestionIndex].id}) ? "bookmark.fill" : "bookmark")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(height: 20)
+                                        }
                                     }
+                                    
+                                    Text(questions[currentQuestionIndex].question)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .font(.headline)
+                                        .multilineTextAlignment(.leading)
+                                        .padding(.vertical, 5)
+                                    
+                                    Text(questions[currentQuestionIndex].questionVie)
+                                        .font(.subheadline)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .multilineTextAlignment(.leading)
                                 }
                                 .padding()
                                 .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
+                                
+                                if playAnswers {
+                                    VStack {
+                                        Text("Đáp án")
+                                            .font(.headline)
+                                            .foregroundColor(.blue)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                        
+                                        if [20, 23, 43, 44].contains(questions[currentQuestionIndex].id) {
+                                            ServiceQuestions(
+                                                questionId: questions[currentQuestionIndex].id,
+                                                showingZipPrompt: $showingZipPrompt,
+                                                govAndCap: govCapManager.govAndCap
+                                            )
+                                            .padding(.vertical, 5)
+                                        } else {
+                                            // Regular answer display
+                                            Text(questions[currentQuestionIndex].answer)
+                                                .font(.headline)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                                .multilineTextAlignment(.leading)
+                                                .padding(.vertical, 5)
+                                            
+                                            
+                                            Text(questions[currentQuestionIndex].answerVie)
+                                                .font(.subheadline)
+                                                .multilineTextAlignment(.leading)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                        }
+                                    }
+                                    .padding()
+                                    .background(RoundedRectangle(cornerRadius: 12).fill(Color.blue.opacity(0.1)))
+                                }
                             }
+                            .padding()
                         }
-                        .padding()
                     }
                 }
                 .padding()
                     // Playback controls
                     VStack {
                         // Standard playback controls
-                        HStack(spacing: 20) {
-                            Button(action: previousTenQuestions) {
-                                Image(systemName: "backward.end.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 25)
-                            }
-                            
-                            Button(action: previousQuestion) {
-                                Image(systemName: "backward.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 25)
-                            }
-                            
-                            Button(action: togglePlayback) {
-                                Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 45)
-                            }
-                            
-                            Button(action: nextQuestion) {
-                                Image(systemName: "forward.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 25)
-                            }
-                            
-                            Button(action: nextTenQuestions) {
-                                Image(systemName: "forward.end.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 25)
+                        if !questions.isEmpty {
+                            HStack(spacing: 20) {
+                                Button(action: previousTenQuestions) {
+                                    Image(systemName: "backward.end.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 25)
+                                }
+                                
+                                Button(action: previousQuestion) {
+                                    Image(systemName: "backward.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 25)
+                                }
+                                
+                                Button(action: togglePlayback) {
+                                    Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 45)
+                                }
+                                
+                                Button(action: nextQuestion) {
+                                    Image(systemName: "forward.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 25)
+                                }
+                                
+                                Button(action: nextTenQuestions) {
+                                    Image(systemName: "forward.end.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 25)
+                                }
                             }
                         }
                         Spacer()
@@ -178,18 +250,55 @@ struct CTAudioStudy: View {
         .onAppear(){
             Crashlytics.crashlytics().log("User went to AudioStudy")
             adManager.showAd()
+            updateQuestionsArray()
         }
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
         }
+        .alert("Tính năng dành riêng cho phiên bản nâng cấp. Bạn có muốn nâng cấp?", isPresented: $showingUpgradeAlert) {
+            Button("Hủy", role: .cancel) {}
+            Button("Nâng Cấp") {
+                showingUpgradePrompt = true
+            }
+        }
+        .sheet(isPresented: $showingUpgradePrompt) {
+            CTRemoveAdsView()
+                .environmentObject(storeManager)
+        }
         .onDisappear {
             stopAudio()
+        }
+        .onChange(of: markedQuestions.count) { oldValue, newValue in
+            // Update questions array when marked questions change
+            if playMarkedOnly {
+                updateQuestionsArray()
+                // If current index is out of bounds, reset to 0
+                if currentQuestionIndex >= questions.count && !questions.isEmpty {
+                    currentQuestionIndex = 0
+                }
+            }
+        }
+    }
+    
+    // Update questions array based on current mode
+    private func updateQuestionsArray() {
+        if playMarkedOnly && storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
+            questions = filteredMarkedQuestions
+        } else {
+            questions = questionList.questions
+        }
+        
+        // Ensure currentQuestionIndex is within bounds
+        if currentQuestionIndex >= questions.count {
+            currentQuestionIndex = 0
         }
     }
     
     // Handle audio playback
     private func togglePlayback() {
+        guard !questions.isEmpty else { return }
+        
         if isPlaying {
             stopAudio()
         } else {
@@ -199,6 +308,8 @@ struct CTAudioStudy: View {
     }
     
     private func playCurrentQuestion() {
+        guard !questions.isEmpty else { return }
+        
         UIApplication.shared.isIdleTimerDisabled = true
         isPlaying = true
         isPlayingAnswer = false
@@ -206,7 +317,7 @@ struct CTAudioStudy: View {
         synthesizer.stopSpeaking(at: .immediate)
         timer?.invalidate()
         
-        let question = questionList.questions[currentQuestionIndex]
+        let question = questions[currentQuestionIndex]
         let utterance = AVSpeechUtterance(string: question.question)
         utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
         utterance.rate = audioManager.speechRate
@@ -234,9 +345,11 @@ struct CTAudioStudy: View {
     }
     
     private func playCurrentAnswer() {
+        guard !questions.isEmpty else { return }
+        
         isPlayingAnswer = true
         
-        let question = questionList.questions[currentQuestionIndex]
+        let question = questions[currentQuestionIndex]
         let questionId = question.id
         var answerText = question.answer
         
@@ -292,11 +405,13 @@ struct CTAudioStudy: View {
     }
     
     private func finishAudioSequence() {
+        guard !questions.isEmpty else { return }
+        
         isPlaying = false
         isPlayingAnswer = false
         
         // Move to next question if not at the end
-        if currentQuestionIndex < questionList.questions.count - 1 {
+        if currentQuestionIndex < questions.count - 1 {
             currentQuestionIndex += 1
             
             // Automatically start playing the next question
@@ -318,7 +433,9 @@ struct CTAudioStudy: View {
     }
     
     private func nextQuestion() {
-        if currentQuestionIndex < questionList.questions.count - 1 {
+        guard !questions.isEmpty else { return }
+        
+        if currentQuestionIndex < questions.count - 1 {
             stopAudio()
             currentQuestionIndex += 1
         }
@@ -330,42 +447,48 @@ struct CTAudioStudy: View {
     }
     
     private func previousQuestion() {
+        guard !questions.isEmpty else { return }
+        
         if currentQuestionIndex > 0 {
             stopAudio()
             currentQuestionIndex -= 1
         }
         else{
             stopAudio()
-            currentQuestionIndex = questionList.questions.count - 1
+            currentQuestionIndex = questions.count - 1
         }
         adManager.showAd()
     }
     
     private func nextTenQuestions() {
-        if currentQuestionIndex <= questionList.questions.count - 11 {
-            stopAudio()
-            currentQuestionIndex += 10
+        guard !questions.isEmpty else { return }
+        
+        stopAudio()
+        
+        let newIndex = currentQuestionIndex + 10
+        if newIndex < questions.count {
+            currentQuestionIndex = newIndex
+        } else {
+            // If exceeding bounds, reset to beginning
+            currentQuestionIndex = 0
         }
-        else{
-            stopAudio()
-            let num1 = 10
-            let num2 = questionList.questions.count - currentQuestionIndex
-            currentQuestionIndex = num1 - num2
-        }
+        
         adManager.showAd()
     }
     
     private func previousTenQuestions() {
-        if currentQuestionIndex >= 10 {
-            stopAudio()
-            currentQuestionIndex -= 10
+        guard !questions.isEmpty else { return }
+        
+        stopAudio()
+        
+        let newIndex = currentQuestionIndex - 10
+        if newIndex >= 0 {
+            currentQuestionIndex = newIndex
+        } else {
+            // If going below 0, go to the last question
+            currentQuestionIndex = questions.count - 1
         }
-        else{
-            stopAudio()
-            let num1 = 100
-            let num2 = 10 - currentQuestionIndex
-            currentQuestionIndex = num1 - num2
-        }
+        
         adManager.showAd()
     }
 }
