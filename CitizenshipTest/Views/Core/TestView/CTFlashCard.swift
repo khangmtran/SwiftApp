@@ -469,11 +469,14 @@ struct CardBack: View{
 struct QuestionTypeView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var questionList: QuestionList
+    @EnvironmentObject var storeManager: StoreManager
     @Binding var questions: [CTQuestion]
     @Binding var qIndex: Int
     @Binding var noMarkedQuestionsAlert: Bool
     @Binding var qType: String
     @State private var shouldShowAlertOnDismiss = false
+    @State private var showingRemoveAdsView = false
+    @State private var showingUpgradeAlert = false
     @Query private var markedQuestions: [MarkedQuestion]
 
     var body: some View {
@@ -520,29 +523,43 @@ struct QuestionTypeView: View {
                 }
                 .padding(.horizontal)
                 
-                // Handle marked questions
-                Button(action: {
-                    let filteredQuestions = questionList.questions.filter { question in
-                        markedQuestions.contains{$0.id == question.id}
+                // Handle marked questions with lock for non-premium users
+                if storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
+                    Button(action: {
+                        let filteredQuestions = questionList.questions.filter { question in
+                            markedQuestions.contains{$0.id == question.id}
+                        }
+                        
+                        if !filteredQuestions.isEmpty {
+                            questions = filteredQuestions
+                            qIndex = 0
+                            qType = "Đánh Dấu"
+                        } else {
+                            shouldShowAlertOnDismiss = true
+                        }
+                        dismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "bookmark")
+                            Text("Đánh Dấu")
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    
-                    if !filteredQuestions.isEmpty {
-                        questions = filteredQuestions
-                        qIndex = 0
-                        qType = "Đánh Dấu"
-                    } else {
-                        shouldShowAlertOnDismiss = true
+                    .padding(.horizontal)
+                } else {
+                    Button(action: {
+                        showingUpgradeAlert = true
+                    }) {
+                        HStack {
+                            Image(systemName: "bookmark")
+                            Text("Đánh Dấu")
+                            Image(systemName: "lock.fill")
+                                .foregroundColor(.gray)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    dismiss()
-                })
-                {
-                    HStack {
-                        Image(systemName: "bookmark")
-                        Text("Đánh Dấu")
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
             Spacer()
         }
@@ -551,6 +568,16 @@ struct QuestionTypeView: View {
             if shouldShowAlertOnDismiss {
                 noMarkedQuestionsAlert = true
                 shouldShowAlertOnDismiss = false
+            }
+        }
+        .sheet(isPresented: $showingRemoveAdsView) {
+            CTRemoveAdsView()
+                .environmentObject(storeManager)
+        }
+        .alert("Tính năng chỉ có thể được sử dụng trong phiên bản nâng cấp. Bạn có muốn nâng cấp để sử dụng?", isPresented: $showingUpgradeAlert) {
+            Button("Huỷ", role: .cancel) {}
+            Button("Nâng Cấp") {
+                showingRemoveAdsView = true
             }
         }
     }

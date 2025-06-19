@@ -16,6 +16,7 @@ struct CTTestHome: View {
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var storeManager: StoreManager
     @State private var showingRemoveAdsView = false
+    @State private var showingUpgradeAlert = false
     
     var body: some View{
         VStack{
@@ -53,17 +54,34 @@ struct CTTestHome: View {
                 }
                 .listRowBackground(Color.blue.opacity(0.1))
                 
-                NavigationLink(value: TestRoute.markedQuestionsTest) {
-                    CTCustomMenuItem(title: "Câu Hỏi Đánh Dấu", subtitle: "Bài kiểm tra bao gồm những câu hỏi được đánh dấu", assetImage: "bookmarktest")
+                // Marked Questions Test with lock for non-premium users
+                if storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
+                    NavigationLink(value: TestRoute.markedQuestionsTest) {
+                        CTCustomMenuItem(title: "Câu Hỏi Đánh Dấu", subtitle: "Bài kiểm tra bao gồm những câu hỏi được đánh dấu", assetImage: "bookmarktest")
+                    }
+                    .listRowBackground(Color.blue.opacity(0.1))
+                } else {
+                    Button(action: {
+                        showingUpgradeAlert = true
+                    }) {
+                        HStack {
+                            CTCustomMenuItem(title: "Câu Hỏi Đánh Dấu", subtitle: "Bài kiểm tra bao gồm những câu hỏi được đánh dấu", assetImage: "bookmarktest")
+                            
+                            Spacer()
+                            
+                            Image(systemName: "lock.fill")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .listRowBackground(Color.blue.opacity(0.1))
                 }
-                .listRowBackground(Color.blue.opacity(0.1))
                 
                 NavigationLink(value: TestRoute.flashCard) {
                     CTCustomMenuItem(title: "Thẻ Bài", subtitle: "Kiểm tra bằng thẻ bài", assetImage: "card")
                 }
                 .listRowBackground(Color.blue.opacity(0.1))
             }
-            //.navigationDestination(for: String.self){value in}
             .scrollContentBackground(.hidden)
             .listRowSpacing(10)
         }
@@ -74,7 +92,14 @@ struct CTTestHome: View {
             CTRemoveAdsView()
                 .environmentObject(storeManager)
         }
+        .alert("Tính năng chỉ có thể được sử dụng trong phiên bản nâng cấp. Bạn có muốn nâng cấp để sử dụng?", isPresented: $showingUpgradeAlert) {
+            Button("Huỷ", role: .cancel) {}
+            Button("Nâng Cấp") {
+                showingRemoveAdsView = true
+            }
+        }
     }
+    
     private func resetUserSettings() {
         userSetting.zipCode = ""
         userSetting.state = ""
