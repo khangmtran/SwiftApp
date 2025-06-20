@@ -79,6 +79,9 @@ struct CTAllQuestionTest: View {
                 
             }
         }
+        .onDisappear(){
+            RatingManager.shared.incrementAction()
+        }
         .onAppear {
             Crashlytics.crashlytics().log("User went to allQTest")
             checkForExistingProgress()

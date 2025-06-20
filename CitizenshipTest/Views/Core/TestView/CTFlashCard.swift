@@ -111,6 +111,7 @@ struct CTFlashCard: View{
         }
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)
+            RatingManager.shared.incrementAction()
         }
         
     }

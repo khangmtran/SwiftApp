@@ -55,7 +55,6 @@ struct CitizenshipTestApp: App{
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
                 .onAppear {
                     InterstitialAdManager.shared.setStoreManager(storeManager)
-                    
                     Task {
                         await storeManager.updatePurchasedProducts()
                     }

@@ -272,6 +272,7 @@ struct CTAllMarkedQuestion: View {
         }
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)
+            RatingManager.shared.incrementAction()
         }
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()

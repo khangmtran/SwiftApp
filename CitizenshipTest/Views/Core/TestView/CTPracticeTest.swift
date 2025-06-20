@@ -71,6 +71,9 @@ struct CTPracticeTest: View {
                 }
             }
         }
+        .onDisappear(){
+            RatingManager.shared.incrementAction()
+        }
         .onAppear {
             Crashlytics.crashlytics().log("User went to practiceTest(10q)")
             checkForExistingProgress()

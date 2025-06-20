@@ -263,6 +263,7 @@ struct CTAudioStudy: View {
         }
         .onDisappear {
             stopAudio()
+            RatingManager.shared.incrementAction()
         }
         .onChange(of: markedQuestions.count) { oldValue, newValue in
             // Update questions array when marked questions change

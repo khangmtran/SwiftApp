@@ -207,6 +207,7 @@ struct CTAllQuestions: View {
         }
         .onDisappear(){
             synthesizer.stopSpeaking(at: .immediate)
+            RatingManager.shared.incrementAction()
         }
     }
 }

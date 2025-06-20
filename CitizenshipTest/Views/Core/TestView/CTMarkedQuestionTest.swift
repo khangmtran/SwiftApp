@@ -124,6 +124,9 @@ struct CTMarkedQuestionTest: View {
                }
             }
         }
+        .onDisappear(){
+            RatingManager.shared.incrementAction()
+        }
         .onAppear {
             Crashlytics.crashlytics().log("User went to markQTest")
             checkForExistingProgress()

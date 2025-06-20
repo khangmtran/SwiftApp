@@ -98,6 +98,7 @@ struct CTLearnQuestions: View {
             }
             .onDisappear(){
                 synthesizer.stopSpeaking(at: .immediate)
+                RatingManager.shared.incrementAction()
             }
             .safeAreaInset(edge: .bottom) {
                 NavButton(qIndex: $qIndex, qCount: $questionCount, totalQuestionsIndex: filteredQuestion.count - 1)
