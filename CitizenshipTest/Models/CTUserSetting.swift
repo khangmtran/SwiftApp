@@ -104,7 +104,6 @@ class QuestionList: ObservableObject {
     
 }
 
-
 class GovCapManager: ObservableObject {
     @Published var govAndCap: [CTGovAndCapital]
     
@@ -119,6 +118,14 @@ class WrongAnswer: ObservableObject{
     
     init(){
         self.wrongAns = CTDataLoader().loadWrongAnswers()
+    }
+}
+
+class WritingQuestions: ObservableObject{
+    @Published var writingQuestions: [CTWritingQuestion]
+    
+    init(){
+        self.writingQuestions = CTDataLoader().loadWritingQuestions()
     }
 }
 

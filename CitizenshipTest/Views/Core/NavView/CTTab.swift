@@ -19,6 +19,7 @@ enum TestRoute: Hashable {
     case allQuestionsTest
     case markedQuestionsTest
     case flashCard
+    case writingTest
 }
 
 enum StudyRoute: Hashable {
@@ -43,6 +44,7 @@ struct CTTab: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var audioManager: AudioManager
+    @EnvironmentObject var writingQuestionList: WritingQuestions
     
     var tabSelection: Binding<Tab>{
         return .init {
@@ -106,7 +108,12 @@ struct CTTab: View {
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                                 .toolbar(.hidden, for: .tabBar)
-
+                        case .writingTest:
+                            CTWritingTest()
+                                .environmentObject(writingQuestionList)
+                                .environmentObject(userSetting)
+                                .environmentObject(audioManager)
+                                .toolbar(.hidden, for: .tabBar)
                         }
                     }
             }
@@ -209,4 +216,5 @@ enum Tab: Int{
         .environmentObject(WrongAnswer())
         .environmentObject(SelectedPart())
         .environmentObject(AudioManager())
+        .environmentObject(WritingQuestions())
 }

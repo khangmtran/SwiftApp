@@ -59,6 +59,10 @@ struct CTTestHome: View {
                 .listRowBackground(Color.blue.opacity(0.1))
                 
                 NavigationLink(value: TestRoute.flashCard) {
+                    CTCustomMenuItem(title: "Thi Viết", subtitle: "Luyện phần nghe và viết", assetImage: "card")
+                }
+                .listRowBackground(Color.blue.opacity(0.1))
+                NavigationLink(value: TestRoute.flashCard) {
                     CTCustomMenuItem(title: "Thẻ Bài", subtitle: "Kiểm tra bằng thẻ bài", assetImage: "card")
                 }
                 .listRowBackground(Color.blue.opacity(0.1))

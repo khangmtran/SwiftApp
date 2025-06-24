@@ -17,8 +17,8 @@ struct CTAdBannerView: UIViewControllerRepresentable {
         
         // Only setup the ad if user hasn't purchased ad removal
         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-            //bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" //Test ID
-            bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" //Test ID
+            //bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
             bannerView.rootViewController = viewController
             viewController.view.addSubview(bannerView)
         }

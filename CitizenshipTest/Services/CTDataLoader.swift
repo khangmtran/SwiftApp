@@ -50,4 +50,18 @@ class CTDataLoader{
         }
     }
     
+    func loadWritingQuestions() -> [CTWritingQuestion]{
+        guard let url = Bundle.main.url(forResource: "CTWritingQuestionJSON", withExtension: "json") else{
+            return []
+        }
+        do{
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let writingQuestions = try decoder.decode([CTWritingQuestion].self, from: data)
+            return writingQuestions
+        }catch{
+            return []
+        }
+    }
+    
 }
