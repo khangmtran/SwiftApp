@@ -18,8 +18,10 @@ struct CTWritingTest: View {
     @EnvironmentObject var writingQuestionList: WritingQuestions
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var userSetting: UserSetting
+    @EnvironmentObject var storeManager: StoreManager
     @AppStorage("writingTestIndex") private var currentIndex = 0
     @ObservedObject private var adManager = InterstitialAdManager.shared
+    @StateObject private var networkMonitor = NetworkMonitor.shared
     
     private var questionList: [CTWritingQuestion] {
         writingQuestionList.writingQuestions
@@ -37,91 +39,121 @@ struct CTWritingTest: View {
     
     var body: some View {
         if !questionList.isEmpty{
-            ScrollView{
-                Text("Câu \(currentIndex + 1) / \(questionList.count)")
-                ProgressView(value: Double(currentIndex + 1), total: Double(questionList.count))
-                    .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                    .padding(.horizontal).padding(.vertical, 8)
-                Text("Nghe và viết lại những từ bạn nghe được")
-                    .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal).padding(.vertical, 8)
-                Button(action: {
-                    playCurrentQuestion()
-                    print("Played audio")
-                }){
-                    Image(systemName: "speaker.wave.3.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 30)
-                        .foregroundColor(.blue)
-                        .padding()
-                }
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.blue.opacity(0.1))
-                        .stroke(Color.blue, lineWidth: 2)
-                )
-                .padding(.horizontal).padding(.vertical,8)
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(textEditorBackgroundColor)
-                        .stroke(textEditorBorderColor, lineWidth: 2)
-                        .frame(height: 60)
-                    
-                    TextEditor(text: $inputText)
+            VStack{
+                ScrollView{
+                    Text("Câu \(currentIndex + 1) / \(questionList.count)")
+                    ProgressView(value: Double(currentIndex + 1), total: Double(questionList.count))
+                        .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                        .padding(.horizontal).padding(.vertical, 8)
+                    Text("Nghe và viết lại những từ bạn nghe được")
+                        .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
-                        .disableAutocorrection(true)
-                        .scrollContentBackground(.hidden)
-                        .background(Color.clear)
-                        .padding()
+                        .padding(.horizontal).padding(.vertical, 8)
+                    Button(action: {
+                        playCurrentQuestion()
+                    }){
+                        Image(systemName: "speaker.wave.3.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 30)
+                            .foregroundColor(.blue)
+                            .padding()
+                    }
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.blue.opacity(0.1))
+                            .stroke(Color.blue, lineWidth: 2)
+                    )
+                    .padding(.horizontal).padding(.vertical,8)
                     
-                    if inputText.isEmpty {
-                        Text("Nhập từ nghe được")
-                            .foregroundColor(Color(.placeholderText))
-                            //.allowsHitTesting(false)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(textEditorBackgroundColor)
+                            .stroke(textEditorBorderColor, lineWidth: 2)
+                            .frame(height: 80)
+                        
+                        TextEditor(text: $inputText)
+                            .multilineTextAlignment(.center)
+                            .disableAutocorrection(true)
+                            .scrollContentBackground(.hidden)
+                            .background(Color.clear)
+                            .frame(maxHeight: 80)
+                            .padding(.horizontal, 50)
+                            .padding(.vertical, 20)
+                        
+                        if inputText.isEmpty {
+                            Text("Nhập từ nghe được")
+                                .foregroundColor(Color(.placeholderText))
+                                .allowsHitTesting(false)
+                        }
+                        
+                        if !inputText.isEmpty{
+                            Button(action:{
+                                inputText = ""
+                            }){
+                                Image(systemName: "xmark")
+                                    .foregroundStyle(.gray)
+                                    .padding(10)
+                                    .contentShape(Circle())
+                            }.frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.horizontal)
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
+                    
+                    HStack(spacing: 30) {
+                        Button(action: previousQuestion) {
+                            Image(systemName: "lessthan.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 40)
+                        }
+                        
+                        Button(action: checkAnswer) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 60)
+                        }.disabled(inputText.isEmpty)
+                        
+                        Button(action: nextQuestion) {
+                            Image(systemName: "greaterthan.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 40)
+                        }
+                    }.padding(.vertical, 8)
+                    if hasCheckedAnswer && userGotRightAnswer == false {
+                        Text(questionList[currentIndex].question)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 80)
+                            .background(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color.green.opacity(0.2))
+                                    .stroke(Color.green, lineWidth: 2)
+                            )
+                            .padding(.horizontal)
                     }
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-                
-                HStack(spacing: 25) {
-                    Button(action: previousQuestion) {
-                        Image(systemName: "lessthan.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 35)
+                VStack{
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                               height: AdSizeBanner.size.height)
                     }
-                    
-                    Button(action: checkAnswer) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 55)
-                    }.disabled(inputText.isEmpty)
-                    
-                    Button(action: nextQuestion) {
-                        Image(systemName: "greaterthan.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 35)
-                    }
-                }.padding(.vertical, 8)
-                if hasCheckedAnswer && userGotRightAnswer == false {
-                    Text(questionList[currentIndex].question)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 60)
-                        .background(
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color.green.opacity(0.2))
-                                .stroke(Color.green, lineWidth: 2)
-                        )
-                        .padding(.horizontal)
                 }
+            }
+            .navigationTitle("Thi Viết")
+            .onAppear(){
+                Crashlytics.crashlytics().log("User went to AllMarkedQuestions")
+                adManager.showAd()
+            }
+            .onDisappear(){
+                synthesizer.stopSpeaking(at: .immediate)
+                RatingManager.shared.incrementAction()
             }
         }
         else{
@@ -141,19 +173,21 @@ struct CTWritingTest: View {
             currentIndex = questionList.count - 1
         }
         hasCheckedAnswer = false
+        inputText = ""
+        hideKeyboard()
         adManager.showAd()
     }
     
     private func checkAnswer(){
         let checkString = inputText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        print("input: \(checkString)")
-        print("expected: \( questionList[currentIndex].question.lowercased().trimmingCharacters(in: .whitespacesAndNewlines))")
         hasCheckedAnswer = true
         if checkString == questionList[currentIndex].question.lowercased().trimmingCharacters(in: .whitespacesAndNewlines){
             userGotRightAnswer = true
         }else{
             userGotRightAnswer = false
         }
+        hideKeyboard()
+        adManager.showAd()
     }
     
     private func nextQuestion(){
@@ -168,6 +202,8 @@ struct CTWritingTest: View {
             currentIndex += 1
         }
         hasCheckedAnswer = false
+        inputText = ""
+        hideKeyboard()
         adManager.showAd()
     }
     
@@ -179,6 +215,10 @@ struct CTWritingTest: View {
         utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
         utterance.rate = audioManager.speechRate
         synthesizer.speak(utterance)
+    }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

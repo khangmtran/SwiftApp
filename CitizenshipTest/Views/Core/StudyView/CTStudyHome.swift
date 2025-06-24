@@ -24,9 +24,6 @@ struct CTStudyHome : View{
                 .bold()
                 .multilineTextAlignment(.center)
                 .padding(.top)
-                .onTapGesture {
-                    storeManager.purchasedProductIDs.removeAll()
-                }
             if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
                 Button(action: {
                     showingRemoveAdsView = true
