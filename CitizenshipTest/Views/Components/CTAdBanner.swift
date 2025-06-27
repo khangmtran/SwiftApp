@@ -4,10 +4,15 @@ import SwiftUI
 struct CTAdBannerView: UIViewControllerRepresentable {
     @EnvironmentObject var storeManager: StoreManager
     @StateObject private var networkMonitor = NetworkMonitor.shared
-
+    
     let bannerView = BannerView(adSize: AdSizeBanner)
     // THIS FLAG TO DISABLE BANNER ADS
     private let adsDisabled = false
+    @Binding var isAdReady: Bool
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(isAdReady: $isAdReady)
+    }
     
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()
@@ -17,8 +22,8 @@ struct CTAdBannerView: UIViewControllerRepresentable {
         
         // Only setup the ad if user hasn't purchased ad removal
         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-            //bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" //Test ID
-            bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
+            bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" //Test ID
+            //bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
             bannerView.rootViewController = viewController
             viewController.view.addSubview(bannerView)
         }
@@ -34,5 +39,21 @@ struct CTAdBannerView: UIViewControllerRepresentable {
         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
             bannerView.load(Request())
         }
+    }
+}
+
+class Coordinator: NSObject, BannerViewDelegate {
+    @Binding var isAdReady: Bool
+    
+    init(isAdReady: Binding<Bool>) {
+        _isAdReady = isAdReady
+    }
+    
+    func bannerViewDidReceiveAd(_ bannerView: BannerView) {
+        isAdReady = true
+    }
+    
+    func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
+        isAdReady = false
     }
 }

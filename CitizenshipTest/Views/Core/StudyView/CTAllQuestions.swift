@@ -14,6 +14,7 @@ import FirebaseCrashlytics
 struct CTAllQuestions: View {
     @State private var synthesizer = AVSpeechSynthesizer()
     @State private var showingZipPrompt = false
+    @State private var isAdReady = false
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var govCapManager: GovCapManager
@@ -190,8 +191,8 @@ struct CTAllQuestions: View {
                         .multilineTextAlignment(.center)
                 }
             }
-           if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-               CTAdBannerView().frame(width: AdSizeBanner.size.width,
+            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && isAdReady{
+               CTAdBannerView(isAdReady: $isAdReady).frame(width: AdSizeBanner.size.width,
                                       height: AdSizeBanner.size.height)
            }
         }
