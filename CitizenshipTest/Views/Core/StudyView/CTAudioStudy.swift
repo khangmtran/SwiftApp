@@ -17,6 +17,7 @@ struct CTAudioStudy: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var storeManager: StoreManager
+    @EnvironmentObject var adBannerManager: BannerAdManager
     @AppStorage("audioStudyQIndex") private var currentQuestionIndex = 0
     @AppStorage("audioStudyPlayMarkedOnly") private var playMarkedOnly = false
     @State private var isPlaying = false
@@ -236,7 +237,7 @@ struct CTAudioStudy: View {
                         }
                         Spacer()
                     }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
-               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                           height: AdSizeBanner.size.height)
                }

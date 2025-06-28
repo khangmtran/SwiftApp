@@ -11,12 +11,14 @@ import FirebaseCrashlytics
 struct CTZipInput: View {
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var storeManager: StoreManager
+    @EnvironmentObject var adBannerManager: BannerAdManager
     @Environment(\.dismiss) private var dismiss
     @State private var tempZipCode: String = ""
     @State private var isTyping = false
     @State private var errorMsg = false
     @State private var errorText = "ZIP Code không hợp lệ, xin vui lòng nhập lại"
     private let geocodioService = CTGeocodioService()
+    
     @StateObject private var networkMonitor = NetworkMonitor.shared
     
     var body: some View {
@@ -81,7 +83,7 @@ struct CTZipInput: View {
                     ProgressView()
                 }
                 Spacer()
-                               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected {
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true {
                                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                           height: AdSizeBanner.size.height)
                                }

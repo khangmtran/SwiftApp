@@ -16,6 +16,7 @@ struct CTAllQuestionTest: View {
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var storeManager: StoreManager
+    @EnvironmentObject var adBannerManager: BannerAdManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var isLoading: Bool = true
@@ -51,7 +52,7 @@ struct CTAllQuestionTest: View {
                     Crashlytics.crashlytics().log("User's in allQTest result view")
                     adManager.showAd()
                 }
-               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                           height: AdSizeBanner.size.height)
                }
@@ -71,7 +72,7 @@ struct CTAllQuestionTest: View {
                             )
                         }
                     }
-                   if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                               height: AdSizeBanner.size.height)
                    }

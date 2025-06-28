@@ -19,6 +19,7 @@ struct CTWritingTest: View {
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var storeManager: StoreManager
+    @EnvironmentObject var adBannerManager: BannerAdManager
     @AppStorage("writingTestIndex") private var currentIndex = 0
     @ObservedObject private var adManager = InterstitialAdManager.shared
     @StateObject private var networkMonitor = NetworkMonitor.shared
@@ -140,7 +141,7 @@ struct CTWritingTest: View {
                     }
                 }
                 VStack{
-                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                         CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                height: AdSizeBanner.size.height)
                     }

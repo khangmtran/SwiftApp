@@ -13,6 +13,7 @@ struct CTPracticeTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var storeManager: StoreManager
+    @EnvironmentObject var adBannerManager: BannerAdManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var tenQuestions: [CTQuestion] = []
@@ -50,7 +51,7 @@ struct CTPracticeTest: View {
                     testCompleted = true
                     adManager.showAd()
                 }
-                               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                           height: AdSizeBanner.size.height)
                                }
@@ -64,7 +65,7 @@ struct CTPracticeTest: View {
                             PracticeAnswerView(tenQuestions: tenQuestions, qIndex: $qIndex, showResult: $showResult, score: $score, incorrQ: $incorrQ, userAns: $userAns, saveProgress: saveProgress)
                         }
                     }
-                                       if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                                            CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                                                   height: AdSizeBanner.size.height)
                                        }
@@ -167,6 +168,7 @@ struct CTResultView: View {
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
+    @EnvironmentObject var adBannerManager: BannerAdManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     @ObservedObject private var adManager = InterstitialAdManager.shared

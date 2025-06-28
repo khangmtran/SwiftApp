@@ -15,6 +15,7 @@ struct CTMarkedQuestionTest: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var storeManager: StoreManager
+    @EnvironmentObject var adBannerManager: BannerAdManager
     @State private var qIndex: Int = 0
     @State private var score: Int = 0
     @State private var markedQuestions: [CTQuestion] = []
@@ -73,7 +74,7 @@ struct CTMarkedQuestionTest: View {
                         Spacer()
                     }
                     .padding()
-                   if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                    if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                               height: AdSizeBanner.size.height)
                    }
@@ -96,7 +97,7 @@ struct CTMarkedQuestionTest: View {
                     Crashlytics.crashlytics().log("User's in markQTest result view")
                     adManager.showAd()
                 }
-               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                           height: AdSizeBanner.size.height)
                }
@@ -118,7 +119,7 @@ struct CTMarkedQuestionTest: View {
                         }
                     }
                 }
-               if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
+                if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                           height: AdSizeBanner.size.height)
                }
