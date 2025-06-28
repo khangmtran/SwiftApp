@@ -29,6 +29,8 @@ class InterstitialAdManager: NSObject, ObservableObject {
     private var storeManager: StoreManager?
     private let networkMonitor = NetworkMonitor.shared
     
+    private var isLoadingAd = false
+    
     func setStoreManager(_ manager: StoreManager) {
         self.storeManager = manager
     }
@@ -136,7 +138,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     @MainActor
     func loadAd() async {
         // Don't load ads if disabled or user has purchased ad removal
-        if adsDisabled { return }
+        if adsDisabled || isLoadingAd { return }
         
         if let storeManager = storeManager, storeManager.isPurchased("KnT.CitizenshipTest.removeAds") {
             return
@@ -148,6 +150,9 @@ class InterstitialAdManager: NSObject, ObservableObject {
 #endif
             return
         }
+        
+        isLoadingAd = true
+        defer {isLoadingAd = false}
         
         do {
             interstitialAd = try await InterstitialAd.load(

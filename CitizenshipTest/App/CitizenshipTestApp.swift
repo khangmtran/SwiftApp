@@ -33,6 +33,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var storeManager = StoreManager()
     @StateObject private var networkMonitor = NetworkMonitor.shared
     @StateObject private var writingQuestionList = WritingQuestions()
+    @StateObject private var bannerAdManger = BannerAdManager()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     init() {
@@ -54,6 +55,7 @@ struct CitizenshipTestApp: App{
                 .environmentObject(storeManager)
                 .environmentObject(networkMonitor)
                 .environmentObject(writingQuestionList)
+                .environmentObject(bannerAdManger)
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
                 .onAppear {
                     InterstitialAdManager.shared.setStoreManager(storeManager)

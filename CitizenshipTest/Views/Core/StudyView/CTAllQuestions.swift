@@ -191,7 +191,7 @@ struct CTAllQuestions: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && isAdReady{
+            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
                CTAdBannerView(isAdReady: $isAdReady).frame(width: AdSizeBanner.size.width,
                                       height: AdSizeBanner.size.height)
            }
