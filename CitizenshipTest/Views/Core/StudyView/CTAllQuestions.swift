@@ -20,6 +20,7 @@ struct CTAllQuestions: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var storeManager: StoreManager
+    @EnvironmentObject var adBannerManager: BannerAdManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     @ObservedObject private var adManager = InterstitialAdManager.shared
@@ -191,8 +192,8 @@ struct CTAllQuestions: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected{
-               CTAdBannerView(isAdReady: $isAdReady).frame(width: AdSizeBanner.size.width,
+            if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady{
+               CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                       height: AdSizeBanner.size.height)
            }
         }

@@ -33,14 +33,22 @@ struct CitizenshipTestApp: App{
     @StateObject private var storeManager = StoreManager()
     @StateObject private var networkMonitor = NetworkMonitor.shared
     @StateObject private var writingQuestionList = WritingQuestions()
-    @StateObject private var bannerAdManger = BannerAdManager()
+    @StateObject private var bannerAdManger: BannerAdManager
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     init() {
         MobileAds.shared.start(completionHandler: nil)
         _ = InterstitialAdManager.shared
+
         let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "unknown_device"
         Crashlytics.crashlytics().setUserID(deviceID)
+
+        let storeManager = StoreManager()
+        let networkMonitor = NetworkMonitor.shared
+
+        _storeManager = StateObject(wrappedValue: storeManager)
+        _networkMonitor = StateObject(wrappedValue: networkMonitor)
+        _bannerAdManger = StateObject(wrappedValue: BannerAdManager(storeManager: storeManager, networkMonitor: networkMonitor))
     }
     
     var body: some Scene {
@@ -61,6 +69,7 @@ struct CitizenshipTestApp: App{
                     InterstitialAdManager.shared.setStoreManager(storeManager)
                     Task {
                         await storeManager.updatePurchasedProducts()
+                        bannerAdManger.configureAdIfAllowed(storeManager: storeManager)
                     }
                 }
         }

@@ -8,8 +8,6 @@
 import SwiftUI
 import GoogleMobileAds
 
-//bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
-
 class BannerAdManager: NSObject, ObservableObject, BannerViewDelegate {
     let bannerView: BannerView
     @Published var isAdReady = false
@@ -19,8 +17,12 @@ class BannerAdManager: NSObject, ObservableObject, BannerViewDelegate {
         super.init()
 
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" // Test ID
+        //bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
         bannerView.delegate = self
-
+    }
+    
+    @MainActor
+    func configureAdIfAllowed(storeManager: StoreManager, networkMonitor: NetworkMonitor = .shared) {
         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected {
             bannerView.load(Request())
         }
