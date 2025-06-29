@@ -45,6 +45,7 @@ struct CTTab: View {
     @EnvironmentObject var selectedPart: SelectedPart
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var writingQuestionList: WritingQuestions
+    @EnvironmentObject var updateChecker: AppUpdateChecker
     
     var tabSelection: Binding<Tab>{
         return .init {
@@ -199,6 +200,18 @@ struct CTTab: View {
             .tag(Tab.setting)
         }
         .supportAccessibilityTextSizes()
+        .onAppear {
+            Task {
+                await updateChecker.checkForUpdate()
+            }
+        }
+        .alert("Phiên bản mới (v\(updateChecker.latestVersion)) đã có sẵn. Bạn có muốn cập nhật không?",
+               isPresented: $updateChecker.showUpdateAlert) {
+            Button("Để sau", role: .cancel) {}
+            Button("Cập nhật") {
+                updateChecker.openAppStore()
+            }
+        }
     }
 }
 
@@ -217,4 +230,5 @@ enum Tab: Int{
         .environmentObject(SelectedPart())
         .environmentObject(AudioManager())
         .environmentObject(WritingQuestions())
+        .environmentObject(AppUpdateChecker())
 }

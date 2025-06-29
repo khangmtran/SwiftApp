@@ -34,6 +34,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var networkMonitor = NetworkMonitor.shared
     @StateObject private var writingQuestionList = WritingQuestions()
     @StateObject private var bannerAdManger: BannerAdManager
+    @StateObject private var updateChecker = AppUpdateChecker()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     init() {
@@ -64,12 +65,14 @@ struct CitizenshipTestApp: App{
                 .environmentObject(networkMonitor)
                 .environmentObject(writingQuestionList)
                 .environmentObject(bannerAdManger)
+                .environmentObject(updateChecker)
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
                 .onAppear {
                     InterstitialAdManager.shared.setStoreManager(storeManager)
                     Task {
                         await storeManager.updatePurchasedProducts()
                         bannerAdManger.configureAdIfAllowed(storeManager: storeManager)
+                        await updateChecker.checkForUpdate()
                     }
                 }
         }
