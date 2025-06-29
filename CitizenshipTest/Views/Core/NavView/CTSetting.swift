@@ -262,7 +262,7 @@ struct CTSetting: View {
             }
             
             VStack{
-                Text("Học Thi Quốc Tịch Mỹ v1.2.2")
+                Text("Học Thi Quốc Tịch Mỹ v1.2.3")
                     .font(.footnote)
                     .foregroundStyle(.gray)
                     .padding(.top)

@@ -34,10 +34,12 @@ struct CitizenshipTestApp: App{
     @StateObject private var networkMonitor = NetworkMonitor.shared
     @StateObject private var writingQuestionList = WritingQuestions()
     @StateObject private var bannerAdManger: BannerAdManager
+    @StateObject private var updateChecker = AppUpdateChecker()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     init() {
         MobileAds.shared.start(completionHandler: nil)
+        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = ["b4465261536b1c775bc699401b84862c"]
         _ = InterstitialAdManager.shared
 
         let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "unknown_device"
@@ -70,6 +72,14 @@ struct CitizenshipTestApp: App{
                     Task {
                         await storeManager.updatePurchasedProducts()
                         bannerAdManger.configureAdIfAllowed(storeManager: storeManager)
+                        await updateChecker.checkForUpdate()
+                    }
+                }
+                .alert("Phiên bản mới đã có mặt trên App Store. Bạn có muốn cập nhật không?",
+                       isPresented: $updateChecker.showUpdateAlert) {
+                    Button("Để sau", role: .cancel) {}
+                    Button("Cập nhật") {
+                        updateChecker.openAppStore()
                     }
                 }
         }

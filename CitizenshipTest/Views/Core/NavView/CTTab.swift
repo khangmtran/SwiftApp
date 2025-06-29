@@ -91,7 +91,7 @@ struct CTTab: View {
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                                 .toolbar(.hidden, for: .tabBar)
-
+                            
                         case .markedQuestionsTest:
                             CTMarkedQuestionTest()
                                 .environmentObject(questionList)
@@ -100,7 +100,7 @@ struct CTTab: View {
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                                 .toolbar(.hidden, for: .tabBar)
-
+                            
                         case .flashCard:
                             CTFlashCard()
                                 .environmentObject(userSetting)
@@ -142,7 +142,7 @@ struct CTTab: View {
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                                 .toolbar(.hidden, for: .tabBar)
-
+                            
                         case .learnQuestions:
                             CTLearnQuestions()
                                 .environmentObject(userSetting)
@@ -151,7 +151,7 @@ struct CTTab: View {
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                                 .toolbar(.hidden, for: .tabBar)
-
+                            
                         case .allMarkedQuestions:
                             CTAllMarkedQuestion()
                                 .environmentObject(userSetting)
@@ -159,7 +159,7 @@ struct CTTab: View {
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                                 .toolbar(.hidden, for: .tabBar)
-
+                            
                         case .audioStudy:
                             CTAudioStudy()
                                 .environmentObject(questionList)
@@ -167,7 +167,7 @@ struct CTTab: View {
                                 .environmentObject(govCapManager)
                                 .environmentObject(audioManager)
                                 .toolbar(.hidden, for: .tabBar)
-
+                            
                         }
                     }
             }
