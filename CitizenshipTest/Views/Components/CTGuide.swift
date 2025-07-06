@@ -32,8 +32,6 @@ struct CTGuide: View {
                         .multilineTextAlignment(.center)
                         .padding(.vertical, 8)
                     Text("Lưu ý: Những câu hỏi có dấu * là những câu hỏi thường gặp trong bài thi.")
-                    Text("Một số câu hỏi bao gồm nhiều đáp án khả thi đã được chọn lọc ra những đáp án dễ học. Nếu bạn muốn tham khảo thêm các đáp án khác, vui lòng truy cập uscis.gov")
-                        .padding(.top, 5)
                 }
                 .padding()
                 .background(Color.blue.opacity(0.1))

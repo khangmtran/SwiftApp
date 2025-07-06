@@ -473,8 +473,9 @@ struct CTAllTestResultView: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    @Query private var answerPrefs: [UserAnswerPref]
     @ObservedObject private var adManager = InterstitialAdManager.shared
-
+    
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
     }
@@ -564,7 +565,8 @@ struct CTAllTestResultView: View {
                                             .font(.subheadline)
                                             .fontWeight(.regular)
                                     } else {
-                                        Text("Đáp án: \(result.question.answer)")
+                                        let pref = preferredAnswer(for: result.question)
+                                        Text("Đáp án: \(pref.en)")
                                             .font(.subheadline)
                                             .fontWeight(.regular)
                                     }
@@ -650,12 +652,10 @@ struct CTAllTestResultView: View {
         }
         return ""
     }
-}
-
-#Preview {
-    CTAllQuestionTest()
-        .environmentObject(QuestionList())
-        .environmentObject(WrongAnswer())
-        .environmentObject(UserSetting())
-        .environmentObject(GovCapManager())
+    private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return (pref.answerEn, pref.answerVie)
+        }
+        return (question.answer, question.answerVie)
+    }
 }

@@ -171,6 +171,7 @@ struct CTResultView: View {
     @EnvironmentObject var adBannerManager: BannerAdManager
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    @Query private var answerPrefs: [UserAnswerPref]
     @ObservedObject private var adManager = InterstitialAdManager.shared
     
     private var progressManager: TestProgressManager {
@@ -249,7 +250,8 @@ struct CTResultView: View {
                                         .font(.subheadline)
                                         .fontWeight(.regular)
                                 } else {
-                                    Text("Đáp án: \(question.answer)")
+                                    let pref = preferredAnswer(for: question)
+                                    Text("Đáp án: \(pref.en)")
                                         .font(.subheadline)
                                         .fontWeight(.regular)
                                 }
@@ -335,6 +337,12 @@ struct CTResultView: View {
             return ""
         }
         return ""
+    }
+    private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {
+           if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+               return (pref.answerEn, pref.answerVie)
+           }
+           return (question.answer, question.answerVie)
     }
 }
 
@@ -654,10 +662,3 @@ struct PracticeAnswerView: View{
     }
 }
 
-#Preview {
-    CTPracticeTest()
-        .environmentObject(QuestionList())
-        .environmentObject(WrongAnswer())
-        .environmentObject(UserSetting())
-        .environmentObject(GovCapManager())
-}

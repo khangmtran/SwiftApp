@@ -31,6 +31,7 @@ struct CTAudioStudy: View {
     @State private var autoPlayQuestionCounter: Int = 0
     @State private var showingUpgradeAlert = false
     @State private var showingUpgradePrompt = false
+    @State private var showingAnswerSheet: Bool = false
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
     @Query private var answerPrefs: [UserAnswerPref]
@@ -159,11 +160,24 @@ struct CTAudioStudy: View {
                                 
                                 if playAnswers {
                                     VStack {
-                                        Text("Đáp án")
-                                            .font(.headline)
-                                            .foregroundColor(.blue)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                        
+                                        HStack{
+                                            Text("Đáp án")
+                                                .font(.headline)
+                                                .foregroundColor(.blue)
+                                                //.frame(maxWidth: .infinity, alignment: .leading)
+                                            Spacer()
+                                            if questions[currentQuestionIndex].answers != nil {
+                                                Button(action: {
+                                                    showingAnswerSheet = true
+                                                }) {
+                                                    HStack {
+                                                        Image(systemName: "text.badge.checkmark")
+                                                        Text("Đáp Án Khác")
+                                                    }
+                                                }
+                                                .buttonStyle(BorderlessButtonStyle())
+                                            }
+                                        }
                                         if [20, 23, 43, 44].contains(questions[currentQuestionIndex].id) {
                                             ServiceQuestions(
                                                 questionId: questions[currentQuestionIndex].id,
@@ -173,14 +187,14 @@ struct CTAudioStudy: View {
                                             .padding(.vertical, 5)
                                         } else {
                                             // Regular answer display
-                                            Text(questions[currentQuestionIndex].answer)
+                                            let pref = preferredAnswer(for: questions[currentQuestionIndex])
+                                            Text(pref.en)
                                                 .font(.headline)
                                                 .fixedSize(horizontal: false, vertical: true)
                                                 .multilineTextAlignment(.leading)
                                                 .padding(.vertical, 5)
                                             
-                                            
-                                            Text(questions[currentQuestionIndex].answerVie)
+                                            Text(pref.vie)
                                                 .font(.subheadline)
                                                 .multilineTextAlignment(.leading)
                                                 .fixedSize(horizontal: false, vertical: true)
@@ -252,6 +266,17 @@ struct CTAudioStudy: View {
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
+        }
+        .sheet(isPresented: $showingAnswerSheet) {
+            AnswerSelectionSheet(
+                question: questions[currentQuestionIndex],
+                onSelect: { selected in
+                    setPreferredAnswer(for: questions[currentQuestionIndex], with: selected)
+                    showingAnswerSheet = false
+                }
+            )
+            .presentationDetents([.fraction(0.7)])
+            .presentationDragIndicator(.visible)
         }
         .alert("Tính năng dành riêng cho phiên bản nâng cấp. Bạn có muốn nâng cấp?", isPresented: $showingUpgradeAlert) {
             Button("Hủy", role: .cancel) {}
@@ -352,8 +377,8 @@ struct CTAudioStudy: View {
         
         let question = questions[currentQuestionIndex]
         let questionId = question.id
-        var answerText = question.answer
-        
+        var answerText = preferredAnswer(for: question).en
+
         // Handle specific questions that require user ZIP code
         if questionId == 20 || questionId == 23 || questionId == 43 || questionId == 44 {
             if !userSetting.zipCode.isEmpty {
@@ -498,6 +523,16 @@ struct CTAudioStudy: View {
             return (pref.answerEn, pref.answerVie)
         }
         return (question.answer, question.answerVie)
+    }
+    
+    private func setPreferredAnswer(for question: CTQuestion, with pair: AnswerPair) {
+        if let existing = answerPrefs.first(where: { $0.questionId == question.id }) {
+            existing.answerEn = pair.en
+            existing.answerVie = pair.vie
+        } else {
+            let newPref = UserAnswerPref(questionId: question.id, answerEn: pair.en, answerVie: pair.vie)
+            context.insert(newPref)
+        }
     }
 }
 

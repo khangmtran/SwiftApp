@@ -30,6 +30,7 @@ struct CTFlashCard: View{
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
     @ObservedObject private var adManager = InterstitialAdManager.shared
+    @Environment(\.modelContext) private var context
     
     var body: some View{
         VStack{
@@ -134,7 +135,7 @@ struct JumpToCardView: View {
         self.totalCards = totalCards
         self._selectedCardNumber = State(initialValue: qIndex.wrappedValue + 1)
     }
-        
+    
     var body: some View {
         VStack {
             HStack {
@@ -173,8 +174,9 @@ struct JumpToCardView: View {
 struct NavButtonsFC: View{
     @Binding var qIndex: Int
     @ObservedObject private var adManager = InterstitialAdManager.shared
+    @Query private var answerPrefs: [UserAnswerPref]
     let questions: [CTQuestion]
-
+    
     var body: some View {
         HStack(){
             Button(action: prevQuestion){
@@ -217,6 +219,12 @@ struct NavButtonsFC: View{
             qIndex = questions.count - 1
         }
         adManager.showAd()
+    }
+    private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return (pref.answerEn, pref.answerVie)
+        }
+        return (question.answer, question.answerVie)
     }
 }
 
@@ -327,8 +335,9 @@ struct CardBack: View{
     @EnvironmentObject var userSetting: UserSetting
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    @Query private var answerPrefs: [UserAnswerPref]
     @ObservedObject private var adManager = InterstitialAdManager.shared
-
+    
     var body: some View{
         VStack{
             ZStack{
@@ -345,14 +354,15 @@ struct CardBack: View{
                         )
                     }
                     else{
-                        Text("\(questions[qIndex].answer)")
+                        let pref = preferredAnswer(for: questions[qIndex])
+                        Text("\(pref.en)")
                             .font(.title3)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.vertical, 1)
                             .padding(.horizontal)
-                        Text("\(questions[qIndex].answerVie)")
+                        Text("\(pref.vie)")
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.horizontal)
@@ -415,7 +425,7 @@ struct CardBack: View{
                                 
                                 // If no specific answer is available, use default answer
                                 if textToSpeak.isEmpty {
-                                    textToSpeak = questions[qIndex].answer
+                                    textToSpeak = preferredAnswer(for: questions[qIndex]).en
                                 }
                                 
                                 let utterance = AVSpeechUtterance(string: textToSpeak)
@@ -424,7 +434,7 @@ struct CardBack: View{
                                 synthesizer.speak(utterance)
                             } else {
                                 // Regular questions
-                                let utterance = AVSpeechUtterance(string: questions[qIndex].answer)
+                                let utterance = AVSpeechUtterance(string: preferredAnswer(for: questions[qIndex]).en)
                                 utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
                                 utterance.rate = audioManager.speechRate
                                 synthesizer.speak(utterance)
@@ -465,6 +475,12 @@ struct CardBack: View{
                 .environmentObject(userSetting)
         }
     }
+    private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return (pref.answerEn, pref.answerVie)
+        }
+        return (question.answer, question.answerVie)
+    }
 }
 
 struct QuestionTypeView: View {
@@ -476,7 +492,7 @@ struct QuestionTypeView: View {
     @Binding var qType: String
     @State private var shouldShowAlertOnDismiss = false
     @Query private var markedQuestions: [MarkedQuestion]
-
+    
     var body: some View {
         VStack {
             HStack{
@@ -484,7 +500,7 @@ struct QuestionTypeView: View {
                 
                 Text("Chọn Trình Tự Câu Hỏi")
                     .padding(10)
-               
+                
                 Spacer()
                 
                 Button(action:{
@@ -493,7 +509,7 @@ struct QuestionTypeView: View {
                     Image(systemName: "xmark")
                         .foregroundStyle(.gray)
                 }
-
+                
             }
             
             VStack(spacing: 20){
@@ -561,11 +577,4 @@ struct QuestionTypeView: View {
             }
         }
     }
-}
-
-#Preview{
-    CTFlashCard()
-        .environmentObject(UserSetting())
-        .environmentObject(QuestionList())
-        .environmentObject(GovCapManager())
 }

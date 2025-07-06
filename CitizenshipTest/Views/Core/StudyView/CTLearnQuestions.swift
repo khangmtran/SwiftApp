@@ -83,11 +83,10 @@ struct CTLearnQuestions: View {
                                      synthesizer: synthesizer)
                         
                         //vstack of answer
-                        AnswerView(qId: filteredQuestion[qIndex].id,
-                                   ans: filteredQuestion[qIndex].answer,
-                                   vieAns: filteredQuestion[qIndex].answerVie,
-                                   learn: filteredQuestion[qIndex].learn,
-                                   synthesizer: synthesizer)
+                        AnswerView(
+                            question: filteredQuestion[qIndex],
+                            synthesizer: synthesizer
+                        )
                         
                     }//.2
                 }
@@ -239,7 +238,7 @@ struct QuestionView: View {
                     .font(.subheadline)
                     .underline()
                     .padding(.top)
-                    
+                
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(learn)")
                     .font(.subheadline)
@@ -296,25 +295,26 @@ struct QuestionView: View {
 }
 
 struct AnswerView: View {
-    var qId: Int
-    var ans: String
-    var vieAns: String
-    var learn: String
+    var question: CTQuestion
     var synthesizer: AVSpeechSynthesizer
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
     @State var showingZipPrompt = false
+    @State private var showingAnswerSheet = false
     @ObservedObject private var adManager = InterstitialAdManager.shared
-
+    @Environment(\.modelContext) private var context
+    @Query private var answerPrefs: [UserAnswerPref]
+    
     var body: some View {
-        VStack{
-            if qId == 20 || qId == 23 || qId == 43 || qId == 44{
+        let pref = preferredAnswer(for: question)
+        return VStack{
+            if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44{
                 Text("Trả Lời:")
                     .font(.subheadline)
                     .padding(.bottom, 1)
                 ServiceQuestions(
-                    questionId: qId,
+                    questionId: question.id,
                     showingZipPrompt: $showingZipPrompt,
                     govAndCap: govCapManager.govAndCap
                 )
@@ -325,11 +325,11 @@ struct AnswerView: View {
                 VStack{
                     Text("Trả Lời:")
                         .font(.subheadline)
-                    Text(ans)
+                    Text(pref.en)
                         .font(.headline)
                         .multilineTextAlignment(.center)
                         .padding(.top, 1)
-                    Text(vieAns)
+                    Text(pref.vie)
                         .font(.subheadline)
                         .multilineTextAlignment(.center)
                         .padding(.bottom)
@@ -337,36 +337,47 @@ struct AnswerView: View {
             }
             
             HStack{
+                if question.answers != nil {
+                    Button(action: {
+                        showingAnswerSheet = true
+                    }) {
+                        HStack {
+                            Image(systemName: "text.badge.checkmark")
+                            Text("Chọn Đáp Án Khác")
+                        }
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                }
                 Spacer()
                 Button(action: {
                     
                     synthesizer.stopSpeaking(at: .immediate)
-                                                            
+                    
                     // Handle special questions (20, 23, 43, 44)
-                    if qId == 20 || qId == 23 || qId == 43 || qId == 44 {
+                    if question.id == 20 || question.id == 23 || question.id == 43 || question.id == 44 {
                         var textToSpeak = ""
                         
-                        if qId == 20 {
+                        if question.id == 20 {
                             // Senator
                             let senators = userSetting.legislators.filter { $0.type == "senator" }
                             if !senators.isEmpty {
                                 let senatorNames = senators.map { "\($0.firstName) \($0.lastName)" }.joined(separator: ", ")
                                 textToSpeak = senatorNames
                             }
-                        } else if qId == 23 {
+                        } else if question.id == 23 {
                             // Representative
                             let representatives = userSetting.legislators.filter { $0.type == "representative" }
                             if !representatives.isEmpty {
                                 let repNames = representatives.map { "\($0.firstName) \($0.lastName)" }.joined(separator: ", ")
                                 textToSpeak = repNames
                             }
-                        } else if qId == 43 {
+                        } else if question.id == 43 {
                             // Governor
                             let state = userSetting.state
                             if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
                                 textToSpeak = govCap.gov
                             }
-                        } else if qId == 44 {
+                        } else if question.id == 44 {
                             // Capital
                             let state = userSetting.state
                             if let govCap = govCapManager.govAndCap.first(where: { $0.state == state }) {
@@ -380,7 +391,7 @@ struct AnswerView: View {
                         synthesizer.speak(utterance)
                     } else {
                         // Regular questions
-                        let utterance = AVSpeechUtterance(string: ans)
+                        let utterance = AVSpeechUtterance(string: pref.en)
                         utterance.voice = AVSpeechSynthesisVoice(identifier: audioManager.voiceIdentifier)
                         utterance.rate = audioManager.speechRate
                         synthesizer.speak(utterance)
@@ -405,6 +416,34 @@ struct AnswerView: View {
         .sheet(isPresented: $showingZipPrompt) {
             CTZipInput()
                 .environmentObject(userSetting)
+        }
+        .sheet(isPresented: $showingAnswerSheet) {
+            AnswerSelectionSheet(
+                question: question,
+                onSelect: { selected in
+                    setPreferredAnswer(for: question, with: selected)
+                    showingAnswerSheet = false
+                }
+            )
+            .presentationDetents([.fraction(0.7)])
+            .presentationDragIndicator(.visible)
+        }
+    }
+    
+    private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return (pref.answerEn, pref.answerVie)
+        }
+        return (question.answer, question.answerVie)
+    }
+    
+    private func setPreferredAnswer(for question: CTQuestion, with pair: AnswerPair) {
+        if let existing = answerPrefs.first(where: { $0.questionId == question.id }) {
+            existing.answerEn = pair.en
+            existing.answerVie = pair.vie
+        } else {
+            let newPref = UserAnswerPref(questionId: question.id, answerEn: pair.en, answerVie: pair.vie)
+            context.insert(newPref)
         }
     }
 }
