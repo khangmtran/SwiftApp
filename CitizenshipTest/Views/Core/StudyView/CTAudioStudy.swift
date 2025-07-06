@@ -33,6 +33,7 @@ struct CTAudioStudy: View {
     @State private var showingUpgradePrompt = false
     @Environment(\.modelContext) private var context
     @Query private var markedQuestions: [MarkedQuestion]
+    @Query private var answerPrefs: [UserAnswerPref]
     @ObservedObject private var adManager = InterstitialAdManager.shared
     @StateObject private var networkMonitor = NetworkMonitor.shared
     
@@ -236,7 +237,7 @@ struct CTAudioStudy: View {
                             }
                         }
                         Spacer()
-                    }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 125)
+                    }.frame(height: UIDevice.current.userInterfaceIdiom == .pad ? 350 : 100)
                 if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
                                           height: AdSizeBanner.size.height)
@@ -491,6 +492,13 @@ struct CTAudioStudy: View {
         
         adManager.showAd()
     }
+    
+    private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return (pref.answerEn, pref.answerVie)
+        }
+        return (question.answer, question.answerVie)
+    }
 }
 
 // Speech synthesis delegate to handle callbacks
@@ -504,13 +512,4 @@ class SpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         onFinished()
     }
-}
-
-#Preview {
-    CTAudioStudy()
-        .environmentObject(QuestionList())
-        .environmentObject(UserSetting())
-        .environmentObject(GovCapManager())
-        .environmentObject(AudioManager())
-        .modelContainer(for: MarkedQuestion.self)
 }

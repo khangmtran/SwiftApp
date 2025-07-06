@@ -66,7 +66,7 @@ struct CitizenshipTestApp: App{
                 .environmentObject(networkMonitor)
                 .environmentObject(writingQuestionList)
                 .environmentObject(bannerAdManger)
-                .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self])
+                .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self, UserAnswerPref.self])
                 .onAppear {
                     InterstitialAdManager.shared.setStoreManager(storeManager)
                     Task {

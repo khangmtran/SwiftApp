@@ -479,16 +479,22 @@ struct QuestionTypeView: View {
 
     var body: some View {
         VStack {
-            Button(action:{
-                dismiss()
-            }){
-                Image(systemName: "xmark")
-                    .foregroundStyle(.gray)
+            HStack{
+                Spacer()
+                
+                Text("Chọn Trình Tự Câu Hỏi")
+                    .padding(10)
+               
+                Spacer()
+                
+                Button(action:{
+                    dismiss()
+                }){
+                    Image(systemName: "xmark")
+                        .foregroundStyle(.gray)
+                }
+
             }
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            
-            Text("Chọn Trình Tự Câu Hỏi")
-                .padding(10)
             
             VStack(spacing: 20){
                 // Handle sequential order
