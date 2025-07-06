@@ -52,9 +52,9 @@ struct CTPracticeTest: View {
                     adManager.showAd()
                 }
                 if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
-                                   CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                                          height: AdSizeBanner.size.height)
-                               }
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             }
             else {
                 VStack{
@@ -66,9 +66,9 @@ struct CTPracticeTest: View {
                         }
                     }
                     if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
-                                           CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                                                  height: AdSizeBanner.size.height)
-                                       }
+                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                               height: AdSizeBanner.size.height)
+                    }
                 }
             }
         }
@@ -339,10 +339,10 @@ struct CTResultView: View {
         return ""
     }
     private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {
-           if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
-               return (pref.answerEn, pref.answerVie)
-           }
-           return (question.answer, question.answerVie)
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return (pref.answerEn, pref.answerVie)
+        }
+        return (question.answer, question.answerVie)
     }
 }
 
@@ -435,6 +435,7 @@ struct PracticeAnswerView: View{
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
+    @Query private var answerPrefs: [UserAnswerPref]
     var tenQuestions: [CTQuestion]
     @Binding var qIndex: Int
     @Binding var showResult: Bool
@@ -536,7 +537,7 @@ struct PracticeAnswerView: View{
                         Button(action: {
                             selectedAns = ans
                             isAns = true
-                            if selectedAns == tenQuestions[qIndex].answer{
+                            if selectedAns == preferredAnswer(for: tenQuestions[qIndex]){
                                 score += 1
                                 userAns.append(true)
                                 incorrQ.append("")
@@ -556,7 +557,7 @@ struct PracticeAnswerView: View{
                                 .padding()
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
-                                .background(backgroundColor(for: ans, correctAns: tenQuestions[qIndex].answer, selectedAns: selectedAns))
+                                .background(backgroundColor(for: ans, correctAns: preferredAnswer(for: tenQuestions[qIndex]), selectedAns: selectedAns))
                                 .cornerRadius(10)
                                 .padding(.horizontal)
                                 .padding(.vertical, 5)
@@ -614,7 +615,8 @@ struct PracticeAnswerView: View{
                 shuffledAnswers = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
             }
         } else {
-            shuffledAnswers = [tenQuestions[qIndex].answer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
+            let correct = preferredAnswer(for: tenQuestions[qIndex])
+            shuffledAnswers = [correct, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
         }
     }
     
@@ -631,6 +633,13 @@ struct PracticeAnswerView: View{
                 return .blue.opacity(0.1)
             }
         }
+    }
+    
+    private func preferredAnswer(for question: CTQuestion) -> String {
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return pref.answerEn
+        }
+        return question.answer
     }
     
     private func getZipAnswer(_ questionId: Int) -> String {

@@ -29,7 +29,7 @@ struct CTAllQuestionTest: View {
     @AppStorage("allQuestionsTestCompleted") private var testCompleted = false
     @ObservedObject private var adManager = InterstitialAdManager.shared
     @StateObject private var networkMonitor = NetworkMonitor.shared
-
+    
     private var progressManager: TestProgressManager {
         TestProgressManager(modelContext: context)
     }
@@ -53,9 +53,9 @@ struct CTAllQuestionTest: View {
                     adManager.showAd()
                 }
                 if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
-                   CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                          height: AdSizeBanner.size.height)
-               }
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             } else {
                 VStack{
                     GeometryReader { geo in
@@ -73,9 +73,9 @@ struct CTAllQuestionTest: View {
                         }
                     }
                     if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
-                       CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                              height: AdSizeBanner.size.height)
-                   }
+                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                               height: AdSizeBanner.size.height)
+                    }
                 }
                 
             }
@@ -248,6 +248,7 @@ struct AllTestAnswerView: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
+    @Query private var answerPrefs: [UserAnswerPref]
     @Binding var qIndex: Int
     @Binding var showResult: Bool
     @Binding var score: Int
@@ -315,14 +316,12 @@ struct AllTestAnswerView: View {
                 }
                 // Regular questions
                 else {
-                    
                     ForEach(shuffledAnswers, id: \.self) { ans in
-                        answerButton(ans: ans, correctAns: currentQuestion.answer)
-                        
+                        answerButton(ans: ans, correctAns: preferredAnswer(for: currentQuestion))
                     }
                 }
             }
-
+            
             VStack{
                 // Show next button when answered
                 if isAns {
@@ -411,7 +410,8 @@ struct AllTestAnswerView: View {
                 shuffledAnswers = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
             }
         } else {
-            shuffledAnswers = [currentQuestion.answer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
+            let correct = preferredAnswer(for: currentQuestion)
+            shuffledAnswers = [correct, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
         }
     }
     
@@ -427,6 +427,13 @@ struct AllTestAnswerView: View {
                 return .blue.opacity(0.1)
             }
         }
+    }
+    
+    private func preferredAnswer(for question: CTQuestion) -> String {
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return pref.answerEn
+        }
+        return question.answer
     }
     
     private func getZipAnswer(_ questionId: Int) -> String {

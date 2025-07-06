@@ -75,9 +75,9 @@ struct CTMarkedQuestionTest: View {
                     }
                     .padding()
                     if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
-                       CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                              height: AdSizeBanner.size.height)
-                   }
+                        CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                               height: AdSizeBanner.size.height)
+                    }
                 }
             } else if showResult || testCompleted {
                 CTMarkedResultView(
@@ -98,9 +98,9 @@ struct CTMarkedQuestionTest: View {
                     adManager.showAd()
                 }
                 if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
-                   CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                          height: AdSizeBanner.size.height)
-               }
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             } else {
                 VStack{
                     GeometryReader { geo in
@@ -120,9 +120,9 @@ struct CTMarkedQuestionTest: View {
                     }
                 }
                 if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
-                   CTAdBannerView().frame(width: AdSizeBanner.size.width,
-                                          height: AdSizeBanner.size.height)
-               }
+                    CTAdBannerView().frame(width: AdSizeBanner.size.width,
+                                           height: AdSizeBanner.size.height)
+                }
             }
         }
         .onDisappear(){
@@ -505,6 +505,7 @@ struct MarkedAnswerView: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
+    @Query private var answerPrefs: [UserAnswerPref]
     var markedQuestions: [CTQuestion]
     @Binding var qIndex: Int
     @Binding var showResult: Bool
@@ -582,13 +583,13 @@ struct MarkedAnswerView: View {
                     // Non-zip questions
                     ForEach(shuffledAnswers, id: \.self) { ans in
                         Button(action: {
-                            handleAnswer(ans: ans, correctAns: markedQuestions[qIndex].answer)
+                            handleAnswer(ans: ans, correctAns: preferredAnswer(for: markedQuestions[qIndex]))
                         }) {
                             Text(ans)
                                 .padding()
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
-                                .background(backgroundColor(for: ans, correctAns: markedQuestions[qIndex].answer, selectedAns: selectedAns))
+                                .background(backgroundColor(for: ans, correctAns: preferredAnswer(for: markedQuestions[qIndex]), selectedAns: selectedAns))
                                 .cornerRadius(10)
                                 .padding(.horizontal)
                                 .padding(.vertical, 5)
@@ -673,7 +674,8 @@ struct MarkedAnswerView: View {
                 shuffledAnswers = [correctAnswer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
             }
         } else {
-            shuffledAnswers = [markedQuestions[qIndex].answer, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
+            let correct = preferredAnswer(for: markedQuestions[qIndex])
+            shuffledAnswers = [correct, correspondAns.firstIncorrect, correspondAns.secondIncorrect, correspondAns.thirdIncorrect].shuffled()
         }
     }
     
@@ -689,6 +691,13 @@ struct MarkedAnswerView: View {
                 return .blue.opacity(0.1)
             }
         }
+    }
+    
+    private func preferredAnswer(for question: CTQuestion) -> String {
+        if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {
+            return pref.answerEn
+        }
+        return question.answer
     }
     
     private func getZipAnswer(_ questionId: Int) -> String {
