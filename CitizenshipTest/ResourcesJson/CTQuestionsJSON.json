@@ -15,7 +15,12 @@
         "answer": "Sets up the government",
         "answerVie": "Thiết lập chính phủ",
         "type": "CA",
-        "learn": "1. Constitution do: Hiến Pháp làm gì"
+        "learn": "1. Constitution do: Hiến Pháp làm gì",
+        "answers": [
+            { "en": "Sets up the government", "vie": "thiết lập chánh phủ" },
+            { "en": "Defines the government", "vie": "mô tả tổ chức chánh phủ" },
+            { "en": "Protects basic rights of Americans", "vie": "bảo vệ các quyền căn bản của người dân Hoa Kỳ" }
+        ]
     },
     {
         "id": 3,
@@ -33,7 +38,11 @@
         "answer": "A change (to the Constitution)",
         "answerVie": "Một sự thay đổi (trong Hiến pháp)",
         "type": "CA",
-        "learn": "1. An amendment: Tu chính án"
+        "learn": "1. An amendment: Tu chính án",
+        "answers": [
+            { "en": "A change (to the Constitution)", "vie": "một sự thay đổi (trong Hiến Pháp)" },
+            { "en": "An addition (to the Constitution)", "vie": "một sự thêm (vào Hiến Pháp)" }
+        ]
     },
     {
         "id": 5,
@@ -51,7 +60,14 @@
         "answer": "Speech",
         "answerVie": "Tự do ngôn luận",
         "type": "CA",
-        "learn": "1. One right: Một quyền\n2. from the First Amendment: Trong tu chính án đầu tiên"
+        "learn": "1. One right: Một quyền\n2. from the First Amendment: Trong tu chính án đầu tiên",
+        "answers": [
+            { "en": "Speech", "vie": "tự do ngôn luận" },
+            { "en": "Religion", "vie": "tự do tôn giáo" },
+            { "en": "Assembly", "vie": "tự do hội họp" },
+            { "en": "Press", "vie": "tự do báo chí" },
+            { "en": "Petition the government", "vie": "tự do thỉnh nguyện chánh phủ" }
+        ]
     },
     {
         "id": 7,
@@ -69,7 +85,12 @@
         "answer": "Declared our independence (from Great Britain)",
         "answerVie": "Tuyên bố sự độc lập của chúng ta (từ Anh Quốc)",
         "type": "LD",
-        "learn": "1. Declaration of Independence do: Bản Tuyên Ngôn Độc Lập làm gì"
+        "learn": "1. Declaration of Independence do: Bản Tuyên Ngôn Độc Lập làm gì",
+        "answers": [
+            { "en": "Announced our independence (from Great Britain)", "vie": "thông báo nền độc lập của chúng ta (khỏi Anh Quốc)" },
+            { "en": "Declared our independence (from Great Britain)", "vie": "tuyên cáo nền độc lập của chúng ta (khỏi Anh Quốc)" },
+            { "en": "Said that the United States is free (from Great Britain)", "vie": "cho biết Hoa Kỳ đã tự do (khỏi Anh Quốc)" }
+        ]
     },
     {
         "id": 9,
@@ -78,7 +99,12 @@
         "answer": "Life and Liberty",
         "answerVie": "Quyền Đuợc Sống và Quyền Tự Do",
         "type": "LD",
-        "learn": "1. Two rights: Hai quyền\n2. In the Declaration of Independence: Trong Bản Tuyên Ngôn Độc Lập"
+        "learn": "1. Two rights: Hai quyền\n2. In the Declaration of Independence: Trong Bản Tuyên Ngôn Độc Lập",
+        "answers": [
+            { "en": "Life and Liberty", "vie": "quyền sống và quyền tự do" },
+            { "en": "Life and Pursuit of happiness", "vie": "quyền sống và quyền theo đuổi hạnh phúc" },
+            { "en": "Liberty and Pursuit of happiness", "vie": "quyền tự do và quyền theo đuổi hạnh phúc" }
+        ]
     },
     {
         "id": 10,
@@ -96,7 +122,11 @@
         "answer": "Market economy",
         "answerVie": "Kinh tế thị trường",
         "type": "US",
-        "learn": "1. Economic system: Hệ thống kinh tế"
+        "learn": "1. Economic system: Hệ thống kinh tế",
+        "answers": [
+            { "en": "Capitalist economy", "vie": "kinh tế tư bản" },
+            { "en": "Market economy", "vie": "kinh tế thị trường" }
+        ]
     },
     {
         "id": 12,
@@ -105,7 +135,13 @@
         "answer": "Everyone must follow the law",
         "answerVie": "Mọi người phải tuân theo luật pháp",
         "type": "LD",
-        "learn": "1. Rule of law: Quy tắc của luật pháp"
+        "learn": "1. Rule of law: Quy tắc của luật pháp",
+        "answers": [
+            { "en": "Everyone must follow the law.", "vie": "Mọi người đều phải tuân theo luật pháp." },
+            { "en": "Leaders must obey the law.", "vie": "Cả các người lãnh đạo đều phải tuân theo luật pháp." },
+            { "en": "Government must obey the law.", "vie": "Nhà cầm quyền phải tuân theo luật pháp." },
+            { "en": "No one is above the law.", "vie": "Không ai được ở trên pháp luật cả." }
+        ]
     },
     {
         "id": 13,
@@ -114,7 +150,15 @@
         "answer": "Congress",
         "answerVie": "Quốc hội",
         "type": "GSA",
-        "learn": "1. Name one branch: Nêu tên một nhánh\n2. Government: Chính phủ"
+        "learn": "1. Name one branch: Nêu tên một nhánh\n2. Government: Chính phủ",
+        "answers": [
+            { "en": "Congress", "vie": "Quốc Hội" },
+            { "en": "Legislative", "vie": "lập pháp" },
+            { "en": "President", "vie": "Tổng Thống" },
+            { "en": "Executive", "vie": "hành pháp" },
+            { "en": "The courts", "vie": "các tòa án" },
+            { "en": "Judicial", "vie": "tư pháp" }
+        ]
     },
     {
         "id": 14,
@@ -123,7 +167,11 @@
         "answer": "Checks and balances",
         "answerVie": "Kiểm soát và cân bằng lẫn nhau",
         "type": "GSA",
-        "learn": "1. What stops: Điều gì ngăn cản\n2. Government: Chính phủ\n3. Too powerful: Quá mạnh"
+        "learn": "1. What stops: Điều gì ngăn cản\n2. Government: Chính phủ\n3. Too powerful: Quá mạnh",
+        "answers": [
+            { "en": "Checks and balances", "vie": "kiểm soát lẫn nhau" },
+            { "en": "Separation of powers", "vie": "phân quyền" }
+        ]
     },
     {
         "id": 15,
@@ -141,7 +189,12 @@
         "answer": "Congress",
         "answerVie": "Quốc hội",
         "type": "LD",
-        "learn": "1. Who makes: Ai ban hành\n2. Federal laws: Luật liên bang"
+        "learn": "1. Who makes: Ai ban hành\n2. Federal laws: Luật liên bang",
+        "answers": [
+            { "en": "Congress", "vie": "Quốc Hội" },
+            { "en": "Senate and House (of Representatives)", "vie": "Thượng và Hạ Nghị Viện" },
+            { "en": "(U.S. or national) legislature", "vie": "Ngành Lập Pháp (của Liên Bang hay Quốc Gia)" }
+        ]
     },
     {
         "id": 17,
@@ -222,7 +275,12 @@
         "answer": "(Because) they have more people",
         "answerVie": "(Bởi vì) họ có nhiều người dân hơn",
         "type": "WCCR",
-        "learn": "1. Why: Tại sao\n2. More Representatives than: Nhiều Hạ nghị sĩ hơn"
+        "learn": "1. Why: Tại sao\n2. More Representatives than: Nhiều Hạ nghị sĩ hơn",
+        "answers": [
+            { "en": "(Because of) the state’s population", "vie": "(Vì) dân số tiểu bang đó" },
+            { "en": "(Because) they have more people", "vie": "(Vì) tiểu bang đó đông dân hơn" },
+            { "en": "(Because) some states have more people", "vie": "(Vì) một số tiểu bang đông dân hơn tiểu bang khác" }
+        ]
     },
     {
         "id": 26,
@@ -319,9 +377,19 @@
         "question": "What are two Cabinet-level positions?",
         "questionVie": "Nêu hai chức vụ trong bộ phận nội chính phủ?",
         "answer": "Secretary of Education and Secretary of Energy",
-        "answerVie": "Bộ trưởng giáo dục và bộ trưởng năng lượng",
+        "answerVie": "Bộ Trưởng Giáo Dục và Bộ Trưởng Năng Lượng",
         "type": "CL",
-        "learn": "1. Two Cabinet-level positions: Hai chức vụ trong bộ phận nội chính phủ"
+        "learn": "1. Two Cabinet-level positions: Hai chức vụ trong bộ phận nội chính phủ",
+        "answers": [
+            { "en": "Secretary of Agriculture and Secretary of Commerce", "vie": "Bộ Trưởng Canh Nông và Bộ Trưởng Thương Mại" },
+            { "en": "Secretary of Defense and Secretary of Health and Human Services", "vie": "Bộ Trưởng Quốc Phòng và Bộ Trưởng Y Tế và Phục Vụ Nhân Sinh" },
+            { "en": "Secretary of Education and Secretary of Energy", "vie": "Bộ Trưởng Giáo Dục và bộ trưởng năng lượng" },
+            { "en": "Secretary of Homeland Security and Secretary of Housing and Urban Development", "vie": "Bộ Trưởng Nội An và Bộ Trưởng Gia Cư và Phát Triển Đô Thị" },
+            { "en": "Secretary of the Interior and Secretary of Labor", "vie": "Bộ Trưởng Nội Vụ và Bộ Trưởng Lao Động" },
+            { "en": "Secretary of State and Secretary of Transportation", "vie": "Bộ Trưởng Ngoại Giao và Bộ Trưởng Giao Thông" },
+            { "en": "Secretary of the Treasury and Secretary of Veterans Affairs", "vie": "Bộ Trưởng Ngân Khố hay Tài Chính và Bộ Trưởng Cựu Chiến Binh" },
+            { "en": "Attorney General and Vice President", "vie": "Bộ Trưởng Tư Pháp và Phó Tổng Thống" }
+        ]
     },
     {
         "id": 37,
@@ -330,7 +398,13 @@
         "answer": "Reviews laws",
         "answerVie": "Duyệt lại những điều luật",
         "type": "CL",
-        "learn": "1. Judicial branch do: Bộ phận tư pháp làm gì"
+        "learn": "1. Judicial branch do: Bộ phận tư pháp làm gì",
+        "answers": [
+            { "en": "Reviews laws", "vie": "duyệt lại luật lệ" },
+            { "en": "Explains laws", "vie": "cắt nghĩa luật lệ" },
+            { "en": "Resolves disputes (disagreements)", "vie": "giải quyết tranh cãi (bất hòa)" },
+            { "en": "Decides if a law goes against the Constitution", "vie": "quyết định xem luật có đi ngược lại hiến pháp không" }
+        ]
     },
     {
         "id": 38,
@@ -366,7 +440,13 @@
         "answer": "To print money",
         "answerVie": "In tiền",
         "type": "CA",
-        "learn": "1. One power of the federal government: Một quyền của chính phủ liên bang"
+        "learn": "1. One power of the federal government: Một quyền của chính phủ liên bang",
+        "answers": [
+            { "en": "To print money", "vie": "in tiền" },
+            { "en": "To declare war", "vie": "tuyên chiến" },
+            { "en": "To create an army", "vie": "lập quân đội" },
+            { "en": "To make treaties", "vie": "ký các hòa ước" }
+        ]
     },
     {
         "id": 42,
@@ -375,7 +455,14 @@
         "answer": "Give a driver's license",
         "answerVie": "Cấp bằng lái xe",
         "type": "CA",
-        "learn": "1. One power of the states: Một quyền của tiểu bang"
+        "learn": "1. One power of the states: Một quyền của tiểu bang",
+        "answers": [
+            { "en": "Provide schooling and education", "vie": "cung cấp trường học và giáo dục" },
+            { "en": "Provide protection (police)", "vie": "bảo vệ dân chúng (cảnh sát)" },
+            { "en": "Provide safety (fire departments)", "vie": "bảo vệ an toàn (các sở cứu hỏa)" },
+            { "en": "Give a driver’s license", "vie": "cấp bằng lái xe" },
+            { "en": "Approve zoning and land use", "vie": "chia vùng và chấp thuận cách xử dụng đất đai" }
+        ]
     },
     {
         "id": 43,
@@ -429,7 +516,13 @@
         "answer": "Any citizen can vote (Women and men can vote)",
         "answerVie": "Bất cứ công dân nào cũng có thể bầu cử (phụ nữ và nam giới đều có thể bầu cử)",
         "type": "CA",
-        "learn": "1. Four amendments: Bốn tu chính án\n2. Describe one: Nêu một"
+        "learn": "1. Four amendments: Bốn tu chính án\n2. Describe one: Nêu một",
+        "answers": [
+            { "en": "Citizens eighteen and older (can vote).", "vie": "Công dân mười tám tuổi và hơn (được đi bầu)." },
+            { "en": "You don’t have to pay (a poll tax) to vote.", "vie": "Không phải trả (thuế bầu cử) để được bầu." },
+            { "en": "Any citizen can vote. (Women and men can vote.)", "vie": "Bất cứ công dân nào cũng được bầu (phụ nữ và nam giới đều được bầu)." },
+            { "en": "A male citizen of any race (can vote).", "vie": "Nam giới của bất cứ chủng tộc nào (cũng đều được bầu)." }
+        ]
     },
     {
         "id": 49,
@@ -438,7 +531,11 @@
         "answer": "Vote in a federal election",
         "answerVie": "Bầu cử trong cuộc bầu cử liên bang",
         "type": "US",
-        "learn": "1. One responsibility: Một trách nhiệm\n2. Citizens: Công dân"
+        "learn": "1. One responsibility: Một trách nhiệm\n2. Citizens: Công dân",
+        "answers": [
+            { "en": "Serve on a jury", "vie": "phục vụ trong bồi thẩm đoàn" },
+            { "en": "Vote in a federal election", "vie": "đi bầu trong bầu cử liên bang" }
+        ]
     },
     {
         "id": 50,
@@ -447,7 +544,11 @@
         "answer": "Vote in a federal election",
         "answerVie": "Bầu cử trong cuộc bầu cử liên bang",
         "type": "US",
-        "learn": "1. One right only: Một quyền chỉ dành cho\n2. Citizens: Công dân"
+        "learn": "1. One right only: Một quyền chỉ dành cho\n2. Citizens: Công dân",
+        "answers": [
+            { "en": "Vote in a federal election", "vie": "tham gia bầu cử cấp liên bang" },
+            { "en": "Run for federal office", "vie": "ứng cử chức vụ liên bang" }
+        ]
     },
     {
         "id": 51,
@@ -456,7 +557,12 @@
         "answer": "Freedom of speech and Freedom of religion",
         "answerVie": "Tự do ngôn luận và tự do tôn giáo",
         "type": "US",
-        "learn": "1. Two rights of everyone: Hai quyền của mọi người"
+        "learn": "1. Two rights of everyone: Hai quyền của mọi người",
+        "answers": [
+            { "en": "Freedom of expression and Freedom of assembly", "vie": "tự do phát biểu ý kiến và tự do hội họp" },
+            { "en": "Freedom of speech and Freedom of religion", "vie": "tự do ngôn luận và tự do tôn giáo" },
+            { "en": "Freedom to petition the government and The right to bear arms", "vie": "tự do thỉnh nguyện chính quyền và quyền mang vũ khí tự vệ" }
+        ]
     },
     {
         "id": 52,
@@ -465,7 +571,11 @@
         "answer": "The United States",
         "answerVie": "Nước Mỹ",
         "type": "CL",
-        "learn": "1. Show loyalty: Thể hiện lòng trung thành\n2. Pledge of Allegiance: Tuyên Thệ"
+        "learn": "1. Show loyalty: Thể hiện lòng trung thành\n2. Pledge of Allegiance: Tuyên Thệ",
+        "answers": [
+            { "en": "The United States", "vie": "Hoa Kỳ" },
+            { "en": "The flag", "vie": "Lá cờ" }
+        ]
     },
     {
         "id": 53,
@@ -474,7 +584,15 @@
         "answer": "Obey the laws of the United States",
         "answerVie": "Tuân theo luật pháp của Hoa Kỳ",
         "type": "US",
-        "learn": "1. One promise: Một lời hứa\n2. When you become: Khi bạn trở thành\n3. Citizens: Công dân"
+        "learn": "1. One promise: Một lời hứa\n2. When you become: Khi bạn trở thành\n3. Citizens: Công dân",
+        "answers": [
+            { "en": "Give up loyalty to other countries", "vie": "từ bỏ sự trung thành với các quốc gia khác" },
+            { "en": "Defend the Constitution and laws of the United States", "vie": "bảo vệ Hiến Pháp và luật lệ Hoa Kỳ" },
+            { "en": "Obey the laws of the United States", "vie": "tuân hành luật lệ của Hoa Kỳ" },
+            { "en": "Serve in the U.S. military (if needed)", "vie": "phục vụ trong quân đội Hoa Kỳ (nếu cần)" },
+            { "en": "Serve (do important work for) the nation (if needed)", "vie": "phục vụ (công việc quan trọng cho) Hoa Kỳ (nếu cần)" },
+            { "en": "Be loyal to the United States", "vie": "trung thành với quốc gia Hoa Kỳ" }
+        ]
     },
     {
         "id": 54,
@@ -492,7 +610,14 @@
         "answer": "Vote and Write to a newspaper",
         "answerVie": "Bầu cử và Viết báo",
         "type": "GSA",
-        "learn": "1. Two ways: Hai cách\n2. Participate in democracy: Tham gia nền dân chủ"
+        "learn": "1. Two ways: Hai cách\n2. Participate in democracy: Tham gia nền dân chủ",
+        "answers": [
+            { "en": "Vote and Write to a newspaper", "vie": "bầu cử và góp ý kiến trên một tờ báo" },
+            { "en": "Join a political party and Help with a campaign", "vie": "tham gia một đảng phái chính trị và tham dự vào một cuộc vận động tranh cử" },
+            { "en": "Join a civic group and Join a community group", "vie": "tham dự vào một nhóm hoạt động công dân và tham dự vào một nhóm hoạt động cộng đồng" },
+            { "en": "Give an elected official your opinion on an issue and Call Senators and Representatives", "vie": "phát biểu ý kiến về một vấn đề với một vị dân cử và gọi điện thoại cho nghị sĩ và dân biểu" },
+            { "en": "Publicly support or oppose an issue or policy and Run for office", "vie": "công khai ủng hộ hoặc phản đối một vấn đề hay chính sách nào đó và tranh cử" }
+        ]
     },
     {
         "id": 56,
@@ -510,7 +635,11 @@
         "answer": "At age eighteen",
         "answerVie": "Ở tuổi mười tám",
         "type": "CL",
-        "learn": "1. When: Khi nào\n2. All men register: Tất cả nam giới đăng ký\n3. Selective Service: Sở Quân Vụ"
+        "learn": "1. When: Khi nào\n2. All men register: Tất cả nam giới đăng ký\n3. Selective Service: Sở Quân Vụ",
+        "answers": [
+            { "en": "At age eighteen", "vie": "ở tuổi mười tám" },
+            { "en": "Between eighteen and twenty-six", "vie": "ở giữa tuổi mười tám và hai mươi sáu" }
+        ]
     },
     {
         "id": 58,
@@ -519,7 +648,15 @@
         "answer": "Freedom",
         "answerVie": "Sự tự do",
         "type": "GSA",
-        "learn": "1. One reason: Một lý do\n2. Colonists came to America: Người di dân thời thuộc địa đến Mỹ"
+        "learn": "1. One reason: Một lý do\n2. Colonists came to America: Người di dân thời thuộc địa đến Mỹ",
+        "answers": [
+            { "en": "Freedom", "vie": "tự do" },
+            { "en": "Political liberty", "vie": "tự do chính trị" },
+            { "en": "Religious freedom", "vie": "tự do tôn giáo" },
+            { "en": "Economic opportunity", "vie": "cơ hội kinh tế" },
+            { "en": "Practice their religion", "vie": "hành xử tôn giáo của mình" },
+            { "en": "Escape persecution", "vie": "tránh sự áp bức" }
+        ]
     },
     {
         "id": 59,
@@ -528,7 +665,11 @@
         "answer": "American Indians",
         "answerVie": "Người Mỹ da đỏ",
         "type": "GSA",
-        "learn": "1. Who lived in America: Ai đã sống ở Mỹ"
+        "learn": "1. Who lived in America: Ai đã sống ở Mỹ",
+        "answers": [
+            { "en": "American Indians", "vie": "người da đỏ Mỹ Châu" },
+            { "en": "Native Americans", "vie": "thổ dân Mỹ Châu" }
+        ]
     },
     {
         "id": 60,
@@ -537,7 +678,11 @@
         "answer": "Africans",
         "answerVie": "Những người Châu Phi",
         "type": "GSA",
-        "learn": "1. Group of people: Nhóm người\n2. Sold as slaves: Bị bán làm nô lệ"
+        "learn": "1. Group of people: Nhóm người\n2. Sold as slaves: Bị bán làm nô lệ",
+        "answers": [
+            { "en": "Africans", "vie": "người Phi Châu" },
+            { "en": "People from Africa", "vie": "người từ Phi Châu" }
+        ]
     },
     {
         "id": 61,
@@ -546,7 +691,12 @@
         "answer": "Because of high taxes",
         "answerVie": "Vì thuế cao",
         "type": "CL",
-        "learn": "1. Why: Tại sao\n2. Colonists fight the British: Người dân thời thuộc địa chống lại người Anh"
+        "learn": "1. Why: Tại sao\n2. Colonists fight the British: Người dân thời thuộc địa chống lại người Anh",
+        "answers": [
+            { "en": "Because of high taxes (taxation without representation)", "vie": "vì thuế má cao quá (phải đóng thuế mà không có người đại diện)" },
+            { "en": "Because the British army stayed in their houses (boarding, quartering)", "vie": "vì quân đội Anh đồn trú trong nhà của họ (ở trọ, làm trại binh)" },
+            { "en": "Because they didn’t have self-government", "vie": "vì người di dân thời thuộc địa không có chính quyền tự quản" }
+        ]
     },
     {
         "id": 62,
@@ -573,7 +723,14 @@
         "answer": "New York, New Jersey, and New Hampshire",
         "answerVie": "",
         "type": "GSA",
-        "learn": "1. 13 original states: 13 tiểu bang đầu tiên\n2. Name three: Kể tên ba"
+        "learn": "1. 13 original states: 13 tiểu bang đầu tiên\n2. Name three: Kể tên ba",
+        "answers": [
+            { "en": "New York, New Jersey, and New Hampshire", "vie": "" },
+            { "en": "New Hampshire, Massachusetts, and Rhode Island", "vie": "" },
+            { "en": "Connecticut, Pennsylvania, and Delaware", "vie": "" },
+            { "en": "Maryland, Virginia, and Georgia", "vie": "" },
+            { "en": "North Carolina, South Carolina, and Maryland ", "vie": "" }
+        ]
     },
     {
         "id": 65,
@@ -582,7 +739,11 @@
         "answer": "The Constitution was written.",
         "answerVie": "Hiến Pháp đã được viết ra.",
         "type": "CA",
-        "learn": "1. What happened at: Chuyện gì đã xảy ra tại\n2. Constitutional Convention: Đại hội Lập Hiến"
+        "learn": "1. What happened at: Chuyện gì đã xảy ra tại\n2. Constitutional Convention: Đại hội Lập Hiến",
+        "answers": [
+            { "en": "The Constitution was written.", "vie": "Soạn thảo Hiến Pháp." },
+            { "en": "The Founding Fathers wrote the Constitution.", "vie": "Các nhà lập quốc soạn thảo Hiến Pháp." }
+        ]
     },
     {
         "id": 66,
@@ -600,7 +761,13 @@
         "answer": "(John) Jay",
         "answerVie": "",
         "type": "CA",
-        "learn": "1. Federalist Paper: Bài tiểu luận liên bang\n2. One of the writers: Một trong những tác giả"
+        "learn": "1. Federalist Paper: Bài tiểu luận liên bang\n2. One of the writers: Một trong những tác giả",
+        "answers": [
+            { "en": "(James) Madison", "vie": "" },
+            { "en": "(Alexander) Hamilton", "vie": "" },
+            { "en": "(John) Jay", "vie": "" },
+            { "en": "Publius", "vie": "" }
+        ]
     },
     {
         "id": 68,
@@ -609,7 +776,14 @@
         "answer": "U.S. diplomat",
         "answerVie": "Nhà ngoại giao Hoa Kỳ",
         "type": "SND",
-        "learn": "1. Benjamin Franklin\n2. Famous for: Nổi tiếng về"
+        "learn": "1. Benjamin Franklin\n2. Famous for: Nổi tiếng về",
+        "answers": [
+            { "en": "U.S. diplomat", "vie": "nhà ngoại giao Hoa Kỳ" },
+            { "en": "Oldest member of the Constitutional Convention", "vie": "thành viên già nhất của Đại Hội Lập Hiến" },
+            { "en": "First Postmaster General of the United States", "vie": "Tổng Giám Đốc Bưu Điện đầu tiên của Hoa Kỳ" },
+            { "en": "Writer of “Poor Richard’s Almanac”", "vie": "người viết cuốn lịch “Poor Richard’s Almanac”" },
+            { "en": "Started the first free libraries", "vie": "khởi công xây các thư viện miễn phí đầu tiên của Hoa Kỳ" }
+        ]
     },
     {
         "id": 69,
@@ -636,7 +810,11 @@
         "answer": "Louisiana",
         "answerVie": "",
         "type": "US",
-        "learn": "1. What territory: Lãnh thổ nào\n2. Buy from France: Mua từ Pháp"
+        "learn": "1. What territory: Lãnh thổ nào\n2. Buy from France: Mua từ Pháp",
+        "answers": [
+            { "en": "The Louisiana Territory", "vie": "Lãnh Thổ Louisiana" },
+            { "en": "Louisiana", "vie": "" }
+        ]
     },
     {
         "id": 72,
@@ -645,7 +823,13 @@
         "answer": "War of 1812",
         "answerVie": "Chiến tranh 1812",
         "type": "US",
-        "learn": "1. War: Cuộc chiến\n2. 1800s: Thế kỷ 19"
+        "learn": "1. War: Cuộc chiến\n2. 1800s: Thế kỷ 19",
+        "answers": [
+            { "en": "War of 1812", "vie": "Chiến tranh 1812" },
+            { "en": "Mexican-American War", "vie": "Chiến tranh Hoa Kỳ-Mễ-Tây-Cơ" },
+            { "en": "Civil War", "vie": "Nội chiến" },
+            { "en": "Spanish-American War", "vie": "Chiến tranh Hoa Kỳ-Tây-Ban-Nha" }
+        ]
     },
     {
         "id": 73,
@@ -654,7 +838,11 @@
         "answer": "The Civil War",
         "answerVie": "Cuộc Nội chiến",
         "type": "WCCR",
-        "learn": "1. War between: Cuộc chiến giữa\n2. The North and the South: Miền bắc và miền Nam"
+        "learn": "1. War between: Cuộc chiến giữa\n2. The North and the South: Miền bắc và miền Nam",
+        "answers": [
+            { "en": "The Civil War", "vie": "Nội chiến" },
+            { "en": "The War between the States", "vie": "Chiến tranh giữa các Tiểu Bang" }
+        ]
     },
     {
         "id": 74,
@@ -663,7 +851,12 @@
         "answer": "Slavery",
         "answerVie": "Nô lệ",
         "type": "CL",
-        "learn": "1. One problem: Một nguyên nhân\n2. Led to: Dẫn đến\n3. Civil War: Cuộc Nội Chiến"
+        "learn": "1. One problem: Một nguyên nhân\n2. Led to: Dẫn đến\n3. Civil War: Cuộc Nội Chiến",
+        "answers": [
+            { "en": "Slavery", "vie": "vấn đề nô lệ" },
+            { "en": "Economic reasons", "vie": "các vấn đề kinh tế" },
+            { "en": "States’ rights", "vie": "quyền của các tiểu bang" }
+        ]
     },
     {
         "id": 75,
@@ -672,7 +865,12 @@
         "answer": "Freed the slaves",
         "answerVie": "Giải phóng nô lệ",
         "type": "SND",
-        "learn": "1. Abraham Lincoln\n2. Did: Đã làm"
+        "learn": "1. Abraham Lincoln\n2. Did: Đã làm",
+        "answers": [
+            { "en": "Freed the slaves (Emancipation Proclamation)", "vie": "giải phóng nô lệ (Tuyên Ngôn Giải Phóng)" },
+            { "en": "Saved (or preserved) the Union", "vie": "giữ gìn (hoặc bảo tồn) đoàn kết Quốc Gia" },
+            { "en": "Led the United States during the Civil War", "vie": "lãnh đạo Hoa Kỳ trong Cuộc Nội Chiến" }
+        ]
     },
     {
         "id": 76,
@@ -681,7 +879,13 @@
         "answer": "Freed the slaves",
         "answerVie": "Giải phóng nô lệ",
         "type": "CL",
-        "learn": "1. Emancipation Proclamation do: Bản Tuyên Ngôn Giải Phóng làm gì"
+        "learn": "1. Emancipation Proclamation do: Bản Tuyên Ngôn Giải Phóng làm gì",
+        "answers": [
+            { "en": "Freed the slaves", "vie": "giải phóng nô lệ" },
+            { "en": "Freed slaves in the Confederacy", "vie": "giải phóng nô lệ thuộc tập hợp (nhóm) các tiểu bang ly khai miền Nam" },
+            { "en": "Freed slaves in the Confederate states", "vie": "giải phóng nô lệ ở các tiểu bang miền Nam" },
+            { "en": "Freed slaves in most Southern states", "vie": "giải phóng nô lệ ở đa số các tiểu bang miền Nam" }
+        ]
     },
     {
         "id": 77,
@@ -690,7 +894,11 @@
         "answer": "Fought for women's rights",
         "answerVie": "Đấu tranh vì quyền lợi của phụ nữ",
         "type": "SND",
-        "learn": "1. Susan B. Anthony\n2. Do: Làm"
+        "learn": "1. Susan B. Anthony\n2. Do: Làm",
+        "answers": [
+            { "en": "Fought for women’s rights", "vie": "tranh đấu cho quyền phụ nữ" },
+            { "en": "Fought for civil rights", "vie": "tranh đấu cho dân quyền" }
+        ]
     },
     {
         "id": 78,
@@ -699,7 +907,14 @@
         "answer": "Vietnam War",
         "answerVie": "Chiến tranh ở Việt Nam",
         "type": "US",
-        "learn": "1. War: Cuộc chiến\n2. 1900s: Thế kỷ 20"
+        "learn": "1. War: Cuộc chiến\n2. 1900s: Thế kỷ 20",
+        "answers": [
+            { "en": "World War I", "vie": "Thế Chiến Thứ Nhất" },
+            { "en": "World War II", "vie": "Thế Chiến Thứ Hai" },
+            { "en": "Korean War", "vie": "Chiến Tranh Cao Ly" },
+            { "en": "Vietnam War", "vie": "Chiến Tranh Việt Nam" },
+            { "en": "(Persian) Gulf War", "vie": "Chiến tranh Vùng Vịnh" }
+        ]
     },
     {
         "id": 79,
@@ -762,7 +977,11 @@
         "answer": "Fought for civil rights",
         "answerVie": "Đấu tranh vì dân quyền",
         "type": "SND",
-        "learn": "1. Martin Luther King\n2. Do: Làm"
+        "learn": "1. Martin Luther King\n2. Do: Làm",
+        "answers": [
+            { "en": "Fought for civil rights", "vie": "tranh đấu cho dân quyền" },
+            { "en": "Worked for equality for all Americans", "vie": "hoạt động nhằm mang lại bình đẳng cho mọi người Mỹ" }
+        ]
     },
     {
         "id": 86,
@@ -780,7 +999,31 @@
         "answer": "Hopi",
         "answerVie": "",
         "type": "US",
-        "learn": "1. Name one: Kể tên một\n2. American Indian tribe: Bộ lạc người da đỏ"
+        "learn": "1. Name one: Kể tên một\n2. American Indian tribe: Bộ lạc người da đỏ",
+        "answers": [
+            { "en": "Cherokee", "vie": "" },
+            { "en": "Navajo", "vie": "" },
+            { "en": "Sioux", "vie": "" },
+            { "en": "Chippewa", "vie": "" },
+            { "en": "Choctaw", "vie": "" },
+            { "en": "Pueblo", "vie": "" },
+            { "en": "Apache", "vie": "" },
+            { "en": "Iroquois", "vie": "" },
+            { "en": "Creek", "vie": "" },
+            { "en": "Blackfeet", "vie": "" },
+            { "en": "Seminole", "vie": "" },
+            { "en": "Cheyenne", "vie": "" },
+            { "en": "Arawak", "vie": "" },
+            { "en": "Shawnee", "vie": "" },
+            { "en": "Mohegan", "vie": "" },
+            { "en": "Huron", "vie": "" },
+            { "en": "Oneida", "vie": "" },
+            { "en": "Lakota", "vie": "" },
+            { "en": "Crow", "vie": "" },
+            { "en": "Teton", "vie": "" },
+            { "en": "Hopi", "vie": "" },
+            { "en": "Inuit", "vie": "" }
+        ]
     },
     {
         "id": 88,
@@ -789,7 +1032,11 @@
         "answer": "Mississippi (River)",
         "answerVie": "Sông Mississippi",
         "type": "US",
-        "learn": "1. Name one of: Kể tên một trong\n2. Two longest rivers: Hai con sông dài nhất"
+        "learn": "1. Name one of: Kể tên một trong\n2. Two longest rivers: Hai con sông dài nhất",
+        "answers": [
+            { "en": "Missouri (River)", "vie": "(Sông) Missouri" },
+            { "en": "Mississippi (River)", "vie": "(Sông) Mississippi" }
+        ]
     },
     {
         "id": 89,
@@ -816,7 +1063,14 @@
         "answer": "Guam",
         "answerVie": "",
         "type": "WCCR",
-        "learn": "1. Name one: Kể tên một\n2. U.S. territory: Lãnh thổ hải ngoại của Hoa Kỳ"
+        "learn": "1. Name one: Kể tên một\n2. U.S. territory: Lãnh thổ hải ngoại của Hoa Kỳ",
+        "answers": [
+            { "en": "Puerto Rico", "vie": "" },
+            { "en": "U.S. Virgin Islands", "vie": "Quần Đảo Virgin" },
+            { "en": "American Samoa", "vie": "Đảo Samoa" },
+            { "en": "Northern Mariana Islands", "vie": "Quần Đảo Bắc Mariana" },
+            { "en": "Guam", "vie": "Đảo Guam" }
+        ]
     },
     {
         "id": 92,
@@ -825,7 +1079,22 @@
         "answer": "Washington",
         "answerVie": "Washington",
         "type": "GSA",
-        "learn": "1. One state: Một tiểu bang\n2. Borders Canada: Giáp Canada"
+        "learn": "1. One state: Một tiểu bang\n2. Borders Canada: Giáp Canada",
+        "answers": [
+            { "en": "Maine", "vie": "" },
+            { "en": "New Hampshire", "vie": "" },
+            { "en": "Vermont", "vie": "" },
+            { "en": "New York", "vie": "" },
+            { "en": "Pennsylvania", "vie": "" },
+            { "en": "Ohio", "vie": "" },
+            { "en": "Michigan", "vie": "" },
+            { "en": "Minnesota", "vie": "" },
+            { "en": "North Dakota", "vie": "" },
+            { "en": "Montana", "vie": "" },
+            { "en": "Idaho", "vie": "" },
+            { "en": "Washington", "vie": "" },
+            { "en": "Alaska", "vie": "" }
+        ]
     },
     {
         "id": 93,
@@ -834,7 +1103,13 @@
         "answer": "New Mexico",
         "answerVie": "New Mexico",
         "type": "GSA",
-        "learn": "1. One state: Một tiểu bang\n2. Borders Mexico: Giáp Mexico"
+        "learn": "1. One state: Một tiểu bang\n2. Borders Mexico: Giáp Mexico",
+        "answers": [
+            { "en": "California", "vie": "" },
+            { "en": "Arizona", "vie": "" },
+            { "en": "New Mexico", "vie": "" },
+            { "en": "Texas", "vie": "" }
+        ]
     },
     {
         "id": 94,
@@ -852,7 +1127,11 @@
         "answer": "New York (Harbor)",
         "answerVie": "Cảng New York",
         "type": "SND",
-        "learn": "1. Where is: Ở đâu\n2. Statue of Liberty: Tượng nữ thần tự do"
+        "learn": "1. Where is: Ở đâu\n2. Statue of Liberty: Tượng nữ thần tự do",
+        "answers": [
+            { "en": "New York (Harbor)", "vie": "(Hải Cảng) Nữu Ước" },
+            { "en": "Liberty Island", "vie": "Đảo Liberty" }
+        ]
     },
     {
         "id": 96,
@@ -861,7 +1140,11 @@
         "answer": "Because there were 13 original colonies",
         "answerVie": "Vì có 13 thuộc địa nguyên thủy",
         "type": "SND",
-        "learn": "1. Why: Tại sao\n2. The flag: Lá cờ\n3. 13 stripes: 13 đường sọc"
+        "learn": "1. Why: Tại sao\n2. The flag: Lá cờ\n3. 13 stripes: 13 đường sọc",
+        "answers": [
+            { "en": "Because there were 13 original colonies", "vie": "bởi vì đã có 13 thuộc địa nguyên thủy" },
+            { "en": "Because the stripes represent the original colonies", "vie": "bởi vì các lằn này tượng trưng cho 13 thuộc địa nguyên thủy" }
+        ]
     },
     {
         "id": 97,
@@ -870,7 +1153,12 @@
         "answer": "Because there are 50 states",
         "answerVie": "Vì có tổng cộng là 50 tiểu bang",
         "type": "SND",
-        "learn": "1. Why: Tại sao\n2. The flag: Lá cờ\n3. 50 stars: 50 ngôi sao"
+        "learn": "1. Why: Tại sao\n2. The flag: Lá cờ\n3. 50 stars: 50 ngôi sao",
+        "answers": [
+            { "en": "Because there is one star for each state", "vie": "bởi vì mỗi tiểu bang có một ngôi sao" },
+            { "en": "Because each star represents a state", "vie": "bởi vì mỗi ngôi sao tượng trưng cho một tiểu bang" },
+            { "en": "Because there are 50 states", "vie": "bởi vì có 50 tiểu bang" }
+        ]
     },
     {
         "id": 98,
@@ -897,6 +1185,14 @@
         "answer": "New Year's Day and Christmas",
         "answerVie": "Ngày Tết Tây và Lễ Giáng Sinh",
         "type": "SND",
-        "learn": "1. Name two: Kể tên hai\n2. Holidays: Ngày lễ"
+        "learn": "1. Name two: Kể tên hai\n2. Holidays: Ngày lễ",
+        "answers": [
+            { "en": "New Year’s Day and Christmas", "vie": "Tết Tây và Lễ Giáng Sinh" },
+            { "en": "Martin Luther King, Jr. Day and Presidents' Day", "vie": "Ngày Sinh của Martin Luther King, Jr. và Ngày Các Tổng Tổng" },
+            { "en": "Memorial Day and Independence Day", "vie": "Lễ Chiến Sĩ Trận Vong và Lễ Độc Lập" },
+            { "en": "Labor Day and Columbus Day", "vie": "Lễ Lao Động và Ngày Tưởng Niệm Columbus" },
+            { "en": "Veterans Day and Thanksgiving", "vie": "Ngày Cựu Chiến Binh và Lễ Tạ Ơn" },
+            { "en": "Thanksgiving and Juneteenth", "vie": "Lễ Tạ Ơn và Ngày JuneTeenth" }
+        ]
     }
 ]

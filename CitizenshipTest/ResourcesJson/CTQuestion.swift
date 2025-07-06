@@ -16,4 +16,10 @@ struct CTQuestion: Codable, Identifiable{
     let type: String
     let learn: String
     var star: Bool? = false
+    var answers: [AnswerPair]?
+}
+
+struct AnswerPair: Codable {
+    let en: String
+    let vie: String
 }
