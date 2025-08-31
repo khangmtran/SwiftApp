@@ -117,7 +117,6 @@ struct CTLearnQuestions: View {
                         ForEach(parts.filter { $0 != selectedPart.partChosen }, id: \.self) { part in
                             Button(part) {
                                 Crashlytics.crashlytics().log("User see part \(part) in learnQuestions")
-                                adManager.showAd()
                                 selectedPart.partChosen = part
                                 qIndex = -1
                                 questionCount = 0
@@ -184,7 +183,6 @@ struct NavButton: View {
     
     private func nextQuestion(){
         Crashlytics.crashlytics().log("User see next question in learnQuestions")
-        adManager.showAd()
         withAnimation{
             if qIndex < totalQuestionsIndex {
                 qIndex += 1
@@ -199,7 +197,6 @@ struct NavButton: View {
     
     private func prevQuestion(){
         Crashlytics.crashlytics().log("User see prev question in learnQuestions")
-        adManager.showAd()
         withAnimation{
             if qIndex > -1{
                 qIndex -= 1

@@ -455,7 +455,6 @@ struct CTAudioStudy: View {
         delegate = nil
         UIApplication.shared.isIdleTimerDisabled = false
         Crashlytics.crashlytics().log("User stop listening in AudioStudy")
-        adManager.showAd()
     }
     
     private func nextQuestion() {
@@ -469,7 +468,6 @@ struct CTAudioStudy: View {
             stopAudio()
             currentQuestionIndex = 0
         }
-        adManager.showAd()
     }
     
     private func previousQuestion() {
@@ -483,7 +481,6 @@ struct CTAudioStudy: View {
             stopAudio()
             currentQuestionIndex = questions.count - 1
         }
-        adManager.showAd()
     }
     
     private func nextTenQuestions() {
@@ -499,7 +496,6 @@ struct CTAudioStudy: View {
             currentQuestionIndex = 0
         }
         
-        adManager.showAd()
     }
     
     private func previousTenQuestions() {
@@ -514,8 +510,6 @@ struct CTAudioStudy: View {
             // If going below 0, go to the last question
             currentQuestionIndex = questions.count - 1
         }
-        
-        adManager.showAd()
     }
     
     private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {

@@ -14,7 +14,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     // FLAG TO DISABLE ADS
     private let adsDisabled = false
     // Minimum interval between ads
-    private let minimumAdInterval: TimeInterval = 120 // 2 minute
+    private let minimumAdInterval: TimeInterval = 300 // 5 minutes
     
     // Timer tracking variables
     private var timerStartTime: Date = Date()
@@ -137,6 +137,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     
     @MainActor
     func loadAd() async {
+        
         // Don't load ads if disabled or user has purchased ad removal
         if adsDisabled || isLoadingAd { return }
         
@@ -152,12 +153,16 @@ class InterstitialAdManager: NSObject, ObservableObject {
         }
         
         isLoadingAd = true
-        defer {isLoadingAd = false}
+        defer {
+            isLoadingAd = false
+        }
         
         do {
-            interstitialAd = try await InterstitialAd.load(
-                with: interstitialAdUnitID, request: Request())
-            interstitialAd?.fullScreenContentDelegate = self
+            if interstitialAd == nil {
+                interstitialAd = try await InterstitialAd.load(
+                    with: interstitialAdUnitID, request: Request())
+                interstitialAd?.fullScreenContentDelegate = self
+            }
         } catch {
 #if DEBUG
             print("Failed to load ad: \(error)")
@@ -189,7 +194,6 @@ class InterstitialAdManager: NSObject, ObservableObject {
                 }
                 return
             }
-            
             interstitialAd.present(from: nil)
         }
     }
