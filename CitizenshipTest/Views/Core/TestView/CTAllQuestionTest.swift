@@ -91,11 +91,13 @@ struct CTAllQuestionTest: View {
             Button("Bắt đầu lại", role: .destructive) {
                 startNewTest()
                 Crashlytics.crashlytics().log("User decided to start new test in allQTest")
+                adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                 adManager.showAd()
             }
             Button("Tiếp tục", role: .cancel) {
                 isLoading = false
                 Crashlytics.crashlytics().log("User decided to continue old test in allQTest")
+                adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                 adManager.showAd()
             }
         } message: {
@@ -108,6 +110,7 @@ struct CTAllQuestionTest: View {
             if let progress = try progressManager.getProgress(for: .allQuestions) {
                 if progress.currentIndex == 0 {
                     startNewTest()
+                    adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                     adManager.showAd()
                     return
                 }

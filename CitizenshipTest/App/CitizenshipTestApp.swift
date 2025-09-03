@@ -71,7 +71,6 @@ struct CitizenshipTestApp: App{
                     InterstitialAdManager.shared.setStoreManager(storeManager)
                     Task {
                         await storeManager.updatePurchasedProducts()
-                        bannerAdManger.configureAdIfAllowed(storeManager: storeManager)
                         await updateChecker.checkForUpdate()
                     }
                 }

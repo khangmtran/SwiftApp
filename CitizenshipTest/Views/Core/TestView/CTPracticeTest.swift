@@ -84,11 +84,13 @@ struct CTPracticeTest: View {
             Button("Tiếp tục", role: .cancel) {
                 isLoading = false
                 Crashlytics.crashlytics().log("User decided to continue old test in PracticeTest")
+                adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                 adManager.showAd()
             }
             Button("Bắt đầu lại", role: .destructive) {
                 startNewTest()
                 Crashlytics.crashlytics().log("User decided to start new test in PracticeTest")
+                adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                 adManager.showAd()
             }
         } message: {
@@ -101,6 +103,7 @@ struct CTPracticeTest: View {
             if let progress = try progressManager.getProgress(for: .practice) {
                 if progress.currentIndex == 0 {
                     startNewTest()
+                    adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                     adManager.showAd()
                     isLoading = false
                     return

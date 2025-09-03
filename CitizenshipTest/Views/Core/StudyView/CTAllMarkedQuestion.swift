@@ -289,6 +289,7 @@ struct CTAllMarkedQuestion: View {
         }
         .onAppear(){
             Crashlytics.crashlytics().log("User went to AllMarkedQuestions")
+            adBannerManager.configureAdIfAllowed(storeManager: storeManager)
             adManager.showAd()
         }
         .onDisappear(){

@@ -150,6 +150,7 @@ struct CTWritingTest: View {
             .navigationTitle("Thi Viết")
             .onAppear(){
                 Crashlytics.crashlytics().log("User went to AllMarkedQuestions")
+                adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                 adManager.showAd()
             }
             .onDisappear(){

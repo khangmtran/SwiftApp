@@ -237,6 +237,7 @@ struct CTAllQuestions: View {
         .navigationTitle("100 Câu Hỏi")
         .onAppear(){
             Crashlytics.crashlytics().log("User went to AllQuestions")
+            adBannerManager.configureAdIfAllowed(storeManager: storeManager)
             adManager.showAd()
         }
         .onDisappear(){

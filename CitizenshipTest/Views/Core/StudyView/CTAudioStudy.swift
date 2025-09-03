@@ -260,6 +260,7 @@ struct CTAudioStudy: View {
         }
         .onAppear(){
             Crashlytics.crashlytics().log("User went to AudioStudy")
+            adBannerManager.configureAdIfAllowed(storeManager: storeManager)
             adManager.showAd()
             updateQuestionsArray()
         }

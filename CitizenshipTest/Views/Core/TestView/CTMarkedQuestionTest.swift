@@ -136,11 +136,13 @@ struct CTMarkedQuestionTest: View {
             Button("Bắt đầu lại", role: .destructive) {
                 startNewTest()
                 Crashlytics.crashlytics().log("User decided to start new test in markedTest")
+                adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                 adManager.showAd()
             }
             Button("Tiếp tục", role: .cancel) {
                 isLoading = false
                 Crashlytics.crashlytics().log("User decided to continue old test in markTest")
+                adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                 adManager.showAd()
             }
         } message: {
@@ -163,6 +165,7 @@ struct CTMarkedQuestionTest: View {
                     savedQuestionIds.count == currentMarkedQuestionIds.count {
                     if progress.currentIndex == 0 {
                         startNewTest()
+                        adBannerManager.configureAdIfAllowed(storeManager: storeManager)
                         adManager.showAd()
                         return
                     }

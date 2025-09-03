@@ -11,6 +11,7 @@ import GoogleMobileAds
 class BannerAdManager: NSObject, ObservableObject, BannerViewDelegate {
     let bannerView: BannerView
     @Published var isAdReady = false
+    
 
     init(storeManager: StoreManager, networkMonitor: NetworkMonitor = .shared) {
         self.bannerView = BannerView(adSize: AdSizeBanner)
@@ -23,6 +24,7 @@ class BannerAdManager: NSObject, ObservableObject, BannerViewDelegate {
     
     @MainActor
     func configureAdIfAllowed(storeManager: StoreManager, networkMonitor: NetworkMonitor = .shared) {
+        guard !isAdReady else {return}
         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected {
             bannerView.load(Request())
         }
