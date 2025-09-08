@@ -204,13 +204,6 @@ struct CTAllQuestions: View {
                         }
                         .listRowBackground(Color.blue.opacity(0.1))
                 }
-                
-                Section {
-                    Text("Một số câu hỏi bao gồm nhiều đáp án khả thi đã được chọn lọc ra những đáp án dễ học. Nếu bạn muốn tham khảo thêm các đáp án khác, vui lòng truy cập uscis.gov")
-                        .font(.footnote)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                }
             }
             if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                CTAdBannerView().frame(width: AdSizeBanner.size.width,
