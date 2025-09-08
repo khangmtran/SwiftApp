@@ -41,7 +41,6 @@ struct CTRemoveAdsView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             FeatureRow(text: "Loại bỏ tất cả quảng cáo")
                             FeatureRow(text: "Học tập không bị gián đoạn")
-                            FeatureRow(text: "Mở khoá các tính năng đặc quyền")
                             FeatureRow(text: "Trải nghiệm ứng dụng được tốt nhất")
                         }
                         .padding(.horizontal)
