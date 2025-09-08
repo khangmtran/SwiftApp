@@ -17,8 +17,8 @@ class BannerAdManager: NSObject, ObservableObject, BannerViewDelegate {
         self.bannerView = BannerView(adSize: AdSizeBanner)
         super.init()
 
-        //bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" // Test ID
-        bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" // Test ID
+        //bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
         bannerView.delegate = self
     }
     

@@ -14,7 +14,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     // FLAG TO DISABLE ADS
     private let adsDisabled = false
     // Minimum interval between ads
-    private let minimumAdInterval: TimeInterval = 300 // 5 minutes
+    private let minimumAdInterval: TimeInterval = 180 // 3 minutes
     
     // Timer tracking variables
     private var timerStartTime: Date = Date()
@@ -22,8 +22,8 @@ class InterstitialAdManager: NSObject, ObservableObject {
     private var isTimerRunning: Bool = true
     
     //ads ID
-    //private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
-    private let interstitialAdUnitID = "ca-app-pub-7559937369988658/4112727092" // Real ID
+    private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
+    //private let interstitialAdUnitID = "ca-app-pub-7559937369988658/4112727092" // Real ID
     
     // Reference to StoreManager - will be set from the app
     private var storeManager: StoreManager?
@@ -154,11 +154,17 @@ class InterstitialAdManager: NSObject, ObservableObject {
         
         isLoadingAd = true
         defer {
+#if DEBUG
+            print("Done loading new ad")
+#endif
             isLoadingAd = false
         }
         
         do {
             if interstitialAd == nil {
+#if DEBUG
+            print("Load ad")
+#endif
                 interstitialAd = try await InterstitialAd.load(
                     with: interstitialAdUnitID, request: Request())
                 interstitialAd?.fullScreenContentDelegate = self
@@ -186,15 +192,29 @@ class InterstitialAdManager: NSObject, ObservableObject {
             return
         }
         
+        if interstitialAd == nil {
+#if DEBUG
+            print("No ads yet, proceed to load new ad")
+#endif
+            Task {
+                await loadAd()
+            }
+            return
+        }
+        else{
+#if DEBUG
+            print("Ad is ready")
+#endif
+            if !hasEnoughTimePassedSinceTimerStart(){
+#if DEBUG
+                print("However, time elapsed has not passed timer, so no show ad. Time elapsed: \(getTotalElapsedTime())")
+#endif
+            }
+        }
+        
         // Only show ad if enough time has passed since timer started
         if hasEnoughTimePassedSinceTimerStart() {
-            guard let interstitialAd = interstitialAd else {
-                Task {
-                    await loadAd()
-                }
-                return
-            }
-            interstitialAd.present(from: nil)
+            interstitialAd?.present(from: nil)
         }
     }
 }

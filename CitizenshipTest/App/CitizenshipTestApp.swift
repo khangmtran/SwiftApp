@@ -39,7 +39,7 @@ struct CitizenshipTestApp: App{
 
     init() {
         MobileAds.shared.start(completionHandler: nil)
-        
+        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [ "b4465261536b1c775bc699401b84862c" ]
         _ = InterstitialAdManager.shared
 
         let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "unknown_device"
@@ -74,9 +74,8 @@ struct CitizenshipTestApp: App{
                         await updateChecker.checkForUpdate()
                     }
                 }
-                .alert("Phiên bản mới đã có mặt trên App Store. Bạn có muốn cập nhật để có thông tin mới nhất không?",
+                .alert("Phiên bản mới đã có mặt trên App Store. Vui lòng cập nhật ứng dụng để có thông tin mới nhất.",
                        isPresented: $updateChecker.showUpdateAlert) {
-                    Button("Để sau", role: .cancel) {}
                     Button("Cập nhật") {
                         updateChecker.openAppStore()
                     }

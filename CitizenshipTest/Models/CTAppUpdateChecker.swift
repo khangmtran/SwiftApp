@@ -10,9 +10,23 @@ import SwiftUI
 @MainActor
 class AppUpdateChecker: ObservableObject {
     @Published var showUpdateAlert = false
+    //private var mockStoreVersion = "99.0.0"
     
-    private let lastShownKey = "lastUpdateAlertDate"
-
+    init() {
+            // Listen for when app becomes active (user returns from App Store)
+            NotificationCenter.default.addObserver(
+                forName: UIApplication.didBecomeActiveNotification,
+                object: nil,
+                queue: .main
+            ) { _ in
+                // Re-check for updates when user returns to the app
+                Task {
+                    try? await Task.sleep(nanoseconds: 10_000_000_000)
+                    await self.checkForUpdate()
+                }
+            }
+        }
+    
     func checkForUpdate() async {
         guard let bundleID = Bundle.main.bundleIdentifier,
               let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(bundleID)") else {
@@ -29,33 +43,30 @@ class AppUpdateChecker: ObservableObject {
             else { return }
             
             let currentVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
-
+            
+            //for testing:
+//            if mockStoreVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
+//                    showUpdateAlert = true
+//            }
+            
+            //for production:
             if storeVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
-                if shouldShowAlertToday() {
                     showUpdateAlert = true
-                    updateLastAlertDate()
-                }
             }
+            
         } catch {
         }
-    }
-    
-    private func shouldShowAlertToday() -> Bool {
-        if let lastDate = UserDefaults.standard.object(forKey: lastShownKey) as? Date {
-            let calendar = Calendar.current
-            return !calendar.isDateInToday(lastDate)
-        }
-        return true
-    }
-
-    private func updateLastAlertDate() {
-        UserDefaults.standard.set(Date(), forKey: lastShownKey)
     }
     
     func openAppStore() {
         if let url = URL(string: "itms-apps://itunes.apple.com/app/id6747049894") {
             UIApplication.shared.open(url)
+            //mockStoreVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
         }
     }
+    
+    deinit {
+            NotificationCenter.default.removeObserver(self)
+        }
 }
 
