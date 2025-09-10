@@ -22,8 +22,8 @@ class InterstitialAdManager: NSObject, ObservableObject {
     private var isTimerRunning: Bool = true
     
     //ads ID
-    //private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
-    private let interstitialAdUnitID = "ca-app-pub-7559937369988658/4112727092" // Real ID
+    private let interstitialAdUnitID = "ca-app-pub-3940256099942544/4411468910" // Test ID
+    //private let interstitialAdUnitID = "ca-app-pub-7559937369988658/4112727092" // Real ID
     
     // Reference to StoreManager - will be set from the app
     private var storeManager: StoreManager?
@@ -60,10 +60,6 @@ class InterstitialAdManager: NSObject, ObservableObject {
         
         // Start the timer
         startTimer()
-        
-        Task {
-            await loadAd()
-        }
     }
     
     // Resume the timer when app becomes active
@@ -137,6 +133,19 @@ class InterstitialAdManager: NSObject, ObservableObject {
     
     @MainActor
     func loadAd() async {
+        guard GoogleMobileAdsConsentManager.shared.isMobileAdsStartCalled else {
+#if DEBUG
+            print("MobileAds not initialized yet - skipping inter ad load")
+#endif
+            return
+        }
+        
+        guard GoogleMobileAdsConsentManager.shared.canRequestAds else {
+#if DEBUG
+            print("cannot request ads - ConsentInformation.shared.canRequestAds")
+#endif
+            return
+        }
         
         // Don't load ads if disabled or user has purchased ad removal
         if adsDisabled || isLoadingAd { return }

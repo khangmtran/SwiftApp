@@ -10,7 +10,7 @@ import SwiftUI
 @MainActor
 class AppUpdateChecker: ObservableObject {
     @Published var showUpdateAlert = false
-    //private var mockStoreVersion = "99.0.0"
+    private var mockStoreVersion = "99.0.0"
     
     init() {
             // Listen for when app becomes active (user returns from App Store)
@@ -61,6 +61,7 @@ class AppUpdateChecker: ObservableObject {
     func openAppStore() {
         if let url = URL(string: "itms-apps://itunes.apple.com/app/id6747049894") {
             UIApplication.shared.open(url)
+            //test purpose: mock user has updated after returning from app store.
             //mockStoreVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
         }
     }

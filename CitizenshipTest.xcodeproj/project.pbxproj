@@ -12,6 +12,7 @@
 		2A5BC9402DFA24D0003EC7C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A5BC93F2DFA24D0003EC7C4 /* GoogleService-Info.plist */; };
 		2A5BC9432DFA2682003EC7C4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2A5BC9422DFA2682003EC7C4 /* FirebaseAnalytics */; };
 		2A5BC9452DFA2682003EC7C4 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 2A5BC9442DFA2682003EC7C4 /* FirebaseCrashlytics */; };
+		2A5BCA822E71140B003EC7C4 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A5BCA812E71140B003EC7C4 /* AppTrackingTransparency.framework */; };
 		FAF517E46AB393189F3D9B8F /* Pods_CitizenshipTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */; };
 /* End PBXBuildFile section */
 
@@ -20,6 +21,7 @@
 		2A5BC92B2DCDB450003EC7C4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2A5BC9332DF7994F003EC7C4 /* Học Quốc Tịch.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Học Quốc Tịch.storekit"; sourceTree = "<group>"; };
 		2A5BC93F2DFA24D0003EC7C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2A5BCA812E71140B003EC7C4 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		2A7D9E8E2D3C6F93008CC9D4 /* CitizenshipTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CitizenshipTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE02832875BD7B72D84F7D1F /* Pods-CitizenshipTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CitizenshipTest.release.xcconfig"; path = "Target Support Files/Pods-CitizenshipTest/Pods-CitizenshipTest.release.xcconfig"; sourceTree = "<group>"; };
 		EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CitizenshipTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A5BCA822E71140B003EC7C4 /* AppTrackingTransparency.framework in Frameworks */,
 				FAF517E46AB393189F3D9B8F /* Pods_CitizenshipTest.framework in Frameworks */,
 				2A5BC9452DFA2682003EC7C4 /* FirebaseCrashlytics in Frameworks */,
 				2A5BC92C2DCDB450003EC7C4 /* StoreKit.framework in Frameworks */,
@@ -84,6 +87,7 @@
 		2F9D4465D42C62F0D8DFCED8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2A5BCA812E71140B003EC7C4 /* AppTrackingTransparency.framework */,
 				2A5BC92B2DCDB450003EC7C4 /* StoreKit.framework */,
 				EBE99251D0E578B4BBFD97D3 /* Pods_CitizenshipTest.framework */,
 			);
@@ -387,6 +391,7 @@
 				INFOPLIST_FILE = CitizenshipTest/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Học Quốc Tịch";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Mã định dạng này được sử dụng để tải quảng cáo phù hợp với bạn";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
@@ -426,6 +431,7 @@
 				INFOPLIST_FILE = CitizenshipTest/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Học Quốc Tịch";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Mã định dạng này được sử dụng để tải quảng cáo phù hợp với bạn";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";

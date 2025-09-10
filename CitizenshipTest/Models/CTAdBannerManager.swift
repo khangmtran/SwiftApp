@@ -17,16 +17,35 @@ class BannerAdManager: NSObject, ObservableObject, BannerViewDelegate {
         self.bannerView = BannerView(adSize: AdSizeBanner)
         super.init()
 
-        //bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" // Test ID
-        bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174" // Test ID
+        //bannerView.adUnitID = "ca-app-pub-7559937369988658/2534269159" //Real ID
         bannerView.delegate = self
     }
     
     @MainActor
     func configureAdIfAllowed(storeManager: StoreManager, networkMonitor: NetworkMonitor = .shared) {
+#if DEBUG
+            print("load banner")
+#endif
+        guard GoogleMobileAdsConsentManager.shared.isMobileAdsStartCalled else {
+#if DEBUG
+            print("MobileAds not initialized yet - skipping banner ad load")
+#endif
+            return
+        }
+        guard GoogleMobileAdsConsentManager.shared.canRequestAds else {
+#if DEBUG
+            print("cannot request ads - ConsentInformation.shared.canRequestAds")
+#endif
+            return
+        }
         guard !isAdReady else {return}
+        
         if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected {
             bannerView.load(Request())
+#if DEBUG
+            print("done")
+#endif
         }
     }
 

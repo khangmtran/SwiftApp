@@ -40,8 +40,6 @@ struct CitizenshipTestApp: App{
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     init() {
-        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [ "b4465261536b1c775bc699401b84862c" ]
-        
         let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "unknown_device"
         Crashlytics.crashlytics().setUserID(deviceID)
         
@@ -67,21 +65,36 @@ struct CitizenshipTestApp: App{
                 .environmentObject(writingQuestionList)
                 .environmentObject(bannerAdManger)
                 .environmentObject(consentManager)
-                .onAppear {
-                    consentManager.gatherConsent { [consentManager] error in
-                        if let error = error {
-                            print("Consent gathering failed: \(error.localizedDescription)")
-                        }
-                        
-                        // Start Google Mobile Ads SDK if consent allows
-                        consentManager.startGoogleMobileAdsSDK()
-                    }                                }
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self, UserAnswerPref.self])
                 .onAppear {
-                    InterstitialAdManager.shared.setStoreManager(storeManager)
                     Task {
-                        await storeManager.updatePurchasedProducts()
+#if DEBUG
+                        print("check app update")
+#endif
                         await updateChecker.checkForUpdate()
+#if DEBUG
+                        print("done")
+#endif
+                        
+                        if !updateChecker.showUpdateAlert{
+#if DEBUG
+                        print("ask consent")
+#endif
+                            consentManager.gatherConsent { [consentManager] error in
+                                if let error = error {
+#if DEBUG
+                                    print("Consent gathering failed: \(error.localizedDescription)")
+#endif
+                                }
+                                
+                                // Start Google Mobile Ads SDK if consent allows
+#if DEBUG
+                                print("done")
+#endif
+                                consentManager.startGoogleMobileAdsSDK(storeManager: storeManager)
+                            }
+                        }
+
                     }
                 }
                 .alert("Phiên bản mới đã có mặt trên App Store. Vui lòng cập nhật ứng dụng để có thông tin mới nhất.",
