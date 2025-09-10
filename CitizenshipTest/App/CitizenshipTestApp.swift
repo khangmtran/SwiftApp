@@ -12,14 +12,15 @@ import GoogleMobileAds
 import StoreKit
 import FirebaseCore
 import FirebaseCrashlytics
+import UserMessagingPlatform
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-
-    return true
-  }
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        
+        return true
+    }
 }
 
 @main
@@ -35,19 +36,18 @@ struct CitizenshipTestApp: App{
     @StateObject private var writingQuestionList = WritingQuestions()
     @StateObject private var bannerAdManger: BannerAdManager
     @StateObject private var updateChecker = AppUpdateChecker()
+    @StateObject private var consentManager = GoogleMobileAdsConsentManager.shared
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
+    
     init() {
-        MobileAds.shared.start(completionHandler: nil)
         MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [ "b4465261536b1c775bc699401b84862c" ]
-        _ = InterstitialAdManager.shared
-
+        
         let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "unknown_device"
         Crashlytics.crashlytics().setUserID(deviceID)
-
+        
         let storeManager = StoreManager()
         let networkMonitor = NetworkMonitor.shared
-
+        
         _storeManager = StateObject(wrappedValue: storeManager)
         _networkMonitor = StateObject(wrappedValue: networkMonitor)
         _bannerAdManger = StateObject(wrappedValue: BannerAdManager(storeManager: storeManager, networkMonitor: networkMonitor))
@@ -66,6 +66,16 @@ struct CitizenshipTestApp: App{
                 .environmentObject(networkMonitor)
                 .environmentObject(writingQuestionList)
                 .environmentObject(bannerAdManger)
+                .environmentObject(consentManager)
+                .onAppear {
+                    consentManager.gatherConsent { [consentManager] error in
+                        if let error = error {
+                            print("Consent gathering failed: \(error.localizedDescription)")
+                        }
+                        
+                        // Start Google Mobile Ads SDK if consent allows
+                        consentManager.startGoogleMobileAdsSDK()
+                    }                                }
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self, UserAnswerPref.self])
                 .onAppear {
                     InterstitialAdManager.shared.setStoreManager(storeManager)

@@ -7,4 +7,5 @@ target 'CitizenshipTest' do
 
   # Pods for CitizenshipTest
 pod 'Google-Mobile-Ads-SDK'
+pod 'GoogleUserMessagingPlatform'
 end
