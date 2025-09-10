@@ -14,6 +14,7 @@ struct CTSetting: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var audioManager: AudioManager
     @EnvironmentObject var storeManager: StoreManager
+    @EnvironmentObject var consentManager: GoogleMobileAdsConsentManager
     @State private var showingZipPrompt = false
     @State private var showingRemoveAdsView = false
     @State private var voices: [AVSpeechSynthesisVoice] = []
@@ -231,6 +232,20 @@ struct CTSetting: View {
                             Text("Nâng Cấp")
                         }
                     }
+                }
+                .padding()
+                .background(.blue.opacity(0.1))
+                .cornerRadius(10)
+            }
+            
+            if consentManager.isPrivacyOptionsRequired {
+                Text("Quyền Riêng Tư")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .padding(.top)
+                
+                VStack {
+                    CTPrivacyOptionsButton()
                 }
                 .padding()
                 .background(.blue.opacity(0.1))
