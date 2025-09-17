@@ -26,6 +26,7 @@ struct CTMarkedQuestionTest: View {
     @State private var userAns: [Bool] = []
     @State private var showingProgressDialog: Bool = false
     @State private var hasCheckedForProgress: Bool = false
+    @State private var hasInitialized = false
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     @Query private var markedQuestionIds: [MarkedQuestion]
@@ -95,7 +96,6 @@ struct CTMarkedQuestionTest: View {
                 .onAppear() {
                     testCompleted = true
                     Crashlytics.crashlytics().log("User's in markQTest result view")
-                    adManager.showAd()
                 }
                 if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
@@ -129,6 +129,8 @@ struct CTMarkedQuestionTest: View {
             RatingManager.shared.incrementAction()
         }
         .onAppear {
+            guard !hasInitialized else { return }
+            hasInitialized = true
             Crashlytics.crashlytics().log("User went to markQTest")
             checkForExistingProgress()
         }
@@ -508,6 +510,7 @@ struct MarkedAnswerView: View {
     @EnvironmentObject var wrongAnswer: WrongAnswer
     @EnvironmentObject var userSetting: UserSetting
     @EnvironmentObject var govCapManager: GovCapManager
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     @Query private var answerPrefs: [UserAnswerPref]
     var markedQuestions: [CTQuestion]
     @Binding var qIndex: Int
@@ -665,6 +668,7 @@ struct MarkedAnswerView: View {
             saveProgress()
             showResult = true
         }
+        adManager.showAd()
     }
     
     private func updateShuffledAnswers() {

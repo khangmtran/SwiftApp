@@ -38,6 +38,7 @@ struct CitizenshipTestApp: App{
     @StateObject private var updateChecker = AppUpdateChecker()
     @StateObject private var consentManager = GoogleMobileAdsConsentManager.shared
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @State private var hasInitialized = false
     
     init() {
         let deviceID = UIDevice.current.identifierForVendor?.uuidString ?? "unknown_device"
@@ -68,6 +69,8 @@ struct CitizenshipTestApp: App{
                 .modelContainer(for: [MarkedQuestion.self, CTTestProgress.self, UserAnswerPref.self])
                 .onAppear {
                     Task {
+                        guard !hasInitialized else { return }
+                        hasInitialized = true
 #if DEBUG
                         print("check app update")
 #endif
@@ -94,7 +97,6 @@ struct CitizenshipTestApp: App{
                                 consentManager.startGoogleMobileAdsSDK(storeManager: storeManager)
                             }
                         }
-
                     }
                 }
                 .alert("Phiên bản mới đã có mặt trên App Store. Vui lòng cập nhật ứng dụng để có thông tin mới nhất.",

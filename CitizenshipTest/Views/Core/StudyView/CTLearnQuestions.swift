@@ -193,6 +193,7 @@ struct NavButton: View {
                 qCount = 0
             }
         }
+        adManager.showAd()
     }
     
     private func prevQuestion(){
@@ -207,6 +208,7 @@ struct NavButton: View {
                 qCount = totalQuestionsIndex + 1
             }
         }
+        adManager.showAd()
     }
 }
 

@@ -14,7 +14,7 @@ class InterstitialAdManager: NSObject, ObservableObject {
     // FLAG TO DISABLE ADS
     private let adsDisabled = false
     // Minimum interval between ads
-    private let minimumAdInterval: TimeInterval = 180 // 3 minutes
+    private let minimumAdInterval: TimeInterval = 120 // 2 minutes
     
     // Timer tracking variables
     private var timerStartTime: Date = Date()

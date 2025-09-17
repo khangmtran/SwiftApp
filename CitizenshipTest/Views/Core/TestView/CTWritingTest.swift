@@ -176,7 +176,7 @@ struct CTWritingTest: View {
         }
         hasCheckedAnswer = false
         inputText = ""
-        hideKeyboard()
+        adManager.showAd()
     }
     
     private func checkAnswer(){
@@ -187,7 +187,6 @@ struct CTWritingTest: View {
         }else{
             userGotRightAnswer = false
         }
-        hideKeyboard()
     }
     
     private func nextQuestion(){
@@ -203,7 +202,7 @@ struct CTWritingTest: View {
         }
         hasCheckedAnswer = false
         inputText = ""
-        hideKeyboard()
+        adManager.showAd()
     }
     
     private func playCurrentQuestion() {

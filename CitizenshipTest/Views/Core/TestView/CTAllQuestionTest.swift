@@ -25,6 +25,7 @@ struct CTAllQuestionTest: View {
     @State private var userAns: [Bool] = []
     @State private var showingProgressDialog: Bool = false
     @State private var hasCheckedForProgress: Bool = false
+    @State private var hasInitialized = false
     @Environment(\.modelContext) private var context
     @AppStorage("allQuestionsTestCompleted") private var testCompleted = false
     @ObservedObject private var adManager = InterstitialAdManager.shared
@@ -50,7 +51,6 @@ struct CTAllQuestionTest: View {
                 .onAppear() {
                     testCompleted = true
                     Crashlytics.crashlytics().log("User's in allQTest result view")
-                    adManager.showAd()
                 }
                 if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
@@ -84,6 +84,8 @@ struct CTAllQuestionTest: View {
             RatingManager.shared.incrementAction()
         }
         .onAppear {
+            guard !hasInitialized else { return }
+            hasInitialized = true
             Crashlytics.crashlytics().log("User went to allQTest")
             checkForExistingProgress()
         }
@@ -251,6 +253,7 @@ struct AllTestAnswerView: View {
     @EnvironmentObject var govCapManager: GovCapManager
     @EnvironmentObject var questionList: QuestionList
     @EnvironmentObject var audioManager: AudioManager
+    @ObservedObject private var adManager = InterstitialAdManager.shared
     @Query private var answerPrefs: [UserAnswerPref]
     @Binding var qIndex: Int
     @Binding var showResult: Bool
@@ -338,6 +341,7 @@ struct AllTestAnswerView: View {
                             saveProgress()
                             showResult = true
                         }
+                        adManager.showAd()
                     }) {
                         Image(systemName: "greaterthan.circle.fill")
                             .resizable()

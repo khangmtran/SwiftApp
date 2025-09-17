@@ -208,6 +208,7 @@ struct NavButtonsFC: View{
         else if qIndex == questions.count - 1{
             qIndex = 0
         }
+        adManager.showAd()
     }
     
     private func prevQuestion(){
@@ -217,6 +218,7 @@ struct NavButtonsFC: View{
         else if qIndex == 0{
             qIndex = questions.count - 1
         }
+        adManager.showAd()
     }
     private func preferredAnswer(for question: CTQuestion) -> (en: String, vie: String) {
         if let pref = answerPrefs.first(where: { $0.questionId == question.id }) {

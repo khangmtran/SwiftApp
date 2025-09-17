@@ -23,6 +23,7 @@ struct CTPracticeTest: View {
     @State private var userAns: [Bool] = []
     @State private var showingProgressDialog: Bool = false
     @State private var hasCheckedForProgress: Bool = false
+    @State private var hasInitialized = false
     @Environment(\.modelContext) private var context
     @AppStorage("practiceTestCompleted") private var testCompleted = false
     @ObservedObject private var adManager = InterstitialAdManager.shared
@@ -49,7 +50,6 @@ struct CTPracticeTest: View {
                 .onAppear(){
                     Crashlytics.crashlytics().log("User's in practiceTest resultview")
                     testCompleted = true
-                    adManager.showAd()
                 }
                 if !storeManager.isPurchased("KnT.CitizenshipTest.removeAds") && networkMonitor.isConnected && adBannerManager.isAdReady == true{
                     CTAdBannerView().frame(width: AdSizeBanner.size.width,
@@ -76,6 +76,8 @@ struct CTPracticeTest: View {
             RatingManager.shared.incrementAction()
         }
         .onAppear {
+            guard !hasInitialized else { return }
+            hasInitialized = true
             Crashlytics.crashlytics().log("User went to practiceTest(10q)")
             checkForExistingProgress()
             isLoading = false
@@ -552,7 +554,6 @@ struct PracticeAnswerView: View{
                             if qIndex == 9{
                                 isAns = false
                                 saveProgress()
-                                adManager.showAd()
                                 showResult = true
                             }
                         }){
@@ -576,6 +577,7 @@ struct PracticeAnswerView: View{
                         qIndex += 1
                         isAns = false
                         saveProgress()
+                        adManager.showAd()
                     }){
                         Image(systemName: "greaterthan.circle.fill")
                             .resizable()
